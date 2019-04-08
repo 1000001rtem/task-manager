@@ -53,4 +53,9 @@ public enum ProjectRepository implements IProjectRepository {
         projects.remove(project.getId());
     }
 
+    @Override
+    public void deleteAll() {
+        projects.clear();
+    }
+
 }

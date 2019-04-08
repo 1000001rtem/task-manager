@@ -21,6 +21,8 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
 
     void delete(E e);
 
+    void deleteAll();
+
     T getEntity(E e);
 
 }

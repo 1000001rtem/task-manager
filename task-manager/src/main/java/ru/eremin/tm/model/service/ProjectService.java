@@ -63,6 +63,11 @@ public enum ProjectService implements IProjectService {
     }
 
     @Override
+    public void deleteAll() {
+        projectRepository.deleteAll();
+    }
+
+    @Override
     @NotNull
     public Project getEntity(@NotNull final ProjectDTO projectDTO) {
         Project project = new Project();

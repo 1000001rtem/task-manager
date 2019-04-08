@@ -20,4 +20,6 @@ public interface IRepository<T extends AbstractEntity> {
 
     void delete(T t);
 
+    void deleteAll();
+
 }

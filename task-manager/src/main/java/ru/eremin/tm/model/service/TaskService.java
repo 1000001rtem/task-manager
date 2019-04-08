@@ -73,6 +73,11 @@ public enum TaskService implements ITaskService {
     }
 
     @Override
+    public void deleteAll() {
+        taskRepository.deleteAll();
+    }
+
+    @Override
     @NotNull
     public Task getEntity(@NotNull final TaskDTO taskDTO) {
         final Task task = new Task();
