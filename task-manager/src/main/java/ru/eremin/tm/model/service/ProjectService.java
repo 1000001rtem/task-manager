@@ -1,0 +1,75 @@
+package ru.eremin.tm.model.service;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.dto.ProjectDTO;
+import ru.eremin.tm.model.entity.Project;
+import ru.eremin.tm.model.repository.ProjectRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * @autor Eremin Artem on 08.04.2019.
+ */
+
+public enum ProjectService implements IProjectService {
+
+    INSTANCE;
+
+    private final ProjectRepository projectRepository;
+
+    ProjectService() {
+        this.projectRepository = ProjectRepository.INSTANCE;
+    }
+
+    @Override
+    public List<ProjectDTO> findAll() {
+        return projectRepository.findAll()
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Nullable
+    public ProjectDTO findById(@Nullable final String id) {
+        if (id == null || id.isEmpty()) return null;
+        final Project project = projectRepository.findById(id);
+        if (project == null) return null;
+        return new ProjectDTO(project);
+    }
+
+    @Override
+    public void insert(@Nullable final ProjectDTO projectDTO) {
+        if (projectDTO == null) return;
+        final Project project = getEntity(projectDTO);
+        projectRepository.insert(project);
+    }
+
+    @Override
+    public void update(@Nullable final ProjectDTO projectDTO) {
+        if (projectDTO == null) return;
+        if (projectRepository.findById(projectDTO.getId()) == null) return;
+        final Project project = getEntity(projectDTO);
+        projectRepository.update(project);
+    }
+
+    @Override
+    public void delete(@Nullable final ProjectDTO projectDTO) {
+        if (projectDTO == null) return;
+        final Project project = getEntity(projectDTO);
+        projectRepository.delete(project);
+    }
+
+    @Override
+    @NotNull
+    public Project getEntity(@NotNull final ProjectDTO projectDTO) {
+        Project project = new Project();
+        project.setId(projectDTO.getId());
+        if (projectDTO.getName() != null && !projectDTO.getName().isEmpty()) project.setName(projectDTO.getName());
+        if (projectDTO.getDeadline() != null) project.setDeadline(projectDTO.getDeadline());
+        return project;
+    }
+
+}
