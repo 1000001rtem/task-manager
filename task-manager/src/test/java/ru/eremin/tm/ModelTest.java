@@ -91,8 +91,8 @@ public class ModelTest {
         final int beforeProjectsSize = projectService.findAll().size();
         final int beforeTasksSize = taskService.findAll().size();
 
-        taskService.delete(taskDTO);
-        projectService.delete(projectDTO);
+        taskService.delete(taskDTO.getId());
+        projectService.delete(projectDTO.getId());
 
         assertEquals(beforeProjectsSize - 1, projectService.findAll().size());
         assertEquals(beforeTasksSize - 1, taskService.findAll().size());

@@ -66,15 +66,21 @@ public enum TaskService implements ITaskService {
     }
 
     @Override
-    public void delete(@Nullable final TaskDTO taskDTO) {
-        if (taskDTO == null) return;
-        final Task task = getEntity(taskDTO);
-        taskRepository.delete(task);
+    public boolean delete(@Nullable final String id) {
+        if (id == null || id.isEmpty() || !isExist(id)) return false;
+        taskRepository.delete(id);
+        return true;
     }
 
     @Override
     public void deleteAll() {
         taskRepository.deleteAll();
+    }
+
+    @Override
+    public boolean isExist(@Nullable final String id) {
+        if (id == null || id.isEmpty()) return false;
+        return taskRepository.findById(id) != null;
     }
 
     @Override
@@ -84,7 +90,8 @@ public enum TaskService implements ITaskService {
         task.setId(taskDTO.getId());
         if (taskDTO.getName() != null && !taskDTO.getName().isEmpty()) task.setName(taskDTO.getName());
         if (taskDTO.getDeadline() != null) taskDTO.setDeadline(taskDTO.getDeadline());
-        if (taskDTO.getProjectId() != null && !taskDTO.getProjectId().isEmpty()) task.setProjectId(taskDTO.getProjectId());
+        if (taskDTO.getProjectId() != null && !taskDTO.getProjectId().isEmpty())
+            task.setProjectId(taskDTO.getProjectId());
         return task;
     }
 

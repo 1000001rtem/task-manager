@@ -56,15 +56,21 @@ public enum ProjectService implements IProjectService {
     }
 
     @Override
-    public void delete(@Nullable final ProjectDTO projectDTO) {
-        if (projectDTO == null) return;
-        final Project project = getEntity(projectDTO);
-        projectRepository.delete(project);
+    public boolean delete(@Nullable final String id) {
+        if (id == null || id.isEmpty() || !isExist(id)) return false;
+        projectRepository.delete(id);
+        return true;
     }
 
     @Override
     public void deleteAll() {
         projectRepository.deleteAll();
+    }
+
+    @Override
+    public boolean isExist(@Nullable final String id) {
+        if (id == null || id.isEmpty()) return false;
+        return projectRepository.findById(id) != null;
     }
 
     @Override

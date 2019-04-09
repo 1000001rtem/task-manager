@@ -8,6 +8,4 @@ import ru.eremin.tm.model.entity.Project;
  */
 
 public interface IProjectService extends IService<Project, ProjectDTO> {
-
-
 }

@@ -19,12 +19,12 @@ public enum Commands {
     PROJECT_CREATE("project_create", "Create new project"),
     PROJECT_LIST("project_list", "Show all Projects"),
     PROJECT_REMOVE("project_remove", "Remove selected project"),
-    PROJECT_CLEAN("project_clean", "Remove all project"),
+    PROJECT_CLEAR("project_clear", "Remove all project"),
 
     TASK_CREATE("task_create", "Create new task"),
     TASK_LIST("task_list", "Show all tasks"),
     TASK_REMOVE("task_remove", "Remove selected task"),
-    TASK_CLEAN("task_clean", "Remove all task");
+    TASK_CLEAR("task_clear", "Remove all task");
 
     private String command;
 

@@ -29,28 +29,24 @@ public enum ProjectRepository implements IProjectRepository {
 
     @Override
     @Nullable
-    public Project findById(@Nullable final String id) {
-        if (id == null || id.isEmpty()) return null;
+    public Project findById(final String id) {
         return projects.get(id);
     }
 
     @Override
-    public void insert(@Nullable final Project project) {
-        if (project == null) return;
+    public void insert(final Project project) {
         projects.put(project.getId(), project);
     }
 
     @Override
-    public void update(@Nullable final Project project) {
-        if (project == null) return;
+    public void update(final Project project) {
         if (projects.get(project.getId()) == null) return;
         projects.put(project.getId(), project);
     }
 
     @Override
-    public void delete(@Nullable final Project project) {
-        if (project == null) return;
-        projects.remove(project.getId());
+    public void delete(final String id) {
+        projects.remove(id);
     }
 
     @Override

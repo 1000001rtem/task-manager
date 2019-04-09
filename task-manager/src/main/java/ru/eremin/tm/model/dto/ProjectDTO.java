@@ -7,7 +7,6 @@ import ru.eremin.tm.model.entity.Project;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
@@ -32,17 +31,11 @@ public class ProjectDTO extends AbstractDTO implements Serializable {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        final ProjectDTO that = (ProjectDTO) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), id);
+    public String toString() {
+        return "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", deadline=" + deadline +
+                '}';
     }
 
 }

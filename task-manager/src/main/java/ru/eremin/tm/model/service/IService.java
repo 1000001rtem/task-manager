@@ -19,9 +19,11 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
 
     void update(E e);
 
-    void delete(E e);
+    boolean delete(String id);
 
     void deleteAll();
+
+    boolean isExist(String id);
 
     T getEntity(E e);
 
