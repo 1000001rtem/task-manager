@@ -12,7 +12,7 @@ Lombok;
 Eremin Artem
 1000001rtem@gmail.com
 
-## run
+## Run
 mvn package
 cd target
 java -jar task-manager-1.0-SNAPSHOT.jar
