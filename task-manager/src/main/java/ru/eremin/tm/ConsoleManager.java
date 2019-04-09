@@ -37,7 +37,7 @@ public class ConsoleManager {
     private void start() {
         System.out.println("*** WELCOME TO TASK MANAGER ***");
         Commands answer;
-        do {
+        while (true) {
             answer = parseLine(scanner.nextLine());
             if (answer == null) {
                 System.out.println("*** WRONG COMMAND ***");
@@ -84,7 +84,7 @@ public class ConsoleManager {
                     removeAllTasks();
                     break;
             }
-        } while (!answer.equals(Commands.EXIT));
+        }
     }
 
     private void showHelp() {

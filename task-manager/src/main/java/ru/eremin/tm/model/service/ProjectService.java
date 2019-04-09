@@ -76,7 +76,7 @@ public enum ProjectService implements IProjectService {
     @Override
     @NotNull
     public Project getEntity(@NotNull final ProjectDTO projectDTO) {
-        Project project = new Project();
+        final Project project = new Project();
         project.setId(projectDTO.getId());
         if (projectDTO.getName() != null && !projectDTO.getName().isEmpty()) project.setName(projectDTO.getName());
         if (projectDTO.getDeadline() != null) project.setDeadline(projectDTO.getDeadline());
