@@ -1,6 +1,7 @@
-package ru.eremin.tm.model;
+package ru.eremin.tm;
 
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.Commands;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.service.ProjectService;
