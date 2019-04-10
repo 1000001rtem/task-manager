@@ -19,25 +19,33 @@ public class TaskDTO extends AbstractDTO implements Serializable {
 
     private static final long serialVersionUID = -8634181313297237339L;
 
-    private String name;
-
-    private Date deadline;
-
     private String projectId;
 
     public TaskDTO(final Task task) {
         if (task == null) return;
         if (task.getId() != null && !task.getId().isEmpty()) this.id = task.getId();
         if (task.getName() != null && !task.getName().isEmpty()) this.name = task.getName();
-        if (task.getDeadline() != null) this.deadline = task.getDeadline();
+        if (task.getDescription() != null && !task.getDescription().isEmpty()) this.description = task.getDescription();
+        if (task.getStartDate() != null) this.startDate = task.getStartDate();
+        if (task.getEndDate() != null) this.endDate = task.getEndDate();
         if (task.getProjectId() != null && !task.getProjectId().isEmpty()) this.projectId = task.getProjectId();
+    }
+
+    public String info() {
+        return name +
+                "{id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", projectId='" + projectId + '\'' +
+                '}';
     }
 
     @Override
     public String toString() {
-        return "id='" + id + '\'' +
+        return "{id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", deadline=" + deadline +
                 ", projectId='" + projectId + '\'' +
                 '}';
     }

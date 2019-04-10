@@ -34,6 +34,14 @@ public enum TaskService implements ITaskService {
     }
 
     @Override
+    public void deleteAllTasksInProject(@Nullable final String projectId) {
+        if (projectId == null || projectId.isEmpty()) return;
+        List<TaskDTO> tasksInProject = findByProjectId(projectId);
+        if (tasksInProject.isEmpty()) return;
+        taskRepository.delete(tasksInProject.stream().map(this::getEntity).collect(Collectors.toList()));
+    }
+
+    @Override
     public List<TaskDTO> findAll() {
         return taskRepository.findAll()
                 .stream()
@@ -72,6 +80,7 @@ public enum TaskService implements ITaskService {
         return true;
     }
 
+
     @Override
     public void deleteAll() {
         taskRepository.deleteAll();
@@ -89,9 +98,14 @@ public enum TaskService implements ITaskService {
         final Task task = new Task();
         task.setId(taskDTO.getId());
         if (taskDTO.getName() != null && !taskDTO.getName().isEmpty()) task.setName(taskDTO.getName());
-        if (taskDTO.getDeadline() != null) taskDTO.setDeadline(taskDTO.getDeadline());
-        if (taskDTO.getProjectId() != null && !taskDTO.getProjectId().isEmpty())
+        if (taskDTO.getDescription() != null && !taskDTO.getDescription().isEmpty()) {
+            task.setDescription(taskDTO.getDescription());
+        }
+        if (taskDTO.getStartDate() != null) task.setStartDate(taskDTO.getStartDate());
+        if (taskDTO.getEndDate() != null) task.setEndDate(taskDTO.getEndDate());
+        if (taskDTO.getProjectId() != null && !taskDTO.getProjectId().isEmpty()) {
             task.setProjectId(taskDTO.getProjectId());
+        }
         return task;
     }
 

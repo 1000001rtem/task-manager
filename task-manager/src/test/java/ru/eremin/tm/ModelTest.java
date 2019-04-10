@@ -32,11 +32,15 @@ public class ModelTest {
     public static void before() {
         projectDTO = new ProjectDTO();
         projectDTO.setName("testProject");
-        projectDTO.setDeadline(new Date());
+        projectDTO.setDescription("testProjectDescription");
+        projectDTO.setStartDate(new Date());
+        projectDTO.setEndDate(new Date());
 
         taskDTO = new TaskDTO();
         taskDTO.setName("testTask");
-        taskDTO.setDeadline(new Date());
+        taskDTO.setDescription("testTaskDescription");
+        taskDTO.setStartDate(new Date());
+        taskDTO.setEndDate(new Date());
         taskDTO.setProjectId(projectDTO.getId());
 
         projectService = ProjectService.INSTANCE;

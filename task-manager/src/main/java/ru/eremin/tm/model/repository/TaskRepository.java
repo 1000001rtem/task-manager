@@ -59,6 +59,11 @@ public enum TaskRepository implements ITaskRepository {
     }
 
     @Override
+    public void delete(final List<Task> tasks) {
+        tasks.forEach(e -> delete(e.getId()));
+    }
+
+    @Override
     public void deleteAll() {
         tasks.clear();
     }

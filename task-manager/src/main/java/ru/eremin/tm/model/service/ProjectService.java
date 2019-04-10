@@ -19,8 +19,11 @@ public enum ProjectService implements IProjectService {
 
     private final ProjectRepository projectRepository;
 
+    private final TaskService taskService;
+
     ProjectService() {
         this.projectRepository = ProjectRepository.INSTANCE;
+        this.taskService = TaskService.INSTANCE;
     }
 
     @Override
@@ -59,6 +62,7 @@ public enum ProjectService implements IProjectService {
     public boolean delete(@Nullable final String id) {
         if (id == null || id.isEmpty() || !isExist(id)) return false;
         projectRepository.delete(id);
+        taskService.deleteAllTasksInProject(id);
         return true;
     }
 
@@ -79,7 +83,11 @@ public enum ProjectService implements IProjectService {
         final Project project = new Project();
         project.setId(projectDTO.getId());
         if (projectDTO.getName() != null && !projectDTO.getName().isEmpty()) project.setName(projectDTO.getName());
-        if (projectDTO.getDeadline() != null) project.setDeadline(projectDTO.getDeadline());
+        if (projectDTO.getDescription() != null && !projectDTO.getDescription().isEmpty()) {
+            project.setDescription(projectDTO.getDescription());
+        }
+        if (projectDTO.getStartDate() != null) project.setStartDate(projectDTO.getStartDate());
+        if (projectDTO.getEndDate() != null) project.setEndDate(projectDTO.getEndDate());
         return project;
     }
 

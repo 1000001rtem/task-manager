@@ -1,4 +1,4 @@
-package ru.eremin.tm.model;
+package ru.eremin.tm.utilities;
 
 import lombok.Getter;
 
@@ -18,11 +18,14 @@ public enum Commands {
 
     PROJECT_CREATE("project_create", "Create new project"),
     PROJECT_LIST("project_list", "Show all Projects"),
+    PROJECT_INFO("project_info", "Show project information"),
     PROJECT_REMOVE("project_remove", "Remove selected project"),
     PROJECT_CLEAR("project_clear", "Remove all project"),
 
     TASK_CREATE("task_create", "Create new task"),
     TASK_LIST("task_list", "Show all tasks"),
+    TASK_INFO("task_info", "Show task information"),
+    TASK_IN_PROJECT("task_in_project", "Show all tasks in selected project"),
     TASK_REMOVE("task_remove", "Remove selected task"),
     TASK_CLEAR("task_clear", "Remove all task");
 

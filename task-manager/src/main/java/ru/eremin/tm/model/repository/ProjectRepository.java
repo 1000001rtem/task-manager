@@ -50,6 +50,11 @@ public enum ProjectRepository implements IProjectRepository {
     }
 
     @Override
+    public void delete(final List<Project> projects) {
+        projects.forEach(e -> delete(e.getId()));
+    }
+
+    @Override
     public void deleteAll() {
         projects.clear();
     }
