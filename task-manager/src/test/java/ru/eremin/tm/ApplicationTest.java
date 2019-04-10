@@ -10,10 +10,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * Unit test for simple App.
+ * Unit test for simple Application.
  */
 
-public class AppTest {
+public class ApplicationTest {
 
     @Test
     public void shouldAnswerWithTrue()

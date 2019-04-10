@@ -13,15 +13,17 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
 
     List<E> findAll();
 
-    E findById(String id);
+    E findOne(String id);
 
-    void insert(E e);
+    void persist(E e);
+
+    void merge(E e);
 
     void update(E e);
 
-    boolean delete(String id);
+    boolean remove(String id);
 
-    void deleteAll();
+    void removeAll();
 
     boolean isExist(String id);
 

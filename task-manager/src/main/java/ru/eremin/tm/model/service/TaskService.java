@@ -18,6 +18,7 @@ public enum TaskService implements ITaskService {
 
     INSTANCE;
 
+    @NotNull
     private final TaskRepository taskRepository;
 
     TaskService() {
@@ -25,6 +26,7 @@ public enum TaskService implements ITaskService {
     }
 
     @Override
+    @NotNull
     public List<TaskDTO> findByProjectId(@Nullable final String projectId) {
         if (projectId == null || projectId.isEmpty()) return Collections.emptyList();
         return taskRepository.findByProjectId(projectId)
@@ -34,14 +36,15 @@ public enum TaskService implements ITaskService {
     }
 
     @Override
-    public void deleteAllTasksInProject(@Nullable final String projectId) {
+    public void removeAllTasksInProject(@Nullable final String projectId) {
         if (projectId == null || projectId.isEmpty()) return;
-        List<TaskDTO> tasksInProject = findByProjectId(projectId);
+        @NotNull final List<TaskDTO> tasksInProject = findByProjectId(projectId);
         if (tasksInProject.isEmpty()) return;
-        taskRepository.delete(tasksInProject.stream().map(this::getEntity).collect(Collectors.toList()));
+        taskRepository.remove(tasksInProject.stream().map(this::getEntity).collect(Collectors.toList()));
     }
 
     @Override
+    @NotNull
     public List<TaskDTO> findAll() {
         return taskRepository.findAll()
                 .stream()
@@ -51,51 +54,59 @@ public enum TaskService implements ITaskService {
 
     @Override
     @Nullable
-    public TaskDTO findById(@Nullable final String id) {
+    public TaskDTO findOne(@Nullable final String id) {
         if (id == null || id.isEmpty()) return null;
-        final Task task = taskRepository.findById(id);
+        @Nullable final Task task = taskRepository.findOne(id);
         if (task == null) return null;
         return new TaskDTO(task);
     }
 
     @Override
-    public void insert(@Nullable final TaskDTO taskDTO) {
+    public void persist(@Nullable final TaskDTO taskDTO) {
         if (taskDTO == null) return;
-        final Task task = getEntity(taskDTO);
-        taskRepository.insert(task);
+        @NotNull final Task task = getEntity(taskDTO);
+        taskRepository.persist(task);
     }
+
+    @Override
+    public void merge(final TaskDTO taskDTO) {
+        if (taskDTO == null) return;
+        @NotNull final Task task = getEntity(taskDTO);
+        taskRepository.merge(task);
+    }
+
 
     @Override
     public void update(@Nullable final TaskDTO taskDTO) {
         if (taskDTO == null) return;
-        if (taskRepository.findById(taskDTO.getId()) == null) return;
-        final Task task = getEntity(taskDTO);
+        if (taskRepository.findOne(taskDTO.getId()) == null) return;
+        @NotNull final Task task = getEntity(taskDTO);
         taskRepository.update(task);
     }
 
     @Override
-    public boolean delete(@Nullable final String id) {
-        if (id == null || id.isEmpty() || !isExist(id)) return false;
-        taskRepository.delete(id);
+    public boolean remove(@Nullable final String id) {
+        if (id == null || id.isEmpty() || isExist(id)) return false;
+        taskRepository.remove(id);
         return true;
     }
 
 
     @Override
-    public void deleteAll() {
-        taskRepository.deleteAll();
+    public void removeAll() {
+        taskRepository.removeAll();
     }
 
     @Override
     public boolean isExist(@Nullable final String id) {
-        if (id == null || id.isEmpty()) return false;
-        return taskRepository.findById(id) != null;
+        if (id == null || id.isEmpty()) return true;
+        return taskRepository.findOne(id) == null;
     }
 
     @Override
     @NotNull
     public Task getEntity(@NotNull final TaskDTO taskDTO) {
-        final Task task = new Task();
+        @NotNull final Task task = new Task();
         task.setId(taskDTO.getId());
         if (taskDTO.getName() != null && !taskDTO.getName().isEmpty()) task.setName(taskDTO.getName());
         if (taskDTO.getDescription() != null && !taskDTO.getDescription().isEmpty()) {

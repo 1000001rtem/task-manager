@@ -1,5 +1,6 @@
 package ru.eremin.tm.model.repository;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.Project;
 
@@ -29,33 +30,38 @@ public enum ProjectRepository implements IProjectRepository {
 
     @Override
     @Nullable
-    public Project findById(final String id) {
+    public Project findOne(@NotNull final String id) {
         return projects.get(id);
     }
 
     @Override
-    public void insert(final Project project) {
+    public void persist(@NotNull final Project project) {
         projects.put(project.getId(), project);
     }
 
     @Override
-    public void update(final Project project) {
+    public void merge(@NotNull final Project project) {
+        projects.put(project.getId(), project);
+    }
+
+    @Override
+    public void update(@NotNull final Project project) {
         if (projects.get(project.getId()) == null) return;
         projects.put(project.getId(), project);
     }
 
     @Override
-    public void delete(final String id) {
+    public void remove(@NotNull final String id) {
         projects.remove(id);
     }
 
     @Override
-    public void delete(final List<Project> projects) {
-        projects.forEach(e -> delete(e.getId()));
+    public void remove(@NotNull final List<Project> projects) {
+        projects.forEach(e -> remove(e.getId()));
     }
 
     @Override
-    public void deleteAll() {
+    public void removeAll() {
         projects.clear();
     }
 

@@ -1,6 +1,7 @@
 package ru.eremin.tm.utilities;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @autor Eremin Artem on 08.04.2019.

@@ -3,10 +3,10 @@ package ru.eremin.tm.model.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.Task;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
@@ -19,9 +19,10 @@ public class TaskDTO extends AbstractDTO implements Serializable {
 
     private static final long serialVersionUID = -8634181313297237339L;
 
+    @Nullable
     private String projectId;
 
-    public TaskDTO(final Task task) {
+    public TaskDTO(@Nullable final Task task) {
         if (task == null) return;
         if (task.getId() != null && !task.getId().isEmpty()) this.id = task.getId();
         if (task.getName() != null && !task.getName().isEmpty()) this.name = task.getName();

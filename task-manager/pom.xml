@@ -59,7 +59,7 @@
                             <manifest>
                                 <addClasspath>true</addClasspath>
                                 <classpathPrefix>lib/</classpathPrefix>
-                                <mainClass>ru.eremin.tm.App</mainClass>
+                                <mainClass>ru.eremin.tm.Application</mainClass>
                             </manifest>
                         </archive>
                     </configuration>

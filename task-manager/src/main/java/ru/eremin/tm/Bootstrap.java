@@ -1,7 +1,7 @@
 package ru.eremin.tm;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.model.entity.Task;
 import ru.eremin.tm.utilities.Commands;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
@@ -20,22 +20,24 @@ import java.util.Scanner;
  * @autor Eremin Artem on 08.04.2019.
  */
 
-public class ConsoleManager {
+public class Bootstrap {
 
+    @NotNull
     private final ProjectService projectService;
 
+    @NotNull
     private final TaskService taskService;
 
+    @NotNull
     private final Scanner scanner;
 
-    public ConsoleManager() {
+    public Bootstrap() {
         this.scanner = new Scanner(System.in);
         this.projectService = ProjectService.INSTANCE;
         this.taskService = TaskService.INSTANCE;
-        start();
     }
 
-    private void start() {
+    public void init() {
         System.out.println("*** WELCOME TO TASK MANAGER ***");
         Commands answer;
         while (true) {
@@ -119,33 +121,34 @@ public class ConsoleManager {
     }
 
     private void createProject() {
-        final ProjectDTO project = getProject();
-        projectService.insert(project);
+        @NotNull final ProjectDTO project = getProject();
+        projectService.persist(project);
         System.out.println("*** Project created: " + project + " ***");
     }
 
+    @NotNull
     private ProjectDTO getProject() {
-        final String name = getStringFieldFromConsole("Project name");
-        final String description = getStringFieldFromConsole("Project Description");
-        final Date startDate = getDateFieldFromConsole("Start date");
-        final Date endDate = getDateFieldFromConsole("End date");
-        final ProjectDTO project = new ProjectDTO();
+        @NotNull final String name = getStringFieldFromConsole("Project name");
+        @NotNull final String description = getStringFieldFromConsole("Project Description");
+        @NotNull final Date startDate = getDateFieldFromConsole("Start date");
+        @NotNull final Date endDate = getDateFieldFromConsole("End date");
+        @NotNull final ProjectDTO project = new ProjectDTO();
         project.setName(name);
         project.setDescription(description);
-        project.setStartDate(startDate);
-        project.setEndDate(endDate);
+        if (startDate != null) project.setStartDate(startDate);
+        if (endDate != null) project.setEndDate(endDate);
         return project;
     }
 
     private void showAllProjects() {
-        final List<ProjectDTO> projects = projectService.findAll();
+        @NotNull final List<ProjectDTO> projects = projectService.findAll();
         projects.forEach(System.out::println);
     }
 
     private void showProjectInfo() {
         System.out.println("*** Please enter id ***");
         showAllProjects();
-        final ProjectDTO project = projectService.findById(scanner.nextLine());
+        @NotNull final ProjectDTO project = projectService.findOne(scanner.nextLine());
         if (project == null) {
             System.out.println("*** Wrong Id ***");
             return;
@@ -156,43 +159,44 @@ public class ConsoleManager {
     private void removeProject() {
         System.out.println("*** Please enter id ***");
         showAllProjects();
-        if (!projectService.delete(scanner.nextLine())) System.out.println("*** Wrong Id ***");
+        if (!projectService.remove(scanner.nextLine())) System.out.println("*** Wrong Id ***");
     }
 
     private void removeAllProjects() {
-        projectService.deleteAll();
+        projectService.removeAll();
     }
 
     private void createTask() {
-        final TaskDTO task = getTask();
-        taskService.insert(task);
+        @NotNull final TaskDTO task = getTask();
+        taskService.persist(task);
         System.out.println("*** Task created: " + task + " ***");
     }
 
+    @NotNull
     private TaskDTO getTask() {
-        final String name = getStringFieldFromConsole("Task name");
-        final String description = getStringFieldFromConsole("Description");
-        final Date startDate = getDateFieldFromConsole("Start date");
-        final Date endDate = getDateFieldFromConsole("End date");
-        final String projectId = getProjectIdFromConsole();
-        final TaskDTO task = new TaskDTO();
+        @NotNull final String name = getStringFieldFromConsole("Task name");
+        @NotNull final String description = getStringFieldFromConsole("Description");
+        @NotNull final Date startDate = getDateFieldFromConsole("Start date");
+        @NotNull final Date endDate = getDateFieldFromConsole("End date");
+        @NotNull final String projectId = getProjectIdFromConsole();
+        @NotNull final TaskDTO task = new TaskDTO();
         task.setName(name);
         task.setDescription(description);
-        task.setStartDate(startDate);
-        task.setEndDate(endDate);
+        if (startDate != null) task.setStartDate(startDate);
+        if (endDate != null) task.setEndDate(endDate);
         task.setProjectId(projectId);
         return task;
     }
 
     private void showAllTasks() {
-        final List<TaskDTO> tasks = taskService.findAll();
+        @NotNull final List<TaskDTO> tasks = taskService.findAll();
         tasks.forEach(System.out::println);
     }
 
     private void showTaskInfo() {
         System.out.println("*** Please enter id ***");
         showAllTasks();
-        final TaskDTO task = taskService.findById(scanner.nextLine());
+        @Nullable final TaskDTO task = taskService.findOne(scanner.nextLine());
         if (task == null) {
             System.out.println("*** Wrong Id ***");
             return;
@@ -203,7 +207,7 @@ public class ConsoleManager {
     private void showTaskInProject() {
         System.out.println("*** Please enter project id ***");
         showAllProjects();
-        List<TaskDTO> tasks = taskService.findByProjectId(scanner.nextLine());
+        @NotNull final List<TaskDTO> tasks = taskService.findByProjectId(scanner.nextLine());
         if (tasks.isEmpty()) {
             System.out.println("Tasks not found");
             return;
@@ -214,14 +218,16 @@ public class ConsoleManager {
     private void removeTask() {
         System.out.println("*** Please enter id ***");
         showAllTasks();
-        if (!taskService.delete(scanner.nextLine())) System.out.println("*** Wrong id ***");
+        if (!taskService.remove(scanner.nextLine())) System.out.println("*** Wrong id ***");
     }
 
     private void removeAllTasks() {
-        taskService.deleteAll();
+        taskService.removeAll();
     }
 
-    private String getStringFieldFromConsole(final String field) {
+    @NotNull
+    private String getStringFieldFromConsole(@Nullable final String field) {
+        if (field == null || field.isEmpty()) throw new NullPointerException("wrong method attribute");
         String name;
         boolean flag;
         do {
@@ -236,7 +242,9 @@ public class ConsoleManager {
         return name;
     }
 
-    private Date getDateFieldFromConsole(final String field) {
+    @Nullable
+    private Date getDateFieldFromConsole(@Nullable final String field) {
+        if (field == null || field.isEmpty()) throw new NullPointerException("wrong method attribute");
         String deadline;
         boolean flag;
         do {
@@ -252,18 +260,18 @@ public class ConsoleManager {
     }
 
     @Nullable
-    private Date getDateFromString(@Nullable final String deadline) {
-        if (deadline == null || deadline.isEmpty()) return null;
-        final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    private Date getDateFromString(@NotNull final String dateString) {
+        @NotNull final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         Date date = null;
         try {
-            date = dateFormat.parse(deadline);
+            date = dateFormat.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return date;
     }
 
+    @NotNull
     private String getProjectIdFromConsole() {
         String id;
         boolean flag;
@@ -272,7 +280,7 @@ public class ConsoleManager {
             showAllProjects();
             flag = true;
             id = scanner.nextLine();
-            if (id == null || id.isEmpty() || !projectService.isExist(id)) {
+            if (id == null || id.isEmpty() || projectService.isExist(id)) {
                 System.out.println("*** Wrong id ***");
                 flag = false;
             }
@@ -280,7 +288,9 @@ public class ConsoleManager {
         return id;
     }
 
-    private Commands parseLine(final String nextLine) {
+    @Nullable
+    private Commands parseLine(@Nullable final String nextLine) {
+        if (nextLine == null || nextLine.isEmpty()) return null;
         if (nextLine.startsWith(Commands.HELP.toString())) return Commands.HELP;
         if (nextLine.startsWith(Commands.EXIT.toString())) return Commands.EXIT;
         if (nextLine.startsWith(Commands.PROJECT_CREATE.toString())) return Commands.PROJECT_CREATE;

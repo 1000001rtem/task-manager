@@ -12,16 +12,18 @@ public interface IRepository<T extends AbstractEntity> {
 
     List<T> findAll();
 
-    T findById(String id);
+    T findOne(String id);
 
-    void insert(T t);
+    void persist(T t);
+
+    void merge(T t);
 
     void update(T t);
 
-    void delete(String id);
+    void remove(String id);
 
-    void delete(List<T> ts);
+    void remove(List<T> ts);
 
-    void deleteAll();
+    void removeAll();
 
 }

@@ -1,5 +1,6 @@
 package ru.eremin.tm.model.repository;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.Task;
 
@@ -38,33 +39,39 @@ public enum TaskRepository implements ITaskRepository {
 
     @Override
     @Nullable
-    public Task findById(final String id) {
+    public Task findOne(@NotNull final String id) {
         return tasks.get(id);
     }
 
     @Override
-    public void insert(final Task task) {
+    public void persist(@NotNull final Task task) {
         tasks.put(task.getId(), task);
     }
 
     @Override
-    public void update(final Task task) {
+    public void merge(@NotNull final Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+
+    @Override
+    public void update(@NotNull final Task task) {
         if (tasks.get(task.getId()) == null) return;
         tasks.put(task.getId(), task);
     }
 
     @Override
-    public void delete(final String id) {
+    public void remove(@NotNull final String id) {
         tasks.remove(id);
     }
 
     @Override
-    public void delete(final List<Task> tasks) {
-        tasks.forEach(e -> delete(e.getId()));
+    public void remove(@NotNull final List<Task> tasks) {
+        tasks.forEach(e -> remove(e.getId()));
     }
 
     @Override
-    public void deleteAll() {
+    public void removeAll() {
         tasks.clear();
     }
 

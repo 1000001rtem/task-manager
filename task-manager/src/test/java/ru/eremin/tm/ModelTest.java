@@ -53,8 +53,8 @@ public class ModelTest {
         final int beforeProjectsSize = projectService.findAll().size();
         final int beforeTasksSize = taskService.findAll().size();
 
-        projectService.insert(projectDTO);
-        taskService.insert(taskDTO);
+        projectService.persist(projectDTO);
+        taskService.persist(taskDTO);
 
         assertEquals(beforeProjectsSize + 1, projectService.findAll().size());
         assertEquals(beforeTasksSize + 1, taskService.findAll().size());
@@ -63,16 +63,16 @@ public class ModelTest {
     @Test
     @Order(order = 2)
     public void findTest(){
-        assertNotNull(projectService.findById(projectDTO.getId()));
-        assertNotNull(taskService.findById(taskDTO.getId()));
+        assertNotNull(projectService.findOne(projectDTO.getId()));
+        assertNotNull(taskService.findOne(taskDTO.getId()));
         assertNotNull(taskService.findByProjectId(projectDTO.getId()));
     }
 
     @Test
     @Order(order = 3)
     public void updateTest(){
-        final TaskDTO taskTMP = taskService.findById(taskDTO.getId());
-        final ProjectDTO projectTMP = projectService.findById(projectDTO.getId());
+        final TaskDTO taskTMP = taskService.findOne(taskDTO.getId());
+        final ProjectDTO projectTMP = projectService.findOne(projectDTO.getId());
 
         assertNotNull(taskTMP);
         assertNotNull(projectTMP);
@@ -85,18 +85,51 @@ public class ModelTest {
         taskService.update(taskTMP);
         projectService.update(projectTMP);
 
-        assertEquals(updateName, projectService.findById(projectDTO.getId()).getName());
-        assertEquals(updateName, taskService.findById(taskDTO.getId()).getName());
+        assertEquals(updateName, projectService.findOne(projectDTO.getId()).getName());
+        assertEquals(updateName, taskService.findOne(taskDTO.getId()).getName());
     }
 
     @Test
     @Order(order = 4)
+    public void mergeTest(){
+        final ProjectDTO projectDTO1 = new ProjectDTO();
+        projectDTO1.setName("testProject");
+        projectDTO1.setDescription("testProjectDescription");
+        projectDTO1.setStartDate(new Date());
+        projectDTO1.setEndDate(new Date());
+
+        final TaskDTO taskDTO1 = new TaskDTO();
+        taskDTO1.setName("testTask");
+        taskDTO1.setDescription("testTaskDescription");
+        taskDTO1.setStartDate(new Date());
+        taskDTO1.setEndDate(new Date());
+        taskDTO1.setProjectId(projectDTO1.getId());
+
+        projectService.merge(projectDTO1);
+        taskService.merge(taskDTO1);
+
+        assertNotNull(projectService.findOne(projectDTO1.getId()));
+        assertNotNull(taskService.findOne(taskDTO1.getId()));
+
+        projectDTO1.setName("UpdateName");
+        taskDTO1.setName("UpdateName");
+
+        projectService.merge(projectDTO1);
+        taskService.merge(taskDTO1);
+
+        assertEquals("UpdateName", projectService.findOne(projectDTO1.getId()).getName());
+        assertEquals("UpdateName", taskService.findOne(taskDTO1.getId()).getName());
+
+    }
+
+    @Test
+    @Order(order = 5)
     public void deleteTest(){
         final int beforeProjectsSize = projectService.findAll().size();
         final int beforeTasksSize = taskService.findAll().size();
 
-        taskService.delete(taskDTO.getId());
-        projectService.delete(projectDTO.getId());
+        taskService.remove(taskDTO.getId());
+        projectService.remove(projectDTO.getId());
 
         assertEquals(beforeProjectsSize - 1, projectService.findAll().size());
         assertEquals(beforeTasksSize - 1, taskService.findAll().size());

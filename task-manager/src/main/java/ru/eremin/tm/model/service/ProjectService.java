@@ -17,8 +17,10 @@ public enum ProjectService implements IProjectService {
 
     INSTANCE;
 
+    @NotNull
     private final ProjectRepository projectRepository;
 
+    @NotNull
     private final TaskService taskService;
 
     ProjectService() {
@@ -27,6 +29,7 @@ public enum ProjectService implements IProjectService {
     }
 
     @Override
+    @NotNull
     public List<ProjectDTO> findAll() {
         return projectRepository.findAll()
                 .stream()
@@ -36,51 +39,59 @@ public enum ProjectService implements IProjectService {
 
     @Override
     @Nullable
-    public ProjectDTO findById(@Nullable final String id) {
+    public ProjectDTO findOne(@Nullable final String id) {
         if (id == null || id.isEmpty()) return null;
-        final Project project = projectRepository.findById(id);
+        @Nullable final Project project = projectRepository.findOne(id);
         if (project == null) return null;
         return new ProjectDTO(project);
     }
 
     @Override
-    public void insert(@Nullable final ProjectDTO projectDTO) {
+    public void persist(@Nullable final ProjectDTO projectDTO) {
         if (projectDTO == null) return;
-        final Project project = getEntity(projectDTO);
-        projectRepository.insert(project);
+        @NotNull final Project project = getEntity(projectDTO);
+        projectRepository.persist(project);
     }
+
+    @Override
+    public void merge(@Nullable final ProjectDTO projectDTO) {
+        if(projectDTO == null) return;
+        @NotNull final Project project = getEntity(projectDTO);
+        projectRepository.merge(project);
+    }
+
 
     @Override
     public void update(@Nullable final ProjectDTO projectDTO) {
         if (projectDTO == null) return;
-        if (projectRepository.findById(projectDTO.getId()) == null) return;
-        final Project project = getEntity(projectDTO);
+        if (projectRepository.findOne(projectDTO.getId()) == null) return;
+        @NotNull final Project project = getEntity(projectDTO);
         projectRepository.update(project);
     }
 
     @Override
-    public boolean delete(@Nullable final String id) {
-        if (id == null || id.isEmpty() || !isExist(id)) return false;
-        projectRepository.delete(id);
-        taskService.deleteAllTasksInProject(id);
+    public boolean remove(@Nullable final String id) {
+        if (id == null || id.isEmpty() || isExist(id)) return false;
+        projectRepository.remove(id);
+        taskService.removeAllTasksInProject(id);
         return true;
     }
 
     @Override
-    public void deleteAll() {
-        projectRepository.deleteAll();
+    public void removeAll() {
+        projectRepository.removeAll();
     }
 
     @Override
     public boolean isExist(@Nullable final String id) {
-        if (id == null || id.isEmpty()) return false;
-        return projectRepository.findById(id) != null;
+        if (id == null || id.isEmpty()) return true;
+        return projectRepository.findOne(id) == null;
     }
 
     @Override
     @NotNull
     public Project getEntity(@NotNull final ProjectDTO projectDTO) {
-        final Project project = new Project();
+        @NotNull final Project project = new Project();
         project.setId(projectDTO.getId());
         if (projectDTO.getName() != null && !projectDTO.getName().isEmpty()) project.setName(projectDTO.getName());
         if (projectDTO.getDescription() != null && !projectDTO.getDescription().isEmpty()) {
