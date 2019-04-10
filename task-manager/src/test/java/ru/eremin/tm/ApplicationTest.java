@@ -4,10 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import ru.eremin.tm.utilities.DateUtils;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import ru.eremin.tm.utils.DateUtils;
 
 /**
  * Unit test for simple Application.

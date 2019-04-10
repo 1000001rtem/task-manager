@@ -1,13 +1,15 @@
-package ru.eremin.tm;
+package ru.eremin.tm.bootstrap;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.utilities.Commands;
+import ru.eremin.tm.model.repository.ProjectRepository;
+import ru.eremin.tm.model.repository.TaskRepository;
+import ru.eremin.tm.utils.Commands;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.service.ProjectService;
 import ru.eremin.tm.model.service.TaskService;
-import ru.eremin.tm.utilities.DateUtils;
+import ru.eremin.tm.utils.DateUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,8 +35,10 @@ public class Bootstrap {
 
     public Bootstrap() {
         this.scanner = new Scanner(System.in);
-        this.projectService = ProjectService.INSTANCE;
-        this.taskService = TaskService.INSTANCE;
+        @NotNull final ProjectRepository projectRepository = new ProjectRepository();
+        @NotNull final TaskRepository taskRepository = new TaskRepository();
+        this.taskService = new TaskService(taskRepository);
+        this.projectService = new ProjectService(projectRepository, this.taskService);
     }
 
     public void init() {

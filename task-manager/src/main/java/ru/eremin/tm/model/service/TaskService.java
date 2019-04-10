@@ -14,15 +14,14 @@ import java.util.stream.Collectors;
  * @autor Eremin Artem on 08.04.2019.
  */
 
-public enum TaskService implements ITaskService {
+public class TaskService implements ITaskService {
 
-    INSTANCE;
+    @Nullable
+    private TaskRepository taskRepository;
 
-    @NotNull
-    private final TaskRepository taskRepository;
-
-    TaskService() {
-        this.taskRepository = TaskRepository.INSTANCE;
+    public TaskService(@Nullable final TaskRepository taskRepository) {
+        if (taskRepository == null) return;
+        this.taskRepository = taskRepository;
     }
 
     @Override

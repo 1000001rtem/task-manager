@@ -13,19 +13,18 @@ import java.util.stream.Collectors;
  * @autor Eremin Artem on 08.04.2019.
  */
 
-public enum ProjectService implements IProjectService {
+public class ProjectService implements IProjectService {
 
-    INSTANCE;
+    @Nullable
+    private ProjectRepository projectRepository;
 
-    @NotNull
-    private final ProjectRepository projectRepository;
+    @Nullable
+    private TaskService taskService;
 
-    @NotNull
-    private final TaskService taskService;
-
-    ProjectService() {
-        this.projectRepository = ProjectRepository.INSTANCE;
-        this.taskService = TaskService.INSTANCE;
+    public ProjectService(@Nullable final ProjectRepository projectRepository, @Nullable final TaskService taskService) {
+        if (projectRepository == null || taskService == null) return;
+        this.projectRepository = projectRepository;
+        this.taskService = taskService;
     }
 
     @Override
@@ -55,7 +54,7 @@ public enum ProjectService implements IProjectService {
 
     @Override
     public void merge(@Nullable final ProjectDTO projectDTO) {
-        if(projectDTO == null) return;
+        if (projectDTO == null) return;
         @NotNull final Project project = getEntity(projectDTO);
         projectRepository.merge(project);
     }

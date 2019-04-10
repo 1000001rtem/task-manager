@@ -13,17 +13,16 @@ import java.util.Map;
  * @autor Eremin Artem on 08.04.2019.
  */
 
-public enum ProjectRepository implements IProjectRepository {
-
-    INSTANCE;
+public class ProjectRepository implements IProjectRepository {
 
     private final Map<String, Project> projects;
 
-    ProjectRepository() {
+    public ProjectRepository() {
         this.projects = new HashMap<>();
     }
 
     @Override
+    @NotNull
     public List<Project> findAll() {
         return new ArrayList<>(projects.values());
     }

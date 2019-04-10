@@ -1,5 +1,6 @@
 package ru.eremin.tm;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +8,8 @@ import ru.eremin.tm.config.Order;
 import ru.eremin.tm.config.OrderedRunner;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.model.repository.ProjectRepository;
+import ru.eremin.tm.model.repository.TaskRepository;
 import ru.eremin.tm.model.service.ProjectService;
 import ru.eremin.tm.model.service.TaskService;
 
@@ -43,8 +46,10 @@ public class ModelTest {
         taskDTO.setEndDate(new Date());
         taskDTO.setProjectId(projectDTO.getId());
 
-        projectService = ProjectService.INSTANCE;
-        taskService = TaskService.INSTANCE;
+        final ProjectRepository projectRepository = new ProjectRepository();
+        final TaskRepository taskRepository = new TaskRepository();
+        taskService = new TaskService(taskRepository);
+        projectService = new ProjectService(projectRepository, taskService);
     }
 
     @Test

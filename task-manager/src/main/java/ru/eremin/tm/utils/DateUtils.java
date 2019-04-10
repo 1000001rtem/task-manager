@@ -1,4 +1,4 @@
-package ru.eremin.tm.utilities;
+package ru.eremin.tm.utils;
 
 /**
  * @autor Eremin Artem on 09.04.2019.

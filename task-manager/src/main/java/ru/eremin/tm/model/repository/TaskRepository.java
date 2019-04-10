@@ -13,13 +13,11 @@ import java.util.Map;
  * @autor Eremin Artem on 08.04.2019.
  */
 
-public enum TaskRepository implements ITaskRepository {
-
-    INSTANCE;
+public class TaskRepository implements ITaskRepository {
 
     private final Map<String, Task> tasks;
 
-    TaskRepository() {
+    public TaskRepository() {
         this.tasks = new HashMap<>();
     }
 
