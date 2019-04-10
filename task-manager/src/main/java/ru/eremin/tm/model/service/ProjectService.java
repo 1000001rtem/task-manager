@@ -79,6 +79,7 @@ public class ProjectService implements IProjectService {
     @Override
     public void removeAll() {
         projectRepository.removeAll();
+        taskService.removeAll();
     }
 
     @Override

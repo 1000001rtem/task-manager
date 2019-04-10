@@ -1,4 +1,4 @@
-package ru.eremin.tm.utils;
+package ru.eremin.tm.commands;
 
 import lombok.Getter;
 
@@ -7,7 +7,7 @@ import lombok.Getter;
  */
 
 @Getter
-public enum Commands {
+public enum CommandEnum {
 
     HELP("help", "Show all commands"),
     EXIT("exit", "Exit"),
@@ -29,17 +29,17 @@ public enum Commands {
     TASK_REMOVE("task_remove", "Remove selected task"),
     TASK_CLEAR("task_clear", "Remove all task");
 
-    private String command;
+    private String name;
 
     private String description;
 
-    Commands(final String command, final String description) {
-        this.command = command;
+    CommandEnum(final String name, final String description) {
+        this.name = name;
         this.description = description;
     }
 
     @Override
     public String toString() {
-        return this.getCommand();
+        return this.getName();
     }
 }
