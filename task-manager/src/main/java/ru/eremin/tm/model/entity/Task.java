@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.entity.base.BaseEntity;
 
 import java.io.Serializable;
 
@@ -14,7 +15,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Task extends AbstractEntity implements Serializable {
+public class Task extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -575064935487180132L;
 

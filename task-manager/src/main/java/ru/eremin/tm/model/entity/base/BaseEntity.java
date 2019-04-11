@@ -1,28 +1,23 @@
-package ru.eremin.tm.model.dto;
+package ru.eremin.tm.model.entity.base;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
 
 /**
- * @autor Eremin Artem on 08.04.2019.
+ * @autor av.eremin on 11.04.2019.
  */
 
 @Getter
 @Setter
 @NoArgsConstructor
-public abstract class AbstractDTO implements Serializable {
+public class BaseEntity extends AbstractEntity implements Serializable {
 
-    private static final long serialVersionUID = 1731687222717524508L;
-
-    @NotNull
-    protected String id = UUID.randomUUID().toString();
+    private static final long serialVersionUID = -8258236348117530843L;
 
     @Nullable
     protected String name;

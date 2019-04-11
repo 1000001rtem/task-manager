@@ -3,6 +3,7 @@ package ru.eremin.tm.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.eremin.tm.model.entity.base.BaseEntity;
 
 import java.io.Serializable;
 
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Project extends AbstractEntity implements Serializable {
+public class Project extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 8875298947374839761L;
 

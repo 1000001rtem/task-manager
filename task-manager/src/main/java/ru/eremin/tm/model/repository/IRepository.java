@@ -1,6 +1,6 @@
 package ru.eremin.tm.model.repository;
 
-import ru.eremin.tm.model.entity.AbstractEntity;
+import ru.eremin.tm.model.entity.base.AbstractEntity;
 
 import java.util.List;
 

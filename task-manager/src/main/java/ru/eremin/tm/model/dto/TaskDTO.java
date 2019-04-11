@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.dto.base.BaseDTO;
 import ru.eremin.tm.model.entity.Task;
 
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TaskDTO extends AbstractDTO implements Serializable {
+public class TaskDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -8634181313297237339L;
 

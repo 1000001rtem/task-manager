@@ -1,9 +1,8 @@
-package ru.eremin.tm.model.entity;
+package ru.eremin.tm.model.entity.base;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
@@ -22,17 +21,5 @@ public abstract class AbstractEntity implements Serializable {
 
     @Nullable
     protected String id;
-
-    @Nullable
-    protected String name;
-
-    @Nullable
-    protected String description;
-
-    @Nullable
-    protected Date startDate;
-
-    @Nullable
-    protected Date endDate;
 
 }
