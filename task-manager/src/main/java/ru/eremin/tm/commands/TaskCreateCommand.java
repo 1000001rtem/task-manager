@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.utils.ConsoleHelper;
 
 import java.util.Date;
 import java.util.List;
@@ -40,10 +41,11 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
 
     @NotNull
     private TaskDTO getTask() {
-        @NotNull final String name = getStringFieldFromConsole("Task name");
-        @NotNull final String description = getStringFieldFromConsole("Description");
-        @NotNull final Date startDate = getDateFieldFromConsole("Start date");
-        @NotNull final Date endDate = getDateFieldFromConsole("End date");
+        @NotNull final ConsoleHelper helper = new ConsoleHelper(bootstrap.getScanner());
+        @NotNull final String name = helper.getStringFieldFromConsole("Task name");
+        @NotNull final String description = helper.getStringFieldFromConsole("Description");
+        @NotNull final Date startDate = helper.getDateFieldFromConsole("Start date");
+        @NotNull final Date endDate = helper.getDateFieldFromConsole("End date");
         @NotNull final String projectId = getProjectIdFromConsole();
         @NotNull final TaskDTO task = new TaskDTO();
         task.setName(name);
