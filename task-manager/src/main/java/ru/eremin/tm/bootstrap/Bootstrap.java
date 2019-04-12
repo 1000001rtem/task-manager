@@ -100,6 +100,10 @@ public class Bootstrap {
         final AbstractTerminalCommand taskShowInProjectCommand = new TaskShowInProjectCommand(this);
         final AbstractTerminalCommand authorizationCommand = new AuthorizationCommand(this);
         final AbstractTerminalCommand userRegistrationCommand = new UserRegistrationCommand(this);
+        final AbstractTerminalCommand logoutCommand = new LogoutCommand(this);
+        final AbstractTerminalCommand userChangePasswordCommand = new UserChangePasswordCommand(this);
+        final AbstractTerminalCommand userInfoCommand = new UserInfoCommand(this);
+        final AbstractTerminalCommand userUpdateCommand = new UserUpdateCommand(this);
 
         commands.put(helpCommand.getName(), helpCommand);
         commands.put(exitCommand.getName(), exitCommand);
@@ -116,6 +120,10 @@ public class Bootstrap {
         commands.put(taskShowInProjectCommand.getName(), taskShowInProjectCommand);
         commands.put(authorizationCommand.getName(), authorizationCommand);
         commands.put(userRegistrationCommand.getName(), userRegistrationCommand);
+        commands.put(logoutCommand.getName(), logoutCommand);
+        commands.put(userChangePasswordCommand.getName(), userChangePasswordCommand);
+        commands.put(userInfoCommand.getName(), userInfoCommand);
+        commands.put(userUpdateCommand.getName(), userUpdateCommand);
     }
 
 
@@ -124,6 +132,7 @@ public class Bootstrap {
         if (nextLine == null || nextLine.isEmpty()) return null;
         if (nextLine.startsWith(CommandEnum.HELP.toString())) return CommandEnum.HELP.toString();
         if (nextLine.startsWith(CommandEnum.EXIT.toString())) return CommandEnum.EXIT.toString();
+        if (nextLine.startsWith(CommandEnum.LOGOUT.toString())) return CommandEnum.LOGOUT.toString();
         if (nextLine.startsWith(CommandEnum.PROJECT_CREATE.toString())) return CommandEnum.PROJECT_CREATE.toString();
         if (nextLine.startsWith(CommandEnum.PROJECT_LIST.toString())) return CommandEnum.PROJECT_LIST.toString();
         if (nextLine.startsWith(CommandEnum.PROJECT_INFO.toString())) return CommandEnum.PROJECT_INFO.toString();
@@ -136,8 +145,14 @@ public class Bootstrap {
         if (nextLine.startsWith(CommandEnum.TASK_REMOVE.toString())) return CommandEnum.TASK_REMOVE.toString();
         if (nextLine.startsWith(CommandEnum.TASK_CLEAR.toString())) return CommandEnum.TASK_CLEAR.toString();
         if (nextLine.startsWith(CommandEnum.AUTHORIZATION.toString())) return CommandEnum.AUTHORIZATION.toString();
-        if (nextLine.startsWith(CommandEnum.USER_REGISTRATION.toString()))
+        if (nextLine.startsWith(CommandEnum.USER_REGISTRATION.toString())) {
             return CommandEnum.USER_REGISTRATION.toString();
+        }
+        if (nextLine.startsWith(CommandEnum.USER_CHANGE_PASSWORD.toString())) {
+            return CommandEnum.USER_CHANGE_PASSWORD.toString();
+        }
+        if (nextLine.startsWith(CommandEnum.USER_INFO.toString())) return CommandEnum.USER_INFO.toString();
+        if (nextLine.startsWith(CommandEnum.USER_UPDATE.toString())) return CommandEnum.USER_UPDATE.toString();
         return null;
     }
 

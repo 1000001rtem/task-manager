@@ -10,6 +10,4 @@ public interface IAuthService {
 
     Session login(final String login, final String hashPassword);
 
-    Session logout(Session session);
-
 }

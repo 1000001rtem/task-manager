@@ -31,9 +31,4 @@ public class AuthService implements IAuthService {
         return session;
     }
 
-    @Override
-    public Session logout(@NotNull final Session session) {
-        return null;
-    }
-
 }

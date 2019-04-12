@@ -11,6 +11,8 @@ public enum CommandEnum {
 
     HELP("help", "Show all commands"),
     EXIT("exit", "Exit"),
+    AUTHORIZATION("auth", "Authorization"),
+    LOGOUT("logout", "Logout"),
 
     DATA_BEAN_LOAD("data_bean_load", "Load data from binary file"),
     DATA_BEAN_SAVE("data_bean_save", "Save data to binary file"),
@@ -30,7 +32,9 @@ public enum CommandEnum {
     TASK_CLEAR("task_clear", "Remove all task"),
 
     USER_REGISTRATION("registration_user", "Registration new user"),
-    AUTHORIZATION("auth", "Authorization");
+    USER_CHANGE_PASSWORD("user_change_password", "Change password"),
+    USER_INFO("user_info", "Show profile information"),
+    USER_UPDATE("user_update", "Update profile data");
 
     private String name;
 
@@ -45,4 +49,5 @@ public enum CommandEnum {
     public String toString() {
         return this.getName();
     }
+
 }
