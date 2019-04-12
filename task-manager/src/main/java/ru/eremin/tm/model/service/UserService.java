@@ -45,7 +45,7 @@ public class UserService implements IUserService {
     @Override
     @Nullable
     public UserDTO findOne(@Nullable final String id) {
-        if (id == null || !id.isEmpty()) return null;
+        if (id == null || id.isEmpty()) return null;
         final User user = userRepository.findOne(id);
         if (user == null) return null;
         return new UserDTO(user);

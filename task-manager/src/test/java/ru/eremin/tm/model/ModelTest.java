@@ -7,10 +7,21 @@ import ru.eremin.tm.config.Order;
 import ru.eremin.tm.config.OrderedRunner;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.model.dto.UserDTO;
+import ru.eremin.tm.model.entity.Role;
 import ru.eremin.tm.model.repository.ProjectRepository;
 import ru.eremin.tm.model.repository.TaskRepository;
+import ru.eremin.tm.model.repository.UserRepository;
+import ru.eremin.tm.model.repository.api.IProjectRepository;
+import ru.eremin.tm.model.repository.api.ITaskRepository;
+import ru.eremin.tm.model.repository.api.IUserRepository;
 import ru.eremin.tm.model.service.ProjectService;
 import ru.eremin.tm.model.service.TaskService;
+import ru.eremin.tm.model.service.UserService;
+import ru.eremin.tm.model.service.api.IProjectService;
+import ru.eremin.tm.model.service.api.ITaskService;
+import ru.eremin.tm.model.service.api.IUserService;
+import ru.eremin.tm.utils.Utils;
 
 import java.util.Date;
 
@@ -26,17 +37,25 @@ public class ModelTest {
 
     private static ProjectDTO projectDTO;
     private static TaskDTO taskDTO;
+    private static UserDTO userDTO;
 
-    private static ProjectService projectService;
-    private static TaskService taskService;
+    private static IProjectService projectService;
+    private static ITaskService taskService;
+    private static IUserService userService;
 
     @BeforeClass
     public static void before() {
+        userDTO = new UserDTO();
+        userDTO.setLogin("testLogin");
+        userDTO.setHashPassword(Utils.getHash("testPassword"));
+        userDTO.setRole(Role.USER);
+
         projectDTO = new ProjectDTO();
         projectDTO.setName("testProject");
         projectDTO.setDescription("testProjectDescription");
         projectDTO.setStartDate(new Date());
         projectDTO.setEndDate(new Date());
+        projectDTO.setUserId(userDTO.getId());
 
         taskDTO = new TaskDTO();
         taskDTO.setName("testTask");
@@ -44,9 +63,12 @@ public class ModelTest {
         taskDTO.setStartDate(new Date());
         taskDTO.setEndDate(new Date());
         taskDTO.setProjectId(projectDTO.getId());
+        taskDTO.setUserId(userDTO.getId());
 
-        final ProjectRepository projectRepository = new ProjectRepository();
-        final TaskRepository taskRepository = new TaskRepository();
+        final IProjectRepository projectRepository = new ProjectRepository();
+        final ITaskRepository taskRepository = new TaskRepository();
+        final IUserRepository userRepository = new UserRepository();
+        userService = new UserService(userRepository);
         taskService = new TaskService(taskRepository);
         projectService = new ProjectService(projectRepository, taskService);
     }
@@ -54,12 +76,15 @@ public class ModelTest {
     @Test
     @Order(order = 1)
     public void insertTest() {
+        final int beforeUsersSize = userService.findAll().size();
         final int beforeProjectsSize = projectService.findAll().size();
         final int beforeTasksSize = taskService.findAll().size();
 
+        userService.persist(userDTO);
         projectService.persist(projectDTO);
         taskService.persist(taskDTO);
 
+        assertEquals(beforeUsersSize + 1, userService.findAll().size());
         assertEquals(beforeProjectsSize + 1, projectService.findAll().size());
         assertEquals(beforeTasksSize + 1, taskService.findAll().size());
     }
@@ -67,28 +92,37 @@ public class ModelTest {
     @Test
     @Order(order = 2)
     public void findTest() {
-        assertNotNull(projectService.findOne(projectDTO.getId()));
-        assertNotNull(taskService.findOne(taskDTO.getId()));
+        assertEquals(userDTO.getId(), userService.findOne(userDTO.getId()).getId());
+        assertEquals(userDTO.getId(), userService.findByLogin(userDTO.getLogin()).getId());
+        assertEquals(projectDTO.getId(), projectService.findOne(projectDTO.getId()).getId());
+        assertNotNull(projectService.findByUserId(userDTO.getId()));
+        assertEquals(taskDTO.getId(), taskService.findOne(taskDTO.getId()).getId());
         assertNotNull(taskService.findByProjectId(projectDTO.getId()));
+        assertNotNull(taskService.findByUserId(userDTO.getId()));
     }
 
     @Test
     @Order(order = 3)
     public void updateTest() {
-        final TaskDTO taskTMP = taskService.findOne(taskDTO.getId());
+        final UserDTO userTMP = userService.findOne(userDTO.getId());
         final ProjectDTO projectTMP = projectService.findOne(projectDTO.getId());
+        final TaskDTO taskTMP = taskService.findOne(taskDTO.getId());
 
-        assertNotNull(taskTMP);
+        assertNotNull(userTMP);
         assertNotNull(projectTMP);
+        assertNotNull(taskTMP);
 
         final String updateName = "UpdateName";
 
+        userTMP.setLogin(updateName);
         taskTMP.setName(updateName);
         projectTMP.setName(updateName);
 
-        taskService.update(taskTMP);
+        userService.update(userTMP);
         projectService.update(projectTMP);
+        taskService.update(taskTMP);
 
+        assertEquals(updateName, userService.findOne(userDTO.getId()).getLogin());
         assertEquals(updateName, projectService.findOne(projectDTO.getId()).getName());
         assertEquals(updateName, taskService.findOne(taskDTO.getId()).getName());
     }
@@ -96,6 +130,11 @@ public class ModelTest {
     @Test
     @Order(order = 4)
     public void mergeTest() {
+        final UserDTO userDTO1 = new UserDTO();
+        userDTO1.setLogin("testUser");
+        userDTO1.setHashPassword(Utils.getHash("testPassword"));
+        userDTO1.setRole(Role.USER);
+
         final ProjectDTO projectDTO1 = new ProjectDTO();
         projectDTO1.setName("testProject");
         projectDTO1.setDescription("testProjectDescription");
@@ -109,18 +148,23 @@ public class ModelTest {
         taskDTO1.setEndDate(new Date());
         taskDTO1.setProjectId(projectDTO1.getId());
 
+        userService.merge(userDTO1);
         projectService.merge(projectDTO1);
         taskService.merge(taskDTO1);
 
+        assertNotNull(userService.findOne(userDTO1.getId()));
         assertNotNull(projectService.findOne(projectDTO1.getId()));
         assertNotNull(taskService.findOne(taskDTO1.getId()));
 
+        userDTO1.setLogin("UpdateLogin");
         projectDTO1.setName("UpdateName");
         taskDTO1.setName("UpdateName");
 
+        userService.merge(userDTO1);
         projectService.merge(projectDTO1);
         taskService.merge(taskDTO1);
 
+        assertEquals("UpdateLogin", userService.findOne(userDTO1.getId()).getLogin());
         assertEquals("UpdateName", projectService.findOne(projectDTO1.getId()).getName());
         assertEquals("UpdateName", taskService.findOne(taskDTO1.getId()).getName());
 
@@ -129,12 +173,15 @@ public class ModelTest {
     @Test
     @Order(order = 5)
     public void deleteTest() {
+        final int beforeUsersSize = userService.findAll().size();
         final int beforeProjectsSize = projectService.findAll().size();
         final int beforeTasksSize = taskService.findAll().size();
 
-        taskService.remove(taskDTO.getId());
+        userService.remove(userDTO.getId());
         projectService.remove(projectDTO.getId());
+        taskService.remove(taskDTO.getId());
 
+        assertEquals(beforeUsersSize - 1, userService.findAll().size());
         assertEquals(beforeProjectsSize - 1, projectService.findAll().size());
         assertEquals(beforeTasksSize - 1, taskService.findAll().size());
     }

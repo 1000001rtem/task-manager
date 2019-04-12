@@ -19,7 +19,7 @@ public class Session extends AbstractEntity {
     private UserDTO user;
 
     public Session(@Nullable final UserDTO user) {
-        if(user == null) return;
+        if (user == null) return;
         this.id = UUID.randomUUID().toString();
         this.user = user;
     }

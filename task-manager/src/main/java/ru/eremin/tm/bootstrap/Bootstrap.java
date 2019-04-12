@@ -136,7 +136,8 @@ public class Bootstrap {
         if (nextLine.startsWith(CommandEnum.TASK_REMOVE.toString())) return CommandEnum.TASK_REMOVE.toString();
         if (nextLine.startsWith(CommandEnum.TASK_CLEAR.toString())) return CommandEnum.TASK_CLEAR.toString();
         if (nextLine.startsWith(CommandEnum.AUTHORIZATION.toString())) return CommandEnum.AUTHORIZATION.toString();
-        if (nextLine.startsWith(CommandEnum.USER_REGISTRATION.toString())) return CommandEnum.USER_REGISTRATION.toString();
+        if (nextLine.startsWith(CommandEnum.USER_REGISTRATION.toString()))
+            return CommandEnum.USER_REGISTRATION.toString();
         return null;
     }
 
