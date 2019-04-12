@@ -31,4 +31,7 @@ public class BaseEntity extends AbstractEntity implements Serializable {
     @Nullable
     protected Date endDate;
 
+    @Nullable
+    protected String userId;
+
 }

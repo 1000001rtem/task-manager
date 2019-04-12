@@ -4,18 +4,18 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.commands.*;
+import ru.eremin.tm.model.repository.IProjectRepository;
+import ru.eremin.tm.model.repository.ITaskRepository;
 import ru.eremin.tm.model.repository.ProjectRepository;
 import ru.eremin.tm.model.repository.TaskRepository;
-import ru.eremin.tm.model.dto.ProjectDTO;
-import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.model.service.IProjectService;
+import ru.eremin.tm.model.service.ITaskService;
 import ru.eremin.tm.model.service.ProjectService;
 import ru.eremin.tm.model.service.TaskService;
-import ru.eremin.tm.utils.DateUtils;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
@@ -25,10 +25,10 @@ import java.util.*;
 public class Bootstrap {
 
     @NotNull
-    private final ProjectService projectService;
+    private final IProjectService projectService;
 
     @NotNull
-    private final TaskService taskService;
+    private final ITaskService taskService;
 
     @NotNull
     private final Scanner scanner;
@@ -38,8 +38,8 @@ public class Bootstrap {
 
     public Bootstrap() {
         this.scanner = new Scanner(System.in);
-        @NotNull final ProjectRepository projectRepository = new ProjectRepository();
-        @NotNull final TaskRepository taskRepository = new TaskRepository();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository();
+        @NotNull final ITaskRepository taskRepository = new TaskRepository();
         this.taskService = new TaskService(taskRepository);
         this.projectService = new ProjectService(projectRepository, this.taskService);
         this.commands = new HashMap<>();

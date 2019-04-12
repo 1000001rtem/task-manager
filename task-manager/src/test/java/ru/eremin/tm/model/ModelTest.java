@@ -1,6 +1,5 @@
-package ru.eremin.tm;
+package ru.eremin.tm.model;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,7 +66,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 2)
-    public void findTest(){
+    public void findTest() {
         assertNotNull(projectService.findOne(projectDTO.getId()));
         assertNotNull(taskService.findOne(taskDTO.getId()));
         assertNotNull(taskService.findByProjectId(projectDTO.getId()));
@@ -75,7 +74,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 3)
-    public void updateTest(){
+    public void updateTest() {
         final TaskDTO taskTMP = taskService.findOne(taskDTO.getId());
         final ProjectDTO projectTMP = projectService.findOne(projectDTO.getId());
 
@@ -96,7 +95,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 4)
-    public void mergeTest(){
+    public void mergeTest() {
         final ProjectDTO projectDTO1 = new ProjectDTO();
         projectDTO1.setName("testProject");
         projectDTO1.setDescription("testProjectDescription");
@@ -129,7 +128,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 5)
-    public void deleteTest(){
+    public void deleteTest() {
         final int beforeProjectsSize = projectService.findAll().size();
         final int beforeTasksSize = taskService.findAll().size();
 

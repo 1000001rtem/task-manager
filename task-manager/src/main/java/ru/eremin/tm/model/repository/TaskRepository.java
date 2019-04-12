@@ -23,7 +23,7 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public List<Task> findByProjectId(final String projectId) {
-        final List<Task> taskByProject = new ArrayList<>();
+        @NotNull final List<Task> taskByProject = new ArrayList<>();
         for (final Task task : tasks.values()) {
             if (task.getProjectId().equals(projectId)) taskByProject.add(task);
         }
@@ -39,6 +39,16 @@ public class TaskRepository implements ITaskRepository {
     @Nullable
     public Task findOne(@NotNull final String id) {
         return tasks.get(id);
+    }
+
+    @Override
+    @NotNull
+    public List<Task> findByUserId(@NotNull final String userId) {
+        @NotNull final List<Task> tasksByUser = new ArrayList<>();
+        for (final Task task : tasks.values()) {
+            if (task.getUserId().equals(userId)) tasksByUser.add(task);
+        }
+        return tasksByUser;
     }
 
     @Override

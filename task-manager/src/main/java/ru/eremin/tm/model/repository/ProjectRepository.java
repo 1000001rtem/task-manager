@@ -34,6 +34,16 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
+    @NotNull
+    public List<Project> findByUserId(@NotNull final String userId) {
+        @NotNull final List<Project> projectsByUser = new ArrayList<>();
+        for (final Project project : projects.values()) {
+            if (project.getUserId().equals(userId)) projectsByUser.add(project);
+        }
+        return projectsByUser;
+    }
+
+    @Override
     public void persist(@NotNull final Project project) {
         projects.put(project.getId(), project);
     }

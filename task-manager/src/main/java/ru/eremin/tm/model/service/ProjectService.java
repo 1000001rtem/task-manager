@@ -4,8 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.entity.Project;
-import ru.eremin.tm.model.repository.ProjectRepository;
+import ru.eremin.tm.model.repository.IProjectRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,12 +17,12 @@ import java.util.stream.Collectors;
 public class ProjectService implements IProjectService {
 
     @Nullable
-    private ProjectRepository projectRepository;
+    private IProjectRepository projectRepository;
 
     @Nullable
-    private TaskService taskService;
+    private ITaskService taskService;
 
-    public ProjectService(@Nullable final ProjectRepository projectRepository, @Nullable final TaskService taskService) {
+    public ProjectService(@Nullable final IProjectRepository projectRepository, @Nullable final ITaskService taskService) {
         if (projectRepository == null || taskService == null) return;
         this.projectRepository = projectRepository;
         this.taskService = taskService;
@@ -43,6 +44,16 @@ public class ProjectService implements IProjectService {
         @Nullable final Project project = projectRepository.findOne(id);
         if (project == null) return null;
         return new ProjectDTO(project);
+    }
+
+    @Override
+    @NotNull
+    public List<ProjectDTO> findByUserId(@Nullable final String userId) {
+        if (userId == null || userId.isEmpty()) return Collections.emptyList();
+        return projectRepository.findByUserId(userId)
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -98,6 +109,9 @@ public class ProjectService implements IProjectService {
         }
         if (projectDTO.getStartDate() != null) project.setStartDate(projectDTO.getStartDate());
         if (projectDTO.getEndDate() != null) project.setEndDate(projectDTO.getEndDate());
+        if (projectDTO.getUserId() != null && !projectDTO.getUserId().isEmpty()) {
+            project.setUserId(projectDTO.getUserId());
+        }
         return project;
     }
 

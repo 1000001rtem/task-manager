@@ -31,4 +31,7 @@ public abstract class BaseDTO extends AbstractDTO implements Serializable {
     @Nullable
     protected Date endDate;
 
+    @Nullable
+    protected String userId;
+
 }

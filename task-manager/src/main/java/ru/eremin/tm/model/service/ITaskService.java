@@ -13,6 +13,8 @@ public interface ITaskService extends IService<Task, TaskDTO> {
 
     List<TaskDTO> findByProjectId(String projectId);
 
+    List<TaskDTO> findByUserId(String userId);
+
     void removeAllTasksInProject(String projectId);
 
 }

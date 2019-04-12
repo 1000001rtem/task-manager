@@ -1,10 +1,10 @@
 package ru.eremin.tm;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import ru.eremin.tm.utils.DateUtils;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for simple Application.
@@ -13,21 +13,20 @@ import ru.eremin.tm.utils.DateUtils;
 public class ApplicationTest {
 
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+    public void shouldAnswerWithTrue() {
+        assertTrue(true);
     }
 
     @Test
-    public void regexTest(){
-        final String [] rightDates = {
+    public void regexTest() {
+        final String[] rightDates = {
                 "01.01.1900",
                 "01.12.1000",
                 "31.01.1900",
                 "09.09.1900"
         };
 
-        final String [] wrongDates = {
+        final String[] wrongDates = {
                 "00.01.1900",
                 "01.00.1900",
                 "32.01.1900",

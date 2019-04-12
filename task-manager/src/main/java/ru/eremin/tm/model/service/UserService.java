@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.User;
-import ru.eremin.tm.model.repository.UserRepository;
+import ru.eremin.tm.model.repository.IUserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 
 public class UserService implements IUserService {
 
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
-    public UserService(@Nullable final UserRepository userRepository) {
+    public UserService(@Nullable final IUserRepository userRepository) {
         if (userRepository == null) return;
         this.userRepository = userRepository;
     }

@@ -12,4 +12,6 @@ public interface ITaskRepository extends IRepository<Task> {
 
     List<Task> findByProjectId(String projectId);
 
+    List<Task> findByUserId(String userId);
+
 }

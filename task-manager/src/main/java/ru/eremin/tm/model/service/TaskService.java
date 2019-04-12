@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.entity.Task;
-import ru.eremin.tm.model.repository.TaskRepository;
+import ru.eremin.tm.model.repository.ITaskRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 public class TaskService implements ITaskService {
 
     @Nullable
-    private TaskRepository taskRepository;
+    private ITaskRepository taskRepository;
 
-    public TaskService(@Nullable final TaskRepository taskRepository) {
+    public TaskService(@Nullable final ITaskRepository taskRepository) {
         if (taskRepository == null) return;
         this.taskRepository = taskRepository;
     }
@@ -58,6 +58,16 @@ public class TaskService implements ITaskService {
         @Nullable final Task task = taskRepository.findOne(id);
         if (task == null) return null;
         return new TaskDTO(task);
+    }
+
+    @Override
+    @NotNull
+    public List<TaskDTO> findByUserId(@Nullable final String userId) {
+        if (userId == null || userId.isEmpty()) return Collections.emptyList();
+        return taskRepository.findByUserId(userId)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -115,6 +125,7 @@ public class TaskService implements ITaskService {
         if (taskDTO.getProjectId() != null && !taskDTO.getProjectId().isEmpty()) {
             task.setProjectId(taskDTO.getProjectId());
         }
+        if (taskDTO.getUserId() != null && !taskDTO.getUserId().isEmpty()) task.setUserId(taskDTO.getUserId());
         return task;
     }
 
