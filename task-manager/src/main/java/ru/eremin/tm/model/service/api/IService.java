@@ -1,4 +1,4 @@
-package ru.eremin.tm.model.service;
+package ru.eremin.tm.model.service.api;
 
 import ru.eremin.tm.model.dto.base.AbstractDTO;
 import ru.eremin.tm.model.entity.base.AbstractEntity;

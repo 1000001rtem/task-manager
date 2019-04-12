@@ -1,4 +1,4 @@
-package ru.eremin.tm.model.repository;
+package ru.eremin.tm.model.repository.api;
 
 import ru.eremin.tm.model.entity.User;
 

@@ -4,12 +4,12 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.commands.*;
-import ru.eremin.tm.model.repository.IProjectRepository;
-import ru.eremin.tm.model.repository.ITaskRepository;
+import ru.eremin.tm.model.repository.api.IProjectRepository;
+import ru.eremin.tm.model.repository.api.ITaskRepository;
 import ru.eremin.tm.model.repository.ProjectRepository;
 import ru.eremin.tm.model.repository.TaskRepository;
-import ru.eremin.tm.model.service.IProjectService;
-import ru.eremin.tm.model.service.ITaskService;
+import ru.eremin.tm.model.service.api.IProjectService;
+import ru.eremin.tm.model.service.api.ITaskService;
 import ru.eremin.tm.model.service.ProjectService;
 import ru.eremin.tm.model.service.TaskService;
 

@@ -10,7 +10,13 @@ import ru.eremin.tm.model.entity.Role;
 import ru.eremin.tm.model.entity.Task;
 import ru.eremin.tm.model.entity.User;
 import ru.eremin.tm.model.repository.*;
+import ru.eremin.tm.model.repository.api.IProjectRepository;
+import ru.eremin.tm.model.repository.api.ITaskRepository;
+import ru.eremin.tm.model.repository.api.IUserRepository;
 import ru.eremin.tm.model.service.*;
+import ru.eremin.tm.model.service.api.IProjectService;
+import ru.eremin.tm.model.service.api.ITaskService;
+import ru.eremin.tm.model.service.api.IUserService;
 import ru.eremin.tm.utils.Utils;
 
 import java.util.Date;

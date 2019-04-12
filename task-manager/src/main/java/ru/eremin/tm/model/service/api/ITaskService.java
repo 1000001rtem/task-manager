@@ -1,4 +1,4 @@
-package ru.eremin.tm.model.service;
+package ru.eremin.tm.model.service.api;
 
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.entity.Task;

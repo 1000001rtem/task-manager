@@ -4,7 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.entity.Task;
-import ru.eremin.tm.model.repository.ITaskRepository;
+import ru.eremin.tm.model.repository.api.ITaskRepository;
+import ru.eremin.tm.model.service.api.ITaskService;
 
 import java.util.Collections;
 import java.util.List;

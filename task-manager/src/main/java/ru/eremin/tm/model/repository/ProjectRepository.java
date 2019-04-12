@@ -3,6 +3,7 @@ package ru.eremin.tm.model.repository;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.Project;
+import ru.eremin.tm.model.repository.api.IProjectRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
