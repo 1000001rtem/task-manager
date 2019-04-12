@@ -3,7 +3,7 @@ package ru.eremin.tm.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.base.AbstractEntity;
 
 import java.io.Serializable;
@@ -19,13 +19,13 @@ public class User extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 7036583160470114038L;
 
-    @NotNull
+    @Nullable
     private String login;
 
-    @NotNull
+    @Nullable
     private String hashPassword;
 
-    @NotNull
+    @Nullable
     private Role role;
 
 }

@@ -78,7 +78,6 @@ public class TaskService implements ITaskService {
     @Override
     public void update(@Nullable final TaskDTO taskDTO) {
         if (taskDTO == null) return;
-        if (taskRepository.findOne(taskDTO.getId()) == null) return;
         @NotNull final Task task = getEntity(taskDTO);
         taskRepository.update(task);
     }

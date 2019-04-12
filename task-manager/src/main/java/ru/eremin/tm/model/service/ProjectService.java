@@ -63,7 +63,6 @@ public class ProjectService implements IProjectService {
     @Override
     public void update(@Nullable final ProjectDTO projectDTO) {
         if (projectDTO == null) return;
-        if (projectRepository.findOne(projectDTO.getId()) == null) return;
         @NotNull final Project project = getEntity(projectDTO);
         projectRepository.update(project);
     }
