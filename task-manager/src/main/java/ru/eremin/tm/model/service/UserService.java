@@ -27,7 +27,7 @@ public class UserService implements IUserService {
     @Override
     @Nullable
     public UserDTO findByLogin(@Nullable final String login) {
-        if (login == null || !login.isEmpty()) return null;
+        if (login == null || login.isEmpty()) return null;
         @Nullable final User user = userRepository.findByLogin(login);
         if (user == null) return null;
         return new UserDTO(user);

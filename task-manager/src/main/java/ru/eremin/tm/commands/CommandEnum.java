@@ -27,7 +27,10 @@ public enum CommandEnum {
     TASK_INFO("task_info", "Show task information"),
     TASK_IN_PROJECT("task_in_project", "Show all tasks in selected project"),
     TASK_REMOVE("task_remove", "Remove selected task"),
-    TASK_CLEAR("task_clear", "Remove all task");
+    TASK_CLEAR("task_clear", "Remove all task"),
+
+    USER_REGISTRATION("registration_user", "Registration new user"),
+    AUTHORIZATION("auth", "Authorization");
 
     private String name;
 

@@ -1,17 +1,27 @@
 package ru.eremin.tm.bootstrap;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.commands.*;
-import ru.eremin.tm.model.repository.api.IProjectRepository;
-import ru.eremin.tm.model.repository.api.ITaskRepository;
+import ru.eremin.tm.model.entity.session.Session;
 import ru.eremin.tm.model.repository.ProjectRepository;
 import ru.eremin.tm.model.repository.TaskRepository;
-import ru.eremin.tm.model.service.api.IProjectService;
-import ru.eremin.tm.model.service.api.ITaskService;
+import ru.eremin.tm.model.repository.UserRepository;
+import ru.eremin.tm.model.repository.api.IProjectRepository;
+import ru.eremin.tm.model.repository.api.ITaskRepository;
+import ru.eremin.tm.model.repository.api.IUserRepository;
 import ru.eremin.tm.model.service.ProjectService;
 import ru.eremin.tm.model.service.TaskService;
+import ru.eremin.tm.model.service.UserService;
+import ru.eremin.tm.model.service.api.IProjectService;
+import ru.eremin.tm.model.service.api.ITaskService;
+import ru.eremin.tm.model.service.api.IUserService;
+import ru.eremin.tm.security.AuthService;
+import ru.eremin.tm.security.IAuthService;
+import ru.eremin.tm.security.IRegistrationService;
+import ru.eremin.tm.security.RegistrationService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +41,20 @@ public class Bootstrap {
     private final ITaskService taskService;
 
     @NotNull
+    private final IUserService userService;
+
+    @NotNull
+    private final IAuthService authService;
+
+    @NotNull
+    private final IRegistrationService registrationService;
+
+    @NotNull
     private final Scanner scanner;
+
+    @Nullable
+    @Setter
+    private Session session;
 
     @NotNull
     private final Map<String, AbstractTerminalCommand> commands;
@@ -40,8 +63,12 @@ public class Bootstrap {
         this.scanner = new Scanner(System.in);
         @NotNull final IProjectRepository projectRepository = new ProjectRepository();
         @NotNull final ITaskRepository taskRepository = new TaskRepository();
+        @NotNull final IUserRepository userRepository = new UserRepository();
         this.taskService = new TaskService(taskRepository);
         this.projectService = new ProjectService(projectRepository, this.taskService);
+        this.userService = new UserService(userRepository);
+        this.authService = new AuthService(userService);
+        this.registrationService = new RegistrationService(userService);
         this.commands = new HashMap<>();
     }
 
@@ -71,6 +98,8 @@ public class Bootstrap {
         final AbstractTerminalCommand taskRemoveCommand = new TaskRemoveCommand(this);
         final AbstractTerminalCommand taskClearCommand = new TaskClearCommand(this);
         final AbstractTerminalCommand taskShowInProjectCommand = new TaskShowInProjectCommand(this);
+        final AbstractTerminalCommand authorizationCommand = new AuthorizationCommand(this);
+        final AbstractTerminalCommand userRegistrationCommand = new UserRegistrationCommand(this);
 
         commands.put(helpCommand.getName(), helpCommand);
         commands.put(exitCommand.getName(), exitCommand);
@@ -85,6 +114,8 @@ public class Bootstrap {
         commands.put(taskRemoveCommand.getName(), taskRemoveCommand);
         commands.put(taskClearCommand.getName(), taskClearCommand);
         commands.put(taskShowInProjectCommand.getName(), taskShowInProjectCommand);
+        commands.put(authorizationCommand.getName(), authorizationCommand);
+        commands.put(userRegistrationCommand.getName(), userRegistrationCommand);
     }
 
 
@@ -104,6 +135,8 @@ public class Bootstrap {
         if (nextLine.startsWith(CommandEnum.TASK_IN_PROJECT.toString())) return CommandEnum.TASK_IN_PROJECT.toString();
         if (nextLine.startsWith(CommandEnum.TASK_REMOVE.toString())) return CommandEnum.TASK_REMOVE.toString();
         if (nextLine.startsWith(CommandEnum.TASK_CLEAR.toString())) return CommandEnum.TASK_CLEAR.toString();
+        if (nextLine.startsWith(CommandEnum.AUTHORIZATION.toString())) return CommandEnum.AUTHORIZATION.toString();
+        if (nextLine.startsWith(CommandEnum.USER_REGISTRATION.toString())) return CommandEnum.USER_REGISTRATION.toString();
         return null;
     }
 

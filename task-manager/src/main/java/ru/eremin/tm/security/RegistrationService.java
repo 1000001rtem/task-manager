@@ -1,8 +1,7 @@
-package ru.eremin.tm.model.service.auth;
+package ru.eremin.tm.security;
 
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.model.service.api.IRegistrationService;
 import ru.eremin.tm.model.service.api.IUserService;
 
 /**

@@ -1,4 +1,4 @@
-package ru.eremin.tm.model.service.api;
+package ru.eremin.tm.security;
 
 import ru.eremin.tm.model.dto.UserDTO;
 
