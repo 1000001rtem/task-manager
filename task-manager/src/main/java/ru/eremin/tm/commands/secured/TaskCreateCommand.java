@@ -6,6 +6,7 @@ import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.utils.ConsoleHelper;
 
 import java.util.Date;
@@ -55,6 +56,7 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
         if (startDate != null) task.setStartDate(startDate);
         if (endDate != null) task.setEndDate(endDate);
         task.setProjectId(projectId);
+        task.setUserId(bootstrap.getSession().getUser().getId());
         return task;
     }
 
@@ -64,7 +66,8 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
         boolean flag;
         do {
             System.out.println("*** Please write project id ***");
-            @NotNull final List<ProjectDTO> projects = bootstrap.getProjectService().findAll();
+            @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
+            @NotNull final List<ProjectDTO> projects = bootstrap.getProjectService().findByUserId(userDTO.getId());
             projects.forEach(System.out::println);
             flag = true;
             id = bootstrap.getScanner().nextLine();

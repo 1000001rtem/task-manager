@@ -30,7 +30,7 @@ public class ProjectClearCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        bootstrap.getProjectService().removeAll();
+        bootstrap.getProjectService().removeAll(bootstrap.getSession().getUser().getId());
     }
 
 }

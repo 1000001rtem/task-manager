@@ -11,6 +11,8 @@ import ru.eremin.tm.commands.UserRegistrationCommand;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.commands.secured.*;
+import ru.eremin.tm.model.dto.UserDTO;
+import ru.eremin.tm.model.entity.Role;
 import ru.eremin.tm.model.entity.session.Session;
 import ru.eremin.tm.model.repository.ProjectRepository;
 import ru.eremin.tm.model.repository.TaskRepository;
@@ -28,6 +30,7 @@ import ru.eremin.tm.security.AuthService;
 import ru.eremin.tm.security.IAuthService;
 import ru.eremin.tm.security.IRegistrationService;
 import ru.eremin.tm.security.RegistrationService;
+import ru.eremin.tm.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,14 +83,33 @@ public class Bootstrap {
 
     public void init() {
         initCommand();
+        initUsers();
         System.out.println("*** WELCOME TO TASK MANAGER ***");
         String answer;
         while (true) {
             answer = parseLine(scanner.nextLine());
             final AbstractTerminalCommand command = commands.get(answer);
             if (command == null) commands.get(CommandEnum.HELP.getName()).execute();
-            else commands.get(answer).execute();
+            else {
+                if(command.isSecured() && session == null) System.out.println("*** Please log in ***");
+                else command.execute();
+            }
         }
+    }
+
+    private void initUsers() {
+        @NotNull final UserDTO user = new UserDTO();
+        user.setLogin("user");
+        user.setHashPassword(Utils.getHash("pass"));
+        user.setRole(Role.USER);
+
+        @NotNull final UserDTO admin = new UserDTO();
+        admin.setLogin("admin");
+        admin.setHashPassword(Utils.getHash("pass"));
+        admin.setRole(Role.ADMIN);
+
+        userService.persist(user);
+        userService.persist(admin);
     }
 
     private void initCommand() {

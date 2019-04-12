@@ -89,9 +89,10 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public void removeAll() {
-        projectRepository.removeAll();
-        taskService.removeAll();
+    public void removeAll(@Nullable final String userId) {
+        if(userId == null || userId.isEmpty()) return;
+        projectRepository.removeAll(userId);
+        taskService.removeAll(userId);
     }
 
     @Override

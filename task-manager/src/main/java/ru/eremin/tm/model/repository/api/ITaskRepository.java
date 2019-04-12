@@ -14,4 +14,6 @@ public interface ITaskRepository extends IRepository<Task> {
 
     List<Task> findByUserId(String userId);
 
+    void removeAll(String userId);
+
 }

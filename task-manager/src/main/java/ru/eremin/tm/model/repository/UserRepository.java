@@ -2,6 +2,7 @@ package ru.eremin.tm.model.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.entity.Project;
 import ru.eremin.tm.model.entity.User;
 import ru.eremin.tm.model.repository.api.IUserRepository;
 
@@ -67,11 +68,6 @@ public class UserRepository implements IUserRepository {
     @Override
     public void remove(final List<User> users) {
         users.forEach(e -> remove(e.getId()));
-    }
-
-    @Override
-    public void removeAll() {
-        users.clear();
     }
 
 }

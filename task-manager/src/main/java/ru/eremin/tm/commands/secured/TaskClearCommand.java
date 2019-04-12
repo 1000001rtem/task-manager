@@ -30,7 +30,7 @@ public class TaskClearCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        bootstrap.getTaskService().removeAll();
+        bootstrap.getTaskService().removeAll(bootstrap.getSession().getUser().getId());
     }
 
 }

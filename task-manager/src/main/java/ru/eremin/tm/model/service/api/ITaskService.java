@@ -17,4 +17,6 @@ public interface ITaskService extends IService<Task, TaskDTO> {
 
     void removeAllTasksInProject(String projectId);
 
+    void removeAll(String userId);
+
 }

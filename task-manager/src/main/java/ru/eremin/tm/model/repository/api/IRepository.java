@@ -24,6 +24,4 @@ public interface IRepository<T extends AbstractEntity> {
 
     void remove(List<T> ts);
 
-    void removeAll();
-
 }

@@ -13,4 +13,6 @@ public interface IProjectService extends IService<Project, ProjectDTO> {
 
     List<ProjectDTO> findByUserId(String userId);
 
+    void removeAll(String userId);
+
 }

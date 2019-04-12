@@ -31,7 +31,7 @@ public enum CommandEnum {
     TASK_REMOVE("task_remove", "Remove selected task"),
     TASK_CLEAR("task_clear", "Remove all task"),
 
-    USER_REGISTRATION("registration_user", "Registration new user"),
+    USER_REGISTRATION("user_registration", "Registration new user"),
     USER_CHANGE_PASSWORD("user_change_password", "Change password"),
     USER_INFO("user_info", "Show profile information"),
     USER_UPDATE("user_update", "Update profile data");

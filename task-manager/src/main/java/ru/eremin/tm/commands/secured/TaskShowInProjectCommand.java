@@ -6,6 +6,7 @@ import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.model.dto.UserDTO;
 
 import java.util.List;
 
@@ -35,7 +36,8 @@ public class TaskShowInProjectCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         System.out.println("*** Please enter project id ***");
-        @NotNull final List<ProjectDTO> projects = bootstrap.getProjectService().findAll();
+        @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
+        @NotNull final List<ProjectDTO> projects = bootstrap.getProjectService().findByUserId(userDTO.getId());
         projects.forEach(System.out::println);
         @NotNull final List<TaskDTO> tasks = bootstrap.getTaskService().findByProjectId(bootstrap.getScanner().nextLine());
         if (tasks.isEmpty()) {

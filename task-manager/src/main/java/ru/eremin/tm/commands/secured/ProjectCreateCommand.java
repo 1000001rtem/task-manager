@@ -51,6 +51,7 @@ public class ProjectCreateCommand extends AbstractTerminalCommand {
         project.setDescription(description);
         if (startDate != null) project.setStartDate(startDate);
         if (endDate != null) project.setEndDate(endDate);
+        project.setUserId(bootstrap.getSession().getUser().getId());
         return project;
     }
 

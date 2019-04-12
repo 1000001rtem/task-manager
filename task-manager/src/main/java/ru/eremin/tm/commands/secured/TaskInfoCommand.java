@@ -6,6 +6,7 @@ import ru.eremin.tm.bootstrap.Bootstrap;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.model.dto.UserDTO;
 
 import java.util.List;
 
@@ -35,7 +36,8 @@ public class TaskInfoCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         System.out.println("*** Please enter id ***");
-        @NotNull final List<TaskDTO> tasks = bootstrap.getTaskService().findAll();
+        @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
+        @NotNull final List<TaskDTO> tasks = bootstrap.getTaskService().findByUserId(userDTO.getId());
         tasks.forEach(System.out::println);
         @Nullable final TaskDTO task = bootstrap.getTaskService().findOne(bootstrap.getScanner().nextLine());
         if (task == null) {

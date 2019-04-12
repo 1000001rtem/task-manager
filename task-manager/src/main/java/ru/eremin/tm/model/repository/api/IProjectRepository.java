@@ -12,4 +12,6 @@ public interface IProjectRepository extends IRepository<Project> {
 
     List<Project> findByUserId(String userId);
 
+    void removeAll(String userId);
+
 }

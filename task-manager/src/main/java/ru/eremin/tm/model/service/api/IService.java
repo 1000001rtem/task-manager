@@ -23,8 +23,6 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
 
     boolean remove(String id);
 
-    void removeAll();
-
     boolean isExist(String id);
 
     T getEntity(E e);
