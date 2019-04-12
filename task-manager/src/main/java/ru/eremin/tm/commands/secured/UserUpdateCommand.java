@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.UserDTO;
@@ -16,8 +17,8 @@ public class UserUpdateCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.USER_UPDATE;
 
-    public UserUpdateCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public UserUpdateCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -32,12 +33,12 @@ public class UserUpdateCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        @NotNull final ConsoleHelper helper = new ConsoleHelper(bootstrap.getScanner());
+        @NotNull final ConsoleHelper helper = new ConsoleHelper(locator.getScanner());
         @NotNull final String newLogin = helper.getStringFieldFromConsole("New Login");
-        @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
+        @NotNull final UserDTO userDTO = locator.getSession().getUser();
         userDTO.setLogin(newLogin);
-        bootstrap.getUserService().update(userDTO);
-        bootstrap.getSession().setUser(userDTO);
+        locator.getUserService().update(userDTO);
+        locator.getSession().setUser(userDTO);
     }
 
 }

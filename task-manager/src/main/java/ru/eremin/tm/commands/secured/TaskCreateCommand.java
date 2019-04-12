@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
@@ -21,8 +22,8 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_CREATE;
 
-    public TaskCreateCommand(final @NotNull Bootstrap bootstrap) {
-        super(bootstrap);
+    public TaskCreateCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -38,13 +39,13 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         @NotNull final TaskDTO task = getTask();
-        bootstrap.getTaskService().persist(task);
+        locator.getTaskService().persist(task);
         System.out.println("*** Task created: " + task + " ***");
     }
 
     @NotNull
     private TaskDTO getTask() {
-        @NotNull final ConsoleHelper helper = new ConsoleHelper(bootstrap.getScanner());
+        @NotNull final ConsoleHelper helper = new ConsoleHelper(locator.getScanner());
         @NotNull final String name = helper.getStringFieldFromConsole("Task name");
         @NotNull final String description = helper.getStringFieldFromConsole("Description");
         @NotNull final Date startDate = helper.getDateFieldFromConsole("Start date");
@@ -56,7 +57,7 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
         if (startDate != null) task.setStartDate(startDate);
         if (endDate != null) task.setEndDate(endDate);
         task.setProjectId(projectId);
-        task.setUserId(bootstrap.getSession().getUser().getId());
+        task.setUserId(locator.getSession().getUser().getId());
         return task;
     }
 
@@ -66,12 +67,12 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
         boolean flag;
         do {
             System.out.println("*** Please write project id ***");
-            @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
-            @NotNull final List<ProjectDTO> projects = bootstrap.getProjectService().findByUserId(userDTO.getId());
+            @NotNull final UserDTO userDTO = locator.getSession().getUser();
+            @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
             projects.forEach(System.out::println);
             flag = true;
-            id = bootstrap.getScanner().nextLine();
-            if (id == null || id.isEmpty() || bootstrap.getProjectService().isExist(id)) {
+            id = locator.getScanner().nextLine();
+            if (id == null || id.isEmpty() || locator.getProjectService().isExist(id)) {
                 System.out.println("*** Wrong id ***");
                 flag = false;
             }

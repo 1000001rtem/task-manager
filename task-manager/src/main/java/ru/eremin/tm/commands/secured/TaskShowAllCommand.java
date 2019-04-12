@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.TaskDTO;
@@ -18,8 +19,8 @@ public class TaskShowAllCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_LIST;
 
-    public TaskShowAllCommand(final @NotNull Bootstrap bootstrap) {
-        super(bootstrap);
+    public TaskShowAllCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -34,8 +35,8 @@ public class TaskShowAllCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
-        @NotNull final List<TaskDTO> tasks = bootstrap.getTaskService().findByUserId(userDTO.getId());
+        @NotNull final UserDTO userDTO = locator.getSession().getUser();
+        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByUserId(userDTO.getId());
         tasks.forEach(System.out::println);
     }
 

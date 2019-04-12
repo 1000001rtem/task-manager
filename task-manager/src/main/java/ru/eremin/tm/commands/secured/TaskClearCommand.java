@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 
@@ -14,8 +15,8 @@ public class TaskClearCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_CLEAR;
 
-    public TaskClearCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public TaskClearCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class TaskClearCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        bootstrap.getTaskService().removeAll(bootstrap.getSession().getUser().getId());
+        locator.getTaskService().removeAll(locator.getSession().getUser().getId());
     }
 
 }

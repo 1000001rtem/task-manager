@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
@@ -18,8 +19,8 @@ public class ProjectCreateCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.PROJECT_CREATE;
 
-    public ProjectCreateCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public ProjectCreateCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -35,13 +36,13 @@ public class ProjectCreateCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         @NotNull final ProjectDTO project = getProject();
-        bootstrap.getProjectService().persist(project);
+        locator.getProjectService().persist(project);
         System.out.println("*** Project created: " + project + " ***");
     }
 
     @NotNull
     private ProjectDTO getProject() {
-        @NotNull final ConsoleHelper helper = new ConsoleHelper(bootstrap.getScanner());
+        @NotNull final ConsoleHelper helper = new ConsoleHelper(locator.getScanner());
         @NotNull final String name = helper.getStringFieldFromConsole("Project name");
         @NotNull final String description = helper.getStringFieldFromConsole("Project Description");
         @NotNull final Date startDate = helper.getDateFieldFromConsole("Start date");
@@ -51,7 +52,7 @@ public class ProjectCreateCommand extends AbstractTerminalCommand {
         project.setDescription(description);
         if (startDate != null) project.setStartDate(startDate);
         if (endDate != null) project.setEndDate(endDate);
-        project.setUserId(bootstrap.getSession().getUser().getId());
+        project.setUserId(locator.getSession().getUser().getId());
         return project;
     }
 

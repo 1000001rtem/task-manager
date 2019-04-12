@@ -2,6 +2,7 @@ package ru.eremin.tm.commands;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.UserDTO;
@@ -18,8 +19,8 @@ public class UserRegistrationCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.USER_REGISTRATION;
 
-    public UserRegistrationCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public UserRegistrationCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
         this.isSecured = false;
     }
 
@@ -36,14 +37,14 @@ public class UserRegistrationCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         System.out.println("*** REGISTRATION ***");
-        @NotNull final ConsoleHelper helper = new ConsoleHelper(bootstrap.getScanner());
+        @NotNull final ConsoleHelper helper = new ConsoleHelper(locator.getScanner());
         @NotNull final String login = helper.getStringFieldFromConsole("Login");
         @NotNull final String hashPassword = Utils.getHash(helper.getStringFieldFromConsole("Password"));
         @NotNull final UserDTO userDTO = new UserDTO();
         userDTO.setLogin(login);
         userDTO.setHashPassword(hashPassword);
         userDTO.setRole(Role.USER);
-        bootstrap.getRegistrationService().registration(userDTO);
+        locator.getRegistrationService().registration(userDTO);
     }
 
 }

@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.TaskDTO;
@@ -18,8 +19,8 @@ public class TaskRemoveCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_REMOVE;
 
-    public TaskRemoveCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public TaskRemoveCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -35,10 +36,10 @@ public class TaskRemoveCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         System.out.println("*** Please enter id ***");
-        @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
-        @NotNull final List<TaskDTO> tasks = bootstrap.getTaskService().findByUserId(userDTO.getId());
+        @NotNull final UserDTO userDTO = locator.getSession().getUser();
+        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByUserId(userDTO.getId());
         tasks.forEach(System.out::println);
-        if (!bootstrap.getTaskService().remove(bootstrap.getScanner().nextLine())) {
+        if (!locator.getTaskService().remove(locator.getScanner().nextLine())) {
             System.out.println("*** Wrong id ***");
         }
     }

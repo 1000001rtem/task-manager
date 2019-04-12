@@ -41,7 +41,7 @@ import java.util.Scanner;
  */
 
 @Getter
-public class Bootstrap {
+public class Bootstrap implements ServiceLocator{
 
     @NotNull
     private final IProjectService projectService;

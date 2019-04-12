@@ -2,6 +2,7 @@ package ru.eremin.tm.commands;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 
@@ -14,8 +15,8 @@ public class ExitCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.EXIT;
 
-    public ExitCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public ExitCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
         this.isSecured = false;
     }
 

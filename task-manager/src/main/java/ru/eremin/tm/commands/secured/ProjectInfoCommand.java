@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
@@ -18,8 +19,8 @@ public class ProjectInfoCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.PROJECT_INFO;
 
-    public ProjectInfoCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public ProjectInfoCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -35,11 +36,11 @@ public class ProjectInfoCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         System.out.println("*** Please enter id ***");
-        @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
+        @NotNull final UserDTO userDTO = locator.getSession().getUser();
 
-        @NotNull final List<ProjectDTO> projects = bootstrap.getProjectService().findByUserId(userDTO.getId());
+        @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
         projects.forEach(System.out::println);
-        @NotNull final ProjectDTO project = bootstrap.getProjectService().findOne(bootstrap.getScanner().nextLine());
+        @NotNull final ProjectDTO project = locator.getProjectService().findOne(locator.getScanner().nextLine());
         if (project == null) {
             System.out.println("*** Wrong Id ***");
             return;

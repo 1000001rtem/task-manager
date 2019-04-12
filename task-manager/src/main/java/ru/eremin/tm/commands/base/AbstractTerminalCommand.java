@@ -1,8 +1,7 @@
 package ru.eremin.tm.commands.base;
 
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 
 
 /**
@@ -14,11 +13,10 @@ public abstract class AbstractTerminalCommand {
     @Getter
     protected boolean isSecured = true;
 
-    @NotNull
-    protected Bootstrap bootstrap;
+    protected ServiceLocator locator;
 
-    public AbstractTerminalCommand(@NotNull final Bootstrap bootstrap) {
-        this.bootstrap = bootstrap;
+    public AbstractTerminalCommand(final ServiceLocator locator) {
+        this.locator = locator;
     }
 
     public abstract String getName();

@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
@@ -19,8 +20,8 @@ public class TaskShowInProjectCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_IN_PROJECT;
 
-    public TaskShowInProjectCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public TaskShowInProjectCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -36,10 +37,10 @@ public class TaskShowInProjectCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         System.out.println("*** Please enter project id ***");
-        @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
-        @NotNull final List<ProjectDTO> projects = bootstrap.getProjectService().findByUserId(userDTO.getId());
+        @NotNull final UserDTO userDTO = locator.getSession().getUser();
+        @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
         projects.forEach(System.out::println);
-        @NotNull final List<TaskDTO> tasks = bootstrap.getTaskService().findByProjectId(bootstrap.getScanner().nextLine());
+        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByProjectId(locator.getScanner().nextLine());
         if (tasks.isEmpty()) {
             System.out.println("Tasks not found");
             return;

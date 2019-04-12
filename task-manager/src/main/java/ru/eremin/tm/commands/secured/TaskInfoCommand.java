@@ -3,6 +3,7 @@ package ru.eremin.tm.commands.secured;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.TaskDTO;
@@ -19,8 +20,8 @@ public class TaskInfoCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_INFO;
 
-    public TaskInfoCommand(final @NotNull Bootstrap bootstrap) {
-        super(bootstrap);
+    public TaskInfoCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -36,10 +37,10 @@ public class TaskInfoCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         System.out.println("*** Please enter id ***");
-        @NotNull final UserDTO userDTO = bootstrap.getSession().getUser();
-        @NotNull final List<TaskDTO> tasks = bootstrap.getTaskService().findByUserId(userDTO.getId());
+        @NotNull final UserDTO userDTO = locator.getSession().getUser();
+        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByUserId(userDTO.getId());
         tasks.forEach(System.out::println);
-        @Nullable final TaskDTO task = bootstrap.getTaskService().findOne(bootstrap.getScanner().nextLine());
+        @Nullable final TaskDTO task = locator.getTaskService().findOne(locator.getScanner().nextLine());
         if (task == null) {
             System.out.println("*** Wrong Id ***");
             return;

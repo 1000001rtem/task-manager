@@ -1,7 +1,7 @@
 package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 
@@ -14,8 +14,8 @@ public class ProjectClearCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.PROJECT_CLEAR;
 
-    public ProjectClearCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public ProjectClearCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ProjectClearCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        bootstrap.getProjectService().removeAll(bootstrap.getSession().getUser().getId());
+        locator.getProjectService().removeAll(locator.getSession().getUser().getId());
     }
 
 }

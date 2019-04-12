@@ -2,6 +2,7 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 
@@ -14,8 +15,8 @@ public class UserInfoCommand extends AbstractTerminalCommand {
     @NotNull
     private final static CommandEnum command = CommandEnum.USER_INFO;
 
-    public UserInfoCommand(@NotNull final Bootstrap bootstrap) {
-        super(bootstrap);
+    public UserInfoCommand(@NotNull final ServiceLocator locator) {
+        super(locator);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class UserInfoCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        System.out.println(bootstrap.getSession().getUser());
+        System.out.println(locator.getSession().getUser());
     }
 
 }
