@@ -13,6 +13,7 @@ public enum CommandEnum {
     EXIT("exit", "Exit"),
     AUTHORIZATION("auth", "Authorization"),
     LOGOUT("logout", "Logout"),
+    ABOUT("about", "About App"),
 
     DATA_BEAN_LOAD("data_bean_load", "Load data from binary file"),
     DATA_BEAN_SAVE("data_bean_save", "Save data to binary file"),

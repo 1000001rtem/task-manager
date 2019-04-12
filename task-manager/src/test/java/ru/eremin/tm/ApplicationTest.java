@@ -1,5 +1,6 @@
 package ru.eremin.tm;
 
+import com.jcabi.manifests.Manifests;
 import org.junit.Test;
 import ru.eremin.tm.utils.DateUtils;
 
@@ -40,6 +41,12 @@ public class ApplicationTest {
         for (final String rightDate : rightDates) {
             assertTrue(rightDate.matches(DateUtils.DATE_REGEX));
         }
+    }
+
+    @Test
+    public void manifestReadTest() {
+        String created = Manifests.read("Build-Jdk");
+        System.out.println(created);
     }
 
 }

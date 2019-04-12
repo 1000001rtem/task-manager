@@ -1,20 +1,21 @@
-package ru.eremin.tm.commands;
+package ru.eremin.tm.commands.secured;
 
+import com.jcabi.manifests.Manifests;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 
 /**
- * @autor av.eremin on 10.04.2019.
+ * @autor av.eremin on 12.04.2019.
  */
 
-public class HelpCommand extends AbstractTerminalCommand {
+public class AboutCommand extends AbstractTerminalCommand {
 
     @NotNull
-    private static final CommandEnum command = CommandEnum.HELP;
+    private static final CommandEnum command = CommandEnum.ABOUT;
 
-    public HelpCommand(@NotNull final ServiceLocator locator) {
+    public AboutCommand(@NotNull final ServiceLocator locator) {
         super(locator);
         this.isSecured = false;
     }
@@ -31,9 +32,8 @@ public class HelpCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        for (final CommandEnum command : CommandEnum.values()) {
-            System.out.println(command.getName() + ": " + command.getDescription());
-        }
+        String created = Manifests.read("Build-Jdk");
+        System.out.println("Build-version: " + created);
     }
 
 }

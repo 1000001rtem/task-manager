@@ -41,7 +41,7 @@ import java.util.Scanner;
  */
 
 @Getter
-public class Bootstrap implements ServiceLocator{
+public class Bootstrap implements ServiceLocator {
 
     @NotNull
     private final IProjectService projectService;
@@ -132,6 +132,7 @@ public class Bootstrap implements ServiceLocator{
         final AbstractTerminalCommand userChangePasswordCommand = new UserChangePasswordCommand(this);
         final AbstractTerminalCommand userInfoCommand = new UserInfoCommand(this);
         final AbstractTerminalCommand userUpdateCommand = new UserUpdateCommand(this);
+        final AbstractTerminalCommand aboutCommand = new AboutCommand(this);
 
         commands.put(helpCommand.getName(), helpCommand);
         commands.put(exitCommand.getName(), exitCommand);
@@ -152,6 +153,7 @@ public class Bootstrap implements ServiceLocator{
         commands.put(userChangePasswordCommand.getName(), userChangePasswordCommand);
         commands.put(userInfoCommand.getName(), userInfoCommand);
         commands.put(userUpdateCommand.getName(), userUpdateCommand);
+        commands.put(aboutCommand.getName(), aboutCommand);
     }
 
 
@@ -181,6 +183,7 @@ public class Bootstrap implements ServiceLocator{
         }
         if (nextLine.startsWith(CommandEnum.USER_INFO.toString())) return CommandEnum.USER_INFO.toString();
         if (nextLine.startsWith(CommandEnum.USER_UPDATE.toString())) return CommandEnum.USER_UPDATE.toString();
+        if (nextLine.startsWith(CommandEnum.ABOUT.toString())) return CommandEnum.ABOUT.toString();
         return null;
     }
 
