@@ -3,6 +3,8 @@ package ru.eremin.tm.commands;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.commands.base.AbstractTerminalCommand;
+import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.entity.session.Session;
 import ru.eremin.tm.utils.ConsoleHelper;
 import ru.eremin.tm.utils.Utils;
@@ -18,6 +20,7 @@ public class AuthorizationCommand extends AbstractTerminalCommand {
 
     public AuthorizationCommand(@NotNull final Bootstrap bootstrap) {
         super(bootstrap);
+        this.isSecured = false;
     }
 
     @Override

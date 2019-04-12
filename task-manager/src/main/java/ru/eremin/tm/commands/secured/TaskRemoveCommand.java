@@ -1,7 +1,9 @@
-package ru.eremin.tm.commands;
+package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.commands.base.AbstractTerminalCommand;
+import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.TaskDTO;
 
 import java.util.List;
@@ -10,12 +12,12 @@ import java.util.List;
  * @autor av.eremin on 10.04.2019.
  */
 
-public class TaskShowAllCommand extends AbstractTerminalCommand {
+public class TaskRemoveCommand extends AbstractTerminalCommand {
 
     @NotNull
-    private static final CommandEnum command = CommandEnum.TASK_LIST;
+    private static final CommandEnum command = CommandEnum.TASK_REMOVE;
 
-    public TaskShowAllCommand(final @NotNull Bootstrap bootstrap) {
+    public TaskRemoveCommand(@NotNull final Bootstrap bootstrap) {
         super(bootstrap);
     }
 
@@ -31,8 +33,12 @@ public class TaskShowAllCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
+        System.out.println("*** Please enter id ***");
         @NotNull final List<TaskDTO> tasks = bootstrap.getTaskService().findAll();
         tasks.forEach(System.out::println);
+        if (!bootstrap.getTaskService().remove(bootstrap.getScanner().nextLine())) {
+            System.out.println("*** Wrong id ***");
+        }
     }
 
 }

@@ -2,6 +2,8 @@ package ru.eremin.tm.commands;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.commands.base.AbstractTerminalCommand;
+import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.Role;
 import ru.eremin.tm.utils.ConsoleHelper;
@@ -18,6 +20,7 @@ public class UserRegistrationCommand extends AbstractTerminalCommand {
 
     public UserRegistrationCommand(@NotNull final Bootstrap bootstrap) {
         super(bootstrap);
+        this.isSecured = false;
     }
 
     @Override

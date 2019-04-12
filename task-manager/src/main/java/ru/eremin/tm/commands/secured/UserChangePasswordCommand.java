@@ -1,7 +1,9 @@
-package ru.eremin.tm.commands;
+package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.commands.base.AbstractTerminalCommand;
+import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.utils.ConsoleHelper;
 import ru.eremin.tm.utils.Utils;

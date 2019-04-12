@@ -1,18 +1,20 @@
-package ru.eremin.tm.commands;
+package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.commands.base.AbstractTerminalCommand;
+import ru.eremin.tm.commands.base.CommandEnum;
 
 /**
  * @autor av.eremin on 12.04.2019.
  */
 
-public class LogoutCommand extends AbstractTerminalCommand {
+public class UserInfoCommand extends AbstractTerminalCommand {
 
     @NotNull
-    private static final CommandEnum command = CommandEnum.LOGOUT;
+    private final static CommandEnum command = CommandEnum.USER_INFO;
 
-    public LogoutCommand(@NotNull final Bootstrap bootstrap) {
+    public UserInfoCommand(@NotNull final Bootstrap bootstrap) {
         super(bootstrap);
     }
 
@@ -28,8 +30,7 @@ public class LogoutCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        bootstrap.setSession(null);
-        System.out.println("*** Session stop ***");
+        System.out.println(bootstrap.getSession().getUser());
     }
 
 }

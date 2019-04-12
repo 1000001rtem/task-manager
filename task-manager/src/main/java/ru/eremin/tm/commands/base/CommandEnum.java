@@ -1,4 +1,4 @@
-package ru.eremin.tm.commands;
+package ru.eremin.tm.commands.base;
 
 import lombok.Getter;
 

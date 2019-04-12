@@ -1,5 +1,6 @@
-package ru.eremin.tm.commands;
+package ru.eremin.tm.commands.base;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
 
@@ -9,6 +10,9 @@ import ru.eremin.tm.bootstrap.Bootstrap;
  */
 
 public abstract class AbstractTerminalCommand {
+
+    @Getter
+    protected boolean isSecured = true;
 
     @NotNull
     protected Bootstrap bootstrap;

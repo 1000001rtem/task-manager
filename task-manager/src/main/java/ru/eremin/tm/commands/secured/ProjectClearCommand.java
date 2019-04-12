@@ -1,18 +1,20 @@
-package ru.eremin.tm.commands;
+package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
+import ru.eremin.tm.commands.base.AbstractTerminalCommand;
+import ru.eremin.tm.commands.base.CommandEnum;
 
 /**
  * @autor av.eremin on 10.04.2019.
  */
 
-public class TaskClearCommand extends AbstractTerminalCommand {
+public class ProjectClearCommand extends AbstractTerminalCommand {
 
     @NotNull
-    private static final CommandEnum command = CommandEnum.TASK_CLEAR;
+    private static final CommandEnum command = CommandEnum.PROJECT_CLEAR;
 
-    public TaskClearCommand(@NotNull final Bootstrap bootstrap) {
+    public ProjectClearCommand(@NotNull final Bootstrap bootstrap) {
         super(bootstrap);
     }
 
@@ -28,7 +30,7 @@ public class TaskClearCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        bootstrap.getTaskService().removeAll();
+        bootstrap.getProjectService().removeAll();
     }
 
 }
