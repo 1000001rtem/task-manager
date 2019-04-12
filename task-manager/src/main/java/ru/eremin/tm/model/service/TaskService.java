@@ -103,7 +103,7 @@ public class TaskService implements ITaskService {
 
     @Override
     public void removeAll(@Nullable final String userId) {
-        if(userId == null || userId.isEmpty()) return;
+        if (userId == null || userId.isEmpty()) return;
         taskRepository.removeAll(userId);
     }
 

@@ -91,7 +91,7 @@ public class Bootstrap {
             final AbstractTerminalCommand command = commands.get(answer);
             if (command == null) commands.get(CommandEnum.HELP.getName()).execute();
             else {
-                if(command.isSecured() && session == null) System.out.println("*** Please log in ***");
+                if (command.isSecured() && session == null) System.out.println("*** Please log in ***");
                 else command.execute();
             }
         }
