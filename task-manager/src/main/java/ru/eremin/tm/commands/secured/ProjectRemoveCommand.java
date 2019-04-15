@@ -34,7 +34,7 @@ public class ProjectRemoveCommand extends AbstractTerminalCommand {
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         System.out.println("*** Please enter id ***");
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
-        @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
+        @NotNull final List<ProjectDTO> projects = locator.getProjectService().findAll(userDTO.getId());
         projects.forEach(System.out::println);
         if (!locator.getProjectService().remove(consoleService.getNextLine())) {
             System.out.println("*** Wrong Id ***");

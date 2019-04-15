@@ -3,9 +3,11 @@ package ru.eremin.tm.model.entity.base;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
@@ -20,5 +22,8 @@ public abstract class AbstractEntity implements Serializable {
 
     @Nullable
     protected String id;
+
+    @NotNull
+    protected Date createDate = new Date();
 
 }

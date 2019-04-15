@@ -3,12 +3,12 @@ package ru.eremin.tm.model;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import ru.eremin.tm.config.EntityFactory;
 import ru.eremin.tm.config.Order;
 import ru.eremin.tm.config.OrderedRunner;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.repository.ProjectRepository;
 import ru.eremin.tm.model.repository.TaskRepository;
 import ru.eremin.tm.model.repository.UserRepository;
@@ -21,9 +21,6 @@ import ru.eremin.tm.model.service.UserService;
 import ru.eremin.tm.model.service.api.IProjectService;
 import ru.eremin.tm.model.service.api.ITaskService;
 import ru.eremin.tm.model.service.api.IUserService;
-import ru.eremin.tm.utils.Utils;
-
-import java.util.Date;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -45,25 +42,11 @@ public class ModelTest {
 
     @BeforeClass
     public static void before() {
-        userDTO = new UserDTO();
-        userDTO.setLogin("testLogin");
-        userDTO.setHashPassword(Utils.getHash("testPassword"));
-        userDTO.setRole(Role.USER);
+        userDTO = EntityFactory.getUser();
 
-        projectDTO = new ProjectDTO();
-        projectDTO.setName("testProject");
-        projectDTO.setDescription("testProjectDescription");
-        projectDTO.setStartDate(new Date());
-        projectDTO.setEndDate(new Date());
-        projectDTO.setUserId(userDTO.getId());
+        projectDTO = EntityFactory.getProject(userDTO);
 
-        taskDTO = new TaskDTO();
-        taskDTO.setName("testTask");
-        taskDTO.setDescription("testTaskDescription");
-        taskDTO.setStartDate(new Date());
-        taskDTO.setEndDate(new Date());
-        taskDTO.setProjectId(projectDTO.getId());
-        taskDTO.setUserId(userDTO.getId());
+        taskDTO = EntityFactory.getTask(projectDTO, userDTO);
 
         final IProjectRepository projectRepository = new ProjectRepository();
         final ITaskRepository taskRepository = new TaskRepository();
@@ -77,16 +60,16 @@ public class ModelTest {
     @Order(order = 1)
     public void insertTest() {
         final int beforeUsersSize = userService.findAll().size();
-        final int beforeProjectsSize = projectService.findAll().size();
-        final int beforeTasksSize = taskService.findAll().size();
+        final int beforeProjectsSize = projectService.findAll(userDTO.getId()).size();
+        final int beforeTasksSize = taskService.findAll(userDTO.getId()).size();
 
         userService.persist(userDTO);
         projectService.persist(projectDTO);
         taskService.persist(taskDTO);
 
         assertEquals(beforeUsersSize + 1, userService.findAll().size());
-        assertEquals(beforeProjectsSize + 1, projectService.findAll().size());
-        assertEquals(beforeTasksSize + 1, taskService.findAll().size());
+        assertEquals(beforeProjectsSize + 1, projectService.findAll(userDTO.getId()).size());
+        assertEquals(beforeTasksSize + 1, taskService.findAll(userDTO.getId()).size());
     }
 
     @Test
@@ -95,10 +78,10 @@ public class ModelTest {
         assertEquals(userDTO.getId(), userService.findOne(userDTO.getId()).getId());
         assertEquals(userDTO.getId(), userService.findByLogin(userDTO.getLogin()).getId());
         assertEquals(projectDTO.getId(), projectService.findOne(projectDTO.getId()).getId());
-        assertNotNull(projectService.findByUserId(userDTO.getId()));
+        assertNotNull(projectService.findAll(userDTO.getId()));
         assertEquals(taskDTO.getId(), taskService.findOne(taskDTO.getId()).getId());
         assertNotNull(taskService.findByProjectId(projectDTO.getId()));
-        assertNotNull(taskService.findByUserId(userDTO.getId()));
+        assertNotNull(taskService.findAll(userDTO.getId()));
     }
 
     @Test
@@ -130,23 +113,11 @@ public class ModelTest {
     @Test
     @Order(order = 4)
     public void mergeTest() {
-        final UserDTO userDTO1 = new UserDTO();
-        userDTO1.setLogin("testUser");
-        userDTO1.setHashPassword(Utils.getHash("testPassword"));
-        userDTO1.setRole(Role.USER);
+        final UserDTO userDTO1 = EntityFactory.getUser();
 
-        final ProjectDTO projectDTO1 = new ProjectDTO();
-        projectDTO1.setName("testProject");
-        projectDTO1.setDescription("testProjectDescription");
-        projectDTO1.setStartDate(new Date());
-        projectDTO1.setEndDate(new Date());
+        final ProjectDTO projectDTO1 = EntityFactory.getProject(userDTO1);
 
-        final TaskDTO taskDTO1 = new TaskDTO();
-        taskDTO1.setName("testTask");
-        taskDTO1.setDescription("testTaskDescription");
-        taskDTO1.setStartDate(new Date());
-        taskDTO1.setEndDate(new Date());
-        taskDTO1.setProjectId(projectDTO1.getId());
+        final TaskDTO taskDTO1 = EntityFactory.getTask(projectDTO1, userDTO1);
 
         userService.merge(userDTO1);
         projectService.merge(projectDTO1);
@@ -174,16 +145,16 @@ public class ModelTest {
     @Order(order = 5)
     public void deleteTest() {
         final int beforeUsersSize = userService.findAll().size();
-        final int beforeProjectsSize = projectService.findAll().size();
-        final int beforeTasksSize = taskService.findAll().size();
+        final int beforeProjectsSize = projectService.findAll(userDTO.getId()).size();
+        final int beforeTasksSize = taskService.findAll(userDTO.getId()).size();
 
         userService.remove(userDTO.getId());
         projectService.remove(projectDTO.getId());
         taskService.remove(taskDTO.getId());
 
         assertEquals(beforeUsersSize - 1, userService.findAll().size());
-        assertEquals(beforeProjectsSize - 1, projectService.findAll().size());
-        assertEquals(beforeTasksSize - 1, taskService.findAll().size());
+        assertEquals(beforeProjectsSize - 1, projectService.findAll(userDTO.getId()).size());
+        assertEquals(beforeTasksSize - 1, taskService.findAll(userDTO.getId()).size());
     }
 
 }

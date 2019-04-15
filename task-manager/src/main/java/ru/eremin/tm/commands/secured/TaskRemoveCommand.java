@@ -33,7 +33,7 @@ public class TaskRemoveCommand extends AbstractTerminalCommand {
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         System.out.println("*** Please enter id ***");
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
-        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByUserId(userDTO.getId());
+        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findAll(userDTO.getId());
         tasks.forEach(System.out::println);
         if (!locator.getTaskService().remove(consoleService.getNextLine())) {
             System.out.println("*** Wrong id ***");

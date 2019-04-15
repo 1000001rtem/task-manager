@@ -63,7 +63,7 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
         do {
             System.out.println("*** Please write project id ***");
             @NotNull final UserDTO userDTO = locator.getSession().getUser();
-            @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
+            @NotNull final List<ProjectDTO> projects = locator.getProjectService().findAll(userDTO.getId());
             projects.forEach(System.out::println);
             flag = true;
             id = consoleService.getNextLine();

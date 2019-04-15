@@ -30,7 +30,7 @@ public class ProjectShowAllCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
-        @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
+        @NotNull final List<ProjectDTO> projects = locator.getProjectService().findAll(userDTO.getId());
         projects.forEach(System.out::println);
     }
 }

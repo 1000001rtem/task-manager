@@ -2,13 +2,14 @@ package ru.eremin.tm.model;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ru.eremin.tm.config.EntityFactory;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.Project;
-import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.entity.Task;
 import ru.eremin.tm.model.entity.User;
+import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.repository.ProjectRepository;
 import ru.eremin.tm.model.repository.TaskRepository;
 import ru.eremin.tm.model.repository.UserRepository;
@@ -78,25 +79,11 @@ public class MappingEntityTest {
         task.setProjectId(project.getId());
         task.setUserId(user.getId());
 
-        userDTO = new UserDTO();
-        userDTO.setLogin("testLoginDTO");
-        userDTO.setHashPassword(Utils.getHash("testPasswordDTO"));
-        userDTO.setRole(Role.USER);
+        userDTO = EntityFactory.getUser();
 
-        projectDTO = new ProjectDTO();
-        projectDTO.setName("testProjectDTO");
-        projectDTO.setDescription("bcvjfkjdg");
-        projectDTO.setStartDate(new Date());
-        projectDTO.setEndDate(new Date());
-        projectDTO.setUserId(userDTO.getId());
+        projectDTO = EntityFactory.getProject(userDTO);
 
-        taskDTO = new TaskDTO();
-        taskDTO.setName("testTaskDTO");
-        taskDTO.setDescription("fdhfgdfig");
-        taskDTO.setStartDate(new Date());
-        taskDTO.setEndDate(new Date());
-        taskDTO.setProjectId(projectDTO.getId());
-        taskDTO.setUserId(userDTO.getId());
+        taskDTO = EntityFactory.getTask(projectDTO, userDTO);
     }
 
     @Test

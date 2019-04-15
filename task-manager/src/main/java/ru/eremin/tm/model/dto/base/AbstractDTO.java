@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -21,5 +22,8 @@ public abstract class AbstractDTO implements Serializable {
 
     @NotNull
     protected String id = UUID.randomUUID().toString();
+
+    @NotNull
+    protected Date createDate = new Date();
 
 }

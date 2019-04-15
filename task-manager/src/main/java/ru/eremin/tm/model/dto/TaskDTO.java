@@ -33,6 +33,7 @@ public class TaskDTO extends BaseDTO implements Serializable {
         if (task.getProjectId() != null && !task.getProjectId().isEmpty()) this.projectId = task.getProjectId();
         if (task.getUserId() != null && !task.getUserId().isEmpty()) this.userId = task.getUserId();
         if (task.getStatus() != null) this.status = task.getStatus();
+        this.createDate = task.getCreateDate();
     }
 
     public String info() {
@@ -40,10 +41,12 @@ public class TaskDTO extends BaseDTO implements Serializable {
                 "{id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", projectId='" + projectId + '\'' +
                 ", userId='" + userId + '\'' +
+                ", createDate='" + createDate + '\'' +
                 '}';
     }
 
@@ -51,6 +54,7 @@ public class TaskDTO extends BaseDTO implements Serializable {
     public String toString() {
         return "{id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
                 ", projectId='" + projectId + '\'' +
                 ", userId='" + userId + '\'' +
                 '}';

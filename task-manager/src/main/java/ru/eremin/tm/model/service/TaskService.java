@@ -3,11 +3,14 @@ package ru.eremin.tm.model.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.model.dto.base.AbstractDTO;
+import ru.eremin.tm.model.dto.base.BaseDTO;
 import ru.eremin.tm.model.entity.Task;
 import ru.eremin.tm.model.repository.api.ITaskRepository;
 import ru.eremin.tm.model.service.api.ITaskService;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,15 +47,6 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    @NotNull
-    public List<TaskDTO> findAll() {
-        return taskRepository.findAll()
-                .stream()
-                .map(TaskDTO::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     @Nullable
     public TaskDTO findOne(@Nullable final String id) {
         if (id == null || id.isEmpty()) return null;
@@ -63,7 +57,7 @@ public class TaskService implements ITaskService {
 
     @Override
     @NotNull
-    public List<TaskDTO> findByUserId(@Nullable final String userId) {
+    public List<TaskDTO> findAll(@Nullable final String userId) {
         if (userId == null || userId.isEmpty()) return Collections.emptyList();
         return taskRepository.findByUserId(userId)
                 .stream()
@@ -114,6 +108,34 @@ public class TaskService implements ITaskService {
     }
 
     @Override
+    public List<TaskDTO> findAllSortedByCreateDate(@Nullable final String userId) {
+        @NotNull final List<TaskDTO> tasks = findAll(userId);
+        tasks.sort(Comparator.comparing(AbstractDTO::getCreateDate));
+        return tasks;
+    }
+
+    @Override
+    public List<TaskDTO> findAllSortedByStartDate(@Nullable final String userId) {
+        @NotNull final List<TaskDTO> tasks = findAll(userId);
+        tasks.sort(Comparator.comparing(BaseDTO::getStartDate));
+        return tasks;
+    }
+
+    @Override
+    public List<TaskDTO> findAllSortedByEndDate(@Nullable final String userId) {
+        @NotNull final List<TaskDTO> tasks = findAll(userId);
+        tasks.sort(Comparator.comparing(BaseDTO::getEndDate));
+        return tasks;
+    }
+
+    @Override
+    public List<TaskDTO> findAllSortedByStatus(@Nullable final String userId) {
+        @NotNull final List<TaskDTO> tasks = findAll(userId);
+        tasks.sort(Comparator.comparing(BaseDTO::getStatus));
+        return tasks;
+    }
+
+    @Override
     @NotNull
     public Task getEntity(@NotNull final TaskDTO taskDTO) {
         @NotNull final Task task = new Task();
@@ -129,6 +151,7 @@ public class TaskService implements ITaskService {
         }
         if (taskDTO.getUserId() != null && !taskDTO.getUserId().isEmpty()) task.setUserId(taskDTO.getUserId());
         task.setStatus(taskDTO.getStatus());
+        task.setCreateDate(taskDTO.getCreateDate());
         return task;
     }
 

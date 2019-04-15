@@ -30,7 +30,7 @@ public class TaskShowAllCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
-        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByUserId(userDTO.getId());
+        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findAll(userDTO.getId());
         tasks.forEach(System.out::println);
     }
 

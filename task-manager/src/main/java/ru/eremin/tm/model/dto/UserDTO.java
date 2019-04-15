@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.base.AbstractDTO;
-import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.entity.User;
+import ru.eremin.tm.model.entity.enumerated.Role;
 
 import java.io.Serializable;
 

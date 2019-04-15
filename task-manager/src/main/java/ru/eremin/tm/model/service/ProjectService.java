@@ -3,12 +3,15 @@ package ru.eremin.tm.model.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.ProjectDTO;
+import ru.eremin.tm.model.dto.base.AbstractDTO;
+import ru.eremin.tm.model.dto.base.BaseDTO;
 import ru.eremin.tm.model.entity.Project;
 import ru.eremin.tm.model.repository.api.IProjectRepository;
 import ru.eremin.tm.model.service.api.IProjectService;
 import ru.eremin.tm.model.service.api.ITaskService;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,15 +34,6 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    @NotNull
-    public List<ProjectDTO> findAll() {
-        return projectRepository.findAll()
-                .stream()
-                .map(ProjectDTO::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     @Nullable
     public ProjectDTO findOne(@Nullable final String id) {
         if (id == null || id.isEmpty()) return null;
@@ -50,7 +44,7 @@ public class ProjectService implements IProjectService {
 
     @Override
     @NotNull
-    public List<ProjectDTO> findByUserId(@Nullable final String userId) {
+    public List<ProjectDTO> findAll(@Nullable final String userId) {
         if (userId == null || userId.isEmpty()) return Collections.emptyList();
         return projectRepository.findByUserId(userId)
                 .stream()
@@ -102,6 +96,34 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
+    public List<ProjectDTO> findAllSortedByCreateDate(@Nullable final String userId) {
+        @NotNull final List<ProjectDTO> tasks = findAll(userId);
+        tasks.sort(Comparator.comparing(AbstractDTO::getCreateDate));
+        return tasks;
+    }
+
+    @Override
+    public List<ProjectDTO> findAllSortedByStartDate(@Nullable final String userId) {
+        @NotNull final List<ProjectDTO> tasks = findAll(userId);
+        tasks.sort(Comparator.comparing(BaseDTO::getStartDate));
+        return tasks;
+    }
+
+    @Override
+    public List<ProjectDTO> findAllSortedByEndDate(@Nullable final String userId) {
+        @NotNull final List<ProjectDTO> tasks = findAll(userId);
+        tasks.sort(Comparator.comparing(BaseDTO::getEndDate));
+        return tasks;
+    }
+
+    @Override
+    public List<ProjectDTO> findAllSortedByStatus(@Nullable final String userId) {
+        @NotNull final List<ProjectDTO> tasks = findAll(userId);
+        tasks.sort(Comparator.comparing(BaseDTO::getStatus));
+        return tasks;
+    }
+
+    @Override
     @NotNull
     public Project getEntity(@NotNull final ProjectDTO projectDTO) {
         @NotNull final Project project = new Project();
@@ -116,6 +138,7 @@ public class ProjectService implements IProjectService {
             project.setUserId(projectDTO.getUserId());
         }
         project.setStatus(projectDTO.getStatus());
+        project.setCreateDate(projectDTO.getCreateDate());
         return project;
     }
 

@@ -34,7 +34,7 @@ public class TaskShowInProjectCommand extends AbstractTerminalCommand {
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         System.out.println("*** Please enter project id ***");
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
-        @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
+        @NotNull final List<ProjectDTO> projects = locator.getProjectService().findAll(userDTO.getId());
         projects.forEach(System.out::println);
         @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByProjectId(consoleService.getNextCommand());
         if (tasks.isEmpty()) {
