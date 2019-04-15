@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.commands.base.AbstractTerminalCommand;
-import ru.eremin.tm.commands.base.CommandEnum;
+import ru.eremin.tm.command.AbstractTerminalCommand;
 import ru.eremin.tm.exeption.IncorrectCommandException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
@@ -72,6 +71,7 @@ public class Bootstrap implements ServiceLocator {
     private ConsoleService consoleService;
 
     @NotNull
+    @Getter
     private final Map<String, AbstractTerminalCommand> commands;
 
     public Bootstrap() {
@@ -97,10 +97,11 @@ public class Bootstrap implements ServiceLocator {
         initUsers();
         System.out.println("*** WELCOME TO TASK MANAGER ***");
         while (true) {
-            final AbstractTerminalCommand command;
-            final String answer = consoleService.getNextCommand();
-            if (answer == null) command = commands.get(CommandEnum.HELP.getName());
+            AbstractTerminalCommand command;
+            final String answer = consoleService.getNextLine();
+            if (answer == null) command = commands.get("help");
             else command = commands.get(answer);
+            if (command == null) command = commands.get("help");
             if (command.isSecured() && session == null) System.out.println("*** Please log in ***");
             else command.execute();
         }
@@ -123,7 +124,7 @@ public class Bootstrap implements ServiceLocator {
 
     private AbstractTerminalCommand initCommand(@NotNull final Class<AbstractTerminalCommand> commandClass) {
         if (!commandClass.getSuperclass().equals(AbstractTerminalCommand.class)) {
-            throw new IncorrectCommandException("commands super class is not AbstractTerminalCommand");
+            throw new IncorrectCommandException("command super class is not AbstractTerminalCommand");
         }
         try {
             @NotNull final AbstractTerminalCommand command = commandClass.newInstance();
@@ -132,17 +133,6 @@ public class Bootstrap implements ServiceLocator {
             e.printStackTrace();
             throw new IncorrectCommandException(e);
         }
-    }
-
-
-    @Nullable
-    private String parseLine(@Nullable final String nextLine) {
-        if (nextLine == null || nextLine.isEmpty()) return null;
-
-        for (final CommandEnum commandEnum : CommandEnum.values()) {
-            if (nextLine.startsWith(commandEnum.toString())) return commandEnum.toString();
-        }
-        return null;
     }
 
 }

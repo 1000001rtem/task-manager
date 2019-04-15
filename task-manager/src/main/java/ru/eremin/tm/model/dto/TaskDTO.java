@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.model.dto.base.BaseDTO;
 import ru.eremin.tm.model.entity.Task;
 
 import java.io.Serializable;

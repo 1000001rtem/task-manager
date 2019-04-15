@@ -1,5 +1,6 @@
 package ru.eremin.tm.bootstrap;
 
+import ru.eremin.tm.command.AbstractTerminalCommand;
 import ru.eremin.tm.model.entity.session.Session;
 import ru.eremin.tm.model.service.ConsoleService;
 import ru.eremin.tm.model.service.api.IProjectService;
@@ -7,6 +8,8 @@ import ru.eremin.tm.model.service.api.ITaskService;
 import ru.eremin.tm.model.service.api.IUserService;
 import ru.eremin.tm.security.IAuthService;
 import ru.eremin.tm.security.IRegistrationService;
+
+import java.util.Map;
 
 /**
  * @autor av.eremin on 12.04.2019.
@@ -31,5 +34,7 @@ public interface ServiceLocator {
     void setSession(Session session);
 
     ConsoleService getConsoleService();
+
+    Map<String, AbstractTerminalCommand> getCommands();
 
 }

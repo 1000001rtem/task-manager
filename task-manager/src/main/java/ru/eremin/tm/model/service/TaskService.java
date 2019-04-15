@@ -2,9 +2,9 @@ package ru.eremin.tm.model.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.dto.AbstractDTO;
+import ru.eremin.tm.model.dto.BaseDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
-import ru.eremin.tm.model.dto.base.AbstractDTO;
-import ru.eremin.tm.model.dto.base.BaseDTO;
 import ru.eremin.tm.model.entity.Task;
 import ru.eremin.tm.model.repository.api.ITaskRepository;
 import ru.eremin.tm.model.service.api.ITaskService;

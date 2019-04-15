@@ -3,7 +3,6 @@ package ru.eremin.tm.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.eremin.tm.model.entity.base.BaseEntity;
 
 import java.io.Serializable;
 

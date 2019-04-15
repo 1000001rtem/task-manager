@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.model.entity.base.AbstractEntity;
+import ru.eremin.tm.model.entity.AbstractEntity;
 
 import java.util.UUID;
 

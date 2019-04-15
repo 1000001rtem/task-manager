@@ -2,8 +2,8 @@ package ru.eremin.tm;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
-import ru.eremin.tm.commands.*;
-import ru.eremin.tm.commands.secured.*;
+import ru.eremin.tm.command.secured.*;
+import ru.eremin.tm.command.system.*;
 
 public class Application {
 

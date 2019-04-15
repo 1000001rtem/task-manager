@@ -2,7 +2,6 @@ package ru.eremin.tm.model.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.utils.DateUtils;
 
 import java.text.DateFormat;
@@ -26,19 +25,6 @@ public class ConsoleService {
 
     public String getNextLine() {
         return scanner.nextLine();
-    }
-
-    public String getNextCommand() {
-        return parseLine(scanner.nextLine());
-    }
-
-    private String parseLine(@Nullable final String nextLine) {
-        if (nextLine == null || nextLine.isEmpty()) return null;
-
-        for (final CommandEnum commandEnum : CommandEnum.values()) {
-            if (nextLine.startsWith(commandEnum.toString())) return commandEnum.toString();
-        }
-        return null;
     }
 
     @NotNull
