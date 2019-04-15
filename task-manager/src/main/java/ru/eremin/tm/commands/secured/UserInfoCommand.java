@@ -14,10 +14,6 @@ public class UserInfoCommand extends AbstractTerminalCommand {
     @NotNull
     private final static CommandEnum command = CommandEnum.USER_INFO;
 
-    public UserInfoCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
-
     @Override
     public String getName() {
         return command.getName();

@@ -18,10 +18,6 @@ public class TaskShowAllCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_LIST;
 
-    public TaskShowAllCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
-
     @Override
     public String getName() {
         return command.getName();

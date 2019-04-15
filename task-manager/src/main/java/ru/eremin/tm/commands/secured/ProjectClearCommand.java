@@ -14,10 +14,6 @@ public class ProjectClearCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.PROJECT_CLEAR;
 
-    public ProjectClearCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
-
     @Override
     public String getName() {
         return command.getName();

@@ -13,10 +13,6 @@ public class DataBeanCleanCommand extends AbstractTerminalCommand {
 
     private static final CommandEnum command = CommandEnum.DATA_BEAN_CLEAN;
 
-    public DataBeanCleanCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
-
     @Override
     public String getName() {
         return command.getName();

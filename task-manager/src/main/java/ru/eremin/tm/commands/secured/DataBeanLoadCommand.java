@@ -13,10 +13,6 @@ public class DataBeanLoadCommand extends AbstractTerminalCommand {
 
     private static final CommandEnum command = CommandEnum.DATA_BEAN_LOAD;
 
-    public DataBeanLoadCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
-
     @Override
     public String getName() {
         return command.getName();

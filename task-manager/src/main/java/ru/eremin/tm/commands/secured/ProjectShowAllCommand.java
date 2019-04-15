@@ -18,10 +18,6 @@ public class ProjectShowAllCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.PROJECT_LIST;
 
-    public ProjectShowAllCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
-
     @Override
     public String getName() {
         return command.getName();

@@ -6,6 +6,7 @@ import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.UserDTO;
+import ru.eremin.tm.model.service.ConsoleService;
 
 import java.util.List;
 
@@ -17,10 +18,6 @@ public class ProjectInfoCommand extends AbstractTerminalCommand {
 
     @NotNull
     private static final CommandEnum command = CommandEnum.PROJECT_INFO;
-
-    public ProjectInfoCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
 
     @Override
     public String getName() {
@@ -34,12 +31,13 @@ public class ProjectInfoCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
+        @NotNull final ConsoleService consoleService = locator.getConsoleService();
         System.out.println("*** Please enter id ***");
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
 
         @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
         projects.forEach(System.out::println);
-        @NotNull final ProjectDTO project = locator.getProjectService().findOne(locator.getScanner().nextLine());
+        @NotNull final ProjectDTO project = locator.getProjectService().findOne(consoleService.getNextLine());
         if (project == null) {
             System.out.println("*** Wrong Id ***");
             return;

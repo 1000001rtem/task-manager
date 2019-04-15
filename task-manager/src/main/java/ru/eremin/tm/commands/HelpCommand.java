@@ -14,8 +14,7 @@ public class HelpCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.HELP;
 
-    public HelpCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
+    public HelpCommand() {
         this.isSecured = false;
     }
 

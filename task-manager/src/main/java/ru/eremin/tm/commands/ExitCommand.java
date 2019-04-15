@@ -14,8 +14,7 @@ public class ExitCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.EXIT;
 
-    public ExitCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
+    public ExitCommand() {
         this.isSecured = false;
     }
 

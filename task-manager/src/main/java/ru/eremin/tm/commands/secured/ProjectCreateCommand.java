@@ -1,11 +1,10 @@
 package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
-import ru.eremin.tm.utils.ConsoleHelper;
+import ru.eremin.tm.model.service.ConsoleService;
 
 import java.util.Date;
 
@@ -17,10 +16,6 @@ public class ProjectCreateCommand extends AbstractTerminalCommand {
 
     @NotNull
     private static final CommandEnum command = CommandEnum.PROJECT_CREATE;
-
-    public ProjectCreateCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
 
     @Override
     public String getName() {
@@ -41,11 +36,11 @@ public class ProjectCreateCommand extends AbstractTerminalCommand {
 
     @NotNull
     private ProjectDTO getProject() {
-        @NotNull final ConsoleHelper helper = new ConsoleHelper(locator.getScanner());
-        @NotNull final String name = helper.getStringFieldFromConsole("Project name");
-        @NotNull final String description = helper.getStringFieldFromConsole("Project Description");
-        @NotNull final Date startDate = helper.getDateFieldFromConsole("Start date");
-        @NotNull final Date endDate = helper.getDateFieldFromConsole("End date");
+        @NotNull final ConsoleService consoleService = locator.getConsoleService();
+        @NotNull final String name = consoleService.getStringFieldFromConsole("Project name");
+        @NotNull final String description = consoleService.getStringFieldFromConsole("Project Description");
+        @NotNull final Date startDate = consoleService.getDateFieldFromConsole("Start date");
+        @NotNull final Date endDate = consoleService.getDateFieldFromConsole("End date");
         @NotNull final ProjectDTO project = new ProjectDTO();
         project.setName(name);
         project.setDescription(description);

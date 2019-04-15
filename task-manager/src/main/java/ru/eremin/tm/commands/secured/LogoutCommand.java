@@ -14,10 +14,6 @@ public class LogoutCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.LOGOUT;
 
-    public LogoutCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
-
     @Override
     public String getName() {
         return command.getName();

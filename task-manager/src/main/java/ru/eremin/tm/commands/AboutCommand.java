@@ -1,6 +1,7 @@
-package ru.eremin.tm.commands.secured;
+package ru.eremin.tm.commands;
 
 import com.jcabi.manifests.Manifests;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
@@ -15,8 +16,7 @@ public class AboutCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.ABOUT;
 
-    public AboutCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
+    public AboutCommand() {
         this.isSecured = false;
     }
 

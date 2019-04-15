@@ -13,10 +13,6 @@ public class DataBeanSaveCommand extends AbstractTerminalCommand {
 
     private static final CommandEnum command = CommandEnum.DATA_BEAN_SAVE;
 
-    public DataBeanSaveCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
-
     @Override
     public String getName() {
         return command.getName();

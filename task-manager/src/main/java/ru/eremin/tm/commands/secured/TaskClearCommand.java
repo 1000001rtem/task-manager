@@ -14,9 +14,6 @@ public class TaskClearCommand extends AbstractTerminalCommand {
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_CLEAR;
 
-    public TaskClearCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
 
     @Override
     public String getName() {

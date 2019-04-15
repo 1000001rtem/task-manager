@@ -1,6 +1,7 @@
 package ru.eremin.tm.bootstrap;
 
 import ru.eremin.tm.model.entity.session.Session;
+import ru.eremin.tm.model.service.ConsoleService;
 import ru.eremin.tm.model.service.api.IProjectService;
 import ru.eremin.tm.model.service.api.ITaskService;
 import ru.eremin.tm.model.service.api.IUserService;
@@ -15,7 +16,7 @@ import java.util.Scanner;
 
 public interface ServiceLocator {
 
-    void init();
+    void init(Class[] classes);
 
     IProjectService getProjectService();
 
@@ -27,10 +28,10 @@ public interface ServiceLocator {
 
     IRegistrationService getRegistrationService();
 
-    Scanner getScanner();
-
     Session getSession();
 
     void setSession(Session session);
+
+    ConsoleService getConsoleService();
 
 }

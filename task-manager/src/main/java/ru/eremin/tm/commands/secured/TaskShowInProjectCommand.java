@@ -7,6 +7,7 @@ import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.dto.UserDTO;
+import ru.eremin.tm.model.service.ConsoleService;
 
 import java.util.List;
 
@@ -18,10 +19,6 @@ public class TaskShowInProjectCommand extends AbstractTerminalCommand {
 
     @NotNull
     private static final CommandEnum command = CommandEnum.TASK_IN_PROJECT;
-
-    public TaskShowInProjectCommand(@NotNull final ServiceLocator locator) {
-        super(locator);
-    }
 
     @Override
     public String getName() {
@@ -35,11 +32,12 @@ public class TaskShowInProjectCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
+        @NotNull final ConsoleService consoleService = locator.getConsoleService();
         System.out.println("*** Please enter project id ***");
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
         @NotNull final List<ProjectDTO> projects = locator.getProjectService().findByUserId(userDTO.getId());
         projects.forEach(System.out::println);
-        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByProjectId(locator.getScanner().nextLine());
+        @NotNull final List<TaskDTO> tasks = locator.getTaskService().findByProjectId(consoleService.getNextCommand());
         if (tasks.isEmpty()) {
             System.out.println("Tasks not found");
             return;
