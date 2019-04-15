@@ -3,7 +3,9 @@ package ru.eremin.tm.model.dto.base;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.entity.enumerated.Status;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -30,6 +32,9 @@ public abstract class BaseDTO extends AbstractDTO implements Serializable {
 
     @Nullable
     protected Date endDate;
+
+    @NotNull
+    protected Status status = Status.PLANNED;
 
     @Nullable
     protected String userId;

@@ -115,6 +115,7 @@ public class ProjectService implements IProjectService {
         if (projectDTO.getUserId() != null && !projectDTO.getUserId().isEmpty()) {
             project.setUserId(projectDTO.getUserId());
         }
+        project.setStatus(projectDTO.getStatus());
         return project;
     }
 

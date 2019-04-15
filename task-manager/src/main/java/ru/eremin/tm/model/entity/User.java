@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.base.AbstractEntity;
+import ru.eremin.tm.model.entity.enumerated.Role;
 
 import java.io.Serializable;
 

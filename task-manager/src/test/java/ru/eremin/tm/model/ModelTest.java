@@ -8,7 +8,7 @@ import ru.eremin.tm.config.OrderedRunner;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.model.entity.Role;
+import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.repository.ProjectRepository;
 import ru.eremin.tm.model.repository.TaskRepository;
 import ru.eremin.tm.model.repository.UserRepository;

@@ -2,7 +2,7 @@ package ru.eremin.tm.security;
 
 import org.junit.Test;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.model.entity.Role;
+import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.repository.UserRepository;
 import ru.eremin.tm.model.repository.api.IUserRepository;
 import ru.eremin.tm.model.service.UserService;

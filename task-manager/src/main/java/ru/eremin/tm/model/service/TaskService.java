@@ -128,6 +128,7 @@ public class TaskService implements ITaskService {
             task.setProjectId(taskDTO.getProjectId());
         }
         if (taskDTO.getUserId() != null && !taskDTO.getUserId().isEmpty()) task.setUserId(taskDTO.getUserId());
+        task.setStatus(taskDTO.getStatus());
         return task;
     }
 

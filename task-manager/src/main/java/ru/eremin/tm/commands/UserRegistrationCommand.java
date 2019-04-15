@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.model.entity.Role;
+import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.service.ConsoleService;
 import ru.eremin.tm.utils.Utils;
 

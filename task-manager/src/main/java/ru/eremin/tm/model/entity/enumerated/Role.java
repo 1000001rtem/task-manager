@@ -1,4 +1,4 @@
-package ru.eremin.tm.model.entity;
+package ru.eremin.tm.model.entity.enumerated;
 
 import org.jetbrains.annotations.NotNull;
 

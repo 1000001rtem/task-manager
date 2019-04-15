@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.entity.enumerated.Status;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -30,6 +31,9 @@ public class BaseEntity extends AbstractEntity implements Serializable {
 
     @Nullable
     protected Date endDate;
+
+    @Nullable
+    protected Status status;
 
     @Nullable
     protected String userId;

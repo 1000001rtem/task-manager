@@ -6,7 +6,7 @@ import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.Project;
-import ru.eremin.tm.model.entity.Role;
+import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.entity.Task;
 import ru.eremin.tm.model.entity.User;
 import ru.eremin.tm.model.repository.ProjectRepository;
