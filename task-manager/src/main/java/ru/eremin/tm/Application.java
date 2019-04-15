@@ -17,7 +17,8 @@ public class Application {
             TaskRemoveCommand.class, TaskShowAllCommand.class, TaskShowInProjectCommand.class,
 
             ProjectCreateCommand.class, ProjectClearCommand.class, ProjectInfoCommand.class,
-            ProjectRemoveCommand.class, ProjectShowAllCommand.class,
+            ProjectRemoveCommand.class, ProjectShowAllCommand.class, ProjectSortByCreateDate.class,
+            ProjectSortByStartDate.class, ProjectSortByEndDate.class, ProjectSortByStartDate.class,
 
             DataBeanLoadCommand.class, DataBeanSaveCommand.class, DataBeanCleanCommand.class,
 
@@ -28,4 +29,5 @@ public class Application {
         @NotNull final Bootstrap bootstrap = new Bootstrap();
         bootstrap.init(CLASSES);
     }
+
 }

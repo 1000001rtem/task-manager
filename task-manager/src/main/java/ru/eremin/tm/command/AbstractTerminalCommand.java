@@ -9,6 +9,7 @@ import ru.eremin.tm.bootstrap.ServiceLocator;
 /**
  * @autor av.eremin on 10.04.2019.
  */
+
 @NoArgsConstructor
 public abstract class AbstractTerminalCommand {
 
@@ -21,9 +22,9 @@ public abstract class AbstractTerminalCommand {
 
     public abstract String getDescription();
 
-    public abstract void execute();
-
     public abstract void setSecured();
+
+    public abstract void execute();
 
     public void setLocator(@Nullable final ServiceLocator serviceLocator) {
         if (serviceLocator == null) throw new NullPointerException("ServiceLocator == null");
