@@ -2,7 +2,6 @@ package ru.eremin.tm.commands.base;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.bootstrap.ServiceLocator;
 
@@ -24,8 +23,8 @@ public abstract class AbstractTerminalCommand {
 
     public abstract void execute();
 
-    public void setLocator(@Nullable final ServiceLocator serviceLocator){
-        if(serviceLocator == null) throw new NullPointerException("ServiceLocator == null");
+    public void setLocator(@Nullable final ServiceLocator serviceLocator) {
+        if (serviceLocator == null) throw new NullPointerException("ServiceLocator == null");
         this.locator = serviceLocator;
     }
 

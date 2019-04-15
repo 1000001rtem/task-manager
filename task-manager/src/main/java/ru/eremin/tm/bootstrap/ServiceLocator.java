@@ -8,8 +8,6 @@ import ru.eremin.tm.model.service.api.IUserService;
 import ru.eremin.tm.security.IAuthService;
 import ru.eremin.tm.security.IRegistrationService;
 
-import java.util.Scanner;
-
 /**
  * @autor av.eremin on 12.04.2019.
  */

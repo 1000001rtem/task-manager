@@ -24,11 +24,11 @@ public class ConsoleService {
         this.scanner = scanner;
     }
 
-    public String getNextLine(){
+    public String getNextLine() {
         return scanner.nextLine();
     }
 
-    public String getNextCommand(){
+    public String getNextCommand() {
         return parseLine(scanner.nextLine());
     }
 
@@ -36,7 +36,7 @@ public class ConsoleService {
         if (nextLine == null || nextLine.isEmpty()) return null;
 
         for (final CommandEnum commandEnum : CommandEnum.values()) {
-            if(nextLine.startsWith(commandEnum.toString())) return commandEnum.toString();
+            if (nextLine.startsWith(commandEnum.toString())) return commandEnum.toString();
         }
         return null;
     }

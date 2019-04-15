@@ -10,7 +10,7 @@ public class IncorrectCommandException extends RuntimeException {
         super(s);
     }
 
-    public IncorrectCommandException(final Exception e){
+    public IncorrectCommandException(final Exception e) {
         super(e);
     }
 

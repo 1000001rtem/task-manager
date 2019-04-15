@@ -1,7 +1,6 @@
 package ru.eremin.tm.commands;
 
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 

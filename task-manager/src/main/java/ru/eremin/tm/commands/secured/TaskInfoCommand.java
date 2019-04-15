@@ -2,7 +2,6 @@ package ru.eremin.tm.commands.secured;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.model.dto.TaskDTO;

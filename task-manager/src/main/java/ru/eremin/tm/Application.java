@@ -3,12 +3,11 @@ package ru.eremin.tm;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.bootstrap.Bootstrap;
 import ru.eremin.tm.commands.*;
-import ru.eremin.tm.commands.base.CommandEnum;
 import ru.eremin.tm.commands.secured.*;
 
 public class Application {
 
-    private static final Class[] CLASSES= {
+    private static final Class[] CLASSES = {
             AboutCommand.class, HelpCommand.class, ExitCommand.class,
             AuthorizationCommand.class, UserRegistrationCommand.class,
 

@@ -1,9 +1,7 @@
 package ru.eremin.tm.commands;
 
 import com.jcabi.manifests.Manifests;
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.commands.base.AbstractTerminalCommand;
 import ru.eremin.tm.commands.base.CommandEnum;
 
