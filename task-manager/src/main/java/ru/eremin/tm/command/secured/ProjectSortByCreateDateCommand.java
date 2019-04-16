@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class ProjectSortByCreateDate extends AbstractTerminalCommand {
+public class ProjectSortByCreateDateCommand extends AbstractTerminalCommand {
 
     @Override
     public String getName() {
@@ -22,7 +22,7 @@ public class ProjectSortByCreateDate extends AbstractTerminalCommand {
 
     @Override
     public String getDescription() {
-        return "Project by create date";
+        return "Projects by create date";
     }
 
     @Override

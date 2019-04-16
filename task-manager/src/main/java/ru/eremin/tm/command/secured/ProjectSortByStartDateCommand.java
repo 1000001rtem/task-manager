@@ -13,16 +13,16 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class ProjectSortByEndDate extends AbstractTerminalCommand {
+public class ProjectSortByStartDateCommand extends AbstractTerminalCommand {
 
     @Override
     public String getName() {
-        return "project_sort_by_end";
+        return "project_sort_by_start";
     }
 
     @Override
     public String getDescription() {
-        return "Project by end date";
+        return "Projects by start date";
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ProjectSortByEndDate extends AbstractTerminalCommand {
     public void execute() {
         @NotNull final IProjectService projectService = locator.getProjectService();
         @NotNull final String userId = locator.getSession().getUser().getId();
-        @NotNull final List<ProjectDTO> projects = projectService.findAllSortedByEndDate(userId);
+        @NotNull final List<ProjectDTO> projects = projectService.findAllSortedByStartDate(userId);
         projects.forEach(System.out::println);
     }
 
