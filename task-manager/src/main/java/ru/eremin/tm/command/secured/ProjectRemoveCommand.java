@@ -3,6 +3,7 @@ package ru.eremin.tm.command.secured;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.command.AbstractTerminalCommand;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.service.ConsoleService;
@@ -32,15 +33,13 @@ public class ProjectRemoveCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws IncorrectDataException {
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         System.out.println("*** Please enter id ***");
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
         @NotNull final List<ProjectDTO> projects = locator.getProjectService().findAll(userDTO.getId());
         projects.forEach(System.out::println);
-        if (!locator.getProjectService().remove(consoleService.getNextLine())) {
-            System.out.println("*** Wrong Id ***");
-        }
+        locator.getProjectService().remove(consoleService.getNextLine());
     }
 
 }

@@ -2,6 +2,7 @@ package ru.eremin.tm.model.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.User;
 import ru.eremin.tm.model.repository.api.IUserRepository;
@@ -73,10 +74,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean remove(@Nullable final String id) {
-        if (id == null || id.isEmpty() || isExist(id)) return false;
+    public void remove(@Nullable final String id) throws IncorrectDataException {
+        if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
         userRepository.remove(id);
-        return false;
     }
 
     @Override

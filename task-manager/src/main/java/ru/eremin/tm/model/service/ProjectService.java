@@ -2,6 +2,7 @@ package ru.eremin.tm.model.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.AbstractDTO;
 import ru.eremin.tm.model.dto.BaseDTO;
 import ru.eremin.tm.model.dto.ProjectDTO;
@@ -75,11 +76,10 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public boolean remove(@Nullable final String id) {
-        if (id == null || id.isEmpty() || isExist(id)) return false;
+    public void remove(@Nullable final String id) throws IncorrectDataException {
+        if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
         projectRepository.remove(id);
         taskService.removeAllTasksInProject(id);
-        return true;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ProjectService implements IProjectService {
     @Override
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return true;
-        return projectRepository.findOne(id) == null;
+        return projectRepository.findOne(id) != null;
     }
 
     @Override

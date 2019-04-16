@@ -3,6 +3,7 @@ package ru.eremin.tm.command.secured;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.command.AbstractTerminalCommand;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.service.ConsoleService;
@@ -31,7 +32,7 @@ public class ProjectInfoCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws IncorrectDataException {
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         System.out.println("*** Please enter id ***");
         @NotNull final UserDTO userDTO = locator.getSession().getUser();
@@ -39,8 +40,7 @@ public class ProjectInfoCommand extends AbstractTerminalCommand {
         projects.forEach(System.out::println);
         @NotNull final ProjectDTO project = locator.getProjectService().findOne(consoleService.getNextLine());
         if (project == null) {
-            System.out.println("*** Wrong Id ***");
-            return;
+            throw new IncorrectDataException("Wrong id");
         }
         System.out.println(project.info());
     }

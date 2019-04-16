@@ -1,6 +1,7 @@
 package ru.eremin.tm.security;
 
 import org.junit.Test;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.entity.session.Session;
@@ -19,7 +20,7 @@ import static junit.framework.TestCase.assertNotNull;
 public class AuthTest {
 
     @Test
-    public void authTest() {
+    public void authTest() throws IncorrectDataException {
         final IUserRepository userRepository = new UserRepository();
         final IUserService userService = new UserService(userRepository);
         final IAuthService authService = new AuthService(userService);

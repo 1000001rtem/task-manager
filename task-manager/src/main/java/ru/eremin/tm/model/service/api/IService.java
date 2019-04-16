@@ -1,5 +1,6 @@
 package ru.eremin.tm.model.service.api;
 
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.AbstractDTO;
 import ru.eremin.tm.model.entity.AbstractEntity;
 
@@ -17,7 +18,7 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
 
     void update(E e);
 
-    boolean remove(String id);
+    void remove(String id) throws IncorrectDataException;
 
     boolean isExist(String id);
 

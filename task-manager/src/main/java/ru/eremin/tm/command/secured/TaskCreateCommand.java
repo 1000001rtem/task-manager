@@ -70,7 +70,7 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
             projects.forEach(System.out::println);
             flag = true;
             id = consoleService.getNextLine();
-            if (id == null || id.isEmpty() || locator.getProjectService().isExist(id)) {
+            if (id == null || id.isEmpty() || !locator.getProjectService().isExist(id)) {
                 System.out.println("*** Wrong id ***");
                 flag = false;
             }

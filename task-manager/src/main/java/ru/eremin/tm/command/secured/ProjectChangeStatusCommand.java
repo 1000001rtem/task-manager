@@ -3,6 +3,7 @@ package ru.eremin.tm.command.secured;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.command.AbstractTerminalCommand;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.entity.enumerated.Status;
 import ru.eremin.tm.model.service.ConsoleService;
@@ -35,14 +36,13 @@ public class ProjectChangeStatusCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws IncorrectDataException {
         @NotNull final IProjectService projectService = locator.getProjectService();
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         @NotNull final String projectId = consoleService.getStringFieldFromConsole("Project id");
         @NotNull final ProjectDTO projectDTO = projectService.findOne(projectId);
         if (projectDTO == null) {
-            System.out.println("*** Wrong id ***");
-            return;
+            throw new IncorrectDataException("Wrong id");
         }
         @NotNull final List<Status> statuses = Arrays.stream(Status.values()).collect(Collectors.toList());
         statuses.forEach(System.out::println);
@@ -51,8 +51,7 @@ public class ProjectChangeStatusCommand extends AbstractTerminalCommand {
             if (status.getDisplayName().equalsIgnoreCase(newStatus)) projectDTO.setStatus(status);
         }
         if (!newStatus.equalsIgnoreCase(projectDTO.getStatus().getDisplayName())) {
-            System.out.println("*** Wrong status ***");
-            return;
+            throw new IncorrectDataException("Wrong status");
         }
         projectService.update(projectDTO);
     }

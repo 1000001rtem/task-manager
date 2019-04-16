@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.command.AbstractTerminalCommand;
 import ru.eremin.tm.exeption.BadCommandException;
 import ru.eremin.tm.exeption.IncorrectCommandClassException;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.entity.session.Session;
@@ -91,7 +92,12 @@ public class Bootstrap implements ServiceLocator {
 
     public void init(@NotNull final Class[] classes) {
         for (final Class commandClass : classes) {
-            AbstractTerminalCommand command = initCommand(commandClass);
+            AbstractTerminalCommand command = null;
+            try {
+                command = initCommand(commandClass);
+            } catch (IncorrectCommandClassException e) {
+                e.printStackTrace();
+            }
             command.setLocator(this);
             command.setSecured();
             commands.put(command.getName(), command);
@@ -108,7 +114,7 @@ public class Bootstrap implements ServiceLocator {
             else {
                 try {
                     command.execute();
-                } catch (BadCommandException e) {
+                } catch (BadCommandException | IncorrectDataException e) {
                     e.printStackTrace();
                 }
             }
@@ -130,7 +136,8 @@ public class Bootstrap implements ServiceLocator {
         userService.persist(admin);
     }
 
-    private AbstractTerminalCommand initCommand(@NotNull final Class<AbstractTerminalCommand> commandClass) {
+    private AbstractTerminalCommand initCommand(@NotNull final Class<AbstractTerminalCommand> commandClass)
+            throws IncorrectCommandClassException {
         if (!commandClass.getSuperclass().equals(AbstractTerminalCommand.class)) {
             throw new IncorrectCommandClassException("command super class is not AbstractTerminalCommand");
         }

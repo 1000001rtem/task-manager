@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import ru.eremin.tm.config.EntityFactory;
 import ru.eremin.tm.config.Order;
 import ru.eremin.tm.config.OrderedRunner;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.dto.UserDTO;
@@ -143,14 +144,14 @@ public class ModelTest {
 
     @Test
     @Order(order = 5)
-    public void deleteTest() {
+    public void deleteTest() throws IncorrectDataException {
         final int beforeUsersSize = userService.findAll().size();
         final int beforeProjectsSize = projectService.findAll(userDTO.getId()).size();
         final int beforeTasksSize = taskService.findAll(userDTO.getId()).size();
 
         userService.remove(userDTO.getId());
-        projectService.remove(projectDTO.getId());
         taskService.remove(taskDTO.getId());
+        projectService.remove(projectDTO.getId());
 
         assertEquals(beforeUsersSize - 1, userService.findAll().size());
         assertEquals(beforeProjectsSize - 1, projectService.findAll(userDTO.getId()).size());
