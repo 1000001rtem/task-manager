@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.command.AbstractTerminalCommand;
+import ru.eremin.tm.exeption.BadCommandException;
 import ru.eremin.tm.model.entity.session.Session;
 import ru.eremin.tm.model.service.ConsoleService;
 import ru.eremin.tm.utils.Utils;
@@ -31,11 +32,10 @@ public class AuthorizationCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws BadCommandException {
         System.out.println("*** AUTHORIZATION ***");
         if (locator.getSession() != null) {
-            System.out.println("*** Please logout ***");
-            return;
+            throw new BadCommandException("Session already exist");
         }
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         @NotNull final String login = consoleService.getStringFieldFromConsole("Login");

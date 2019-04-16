@@ -5,7 +5,8 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.command.AbstractTerminalCommand;
-import ru.eremin.tm.exeption.IncorrectCommandException;
+import ru.eremin.tm.exeption.BadCommandException;
+import ru.eremin.tm.exeption.IncorrectCommandClassException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.model.entity.session.Session;
@@ -104,7 +105,13 @@ public class Bootstrap implements ServiceLocator {
             else command = commands.get(answer);
             if (command == null) command = commands.get("help");
             if (command.isSecured() && session == null) System.out.println("*** Please log in ***");
-            else command.execute();
+            else {
+                try {
+                    command.execute();
+                } catch (BadCommandException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -125,14 +132,14 @@ public class Bootstrap implements ServiceLocator {
 
     private AbstractTerminalCommand initCommand(@NotNull final Class<AbstractTerminalCommand> commandClass) {
         if (!commandClass.getSuperclass().equals(AbstractTerminalCommand.class)) {
-            throw new IncorrectCommandException("command super class is not AbstractTerminalCommand");
+            throw new IncorrectCommandClassException("command super class is not AbstractTerminalCommand");
         }
         try {
             @NotNull final AbstractTerminalCommand command = commandClass.newInstance();
             return command;
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
-            throw new IncorrectCommandException(e);
+            throw new IncorrectCommandClassException(e);
         }
     }
 

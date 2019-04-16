@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.bootstrap.ServiceLocator;
+import ru.eremin.tm.exeption.BadCommandException;
 
 
 /**
@@ -24,7 +25,7 @@ public abstract class AbstractTerminalCommand {
 
     public abstract void setSecured();
 
-    public abstract void execute();
+    public abstract void execute() throws BadCommandException;
 
     public void setLocator(@Nullable final ServiceLocator serviceLocator) {
         if (serviceLocator == null) throw new NullPointerException("ServiceLocator == null");
