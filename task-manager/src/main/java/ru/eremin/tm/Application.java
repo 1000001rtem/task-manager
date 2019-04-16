@@ -16,11 +16,12 @@ public class Application {
             TaskCreateCommand.class, TaskClearCommand.class, TaskInfoCommand.class,
             TaskRemoveCommand.class, TaskShowAllCommand.class, TaskShowInProjectCommand.class,
             TaskSortByCreateDateCommand.class, TaskSortByStartDateCommand.class, TaskSortByEndDateCommand.class,
-            TaskSortByStatusCommand.class,
+            TaskSortByStatusCommand.class, TaskChangeStatusCommand.class,
 
             ProjectCreateCommand.class, ProjectClearCommand.class, ProjectInfoCommand.class,
             ProjectRemoveCommand.class, ProjectShowAllCommand.class, ProjectSortByCreateDateCommand.class,
             ProjectSortByStartDateCommand.class, ProjectSortByEndDateCommand.class, ProjectSortByStatusCommand.class,
+            ProjectChangeStatusCommand.class,
 
             DataBeanLoadCommand.class, DataBeanSaveCommand.class, DataBeanCleanCommand.class,
 
