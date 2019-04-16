@@ -92,6 +92,7 @@ public class Bootstrap implements ServiceLocator {
         for (final Class commandClass : classes) {
             AbstractTerminalCommand command = initCommand(commandClass);
             command.setLocator(this);
+            command.setSecured();
             commands.put(command.getName(), command);
         }
         initUsers();

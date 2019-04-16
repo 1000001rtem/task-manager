@@ -33,6 +33,10 @@ public class AuthorizationCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         System.out.println("*** AUTHORIZATION ***");
+        if (locator.getSession() != null) {
+            System.out.println("*** Please logout ***");
+            return;
+        }
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         @NotNull final String login = consoleService.getStringFieldFromConsole("Login");
         @NotNull final String hashPassword = Utils.getHash(consoleService.getStringFieldFromConsole("Password"));
