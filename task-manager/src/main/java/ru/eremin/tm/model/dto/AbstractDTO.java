@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -26,4 +27,16 @@ public abstract class AbstractDTO implements Serializable {
     @NotNull
     protected Date createDate = new Date();
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractDTO)) return false;
+        final AbstractDTO that = (AbstractDTO) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

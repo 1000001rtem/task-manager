@@ -11,11 +11,11 @@ import java.io.File;
  */
 
 @NoArgsConstructor
-public class DataBeanCleanCommand extends AbstractTerminalCommand {
+public class DataBeanClearCommand extends AbstractTerminalCommand {
 
     @Override
     public String getName() {
-        return "data_bean_clean";
+        return "data_bean_clear";
     }
 
     @Override

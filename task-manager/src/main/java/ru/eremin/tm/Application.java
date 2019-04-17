@@ -24,7 +24,7 @@ public class Application {
             ProjectSortByStartDateCommand.class, ProjectSortByEndDateCommand.class, ProjectSortByStatusCommand.class,
             ProjectChangeStatusCommand.class, ProjectFindByNameCommand.class, ProjectFindByDescriptionCommand.class,
 
-            DataBeanLoadCommand.class, DataBeanSaveCommand.class, DataBeanCleanCommand.class,
+            DataBeanLoadCommand.class, DataBeanSaveCommand.class, DataBeanClearCommand.class,
 
             LogoutCommand.class
     };
