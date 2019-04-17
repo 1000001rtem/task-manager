@@ -4,7 +4,7 @@ package ru.eremin.tm.exeption;
  * @autor av.eremin on 16.04.2019.
  */
 
-public class IncorrectDataException extends Exception{
+public class IncorrectDataException extends Exception {
 
     public IncorrectDataException() {
     }

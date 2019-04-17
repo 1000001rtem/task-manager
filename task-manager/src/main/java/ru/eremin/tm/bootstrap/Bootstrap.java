@@ -30,6 +30,8 @@ import ru.eremin.tm.security.IRegistrationService;
 import ru.eremin.tm.security.RegistrationService;
 import ru.eremin.tm.utils.Utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -114,8 +116,12 @@ public class Bootstrap implements ServiceLocator {
             else {
                 try {
                     command.execute();
-                } catch (BadCommandException | IncorrectDataException e) {
+                } catch (BadCommandException | IncorrectDataException | ClassNotFoundException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    File file = new File("data.ser");
+                    file.delete();
                 }
             }
         }
@@ -123,11 +129,13 @@ public class Bootstrap implements ServiceLocator {
 
     private void initUsers() {
         @NotNull final UserDTO user = new UserDTO();
+        user.setId("6bf0f091-e795-42d1-bb9a-77799cdf37da");
         user.setLogin("user");
         user.setHashPassword(Utils.getHash("pass"));
         user.setRole(Role.USER);
 
         @NotNull final UserDTO admin = new UserDTO();
+        admin.setId("6706e691-2f78-45ad-b021-3730c48959f0");
         admin.setLogin("admin");
         admin.setHashPassword(Utils.getHash("pass"));
         admin.setRole(Role.ADMIN);

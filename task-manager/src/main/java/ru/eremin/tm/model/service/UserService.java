@@ -82,7 +82,7 @@ public class UserService implements IUserService {
     @Override
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        return userRepository.findOne(id) == null;
+        return userRepository.findOne(id) != null;
     }
 
     @Override
