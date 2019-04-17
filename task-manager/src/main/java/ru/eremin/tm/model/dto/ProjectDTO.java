@@ -6,6 +6,9 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.Project;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
@@ -15,6 +18,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
+@XmlRootElement(name = "project")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProjectDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -379365728203711699L;

@@ -30,6 +30,7 @@ import ru.eremin.tm.security.IRegistrationService;
 import ru.eremin.tm.security.RegistrationService;
 import ru.eremin.tm.utils.Utils;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public class Bootstrap implements ServiceLocator {
             else {
                 try {
                     command.execute();
-                } catch (BadCommandException | IncorrectDataException | ClassNotFoundException e) {
+                } catch (BadCommandException | IncorrectDataException | ClassNotFoundException | JAXBException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();

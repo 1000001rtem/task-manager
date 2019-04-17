@@ -7,6 +7,7 @@ import ru.eremin.tm.bootstrap.ServiceLocator;
 import ru.eremin.tm.exeption.BadCommandException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 
@@ -28,7 +29,7 @@ public abstract class AbstractTerminalCommand {
 
     public abstract void setSecured();
 
-    public abstract void execute() throws BadCommandException, IncorrectDataException, IOException, ClassNotFoundException;
+    public abstract void execute() throws BadCommandException, IncorrectDataException, IOException, ClassNotFoundException, JAXBException;
 
     public void setLocator(@Nullable final ServiceLocator serviceLocator) {
         if (serviceLocator == null) throw new NullPointerException("ServiceLocator == null");
