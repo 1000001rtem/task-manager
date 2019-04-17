@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,7 +17,9 @@ import java.util.List;
 @XmlRootElement
 @NoArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Domain {
+public class Domain implements Serializable {
+
+    private static final long serialVersionUID = 7169679933097471756L;
 
     @Nullable
     @XmlElement(name = "project")

@@ -41,7 +41,6 @@ public class DataSaveJaxbXMLCommand extends AbstractTerminalCommand {
         @NotNull final ITaskService taskService = locator.getTaskService();
         @NotNull final List<ProjectDTO> projects = projectService.findAll(locator.getSession().getUser().getId());
         @NotNull final List<TaskDTO> tasks = taskService.findAll(locator.getSession().getUser().getId());
-        if (projects == null) return;
         @NotNull final Domain domain = new Domain(projects, tasks);
         saveObject(domain);
     }
