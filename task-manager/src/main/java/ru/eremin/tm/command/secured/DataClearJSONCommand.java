@@ -7,20 +7,20 @@ import ru.eremin.tm.command.AbstractTerminalCommand;
 import java.io.File;
 
 /**
- * @autor av.eremin on 17.04.2019.
+ * @autor av.eremin on 18.04.2019.
  */
 
 @NoArgsConstructor
-public class DataClearXMLCommand extends AbstractTerminalCommand {
+public class DataClearJSONCommand extends AbstractTerminalCommand {
 
     @Override
     public String getName() {
-        return "clear_xml";
+        return "clear_json";
     }
 
     @Override
     public String getDescription() {
-        return "Remove XML file";
+        return "Remove JSON file";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DataClearXMLCommand extends AbstractTerminalCommand {
     @Override
     public void execute() {
         @NotNull final String path = "documents/serialization/" + locator.getSession().getUser().getId();
-        @NotNull final File file = new File(path + "/data.xml");
+        @NotNull final File file = new File(path + "/data.json");
         file.delete();
     }
 

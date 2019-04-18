@@ -6,9 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.Task;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
 /**
@@ -20,11 +18,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @XmlRootElement(name = "task")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId", "projectId"})
 public class TaskDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -8634181313297237339L;
 
     @Nullable
+    @XmlElement(name = "projectId")
     private String projectId;
 
     public TaskDTO(@Nullable final Task task) {

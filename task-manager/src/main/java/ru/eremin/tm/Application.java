@@ -25,7 +25,8 @@ public class Application {
             ProjectChangeStatusCommand.class, ProjectFindByNameCommand.class, ProjectFindByDescriptionCommand.class,
 
             DataBeanLoadCommand.class, DataBeanSaveCommand.class, DataBeanClearCommand.class,
-            DataSaveJaxbXMLCommand.class, DataLoadJaxbXMLCommand.class,
+            DataSaveJaxbXMLCommand.class, DataLoadJaxbXMLCommand.class, DataClearXMLCommand.class,
+            DataSaveJaxbJSONCommand.class, DataLoadJaxbJSONCommand.class, DataClearJSONCommand.class,
 
             LogoutCommand.class
     };

@@ -8,7 +8,6 @@ import ru.eremin.tm.model.dto.Domain;
 import ru.eremin.tm.model.service.api.IProjectService;
 import ru.eremin.tm.model.service.api.ITaskService;
 
-import javax.validation.constraints.Null;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
