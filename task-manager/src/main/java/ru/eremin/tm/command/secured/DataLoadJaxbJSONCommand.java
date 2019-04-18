@@ -37,7 +37,7 @@ public class DataLoadJaxbJSONCommand extends AbstractTerminalCommand {
 
     @Override
     public void setSecured() {
-
+        this.isSecured = true;
     }
 
     @Override

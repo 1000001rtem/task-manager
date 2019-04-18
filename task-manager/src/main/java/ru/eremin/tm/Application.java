@@ -27,6 +27,7 @@ public class Application {
             DataBeanLoadCommand.class, DataBeanSaveCommand.class, DataBeanClearCommand.class,
             DataSaveJaxbXMLCommand.class, DataLoadJaxbXMLCommand.class, DataClearXMLCommand.class,
             DataSaveJaxbJSONCommand.class, DataLoadJaxbJSONCommand.class, DataClearJSONCommand.class,
+            DataSaveJacksonXMLCommand.class, DataLoadJacksonXMLCommand.class,
 
             LogoutCommand.class
     };

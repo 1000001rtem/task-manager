@@ -1,5 +1,6 @@
 package ru.eremin.tm.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +37,7 @@ public abstract class AbstractDTO implements Serializable {
     @NotNull
     @XmlElement(name = "createDate")
     @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     protected Date createDate = new Date();
 
     @Override

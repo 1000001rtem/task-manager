@@ -1,16 +1,19 @@
 package ru.eremin.tm.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.model.dto.adapter.DateAdapter;
 import ru.eremin.tm.model.entity.enumerated.Status;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -37,10 +40,14 @@ public abstract class BaseDTO extends AbstractDTO implements Serializable {
 
     @Nullable
     @XmlElement(name = "startDate")
+    @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     protected Date startDate;
 
     @Nullable
     @XmlElement(name = "endDate")
+    @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     protected Date endDate;
 
     @NotNull

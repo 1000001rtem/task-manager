@@ -9,8 +9,6 @@
     <version>1.0.0</version>
 
     <name>task-manager</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
 
     <developers>
         <developer>
@@ -48,6 +46,16 @@
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.moxy</artifactId>
             <version>2.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.9.8</version>
         </dependency>
         <dependency>
             <groupId>com.jcabi</groupId>
