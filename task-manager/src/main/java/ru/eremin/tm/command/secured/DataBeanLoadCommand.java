@@ -8,6 +8,7 @@ import ru.eremin.tm.model.dto.Domain;
 import ru.eremin.tm.model.service.api.IProjectService;
 import ru.eremin.tm.model.service.api.ITaskService;
 
+import javax.validation.constraints.Null;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -38,7 +39,7 @@ public class DataBeanLoadCommand extends AbstractTerminalCommand {
     public void execute() throws IOException, ClassNotFoundException {
         @NotNull final IProjectService projectService = locator.getProjectService();
         @NotNull final ITaskService taskService = locator.getTaskService();
-        @NotNull final Domain domain = getDomainFromBinaryFile();
+        @Nullable final Domain domain = getDomainFromBinaryFile();
         if (domain == null || domain.getProjects() == null) return;
         domain.getProjects().forEach(projectService::persist);
         if (domain.getTasks() == null) return;
@@ -49,19 +50,9 @@ public class DataBeanLoadCommand extends AbstractTerminalCommand {
     private Domain getDomainFromBinaryFile() throws IOException, ClassNotFoundException {
         @NotNull final String path = "documents/serialization/" + locator.getSession().getUser().getId();
         @NotNull final ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path + "/data.ser"));
-        Domain domain;
-        boolean isExist = true;
-        while (isExist) {
-            domain = (Domain) objectInputStream.readObject();
-            if (domain == null) {
-                isExist = false;
-            } else {
-                objectInputStream.close();
-                return domain;
-            }
-        }
+        @Nullable final Domain domain = (Domain) objectInputStream.readObject();
         objectInputStream.close();
-        return null;
+        return domain;
     }
 
 }
