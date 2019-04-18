@@ -1,0 +1,27 @@
+package ru.eremin.tm.server.bootstrap;
+
+import ru.eremin.tm.server.model.entity.session.Session;
+import ru.eremin.tm.server.model.service.ConsoleService;
+import ru.eremin.tm.server.model.service.api.IProjectService;
+import ru.eremin.tm.server.model.service.api.ITaskService;
+import ru.eremin.tm.server.model.service.api.IUserService;
+
+/**
+ * @autor av.eremin on 12.04.2019.
+ */
+
+public interface ServiceLocator {
+
+    void init(Class[] classes);
+
+    IProjectService getProjectService();
+
+    ITaskService getTaskService();
+
+    IUserService getUserService();
+
+    Session getSession();
+
+    void setSession(Session session);
+
+}
