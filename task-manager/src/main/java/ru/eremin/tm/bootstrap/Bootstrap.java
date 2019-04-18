@@ -102,7 +102,7 @@ public class Bootstrap implements ServiceLocator {
                 e.printStackTrace();
             }
             command.setLocator(this);
-            command.setSecured();
+            command.getSecured();
             commands.put(command.getName(), command);
         }
         initUsers();
@@ -113,7 +113,7 @@ public class Bootstrap implements ServiceLocator {
             if (answer == null) command = commands.get("help");
             else command = commands.get(answer);
             if (command == null) command = commands.get("help");
-            if (command.isSecured() && session == null) System.out.println("*** Please log in ***");
+            if (command.getSecured() && session == null) System.out.println("*** Please log in ***");
             else {
                 try {
                     command.execute();

@@ -31,8 +31,8 @@ public class ProjectChangeStatusCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void setSecured() {
-        this.isSecured = true;
+    public boolean getSecured() {
+        return true;
     }
 
     @Override

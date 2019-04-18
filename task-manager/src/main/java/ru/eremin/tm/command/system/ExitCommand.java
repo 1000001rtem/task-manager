@@ -21,8 +21,8 @@ public class ExitCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void setSecured() {
-        this.isSecured = false;
+    public boolean getSecured() {
+        return false;
     }
 
     @Override
