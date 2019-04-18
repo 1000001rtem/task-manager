@@ -35,7 +35,7 @@ public class DataLoadJacksonXMLCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() throws IOException {
-        XmlMapper xmlMapper = new XmlMapper();
+        @NotNull final XmlMapper xmlMapper = new XmlMapper();
         @NotNull final String path = "documents/serialization/" + locator.getSession().getUser().getId();
         @Nullable final Domain domain = xmlMapper.readValue(new File(path + "/data.xml"), Domain.class);
         if (domain == null || domain.getProjects() == null) return;

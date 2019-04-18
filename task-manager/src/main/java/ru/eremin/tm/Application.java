@@ -28,6 +28,7 @@ public class Application {
             DataSaveJaxbXMLCommand.class, DataLoadJaxbXMLCommand.class, DataClearXMLCommand.class,
             DataSaveJaxbJSONCommand.class, DataLoadJaxbJSONCommand.class, DataClearJSONCommand.class,
             DataSaveJacksonXMLCommand.class, DataLoadJacksonXMLCommand.class,
+            DataSaveJacksonJSONCommand.class, DataLoadJacksonJSONCommand.class,
 
             LogoutCommand.class
     };

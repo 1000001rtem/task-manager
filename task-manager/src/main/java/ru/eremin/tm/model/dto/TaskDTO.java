@@ -1,5 +1,7 @@
 package ru.eremin.tm.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +20,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @XmlRootElement(name = "task")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId", "projectId"})
+@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId", "projectId"})
 public class TaskDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -8634181313297237339L;

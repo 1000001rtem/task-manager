@@ -1,6 +1,6 @@
 package ru.eremin.tm.command.secured;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.command.AbstractTerminalCommand;
@@ -19,16 +19,16 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class DataSaveJacksonXMLCommand extends AbstractTerminalCommand {
+public class DataSaveJacksonJSONCommand extends AbstractTerminalCommand {
 
     @Override
     public String getName() {
-        return "data_save_jackson_xml";
+        return "data_save_jackson_json";
     }
 
     @Override
     public String getDescription() {
-        return "Save data to XML with Jackson";
+        return "Save data to JSON with Jackson";
     }
 
     @Override
@@ -43,9 +43,8 @@ public class DataSaveJacksonXMLCommand extends AbstractTerminalCommand {
         @NotNull final List<ProjectDTO> projects = projectService.findAll(locator.getSession().getUser().getId());
         @NotNull final List<TaskDTO> tasks = taskService.findAll(locator.getSession().getUser().getId());
         @NotNull final Domain domain = new Domain(projects, tasks);
-        @NotNull final XmlMapper xmlMapper = new XmlMapper();
+        @NotNull final ObjectMapper mapper = new ObjectMapper();
         @NotNull final String path = "documents/serialization/" + locator.getSession().getUser().getId();
-        xmlMapper.writeValue(new File(path + "/data.xml"), domain);
+        mapper.writeValue(new File(path + "/data.json"), domain);
     }
-
 }
