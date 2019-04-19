@@ -20,13 +20,15 @@ import ru.eremin.tm.server.model.service.UserService;
 import ru.eremin.tm.server.model.service.api.IProjectService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 import ru.eremin.tm.server.model.service.api.IUserService;
-import ru.eremin.tm.server.utils.Utils;
+import ru.eremin.tm.server.security.AuthService;
+import ru.eremin.tm.server.security.IAuthService;
+import ru.eremin.tm.server.utils.PasswordHashUtil;
 
 /**
  * @autor av.eremin on 18.04.2019.
  */
 
-public class Bootstrap implements ServiceLocator{
+public class Bootstrap implements ServiceLocator {
 
     @NotNull
     @Getter
@@ -42,6 +44,10 @@ public class Bootstrap implements ServiceLocator{
 
     @NotNull
     @Getter
+    private final IAuthService authService;
+
+    @NotNull
+    @Getter
     @Setter
     private Session session;
 
@@ -52,6 +58,7 @@ public class Bootstrap implements ServiceLocator{
         this.taskService = new TaskService(taskRepository);
         this.projectService = new ProjectService(projectRepository, this.taskService);
         this.userService = new UserService(userRepository);
+        this.authService = new AuthService(userService);
     }
 
     @Override
@@ -70,7 +77,7 @@ public class Bootstrap implements ServiceLocator{
     }
 
     private AbstractEndpoint initEndpoint(final Class endpointClass) throws IncorrectClassException, IllegalAccessException, InstantiationException {
-        if(!endpointClass.getSuperclass().equals(AbstractEndpoint.class)) {
+        if (!endpointClass.getSuperclass().equals(AbstractEndpoint.class)) {
             throw new IncorrectClassException("command super class is not AbstractEndpoint");
         }
         return (AbstractEndpoint) endpointClass.newInstance();
@@ -80,13 +87,13 @@ public class Bootstrap implements ServiceLocator{
         @NotNull final UserDTO user = new UserDTO();
         user.setId("6bf0f091-e795-42d1-bb9a-77799cdf37da");
         user.setLogin("user");
-        user.setHashPassword(Utils.getHash("pass"));
+        user.setHashPassword(PasswordHashUtil.md5("pass"));
         user.setRole(Role.USER);
 
         @NotNull final UserDTO admin = new UserDTO();
         admin.setId("6706e691-2f78-45ad-b021-3730c48959f0");
         admin.setLogin("admin");
-        admin.setHashPassword(Utils.getHash("pass"));
+        admin.setHashPassword(PasswordHashUtil.md5("pass"));
         admin.setRole(Role.ADMIN);
 
         userService.persist(user);

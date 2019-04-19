@@ -1,6 +1,7 @@
 package ru.eremin.tm.server.model.entity.session;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.model.dto.UserDTO;
@@ -14,15 +15,19 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Session extends AbstractEntity {
 
     @Nullable
-    private UserDTO user;
+    private String userId;
+
+    @Nullable
+    private String sign;
 
     public Session(@Nullable final UserDTO user) {
         if (user == null) return;
         this.id = UUID.randomUUID().toString();
-        this.user = user;
+        this.userId = user.getId();
     }
 
 }
