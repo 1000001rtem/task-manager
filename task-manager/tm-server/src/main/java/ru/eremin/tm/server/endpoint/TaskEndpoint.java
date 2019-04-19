@@ -14,6 +14,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @autor av.eremin on 18.04.2019.
@@ -30,7 +31,9 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     public ResultDTO persistTask(@Nullable final Session session, @Nullable final TaskDTO task) {
         if (session == null || task == null) new ResultDTO(new BadRequestExeption());
         if (!checkSession(session)) new ResultDTO(new BadRequestExeption("wrong session"));
+        task.setId(UUID.randomUUID().toString());//TODO: setters
         taskService.persist(task);
+        System.out.println(taskService.findAll(session.getUserId()));
         return new ResultDTO(true);
     }
 

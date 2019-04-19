@@ -14,6 +14,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @autor av.eremin on 18.04.2019.
@@ -30,6 +31,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     public ResultDTO persistProject(@Nullable final Session session, final ProjectDTO projectDTO) {
         if (session == null || projectDTO == null) return new ResultDTO(new BadRequestExeption());
         if (!checkSession(session)) return new ResultDTO(new BadRequestExeption("wrong session"));
+        projectDTO.setId(UUID.randomUUID().toString()); //TODO: setters
         projectService.persist(projectDTO);
         return new ResultDTO(true);
     }

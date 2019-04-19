@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ru.eremin.tm.server</groupId>
-  <artifactId>tm-server</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <dependencies>
-    <dependency>
-      <groupId>ru.eremin.tm</groupId>
-      <artifactId>task-manager</artifactId>
-      <version>1.0.0</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
-
-  <name>tm-server</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
-
-  <parent>
-    <groupId>ru.eremin.tm</groupId>
+    <groupId>ru.eremin.tm.server</groupId>
+    <artifactId>tm-server</artifactId>
     <version>1.0.0</version>
-    <artifactId>task-manager</artifactId>
-  </parent>
+    <dependencies>
+        <dependency>
+            <groupId>ru.eremin.tm</groupId>
+            <artifactId>task-manager</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <name>tm-server</name>
+
+    <parent>
+        <groupId>ru.eremin.tm</groupId>
+        <version>1.0.0</version>
+        <artifactId>task-manager</artifactId>
+    </parent>
 
 
 </project>
