@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.endpoint.api.IAdminEndpoint;
 import ru.eremin.tm.server.exeption.BadRequestExeption;
+import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.Domain;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.ResultDTO;
@@ -35,8 +36,8 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     private IProjectService projectService;
 
     @Override
-    public ResultDTO saveJSON(@Nullable final Session session) {
-        if (session == null || !checkSession(session)) return new ResultDTO(new BadRequestExeption("wrong session"));
+    public ResultDTO saveJSON(@Nullable final Session session) throws SessionValidateExeption {
+        sessionValidate(session);
         if (!checkAdminRole(session)) return new ResultDTO(new BadRequestExeption("wrong session"));
         @NotNull final List<ProjectDTO> projects = projectService.findAll(locator.getSession().getUserId());
         @NotNull final List<TaskDTO> tasks = taskService.findAll(locator.getSession().getUserId());
@@ -55,8 +56,8 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     }
 
     @Override
-    public ResultDTO loadJSON(@Nullable final Session session) {
-        if (session == null || !checkSession(session)) return new ResultDTO(new BadRequestExeption("wrong session"));
+    public ResultDTO loadJSON(@Nullable final Session session) throws SessionValidateExeption {
+        sessionValidate(session);
         if (!checkAdminRole(session)) return new ResultDTO(new BadRequestExeption("wrong session"));
         @NotNull final ObjectMapper mapper = new ObjectMapper();
         @NotNull final String path = "tm-server/documents/serialization/" + locator.getSession().getUserId();
@@ -88,12 +89,6 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
         projectService = locator.getProjectService();
         System.out.println("http://localhost:8080/AdminEndpoint?WSDL");
         Endpoint.publish("http://localhost:8080/AdminEndpoint", this);
-    }
-
-    @Override
-    @WebMethod(exclude = true)
-    public boolean checkSession(@NotNull final Session session) {
-        return session.getSign().equals(locator.getSession().getSign());
     }
 
     @Override

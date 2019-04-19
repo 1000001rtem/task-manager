@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.endpoint.api.ITaskEndpoint;
 import ru.eremin.tm.server.exeption.BadRequestExeption;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
+import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.entity.session.Session;
@@ -28,9 +29,9 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod
-    public ResultDTO persistTask(@Nullable final Session session, @Nullable final TaskDTO task) {
-        if (session == null || task == null) new ResultDTO(new BadRequestExeption());
-        if (!checkSession(session)) new ResultDTO(new BadRequestExeption("wrong session"));
+    public ResultDTO persistTask(@Nullable final Session session, @Nullable final TaskDTO task) throws SessionValidateExeption {
+        sessionValidate(session);
+        if (task == null) new ResultDTO(new BadRequestExeption());
         task.setId(UUID.randomUUID().toString());//TODO: setters
         taskService.persist(task);
         System.out.println(taskService.findAll(session.getUserId()));
@@ -39,25 +40,24 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod
-    public List<TaskDTO> findAllTasks(@Nullable final Session session) {
-        if (session == null) return null;
-        if (!checkSession(session)) return null;
+    public List<TaskDTO> findAllTasks(@Nullable final Session session) throws SessionValidateExeption {
+        sessionValidate(session);
         return taskService.findAll(session.getUserId());
     }
 
     @Override
     @WebMethod
-    public TaskDTO findOneTask(@Nullable final Session session, @Nullable final String id) {
-        if (session == null || id == null || id.isEmpty()) return null;
-        if (!checkSession(session)) return null;
+    public TaskDTO findOneTask(@Nullable final Session session, @Nullable final String id) throws SessionValidateExeption {
+        sessionValidate(session);
+        if (id == null || id.isEmpty()) return null;
         return taskService.findOne(id);
     }
 
     @Override
     @WebMethod
-    public ResultDTO removeTask(@Nullable final Session session, @Nullable final String id) throws IncorrectDataException {
-        if (session == null || id == null || id.isEmpty()) new ResultDTO(new BadRequestExeption());
-        if (!checkSession(session)) new ResultDTO(new BadRequestExeption("wrong session"));
+    public ResultDTO removeTask(@Nullable final Session session, @Nullable final String id) throws IncorrectDataException, SessionValidateExeption {
+        sessionValidate(session);
+        if (id == null || id.isEmpty()) new ResultDTO(new BadRequestExeption());
         taskService.remove(id);
         return new ResultDTO(true);
     }
@@ -68,12 +68,6 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
         taskService = locator.getTaskService();
         System.out.println("http://localhost:8080/TaskEndpoint?WSDL");
         Endpoint.publish("http://localhost:8080/TaskEndpoint", this);
-    }
-
-    @Override
-    @WebMethod(exclude = true)
-    public boolean checkSession(@NotNull final Session session) {
-        return session.getSign().equals(locator.getSession().getSign());
     }
 
 }
