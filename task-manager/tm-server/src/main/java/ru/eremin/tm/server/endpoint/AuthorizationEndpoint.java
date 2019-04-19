@@ -2,6 +2,7 @@ package ru.eremin.tm.server.endpoint;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.endpoint.api.IAuthorizationEndpoint;
 import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.security.IAuthService;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
@@ -16,15 +17,16 @@ import javax.xml.ws.Endpoint;
  */
 
 @WebService
-public class AuthorizationEndpoint extends AbstractEndpoint {
+public class AuthorizationEndpoint extends AbstractEndpoint implements IAuthorizationEndpoint {
 
     @Nullable
     private IAuthService authService;
 
+    @Override
     @WebMethod
-    public Session login(@Nullable final String login, @Nullable final String password) {
-        if (login == null || login.isEmpty() || password == null || password.isEmpty()) return null;
-        @Nullable final Session session = authService.login(login, PasswordHashUtil.md5(password));
+    public Session login(@Nullable final String login, @Nullable final String hashPassword) {
+        if (login == null || login.isEmpty() || hashPassword == null || hashPassword.isEmpty()) return null;
+        @Nullable final Session session = authService.login(login, PasswordHashUtil.md5(hashPassword));
         if (session == null) return null;
         session.setSign(sessionSign(session));
         locator.setSession(session);
