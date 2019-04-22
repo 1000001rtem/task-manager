@@ -32,8 +32,9 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     public ResultDTO persistProject(@Nullable final Session session, final ProjectDTO projectDTO) throws SessionValidateExeption {
         sessionValidate(session);
         if (projectDTO == null) return new ResultDTO(new BadRequestExeption());
-        projectDTO.setId(UUID.randomUUID().toString()); //TODO: setters
-        projectService.persist(projectDTO);
+        @NotNull final ProjectDTO newProject = new ProjectDTO(projectDTO);
+        newProject.setUserId(session.getUserId());
+        projectService.persist(newProject);
         return new ResultDTO(true);
     }
 

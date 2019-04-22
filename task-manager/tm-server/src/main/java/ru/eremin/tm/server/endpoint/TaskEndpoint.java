@@ -29,12 +29,12 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod
-    public ResultDTO persistTask(@Nullable final Session session, @Nullable final TaskDTO task) throws SessionValidateExeption {
+    public ResultDTO persistTask(@Nullable final Session session, @Nullable final TaskDTO taskDTO) throws SessionValidateExeption {
         sessionValidate(session);
-        if (task == null) new ResultDTO(new BadRequestExeption());
-        task.setId(UUID.randomUUID().toString());//TODO: setters
-        taskService.persist(task);
-        System.out.println(taskService.findAll(session.getUserId()));
+        if (taskDTO == null) new ResultDTO(new BadRequestExeption());
+        @NotNull final TaskDTO newTask = new TaskDTO(taskDTO);
+        newTask.setUserId(session.getUserId());
+        taskService.persist(newTask);
         return new ResultDTO(true);
     }
 
