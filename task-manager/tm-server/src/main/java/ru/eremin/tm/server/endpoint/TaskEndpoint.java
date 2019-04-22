@@ -36,7 +36,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
         sessionValidate(session);
         if (taskDTO == null) new ResultDTO(new BadRequestExeption());
         @NotNull final TaskDTO newTask = new TaskDTO(taskDTO);
-        if(taskService.findByProjectId(newTask.getProjectId()).isEmpty()) return new ResultDTO(false,"Wrong project Id");
+        if (projectService.findOne(newTask.getProjectId()) == null) return new ResultDTO(false, "Wrong project Id");
         newTask.setUserId(session.getUserId());
         taskService.persist(newTask);
         return new ResultDTO(true);

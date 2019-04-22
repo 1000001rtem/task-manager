@@ -5,7 +5,6 @@ import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.model.repository.UserRepository;
 import ru.eremin.tm.server.model.repository.api.IUserRepository;
 import ru.eremin.tm.server.model.service.UserService;

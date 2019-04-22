@@ -1,8 +1,8 @@
-package ru.eremin.tm.server.model.service;
+package ru.eremin.tm.client.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.utils.DateUtils;
+import ru.eremin.tm.client.util.DateUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;

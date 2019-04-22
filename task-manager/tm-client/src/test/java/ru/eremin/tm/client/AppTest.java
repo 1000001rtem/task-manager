@@ -9,7 +9,7 @@ import ru.eremin.tm.server.endpoint.Login;
 import ru.eremin.tm.server.endpoint.LoginResponse;
 
 /**
- * Unit test for simple App.
+ * Unit test for simple Application.
  */
 public class AppTest 
 {

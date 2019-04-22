@@ -74,8 +74,12 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     }
 
     @Override
-    public ResultDTO clearJSON(@Nullable final SessionDTO session) {
-        return null;
+    public ResultDTO clearJSON(@Nullable final SessionDTO session) throws SessionValidateExeption {
+        sessionValidate(session);
+        @NotNull final String path = "tm-server/documents/serialization/" + session.getUserId();
+        @NotNull final File file = new File(path + "/data.json");
+        file.delete();
+        return new ResultDTO(true);
     }
 
     @Override

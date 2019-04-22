@@ -1,4 +1,3 @@
-
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.JAXBElement;
@@ -8,18 +7,17 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the ru.eremin.tm.server.endpoint package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the ru.eremin.tm.server.endpoint package.
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -36,14 +34,12 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ru.eremin.tm.server.endpoint
-     * 
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link SessionValidateExeption }
-     * 
      */
     public SessionValidateExeption createSessionValidateExeption() {
         return new SessionValidateExeption();
@@ -51,7 +47,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ClearJSON }
-     * 
      */
     public ClearJSON createClearJSON() {
         return new ClearJSON();
@@ -59,7 +54,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ClearJSONResponse }
-     * 
      */
     public ClearJSONResponse createClearJSONResponse() {
         return new ClearJSONResponse();
@@ -67,7 +61,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link LoadJSON }
-     * 
      */
     public LoadJSON createLoadJSON() {
         return new LoadJSON();
@@ -75,7 +68,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link LoadJSONResponse }
-     * 
      */
     public LoadJSONResponse createLoadJSONResponse() {
         return new LoadJSONResponse();
@@ -83,7 +75,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ResultDTO }
-     * 
      */
     public ResultDTO createResultDTO() {
         return new ResultDTO();
@@ -91,7 +82,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SaveJSON }
-     * 
      */
     public SaveJSON createSaveJSON() {
         return new SaveJSON();
@@ -99,7 +89,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SaveJSONResponse }
-     * 
      */
     public SaveJSONResponse createSaveJSONResponse() {
         return new SaveJSONResponse();
@@ -107,7 +96,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SessionDTO }
-     * 
      */
     public SessionDTO createSessionDTO() {
         return new SessionDTO();
@@ -115,7 +103,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Exception }
-     * 
      */
     public Exception createException() {
         return new Exception();
@@ -123,7 +110,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Throwable }
-     * 
      */
     public Throwable createThrowable() {
         return new Throwable();
@@ -131,7 +117,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link StackTraceElement }
-     * 
      */
     public StackTraceElement createStackTraceElement() {
         return new StackTraceElement();
@@ -139,7 +124,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SessionValidateExeption }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "SessionValidateExeption")
     public JAXBElement<SessionValidateExeption> createSessionValidateExeption(SessionValidateExeption value) {
@@ -148,7 +132,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ClearJSON }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "clearJSON")
     public JAXBElement<ClearJSON> createClearJSON(ClearJSON value) {
@@ -157,7 +140,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ClearJSONResponse }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "clearJSONResponse")
     public JAXBElement<ClearJSONResponse> createClearJSONResponse(ClearJSONResponse value) {
@@ -166,7 +148,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link LoadJSON }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "loadJSON")
     public JAXBElement<LoadJSON> createLoadJSON(LoadJSON value) {
@@ -175,7 +156,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link LoadJSONResponse }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "loadJSONResponse")
     public JAXBElement<LoadJSONResponse> createLoadJSONResponse(LoadJSONResponse value) {
@@ -184,7 +164,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ResultDTO }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "resultDTO")
     public JAXBElement<ResultDTO> createResultDTO(ResultDTO value) {
@@ -193,7 +172,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SaveJSON }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "saveJSON")
     public JAXBElement<SaveJSON> createSaveJSON(SaveJSON value) {
@@ -202,7 +180,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SaveJSONResponse }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "saveJSONResponse")
     public JAXBElement<SaveJSONResponse> createSaveJSONResponse(SaveJSONResponse value) {
@@ -211,7 +188,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SessionDTO }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "session")
     public JAXBElement<SessionDTO> createSession(SessionDTO value) {

@@ -16,7 +16,7 @@ public interface IAdminEndpoint {
 
     ResultDTO loadJSON(@Nullable SessionDTO session) throws SessionValidateExeption;
 
-    ResultDTO clearJSON(@Nullable SessionDTO session);
+    ResultDTO clearJSON(@Nullable SessionDTO session) throws SessionValidateExeption;
 
     boolean checkAdminRole(@NotNull SessionDTO session);
 

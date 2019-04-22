@@ -5,7 +5,6 @@ import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 import ru.eremin.tm.server.utils.SignatureUtil;
 
@@ -48,7 +47,7 @@ public class EntityFactory {
         return userDTO;
     }
 
-    public static SessionDTO getSession(final UserDTO userDTO){
+    public static SessionDTO getSession(final UserDTO userDTO) {
         SessionDTO sessionDTO = new SessionDTO(userDTO);
         sessionDTO.setSign(SignatureUtil.sign(sessionDTO, "54mjg5&4", 10));
         return sessionDTO;

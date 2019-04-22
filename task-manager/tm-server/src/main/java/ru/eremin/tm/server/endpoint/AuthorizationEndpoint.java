@@ -31,7 +31,7 @@ public class AuthorizationEndpoint extends AbstractEndpoint implements IAuthoriz
         if (session == null) return null;
         session.setSign(locator.getSessionService().sign(session));
         locator.getSessionService().persist(session);
-        return session;
+        return session; //TODO: check session
     }
 
     @Override
