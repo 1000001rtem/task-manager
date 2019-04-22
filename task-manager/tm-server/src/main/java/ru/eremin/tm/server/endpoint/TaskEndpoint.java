@@ -15,7 +15,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @autor av.eremin on 18.04.2019.
@@ -42,7 +41,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     public List<TaskDTO> findAllTasks(@Nullable final Session session) throws SessionValidateExeption {
         sessionValidate(session);
-        return taskService.findAll(session.getUserId());
+        return taskService.findByUserId(session.getUserId());
     }
 
     @Override

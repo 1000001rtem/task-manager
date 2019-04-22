@@ -15,7 +15,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @autor av.eremin on 18.04.2019.
@@ -42,7 +41,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     public List<ProjectDTO> findAllProjects(@Nullable final Session session) throws SessionValidateExeption {
         sessionValidate(session);
-        return projectService.findAll(session.getUserId());
+        return projectService.findByUserId(session.getUserId());
     }
 
     @Override

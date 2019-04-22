@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class ProjectRepository implements IProjectRepository {
 
+    @NotNull
     private final Map<String, Project> projects;
 
     public ProjectRepository() {

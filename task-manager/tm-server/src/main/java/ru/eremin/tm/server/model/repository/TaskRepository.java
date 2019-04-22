@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class TaskRepository implements ITaskRepository {
 
+    @NotNull
     private final Map<String, Task> tasks;
 
     public TaskRepository() {

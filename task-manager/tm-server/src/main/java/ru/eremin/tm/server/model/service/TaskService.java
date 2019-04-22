@@ -30,6 +30,11 @@ public class TaskService implements ITaskService {
     }
 
     @Override
+    public @NotNull List<TaskDTO> findAll() {
+        return taskRepository.findAll().stream().map(TaskDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
     @NotNull
     public List<TaskDTO> findByProjectId(@Nullable final String projectId) {
         if (projectId == null || projectId.isEmpty()) return Collections.emptyList();
@@ -58,7 +63,7 @@ public class TaskService implements ITaskService {
 
     @Override
     @NotNull
-    public List<TaskDTO> findAll(@Nullable final String userId) {
+    public List<TaskDTO> findByUserId(@Nullable final String userId) {
         if (userId == null || userId.isEmpty()) return Collections.emptyList();
         return taskRepository.findByUserId(userId)
                 .stream()
@@ -109,28 +114,28 @@ public class TaskService implements ITaskService {
 
     @Override
     public List<TaskDTO> findAllSortedByCreateDate(@Nullable final String userId) {
-        @NotNull final List<TaskDTO> tasks = findAll(userId);
+        @NotNull final List<TaskDTO> tasks = findByUserId(userId);
         tasks.sort(Comparator.comparing(AbstractDTO::getCreateDate));
         return tasks;
     }
 
     @Override
     public List<TaskDTO> findAllSortedByStartDate(@Nullable final String userId) {
-        @NotNull final List<TaskDTO> tasks = findAll(userId);
+        @NotNull final List<TaskDTO> tasks = findByUserId(userId);
         tasks.sort(Comparator.comparing(BaseDTO::getStartDate));
         return tasks;
     }
 
     @Override
     public List<TaskDTO> findAllSortedByEndDate(@Nullable final String userId) {
-        @NotNull final List<TaskDTO> tasks = findAll(userId);
+        @NotNull final List<TaskDTO> tasks = findByUserId(userId);
         tasks.sort(Comparator.comparing(BaseDTO::getEndDate));
         return tasks;
     }
 
     @Override
     public List<TaskDTO> findAllSortedByStatus(@Nullable final String userId) {
-        @NotNull final List<TaskDTO> tasks = findAll(userId);
+        @NotNull final List<TaskDTO> tasks = findByUserId(userId);
         tasks.sort(Comparator.comparing(BaseDTO::getStatus));
         return tasks;
     }

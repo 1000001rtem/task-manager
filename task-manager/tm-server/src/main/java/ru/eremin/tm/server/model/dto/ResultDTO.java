@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  * @autor av.eremin on 19.04.2019.
  */
@@ -17,9 +19,11 @@ public class ResultDTO {
     private boolean result;
 
     @Nullable
+    @XmlElement(name = "message")
     private String message;
 
     @Nullable
+    @XmlElement(name = "exception")
     private Exception e;
 
     public ResultDTO(final boolean result) {

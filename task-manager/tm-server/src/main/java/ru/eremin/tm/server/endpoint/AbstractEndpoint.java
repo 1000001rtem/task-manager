@@ -24,6 +24,8 @@ public abstract class AbstractEndpoint {
 
     public void sessionValidate(@Nullable final Session session) throws SessionValidateExeption {
         if (session == null) throw new SessionValidateExeption();
+        if (session.getUserId() == null || !session.getUserId().isEmpty()) throw new SessionValidateExeption();
+        if (session.getUserRole() == null) throw new SessionValidateExeption();
         if (!session.getSign().equals(locator.getSession().getSign())) throw new SessionValidateExeption();
     }
 

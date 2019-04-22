@@ -1,8 +1,12 @@
 package ru.eremin.tm.server.model.service.api;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.AbstractDTO;
 import ru.eremin.tm.server.model.entity.AbstractEntity;
+
+import java.util.List;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
@@ -10,18 +14,23 @@ import ru.eremin.tm.server.model.entity.AbstractEntity;
 
 public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
 
-    E findOne(String id);
+    @NotNull
+    List<E> findAll();
 
-    void persist(E e);
+    @Nullable
+    E findOne(@Nullable String id);
 
-    void merge(E e);
+    void persist(@Nullable E e);
 
-    void update(E e);
+    void merge(@Nullable E e);
 
-    void remove(String id) throws IncorrectDataException;
+    void update(@Nullable E e);
 
-    boolean isExist(String id);
+    void remove(@Nullable String id) throws IncorrectDataException;
 
-    T getEntity(E e);
+    boolean isExist(@Nullable String id);
+
+    @NotNull
+    T getEntity(@NotNull E e);
 
 }

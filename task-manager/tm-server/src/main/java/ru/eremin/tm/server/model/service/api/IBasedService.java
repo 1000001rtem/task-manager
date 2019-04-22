@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IBasedService<T extends AbstractEntity, E extends AbstractDTO> extends IService<T, E> {
 
-    List<E> findAll(String userId);
+    List<E> findByUserId(String userId);
 
     void removeAll(String userId);
 
