@@ -35,8 +35,8 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     public ResultDTO saveJSON(@Nullable final SessionDTO session) throws SessionValidateExeption {
         sessionValidate(session);
         if (!checkAdminRole(session)) return new ResultDTO(new BadRequestExeption("wrong session"));
-        @NotNull final List<ProjectDTO> projects = projectService.findByUserId(session.getUserId());
-        @NotNull final List<TaskDTO> tasks = taskService.findByUserId(session.getUserId());
+        @NotNull final List<ProjectDTO> projects = projectService.findAll();
+        @NotNull final List<TaskDTO> tasks = taskService.findAll();
         @NotNull final Domain domain = new Domain(projects, tasks);
         @NotNull final ObjectMapper mapper = new ObjectMapper();
         @NotNull final String path = "tm-server/documents/serialization/" + session.getUserId();

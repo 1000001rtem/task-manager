@@ -20,7 +20,7 @@ public abstract class AbstractEndpoint {
 
     public void setLocator(@Nullable final ServiceLocator serviceLocator) {
         if (serviceLocator == null) throw new NullPointerException("ServiceLocator == null");
-        this.locator = serviceLocator;//todo:remove
+        this.locator = serviceLocator;
     }
 
     public void sessionValidate(@Nullable final SessionDTO session) throws SessionValidateExeption {

@@ -9,6 +9,7 @@ import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
+import ru.eremin.tm.server.model.service.api.IProjectService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 
 import javax.jws.WebMethod;
@@ -26,12 +27,16 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @NotNull
     private ITaskService taskService;
 
+    @NotNull
+    private IProjectService projectService;
+
     @Override
     @WebMethod
     public ResultDTO persistTask(@Nullable final SessionDTO session, @Nullable final TaskDTO taskDTO) throws SessionValidateExeption {
         sessionValidate(session);
         if (taskDTO == null) new ResultDTO(new BadRequestExeption());
         @NotNull final TaskDTO newTask = new TaskDTO(taskDTO);
+        if(taskService.findByProjectId(newTask.getProjectId()).isEmpty()) return new ResultDTO(false,"Wrong project Id");
         newTask.setUserId(session.getUserId());
         taskService.persist(newTask);
         return new ResultDTO(true);
@@ -65,6 +70,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod(exclude = true)
     public void init() {
         taskService = locator.getTaskService();
+        projectService = locator.getProjectService();
         System.out.println("http://localhost:8080/TaskEndpoint?WSDL");
         Endpoint.publish("http://localhost:8080/TaskEndpoint", this);
     }
