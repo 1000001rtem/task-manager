@@ -1,6 +1,6 @@
 package ru.eremin.tm.server.security;
 
-import ru.eremin.tm.server.model.entity.session.Session;
+import ru.eremin.tm.server.model.dto.SessionDTO;
 
 /**
  * @autor av.eremin on 12.04.2019.
@@ -8,6 +8,6 @@ import ru.eremin.tm.server.model.entity.session.Session;
 
 public interface IAuthService {
 
-    Session login(String login, String hashPassword);
+    SessionDTO login(String login, String hashPassword);
 
 }

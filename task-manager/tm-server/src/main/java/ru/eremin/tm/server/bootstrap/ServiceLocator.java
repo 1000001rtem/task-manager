@@ -1,7 +1,7 @@
 package ru.eremin.tm.server.bootstrap;
 
-import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.model.service.api.IProjectService;
+import ru.eremin.tm.server.model.service.api.ISessionService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 import ru.eremin.tm.server.model.service.api.IUserService;
 import ru.eremin.tm.server.security.IAuthService;
@@ -22,8 +22,6 @@ public interface ServiceLocator {
 
     IAuthService getAuthService();
 
-    Session getSession();
-
-    void setSession(Session session);
+    ISessionService getSessionService();
 
 }

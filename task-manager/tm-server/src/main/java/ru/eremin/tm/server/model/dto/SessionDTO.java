@@ -58,4 +58,14 @@ public class SessionDTO extends AbstractDTO {
         if (sessionDTO.getSign() != null && !sessionDTO.getSign().isEmpty()) this.sign = sessionDTO.getSign();
     }
 
+    @Override
+    public String toString() {
+        return "SessionDTO{" +
+                "userId='" + userId + '\'' +
+                ", userRole=" + userRole +
+                ", sign='" + sign + '\'' +
+                ", id='" + id + '\'' +
+                ", createDate=" + createDate +
+                '}';
+    }
 }

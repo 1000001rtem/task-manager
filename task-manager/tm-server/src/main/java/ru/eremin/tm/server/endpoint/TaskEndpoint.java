@@ -7,8 +7,8 @@ import ru.eremin.tm.server.exeption.BadRequestExeption;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.ResultDTO;
+import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
-import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 
 import javax.jws.WebMethod;
@@ -28,7 +28,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod
-    public ResultDTO persistTask(@Nullable final Session session, @Nullable final TaskDTO taskDTO) throws SessionValidateExeption {
+    public ResultDTO persistTask(@Nullable final SessionDTO session, @Nullable final TaskDTO taskDTO) throws SessionValidateExeption {
         sessionValidate(session);
         if (taskDTO == null) new ResultDTO(new BadRequestExeption());
         @NotNull final TaskDTO newTask = new TaskDTO(taskDTO);
@@ -39,14 +39,14 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod
-    public List<TaskDTO> findAllTasks(@Nullable final Session session) throws SessionValidateExeption {
+    public List<TaskDTO> findAllTasks(@Nullable final SessionDTO session) throws SessionValidateExeption {
         sessionValidate(session);
         return taskService.findByUserId(session.getUserId());
     }
 
     @Override
     @WebMethod
-    public TaskDTO findOneTask(@Nullable final Session session, @Nullable final String id) throws SessionValidateExeption {
+    public TaskDTO findOneTask(@Nullable final SessionDTO session, @Nullable final String id) throws SessionValidateExeption {
         sessionValidate(session);
         if (id == null || id.isEmpty()) return null;
         return taskService.findOne(id);
@@ -54,7 +54,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod
-    public ResultDTO removeTask(@Nullable final Session session, @Nullable final String id) throws IncorrectDataException, SessionValidateExeption {
+    public ResultDTO removeTask(@Nullable final SessionDTO session, @Nullable final String id) throws IncorrectDataException, SessionValidateExeption {
         sessionValidate(session);
         if (id == null || id.isEmpty()) new ResultDTO(new BadRequestExeption());
         taskService.remove(id);

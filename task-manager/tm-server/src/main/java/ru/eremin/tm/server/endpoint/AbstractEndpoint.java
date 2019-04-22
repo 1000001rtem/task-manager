@@ -4,7 +4,7 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.bootstrap.ServiceLocator;
 import ru.eremin.tm.server.exeption.SessionValidateExeption;
-import ru.eremin.tm.server.model.entity.session.Session;
+import ru.eremin.tm.server.model.dto.SessionDTO;
 
 /**
  * @autor av.eremin on 18.04.2019.
@@ -15,18 +15,21 @@ public abstract class AbstractEndpoint {
 
     protected ServiceLocator locator;
 
+
     public abstract void init();
 
     public void setLocator(@Nullable final ServiceLocator serviceLocator) {
         if (serviceLocator == null) throw new NullPointerException("ServiceLocator == null");
-        this.locator = serviceLocator;
+        this.locator = serviceLocator;//todo:remove
     }
 
-    public void sessionValidate(@Nullable final Session session) throws SessionValidateExeption {
+    public void sessionValidate(@Nullable final SessionDTO session) throws SessionValidateExeption {
         if (session == null) throw new SessionValidateExeption();
-        if (session.getUserId() == null || !session.getUserId().isEmpty()) throw new SessionValidateExeption();
+        @Nullable final SessionDTO sessionDTO = locator.getSessionService().findOne(session.getId());
+        if (sessionDTO == null) throw new SessionValidateExeption();
+        if (session.getUserId() == null && !session.getUserId().isEmpty()) throw new SessionValidateExeption();
         if (session.getUserRole() == null) throw new SessionValidateExeption();
-        if (!session.getSign().equals(locator.getSession().getSign())) throw new SessionValidateExeption();
+        if (!session.getSign().equals(sessionDTO.getSign())) throw new SessionValidateExeption();
     }
 
 }

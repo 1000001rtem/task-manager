@@ -6,12 +6,8 @@ import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.endpoint.api.IAdminEndpoint;
 import ru.eremin.tm.server.exeption.BadRequestExeption;
 import ru.eremin.tm.server.exeption.SessionValidateExeption;
-import ru.eremin.tm.server.model.dto.Domain;
-import ru.eremin.tm.server.model.dto.ProjectDTO;
-import ru.eremin.tm.server.model.dto.ResultDTO;
-import ru.eremin.tm.server.model.dto.TaskDTO;
+import ru.eremin.tm.server.model.dto.*;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.model.service.api.IProjectService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 
@@ -36,14 +32,14 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     private IProjectService projectService;
 
     @Override
-    public ResultDTO saveJSON(@Nullable final Session session) throws SessionValidateExeption {
+    public ResultDTO saveJSON(@Nullable final SessionDTO session) throws SessionValidateExeption {
         sessionValidate(session);
         if (!checkAdminRole(session)) return new ResultDTO(new BadRequestExeption("wrong session"));
-        @NotNull final List<ProjectDTO> projects = projectService.findByUserId(locator.getSession().getUserId());
-        @NotNull final List<TaskDTO> tasks = taskService.findByUserId(locator.getSession().getUserId());
+        @NotNull final List<ProjectDTO> projects = projectService.findByUserId(session.getUserId());
+        @NotNull final List<TaskDTO> tasks = taskService.findByUserId(session.getUserId());
         @NotNull final Domain domain = new Domain(projects, tasks);
         @NotNull final ObjectMapper mapper = new ObjectMapper();
-        @NotNull final String path = "tm-server/documents/serialization/" + locator.getSession().getUserId();
+        @NotNull final String path = "tm-server/documents/serialization/" + session.getUserId();
         @NotNull final File file = new File(path);
         file.mkdirs();
         try {
@@ -56,11 +52,11 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     }
 
     @Override
-    public ResultDTO loadJSON(@Nullable final Session session) throws SessionValidateExeption {
+    public ResultDTO loadJSON(@Nullable final SessionDTO session) throws SessionValidateExeption {
         sessionValidate(session);
         if (!checkAdminRole(session)) return new ResultDTO(new BadRequestExeption("wrong session"));
         @NotNull final ObjectMapper mapper = new ObjectMapper();
-        @NotNull final String path = "tm-server/documents/serialization/" + locator.getSession().getUserId();
+        @NotNull final String path = "tm-server/documents/serialization/" + session.getUserId();
         @Nullable final Domain domain;
         try {
             domain = mapper.readValue(new File(path + "/data.json"), Domain.class);
@@ -78,7 +74,7 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     }
 
     @Override
-    public ResultDTO clearJSON(@Nullable final Session session) {
+    public ResultDTO clearJSON(@Nullable final SessionDTO session) {
         return null;
     }
 
@@ -93,7 +89,7 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
 
     @Override
     @WebMethod(exclude = true)
-    public boolean checkAdminRole(@NotNull final Session session) {
+    public boolean checkAdminRole(@NotNull final SessionDTO session) {
         return Role.ADMIN.equals(session.getUserRole());
     }
 

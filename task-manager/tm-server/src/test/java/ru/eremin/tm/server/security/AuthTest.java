@@ -2,6 +2,7 @@ package ru.eremin.tm.server.security;
 
 import org.junit.Test;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
+import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 import ru.eremin.tm.server.model.entity.session.Session;
@@ -32,7 +33,7 @@ public class AuthTest {
 
         userService.persist(userDTO);
 
-        final Session session = authService.login(userDTO.getLogin(), userDTO.getHashPassword());
+        final SessionDTO session = authService.login(userDTO.getLogin(), userDTO.getHashPassword());
         assertNotNull(session);
 
         userService.remove(userDTO.getId());

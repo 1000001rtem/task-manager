@@ -2,8 +2,8 @@ package ru.eremin.tm.server.security;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
-import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.model.service.api.IUserService;
 
 /**
@@ -22,12 +22,12 @@ public class AuthService implements IAuthService {
 
     @Override
     @Nullable
-    public Session login(@Nullable final String login, @Nullable final String hashPassword) {
+    public SessionDTO login(@Nullable final String login, @Nullable final String hashPassword) {
         if (login == null || login.isEmpty()) return null;
         if (hashPassword == null || hashPassword.isEmpty()) return null;
         @Nullable final UserDTO userDTO = userService.findByLogin(login);
         if (userDTO == null || !userDTO.getHashPassword().equals(hashPassword)) return null;
-        @NotNull final Session session = new Session(userDTO);
+        @NotNull final SessionDTO session = new SessionDTO(userDTO);
         return session;
     }
 

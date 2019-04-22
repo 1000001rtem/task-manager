@@ -8,7 +8,7 @@ import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.ResultDTO;
-import ru.eremin.tm.server.model.entity.session.Session;
+import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.service.api.IProjectService;
 
 import javax.jws.WebMethod;
@@ -28,7 +28,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
 
     @Override
     @WebMethod
-    public ResultDTO persistProject(@Nullable final Session session, final ProjectDTO projectDTO) throws SessionValidateExeption {
+    public ResultDTO persistProject(@Nullable final SessionDTO session, final ProjectDTO projectDTO) throws SessionValidateExeption {
         sessionValidate(session);
         if (projectDTO == null) return new ResultDTO(new BadRequestExeption());
         @NotNull final ProjectDTO newProject = new ProjectDTO(projectDTO);
@@ -39,14 +39,14 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
 
     @Override
     @WebMethod
-    public List<ProjectDTO> findAllProjects(@Nullable final Session session) throws SessionValidateExeption {
+    public List<ProjectDTO> findAllProjects(@Nullable final SessionDTO session) throws SessionValidateExeption {
         sessionValidate(session);
         return projectService.findByUserId(session.getUserId());
     }
 
     @Override
     @WebMethod
-    public ProjectDTO findOneProject(@Nullable final Session session, @Nullable final String id) throws SessionValidateExeption {
+    public ProjectDTO findOneProject(@Nullable final SessionDTO session, @Nullable final String id) throws SessionValidateExeption {
         sessionValidate(session);
         if (id == null || id.isEmpty()) return null;
         return projectService.findOne(id);
@@ -54,7 +54,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
 
     @Override
     @WebMethod
-    public ResultDTO removeProject(@Nullable final Session session, @Nullable final String id) throws SessionValidateExeption, IncorrectDataException {
+    public ResultDTO removeProject(@Nullable final SessionDTO session, @Nullable final String id) throws SessionValidateExeption, IncorrectDataException {
         sessionValidate(session);
         if (id == null || id.isEmpty()) return null;
         projectService.remove(id);

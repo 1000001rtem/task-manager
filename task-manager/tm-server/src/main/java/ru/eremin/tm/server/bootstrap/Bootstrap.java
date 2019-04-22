@@ -1,23 +1,25 @@
 package ru.eremin.tm.server.bootstrap;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.server.endpoint.AbstractEndpoint;
 import ru.eremin.tm.server.exeption.IncorrectClassException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.model.repository.ProjectRepository;
+import ru.eremin.tm.server.model.repository.SessionRepository;
 import ru.eremin.tm.server.model.repository.TaskRepository;
 import ru.eremin.tm.server.model.repository.UserRepository;
 import ru.eremin.tm.server.model.repository.api.IProjectRepository;
+import ru.eremin.tm.server.model.repository.api.ISessionRepository;
 import ru.eremin.tm.server.model.repository.api.ITaskRepository;
 import ru.eremin.tm.server.model.repository.api.IUserRepository;
 import ru.eremin.tm.server.model.service.ProjectService;
+import ru.eremin.tm.server.model.service.SessionService;
 import ru.eremin.tm.server.model.service.TaskService;
 import ru.eremin.tm.server.model.service.UserService;
 import ru.eremin.tm.server.model.service.api.IProjectService;
+import ru.eremin.tm.server.model.service.api.ISessionService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 import ru.eremin.tm.server.model.service.api.IUserService;
 import ru.eremin.tm.server.security.AuthService;
@@ -48,17 +50,18 @@ public class Bootstrap implements ServiceLocator {
 
     @NotNull
     @Getter
-    @Setter
-    private Session session;
+    private final ISessionService sessionService;
 
     public Bootstrap() {
         @NotNull final IProjectRepository projectRepository = new ProjectRepository();
         @NotNull final ITaskRepository taskRepository = new TaskRepository();
         @NotNull final IUserRepository userRepository = new UserRepository();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository();
         this.taskService = new TaskService(taskRepository);
         this.projectService = new ProjectService(projectRepository, this.taskService);
         this.userService = new UserService(userRepository);
         this.authService = new AuthService(userService);
+        this.sessionService = new SessionService(sessionRepository);
     }
 
     @Override

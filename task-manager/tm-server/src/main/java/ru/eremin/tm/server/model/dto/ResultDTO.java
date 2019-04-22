@@ -5,7 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @autor av.eremin on 19.04.2019.
@@ -13,7 +16,9 @@ import javax.xml.bind.annotation.XmlElement;
 
 @Getter
 @Setter
+@XmlRootElement
 @NoArgsConstructor
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ResultDTO {
 
     private boolean result;
@@ -24,17 +29,17 @@ public class ResultDTO {
 
     @Nullable
     @XmlElement(name = "exception")
-    private Exception e;
+    private Exception exception;
 
     public ResultDTO(final boolean result) {
         this.result = result;
     }
 
-    public ResultDTO(@Nullable final Exception e) {
-        if (e == null) return;
+    public ResultDTO(@Nullable final Exception exception) {
+        if (exception == null) return;
         this.result = false;
-        this.message = e.getMessage();
-        this.e = e;
+        this.message = exception.getMessage();
+        this.exception = exception;
     }
 
     public ResultDTO(final boolean result, @Nullable final String message) {
