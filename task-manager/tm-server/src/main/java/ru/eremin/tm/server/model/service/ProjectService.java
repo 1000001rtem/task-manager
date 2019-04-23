@@ -128,6 +128,16 @@ public class ProjectService implements IProjectService {
         return tasks;
     }
 
+    @Override
+    public List<ProjectDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
+        return null;
+    }
+
+    @Override
+    public List<ProjectDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
+        return null;
+    }
+
     @NotNull
     @Override
     public Project getEntity(@NotNull final ProjectDTO projectDTO) {

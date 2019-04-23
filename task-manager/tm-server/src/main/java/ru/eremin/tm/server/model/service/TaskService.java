@@ -4,14 +4,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.model.dto.AbstractDTO;
-import ru.eremin.tm.server.model.dto.BaseDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.repository.api.ITaskRepository;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +28,10 @@ public class TaskService implements ITaskService {
 
     @Override
     public @NotNull List<TaskDTO> findAll() {
-        return taskRepository.findAll().stream().map(TaskDTO::new).collect(Collectors.toList());
+        return taskRepository.findAll()
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
     }
 
     @NotNull
@@ -112,32 +112,63 @@ public class TaskService implements ITaskService {
         return taskRepository.findOne(id) != null;
     }
 
+    @NotNull
     @Override
     public List<TaskDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
-        @NotNull final List<TaskDTO> tasks = findByUserId(userId);
-        tasks.sort(Comparator.comparing(AbstractDTO::getCreateDate));
-        return tasks;
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        return taskRepository.findAllSortedByCreateDate(userId)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
     }
 
+    @NotNull
     @Override
     public List<TaskDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
-        @NotNull final List<TaskDTO> tasks = findByUserId(userId);
-        tasks.sort(Comparator.comparing(BaseDTO::getStartDate));
-        return tasks;
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        return taskRepository.findAllSortedByStartDate(userId)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
     }
 
+    @NotNull
     @Override
     public List<TaskDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
-        @NotNull final List<TaskDTO> tasks = findByUserId(userId);
-        tasks.sort(Comparator.comparing(BaseDTO::getEndDate));
-        return tasks;
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        return taskRepository.findAllSortedByEndDate(userId)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @NotNull
+    @Override
+    public List<TaskDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        return taskRepository.findAllSortedByStatus(userId)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<TaskDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
-        @NotNull final List<TaskDTO> tasks = findByUserId(userId);
-        tasks.sort(Comparator.comparing(BaseDTO::getStatus));
-        return tasks;
+    public List<TaskDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
+        return taskRepository.findByName(userId, name)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty() || description == null || description.isEmpty())
+            throw new AccessForbiddenException();
+        return taskRepository.findByDescription(userId, description)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
     }
 
     @NotNull

@@ -18,7 +18,7 @@ public class Application {
             TaskCreateCommand.class, TaskClearCommand.class, TaskInfoCommand.class,
             TaskRemoveCommand.class, TaskShowAllCommand.class, TaskShowInProjectCommand.class,
             TaskChangeStatusCommand.class, TaskFindByNameCommand.class,
-            TaskFindByDescriptionCommand.class,
+            TaskFindByDescriptionCommand.class, TaskSortByStatusCommand.class,
 
             ProjectCreateCommand.class, ProjectClearCommand.class, ProjectInfoCommand.class,
             ProjectRemoveCommand.class, ProjectShowAllCommand.class,

@@ -1,5 +1,6 @@
 package ru.eremin.tm.server.endpoint.api;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
@@ -28,5 +29,18 @@ public interface ITaskEndpoint {
     ResultDTO removeTask(@Nullable SessionDTO sessionDTO, @Nullable String id) throws IncorrectDataException, AccessForbiddenException;
 
     ResultDTO removeAllTasks(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<TaskDTO> findAllTasksSortedByCreateDate(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<TaskDTO> findAllTasksSortedByStartDate(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<TaskDTO> findAllTasksSortedByEndDate(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<TaskDTO> findAllTasksSortedByStatus(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<TaskDTO> findTasksByName(@Nullable SessionDTO sessionDTO, @NotNull String name) throws AccessForbiddenException, IncorrectDataException;
+
+    List<TaskDTO> findTasksByDescription(@Nullable SessionDTO sessionDTO, @NotNull String description) throws AccessForbiddenException, IncorrectDataException;
+
 
 }

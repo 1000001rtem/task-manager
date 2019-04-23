@@ -47,6 +47,36 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
+    public List<Project> findAllSortedByCreateDate(@NotNull final String userId) {
+        return null;
+    }
+
+    @Override
+    public List<Project> findAllSortedByStartDate(@NotNull final String userId) {
+        return null;
+    }
+
+    @Override
+    public List<Project> findAllSortedByEndDate(@NotNull final String userId) {
+        return null;
+    }
+
+    @Override
+    public List<Project> findAllSortedByStatus(@NotNull final String userId) {
+        return null;
+    }
+
+    @Override
+    public List<Project> findByName(@NotNull final String userId, @NotNull final String name) {
+        return null;
+    }
+
+    @Override
+    public List<Project> findByDescription(@NotNull final String userId, @NotNull final String description) {
+        return null;
+    }
+
+    @Override
     public void persist(@NotNull final Project project) {
         projects.put(project.getId(), project);
     }

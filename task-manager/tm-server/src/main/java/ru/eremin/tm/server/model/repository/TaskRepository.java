@@ -3,13 +3,13 @@ package ru.eremin.tm.server.model.repository;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
+import ru.eremin.tm.server.model.entity.AbstractEntity;
+import ru.eremin.tm.server.model.entity.BaseEntity;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.repository.api.ITaskRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
@@ -38,20 +38,86 @@ public class TaskRepository implements ITaskRepository {
         return new ArrayList<>(tasks.values());
     }
 
-    @Override
     @Nullable
+    @Override
     public Task findOne(@NotNull final String id) {
         return tasks.get(id);
     }
 
-    @Override
     @NotNull
+    @Override
     public List<Task> findByUserId(@NotNull final String userId) {
         @NotNull final List<Task> tasksByUser = new ArrayList<>();
         for (final Task task : tasks.values()) {
             if (task.getUserId().equals(userId)) tasksByUser.add(task);
         }
         return tasksByUser;
+    }
+
+    @NotNull
+    @Override
+    public List<Task> findAllSortedByCreateDate(@NotNull final String userId) {
+        @NotNull final List<Task> tasksByUser = new ArrayList<>();
+        for (final Task task : tasks.values()) {
+            if (task.getUserId().equals(userId)) tasksByUser.add(task);
+        }
+        tasksByUser.sort(Comparator.comparing(AbstractEntity::getCreateDate));
+        return tasksByUser;
+    }
+
+    @NotNull
+    @Override
+    public List<Task> findAllSortedByStartDate(@NotNull final String userId) {
+        @NotNull final List<Task> tasksByUser = new ArrayList<>();
+        for (final Task task : tasks.values()) {
+            if (task.getUserId().equals(userId)) tasksByUser.add(task);
+        }
+        tasksByUser.sort(Comparator.comparing(BaseEntity::getStartDate));
+        return tasksByUser;
+    }
+
+    @NotNull
+    @Override
+    public List<Task> findAllSortedByEndDate(@NotNull final String userId) {
+        @NotNull final List<Task> tasksByUser = new ArrayList<>();
+        for (final Task task : tasks.values()) {
+            if (task.getUserId().equals(userId)) tasksByUser.add(task);
+        }
+        tasksByUser.sort(Comparator.comparing(BaseEntity::getEndDate));
+        return tasksByUser;
+    }
+
+    @NotNull
+    @Override
+    public List<Task> findAllSortedByStatus(@NotNull final String userId) {
+        @NotNull final List<Task> tasksByUser = new ArrayList<>();
+        for (final Task task : tasks.values()) {
+            if (task.getUserId().equals(userId)) tasksByUser.add(task);
+        }
+        tasksByUser.sort(Comparator.comparing(BaseEntity::getStatus));
+        return tasksByUser;
+
+    }
+
+    @NotNull
+    @Override
+    public List<Task> findByName(@NotNull final String userId, @NotNull final String name) {
+        @NotNull final List<Task> tasksByUser = new ArrayList<>();
+        for (final Task task : tasks.values()) {
+            if (task.getUserId().equals(userId)) tasksByUser.add(task);
+        }
+        return tasksByUser.stream().filter(e -> e.getName().contains(name)).collect(Collectors.toList());
+    }
+
+    @NotNull
+    @Override
+    public List<Task> findByDescription(@NotNull final String userId, @NotNull final String description) {
+        @NotNull final List<Task> tasksByUser = new ArrayList<>();
+        for (final Task task : tasks.values()) {
+            if (task.getUserId().equals(userId)) tasksByUser.add(task);
+        }
+        return tasksByUser.stream().filter(e -> e.getName().contains(description)).collect(Collectors.toList());
+
     }
 
     @Override

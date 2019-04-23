@@ -48,6 +48,42 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     }
 
     @Override
+    public List<TaskDTO> findAllTasksSortedByCreateDate(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return taskService.findAllSortedByCreateDate(sessionDTO.getUserId());
+    }
+
+    @Override
+    public List<TaskDTO> findAllTasksSortedByStartDate(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return taskService.findAllSortedByStartDate(sessionDTO.getUserId());
+    }
+
+    @Override
+    public List<TaskDTO> findAllTasksSortedByEndDate(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return taskService.findAllSortedByEndDate(sessionDTO.getUserId());
+    }
+
+    @Override
+    public List<TaskDTO> findAllTasksSortedByStatus(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return taskService.findAllSortedByStatus(sessionDTO.getUserId());
+    }
+
+    @Override
+    public List<TaskDTO> findTasksByName(@Nullable final SessionDTO sessionDTO, @NotNull final String name) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return taskService.findByName(sessionDTO.getUserId(), name);
+    }
+
+    @Override
+    public List<TaskDTO> findTasksByDescription(@Nullable final SessionDTO sessionDTO, @NotNull final String description) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return taskService.findByName(sessionDTO.getUserId(), description);
+    }
+
+    @Override
     @WebMethod
     public TaskDTO findOneTask(@Nullable final SessionDTO sessionDTO, @Nullable final String id) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
