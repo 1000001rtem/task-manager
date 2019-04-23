@@ -3,9 +3,8 @@ package ru.eremin.tm.server.endpoint;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.endpoint.api.ITaskEndpoint;
-import ru.eremin.tm.server.exeption.BadRequestExeption;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
@@ -32,37 +31,50 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod
-    public ResultDTO persistTask(@Nullable final SessionDTO session, @Nullable final TaskDTO taskDTO) throws SessionValidateExeption {
-        sessionValidate(session);
-        if (taskDTO == null) new ResultDTO(new BadRequestExeption());
+    public ResultDTO persistTask(@Nullable final SessionDTO sessionDTO, @Nullable final TaskDTO taskDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
         @NotNull final TaskDTO newTask = new TaskDTO(taskDTO);
         if (projectService.findOne(newTask.getProjectId()) == null) return new ResultDTO(false, "Wrong project Id");
-        newTask.setUserId(session.getUserId());
+        newTask.setUserId(sessionDTO.getUserId());
         taskService.persist(newTask);
         return new ResultDTO(true);
     }
 
     @Override
     @WebMethod
-    public List<TaskDTO> findAllTasks(@Nullable final SessionDTO session) throws SessionValidateExeption {
-        sessionValidate(session);
-        return taskService.findByUserId(session.getUserId());
+    public List<TaskDTO> findAllTasks(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return taskService.findByUserId(sessionDTO.getUserId());
     }
 
     @Override
     @WebMethod
-    public TaskDTO findOneTask(@Nullable final SessionDTO session, @Nullable final String id) throws SessionValidateExeption {
-        sessionValidate(session);
-        if (id == null || id.isEmpty()) return null;
+    public TaskDTO findOneTask(@Nullable final SessionDTO sessionDTO, @Nullable final String id) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
         return taskService.findOne(id);
     }
 
     @Override
     @WebMethod
-    public ResultDTO removeTask(@Nullable final SessionDTO session, @Nullable final String id) throws IncorrectDataException, SessionValidateExeption {
-        sessionValidate(session);
-        if (id == null || id.isEmpty()) new ResultDTO(new BadRequestExeption());
+    public ResultDTO updateTask(@Nullable final SessionDTO sessionDTO, @Nullable final TaskDTO taskDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        taskService.update(taskDTO);
+        return new ResultDTO(true);
+    }
+
+    @Override
+    @WebMethod
+    public ResultDTO removeTask(@Nullable final SessionDTO sessionDTO, @Nullable final String id) throws IncorrectDataException, AccessForbiddenException {
+        sessionValidate(sessionDTO);
         taskService.remove(id);
+        return new ResultDTO(true);
+    }
+
+    @Override
+    @WebMethod
+    public ResultDTO removeAllTasks(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        taskService.removeAll(sessionDTO.getUserId());
         return new ResultDTO(true);
     }
 

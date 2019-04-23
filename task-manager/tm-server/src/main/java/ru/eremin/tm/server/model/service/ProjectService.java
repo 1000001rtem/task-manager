@@ -2,6 +2,7 @@ package ru.eremin.tm.server.model.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.AbstractDTO;
 import ru.eremin.tm.server.model.dto.BaseDTO;
@@ -11,7 +12,6 @@ import ru.eremin.tm.server.model.repository.api.IProjectRepository;
 import ru.eremin.tm.server.model.service.api.IProjectService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,19 +39,19 @@ public class ProjectService implements IProjectService {
         return projectRepository.findAll().stream().map(ProjectDTO::new).collect(Collectors.toList());
     }
 
+    @NotNull
     @Override
-    @Nullable
-    public ProjectDTO findOne(@Nullable final String id) {
-        if (id == null || id.isEmpty()) return null;
+    public ProjectDTO findOne(@Nullable final String id) throws IncorrectDataException {
+        if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
         @Nullable final Project project = projectRepository.findOne(id);
-        if (project == null) return null;
+        if (project == null) throw new IncorrectDataException("Wrong id");
         return new ProjectDTO(project);
     }
 
-    @Override
     @NotNull
-    public List<ProjectDTO> findByUserId(@Nullable final String userId) {
-        if (userId == null || userId.isEmpty()) return Collections.emptyList();
+    @Override
+    public List<ProjectDTO> findByUserId(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         return projectRepository.findByUserId(userId)
                 .stream()
                 .map(ProjectDTO::new)
@@ -59,23 +59,23 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public void persist(@Nullable final ProjectDTO projectDTO) {
-        if (projectDTO == null) return;
+    public void persist(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
+        if (projectDTO == null) throw new IncorrectDataException("Project is null");
         @NotNull final Project project = getEntity(projectDTO);
         projectRepository.persist(project);
     }
 
     @Override
-    public void merge(@Nullable final ProjectDTO projectDTO) {
-        if (projectDTO == null) return;
+    public void merge(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
+        if (projectDTO == null) throw new IncorrectDataException("Project is null");
         @NotNull final Project project = getEntity(projectDTO);
         projectRepository.merge(project);
     }
 
 
     @Override
-    public void update(@Nullable final ProjectDTO projectDTO) {
-        if (projectDTO == null) return;
+    public void update(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
+        if (projectDTO == null) throw new IncorrectDataException("Project is null");
         @NotNull final Project project = getEntity(projectDTO);
         projectRepository.update(project);
     }
@@ -88,48 +88,48 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public void removeAll(@Nullable final String userId) {
-        if (userId == null || userId.isEmpty()) return;
+    public void removeAll(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         projectRepository.removeAll(userId);
         taskService.removeAll(userId);
     }
 
     @Override
     public boolean isExist(@Nullable final String id) {
-        if (id == null || id.isEmpty()) return true;
+        if (id == null || id.isEmpty()) return false;
         return projectRepository.findOne(id) != null;
     }
 
     @Override
-    public List<ProjectDTO> findAllSortedByCreateDate(@Nullable final String userId) {
+    public List<ProjectDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
         @NotNull final List<ProjectDTO> tasks = findByUserId(userId);
         tasks.sort(Comparator.comparing(AbstractDTO::getCreateDate));
         return tasks;
     }
 
     @Override
-    public List<ProjectDTO> findAllSortedByStartDate(@Nullable final String userId) {
+    public List<ProjectDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
         @NotNull final List<ProjectDTO> tasks = findByUserId(userId);
         tasks.sort(Comparator.comparing(BaseDTO::getStartDate));
         return tasks;
     }
 
     @Override
-    public List<ProjectDTO> findAllSortedByEndDate(@Nullable final String userId) {
+    public List<ProjectDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
         @NotNull final List<ProjectDTO> tasks = findByUserId(userId);
         tasks.sort(Comparator.comparing(BaseDTO::getEndDate));
         return tasks;
     }
 
     @Override
-    public List<ProjectDTO> findAllSortedByStatus(@Nullable final String userId) {
+    public List<ProjectDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
         @NotNull final List<ProjectDTO> tasks = findByUserId(userId);
         tasks.sort(Comparator.comparing(BaseDTO::getStatus));
         return tasks;
     }
 
-    @Override
     @NotNull
+    @Override
     public Project getEntity(@NotNull final ProjectDTO projectDTO) {
         @NotNull final Project project = new Project();
         project.setId(projectDTO.getId());

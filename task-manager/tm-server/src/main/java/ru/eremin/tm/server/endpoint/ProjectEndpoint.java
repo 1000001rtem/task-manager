@@ -3,9 +3,8 @@ package ru.eremin.tm.server.endpoint;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.endpoint.api.IProjectEndpoint;
-import ru.eremin.tm.server.exeption.BadRequestExeption;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
@@ -28,36 +27,50 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
 
     @Override
     @WebMethod
-    public ResultDTO persistProject(@Nullable final SessionDTO session, final ProjectDTO projectDTO) throws SessionValidateExeption {
-        sessionValidate(session);
-        if (projectDTO == null) return new ResultDTO(new BadRequestExeption());
+    public ResultDTO persistProject(@Nullable final SessionDTO sessionDTO, final ProjectDTO projectDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
         @NotNull final ProjectDTO newProject = new ProjectDTO(projectDTO);
-        newProject.setUserId(session.getUserId());
+        newProject.setUserId(sessionDTO.getUserId());
         projectService.persist(newProject);
         return new ResultDTO(true);
     }
 
     @Override
     @WebMethod
-    public List<ProjectDTO> findAllProjects(@Nullable final SessionDTO session) throws SessionValidateExeption {
-        sessionValidate(session);
-        return projectService.findByUserId(session.getUserId());
+    public List<ProjectDTO> findAllProjects(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return projectService.findByUserId(sessionDTO.getUserId());
     }
 
     @Override
     @WebMethod
-    public ProjectDTO findOneProject(@Nullable final SessionDTO session, @Nullable final String id) throws SessionValidateExeption {
-        sessionValidate(session);
+    public ProjectDTO findOneProject(@Nullable final SessionDTO sessionDTO, @Nullable final String id) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
         if (id == null || id.isEmpty()) return null;
         return projectService.findOne(id);
     }
 
     @Override
     @WebMethod
-    public ResultDTO removeProject(@Nullable final SessionDTO session, @Nullable final String id) throws SessionValidateExeption, IncorrectDataException {
-        sessionValidate(session);
-        if (id == null || id.isEmpty()) return null;
+    public ResultDTO updateProject(@Nullable final SessionDTO sessionDTO, @Nullable final ProjectDTO projectDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        projectService.update(projectDTO);
+        return new ResultDTO(true);
+    }
+
+    @Override
+    @WebMethod
+    public ResultDTO removeProject(@Nullable final SessionDTO sessionDTO, @Nullable final String id) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
         projectService.remove(id);
+        return new ResultDTO(true);
+    }
+
+    @Override
+    @WebMethod
+    public ResultDTO removeAllProjects(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        projectService.removeAll(sessionDTO.getUserId());
         return new ResultDTO(true);
     }
 

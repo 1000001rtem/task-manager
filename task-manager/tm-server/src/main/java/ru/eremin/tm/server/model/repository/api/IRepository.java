@@ -1,5 +1,6 @@
 package ru.eremin.tm.server.model.repository.api;
 
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.entity.AbstractEntity;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface IRepository<T extends AbstractEntity> {
 
     void merge(T t);
 
-    void update(T t);
+    void update(T t) throws IncorrectDataException;
 
     void remove(String id);
 

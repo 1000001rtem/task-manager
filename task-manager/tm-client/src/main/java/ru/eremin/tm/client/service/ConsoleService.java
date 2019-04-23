@@ -4,10 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.client.util.DateUtils;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Scanner;
 
 /**
@@ -45,7 +44,7 @@ public class ConsoleService {
     }
 
     @Nullable
-    public Date getDateFieldFromConsole(@Nullable final String field) {
+    public XMLGregorianCalendar getDateFieldFromConsole(@Nullable final String field) {
         if (field == null || field.isEmpty()) throw new NullPointerException("wrong method attribute");
         String deadline;
         boolean flag;
@@ -62,12 +61,11 @@ public class ConsoleService {
     }
 
     @Nullable
-    private Date getDateFromString(@NotNull final String dateString) {
-        @NotNull final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = null;
+    private XMLGregorianCalendar getDateFromString(@NotNull final String dateString) {
+        XMLGregorianCalendar date = null;
         try {
-            date = dateFormat.parse(dateString);
-        } catch (ParseException e) {
+            date = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateString);
+        } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
         }
         return date;

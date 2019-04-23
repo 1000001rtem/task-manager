@@ -146,7 +146,7 @@
                             <manifest>
                                 <addClasspath>true</addClasspath>
                                 <classpathPrefix>\release\lib\</classpathPrefix>
-                                <mainClass>ru.eremin.tm.Application</mainClass>
+                                <mainClass>ru.eremin.tm.server.Application</mainClass>
                             </manifest>
                             <manifestEntries>
                                 <Implementation-Build>$\{buildNumber}</Implementation-Build>

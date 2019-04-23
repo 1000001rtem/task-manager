@@ -1,5 +1,7 @@
 package ru.eremin.tm.server.security;
 
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 
 /**
@@ -8,6 +10,6 @@ import ru.eremin.tm.server.model.dto.SessionDTO;
 
 public interface IAuthService {
 
-    SessionDTO login(String login, String hashPassword);
+    SessionDTO login(String login, String hashPassword) throws IncorrectDataException, AccessForbiddenException;
 
 }

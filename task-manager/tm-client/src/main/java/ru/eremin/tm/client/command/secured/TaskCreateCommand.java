@@ -2,11 +2,12 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.client.command.AbstractTerminalCommand;
 import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
 
-import java.util.Date;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() throws SessionValidateExeption_Exception {
+    public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         @NotNull final TaskDTO task = getTask();
         @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
         @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
@@ -40,12 +41,12 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
     }
 
     @NotNull
-    private TaskDTO getTask() throws SessionValidateExeption_Exception {
+    private TaskDTO getTask() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         @NotNull final String name = consoleService.getStringFieldFromConsole("Task name");
         @NotNull final String description = consoleService.getStringFieldFromConsole("Description");
-        @NotNull final Date startDate = consoleService.getDateFieldFromConsole("Start date");
-        @NotNull final Date endDate = consoleService.getDateFieldFromConsole("End date");
+        @Nullable final XMLGregorianCalendar startDate = consoleService.getDateFieldFromConsole("Start date");
+        @Nullable final XMLGregorianCalendar endDate = consoleService.getDateFieldFromConsole("End date");
         @NotNull final String projectId = getProjectIdFromConsole();
         @NotNull final TaskDTO task = new TaskDTO();
         task.setName(name);
@@ -58,7 +59,7 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
     }
 
     @NotNull
-    private String getProjectIdFromConsole() throws SessionValidateExeption_Exception {
+    private String getProjectIdFromConsole() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         @NotNull final ConsoleService consoleService = locator.getConsoleService();
         String id;
         boolean flag;

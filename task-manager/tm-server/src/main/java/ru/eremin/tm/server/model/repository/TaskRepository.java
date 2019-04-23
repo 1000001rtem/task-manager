@@ -2,6 +2,7 @@ package ru.eremin.tm.server.model.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.repository.api.ITaskRepository;
 
@@ -65,8 +66,8 @@ public class TaskRepository implements ITaskRepository {
 
 
     @Override
-    public void update(@NotNull final Task task) {
-        if (tasks.get(task.getId()) == null) return;
+    public void update(@NotNull final Task task) throws IncorrectDataException {
+        if (tasks.get(task.getId()) == null) throw new IncorrectDataException("Wrong id");
         tasks.put(task.getId(), task);
     }
 
@@ -82,11 +83,9 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public void removeAll(@NotNull final String userId) {
-        @NotNull final List<Task> tasksByUserId = new ArrayList<>();
         for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUserId.add(task);
+            if (task.getUserId().equals(userId)) tasks.remove(task.getId());
         }
-        remove(tasksByUserId);
     }
 
 }

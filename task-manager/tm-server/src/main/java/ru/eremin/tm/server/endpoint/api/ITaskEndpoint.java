@@ -1,8 +1,8 @@
 package ru.eremin.tm.server.endpoint.api;
 
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
@@ -15,12 +15,16 @@ import java.util.List;
 
 public interface ITaskEndpoint {
 
-    ResultDTO persistTask(@Nullable SessionDTO session, @Nullable TaskDTO taskDTO) throws SessionValidateExeption;
+    ResultDTO persistTask(@Nullable SessionDTO sessionDTO, @Nullable TaskDTO taskDTO) throws AccessForbiddenException, IncorrectDataException;
 
-    List<TaskDTO> findAllTasks(@Nullable SessionDTO session) throws SessionValidateExeption;
+    List<TaskDTO> findAllTasks(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
 
-    TaskDTO findOneTask(@Nullable SessionDTO session, @Nullable String id) throws SessionValidateExeption;
+    TaskDTO findOneTask(@Nullable SessionDTO sessionDTO, @Nullable String id) throws AccessForbiddenException, IncorrectDataException;
 
-    ResultDTO removeTask(@Nullable SessionDTO session, @Nullable String id) throws IncorrectDataException, SessionValidateExeption;
+    ResultDTO updateTask(@Nullable SessionDTO sessionDTO, @Nullable TaskDTO taskDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    ResultDTO removeTask(@Nullable SessionDTO sessionDTO, @Nullable String id) throws IncorrectDataException, AccessForbiddenException;
+
+    ResultDTO removeAllTasks(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
 
 }

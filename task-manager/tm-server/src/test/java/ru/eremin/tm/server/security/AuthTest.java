@@ -1,6 +1,7 @@
 package ru.eremin.tm.server.security;
 
 import org.junit.Test;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
@@ -20,7 +21,7 @@ import static junit.framework.TestCase.assertNotNull;
 public class AuthTest {
 
     @Test
-    public void authTest() throws IncorrectDataException {
+    public void authTest() throws IncorrectDataException, AccessForbiddenException {
         final IUserRepository userRepository = new UserRepository();
         final IUserService userService = new UserService(userRepository);
         final IAuthService authService = new AuthService(userService);

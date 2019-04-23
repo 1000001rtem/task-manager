@@ -3,7 +3,8 @@ package ru.eremin.tm.server.endpoint;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.bootstrap.ServiceLocator;
-import ru.eremin.tm.server.exeption.SessionValidateExeption;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 
 /**
@@ -23,13 +24,13 @@ public abstract class AbstractEndpoint {
         this.locator = serviceLocator;
     }
 
-    public void sessionValidate(@Nullable final SessionDTO session) throws SessionValidateExeption {
-        if (session == null) throw new SessionValidateExeption();
+    public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {
+        if (session == null) throw new AccessForbiddenException();
         @Nullable final SessionDTO sessionDTO = locator.getSessionService().findOne(session.getId());
-        if (sessionDTO == null) throw new SessionValidateExeption();
-        if (session.getUserId() == null && !session.getUserId().isEmpty()) throw new SessionValidateExeption();
-        if (session.getUserRole() == null) throw new SessionValidateExeption();
-        if (!session.getSign().equals(sessionDTO.getSign())) throw new SessionValidateExeption();
+        if (sessionDTO == null) throw new AccessForbiddenException();
+        if (session.getUserId() == null && !session.getUserId().isEmpty()) throw new AccessForbiddenException();
+        if (session.getUserRole() == null) throw new AccessForbiddenException();
+        if (!session.getSign().equals(sessionDTO.getSign())) throw new AccessForbiddenException();
     }
 
 }

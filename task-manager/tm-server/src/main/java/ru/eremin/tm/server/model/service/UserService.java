@@ -25,17 +25,16 @@ public class UserService implements IUserService {
         this.userRepository = userRepository;
     }
 
+    @NotNull
     @Override
-    @Nullable
-    public UserDTO findByLogin(@Nullable final String login) {
-        if (login == null || login.isEmpty()) return null;
-        @Nullable final User user = userRepository.findByLogin(login);
-        if (user == null) return null;
+    public UserDTO findByLogin(@Nullable final String login) throws IncorrectDataException {
+        if (login == null || login.isEmpty()) throw new IncorrectDataException("Wrong login");
+        @NotNull final User user = userRepository.findByLogin(login);
         return new UserDTO(user);
     }
 
-    @Override
     @NotNull
+    @Override
     public List<UserDTO> findAll() {
         return userRepository.findAll()
                 .stream()
@@ -43,32 +42,32 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
+    @NotNull
     @Override
-    @Nullable
-    public UserDTO findOne(@Nullable final String id) {
-        if (id == null || id.isEmpty()) return null;
-        final User user = userRepository.findOne(id);
-        if (user == null) return null;
+    public UserDTO findOne(@Nullable final String id) throws IncorrectDataException {
+        if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
+        @Nullable final User user = userRepository.findOne(id);
+        if (user == null) throw new IncorrectDataException("Wrong id");
         return new UserDTO(user);
     }
 
     @Override
-    public void persist(@Nullable final UserDTO userDTO) {
-        if (userDTO == null) return;
+    public void persist(@Nullable final UserDTO userDTO) throws IncorrectDataException {
+        if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
         userRepository.persist(user);
     }
 
     @Override
-    public void merge(@Nullable final UserDTO userDTO) {
-        if (userDTO == null) return;
+    public void merge(@Nullable final UserDTO userDTO) throws IncorrectDataException {
+        if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
         userRepository.persist(user);
     }
 
     @Override
-    public void update(@Nullable final UserDTO userDTO) {
-        if (userDTO == null) return;
+    public void update(@Nullable final UserDTO userDTO) throws IncorrectDataException {
+        if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
         userRepository.update(user);
     }
@@ -85,8 +84,8 @@ public class UserService implements IUserService {
         return userRepository.findOne(id) != null;
     }
 
-    @Override
     @NotNull
+    @Override
     public User getEntity(@NotNull final UserDTO userDTO) {
         @NotNull final User user = new User();
         user.setId(userDTO.getId());

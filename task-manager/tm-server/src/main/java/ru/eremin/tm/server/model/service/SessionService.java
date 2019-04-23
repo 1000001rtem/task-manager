@@ -31,39 +31,48 @@ public class SessionService implements ISessionService {
         return sessionRepository.findAll().stream().map(SessionDTO::new).collect(Collectors.toList());
     }
 
+    @NotNull
+    @Override
+    public SessionDTO findOne(@Nullable final String id) throws IncorrectDataException {
+        if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
+        @Nullable final Session session = sessionRepository.findOne(id);
+        if (session == null) throw new IncorrectDataException("Wrong id");
+        return new SessionDTO(session);
+    }
+
     @Nullable
     @Override
-    public SessionDTO findOne(@Nullable final String id) {
-        if (id == null || id.isEmpty()) return null;
-        @Nullable final Session session = sessionRepository.findOne(id);
+    public SessionDTO findByUserId(@Nullable final String userId) throws IncorrectDataException {
+        if (userId == null || userId.isEmpty()) throw new IncorrectDataException("Wrong id");
+        @Nullable final Session session = sessionRepository.findByUserId(userId);
         if (session == null) return null;
         return new SessionDTO(session);
     }
 
     @Override
-    public void persist(@Nullable final SessionDTO sessionDTO) {
-        if (sessionDTO == null) return;
+    public void persist(@Nullable final SessionDTO sessionDTO) throws IncorrectDataException {
+        if (sessionDTO == null) throw new IncorrectDataException("Session is null");
         @NotNull final Session session = getEntity(sessionDTO);
         sessionRepository.persist(session);
     }
 
     @Override
-    public void merge(@Nullable final SessionDTO sessionDTO) {
-        if (sessionDTO == null) return;
+    public void merge(@Nullable final SessionDTO sessionDTO) throws IncorrectDataException {
+        if (sessionDTO == null) throw new IncorrectDataException("Session is null");
         @NotNull final Session session = getEntity(sessionDTO);
         sessionRepository.persist(session);
     }
 
     @Override
-    public void update(@Nullable final SessionDTO sessionDTO) {
-        if (sessionDTO == null) return;
+    public void update(@Nullable final SessionDTO sessionDTO) throws IncorrectDataException {
+        if (sessionDTO == null) throw new IncorrectDataException("Session is null");
         @NotNull final Session session = getEntity(sessionDTO);
         sessionRepository.update(session);
     }
 
     @Override
     public void remove(@Nullable final String id) throws IncorrectDataException {
-        if (id == null || id.isEmpty()) return;
+        if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
         sessionRepository.remove(id);
     }
 

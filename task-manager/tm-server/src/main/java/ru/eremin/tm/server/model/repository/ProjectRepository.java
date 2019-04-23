@@ -2,6 +2,7 @@ package ru.eremin.tm.server.model.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.repository.api.IProjectRepository;
 
@@ -23,20 +24,20 @@ public class ProjectRepository implements IProjectRepository {
         this.projects = new HashMap<>();
     }
 
-    @Override
     @NotNull
+    @Override
     public List<Project> findAll() {
         return new ArrayList<>(projects.values());
     }
 
-    @Override
     @Nullable
+    @Override
     public Project findOne(@NotNull final String id) {
         return projects.get(id);
     }
 
-    @Override
     @NotNull
+    @Override
     public List<Project> findByUserId(@NotNull final String userId) {
         @NotNull final List<Project> projectsByUser = new ArrayList<>();
         for (final Project project : projects.values()) {
@@ -56,8 +57,8 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
-    public void update(@NotNull final Project project) {
-        if (projects.get(project.getId()) == null) return;
+    public void update(@NotNull final Project project) throws IncorrectDataException {
+        if (projects.get(project.getId()) == null) throw new IncorrectDataException("Wrong id");
         projects.put(project.getId(), project);
     }
 
@@ -73,11 +74,9 @@ public class ProjectRepository implements IProjectRepository {
 
     @Override
     public void removeAll(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUserId = new ArrayList<>();
         for (final Project project : projects.values()) {
-            if (project.getUserId().equals(userId)) projectsByUserId.add(project);
+            if (project.getUserId().equals(userId)) projects.remove(project.getId());
         }
-        remove(projectsByUserId);
     }
 
 }

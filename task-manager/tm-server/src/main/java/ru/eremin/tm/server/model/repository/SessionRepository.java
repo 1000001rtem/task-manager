@@ -2,6 +2,7 @@ package ru.eremin.tm.server.model.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.entity.session.Session;
 import ru.eremin.tm.server.model.repository.api.ISessionRepository;
 
@@ -35,6 +36,15 @@ public class SessionRepository implements ISessionRepository {
         return sessions.get(id);
     }
 
+    @Nullable
+    @Override
+    public Session findByUserId(@NotNull final String userId) {
+        for (final Session session : sessions.values()) {
+            if (session.getUserId().equals(userId)) return session;
+        }
+        return null;
+    }
+
     @Override
     public void persist(@NotNull final Session session) {
         sessions.put(session.getId(), session);
@@ -46,8 +56,8 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Override
-    public void update(final Session session) {
-        if (sessions.get(session.getId()) == null) return;
+    public void update(final Session session) throws IncorrectDataException {
+        if (sessions.get(session.getId()) == null) throw new IncorrectDataException("Session is null");
         sessions.put(session.getId(), session);
     }
 
@@ -59,6 +69,11 @@ public class SessionRepository implements ISessionRepository {
     @Override
     public void remove(final List<Session> sessions) {
         sessions.forEach(e -> remove(e.getId()));
+    }
+
+    @Override
+    public void removeAll() {
+        sessions.clear();
     }
 
 }

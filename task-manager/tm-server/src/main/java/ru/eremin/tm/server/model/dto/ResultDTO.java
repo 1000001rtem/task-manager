@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ResultDTO {
 
-    private boolean result;
+    private boolean success;
 
     @Nullable
     @XmlElement(name = "message")
@@ -31,19 +31,19 @@ public class ResultDTO {
     @XmlElement(name = "exception")
     private Exception exception;
 
-    public ResultDTO(final boolean result) {
-        this.result = result;
+    public ResultDTO(final boolean success) {
+        this.success = success;
     }
 
     public ResultDTO(@Nullable final Exception exception) {
         if (exception == null) return;
-        this.result = false;
+        this.success = false;
         this.message = exception.getMessage();
         this.exception = exception;
     }
 
-    public ResultDTO(final boolean result, @Nullable final String message) {
-        this.result = result;
+    public ResultDTO(final boolean success, @Nullable final String message) {
+        this.success = success;
         this.message = message;
     }
 

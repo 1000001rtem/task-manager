@@ -3,10 +3,7 @@ package ru.eremin.tm.client.command.secured;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.client.command.AbstractTerminalCommand;
-import ru.eremin.tm.server.endpoint.SessionValidateExeption_Exception;
-import ru.eremin.tm.server.endpoint.TaskDTO;
-import ru.eremin.tm.server.endpoint.TaskEndpoint;
-import ru.eremin.tm.server.endpoint.TaskEndpointService;
+import ru.eremin.tm.server.endpoint.*;
 
 /**
  * @autor av.eremin on 10.04.2019.
@@ -31,13 +28,27 @@ public class TaskInfoCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() throws SessionValidateExeption_Exception {
+    public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         @NotNull final String id = locator.getConsoleService().getStringFieldFromConsole("id");
         @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
         @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
         @NotNull final TaskDTO taskDTO = taskEndpoint.findOneTask(locator.getSession(), id);
         if (taskDTO == null) System.out.println("Wrong id");
-        else System.out.println(taskDTO.info());
+        else System.out.println(info(taskDTO));
+    }
+
+    public String info(@NotNull final TaskDTO taskDTO) {
+        return taskDTO.getName() +
+                "{id='" + taskDTO.getId() + '\'' +
+                ", name='" + taskDTO.getName() + '\'' +
+                ", description='" + taskDTO.getDescription() + '\'' +
+                ", status='" + taskDTO.getStatus() + '\'' +
+                ", startDate=" + taskDTO.getStartDate() +
+                ", endDate=" + taskDTO.getEndDate() +
+                ", projectId='" + taskDTO.getProjectId() + '\'' +
+                ", userId='" + taskDTO.getUserId() + '\'' +
+                ", createDate='" + taskDTO.getCreateDate() + '\'' +
+                '}';
     }
 
 }

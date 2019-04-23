@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import ru.eremin.tm.server.config.EntityFactory;
 import ru.eremin.tm.server.config.Order;
 import ru.eremin.tm.server.config.OrderedRunner;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
@@ -67,7 +68,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 1)
-    public void insertTest() {
+    public void insertTest() throws AccessForbiddenException, IncorrectDataException {
         final int beforeUsersSize = userService.findAll().size();
         final int beforeProjectsSize = projectService.findByUserId(userDTO.getId()).size();
         final int beforeTasksSize = taskService.findByUserId(userDTO.getId()).size();
@@ -86,7 +87,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 2)
-    public void findTest() {
+    public void findTest() throws IncorrectDataException, AccessForbiddenException {
         assertEquals(userDTO.getId(), userService.findOne(userDTO.getId()).getId());
         assertEquals(userDTO.getId(), userService.findByLogin(userDTO.getLogin()).getId());
         assertEquals(projectDTO.getId(), projectService.findOne(projectDTO.getId()).getId());
@@ -99,7 +100,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 3)
-    public void updateTest() {
+    public void updateTest() throws IncorrectDataException {
         final UserDTO userTMP = userService.findOne(userDTO.getId());
         final ProjectDTO projectTMP = projectService.findOne(projectDTO.getId());
         final TaskDTO taskTMP = taskService.findOne(taskDTO.getId());
@@ -125,7 +126,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 4)
-    public void mergeTest() {
+    public void mergeTest() throws IncorrectDataException {
         final UserDTO userDTO1 = EntityFactory.getUser();
 
         final ProjectDTO projectDTO1 = EntityFactory.getProject(userDTO1);
@@ -156,7 +157,7 @@ public class ModelTest {
 
     @Test
     @Order(order = 5)
-    public void deleteTest() throws IncorrectDataException {
+    public void deleteTest() throws IncorrectDataException, AccessForbiddenException {
         final int beforeUsersSize = userService.findAll().size();
         final int beforeProjectsSize = projectService.findByUserId(userDTO.getId()).size();
         final int beforeTasksSize = taskService.findByUserId(userDTO.getId()).size();

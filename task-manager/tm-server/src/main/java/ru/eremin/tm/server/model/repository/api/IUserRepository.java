@@ -1,5 +1,6 @@
 package ru.eremin.tm.server.model.repository.api;
 
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.entity.User;
 
 /**
@@ -8,6 +9,6 @@ import ru.eremin.tm.server.model.entity.User;
 
 public interface IUserRepository extends IRepository<User> {
 
-    User findByLogin(String login);
+    User findByLogin(String login) throws IncorrectDataException;
 
 }

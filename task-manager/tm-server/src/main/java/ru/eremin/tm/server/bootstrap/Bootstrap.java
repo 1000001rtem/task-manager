@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.server.endpoint.AbstractEndpoint;
 import ru.eremin.tm.server.exeption.IncorrectClassException;
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 import ru.eremin.tm.server.model.repository.ProjectRepository;
@@ -76,7 +77,11 @@ public class Bootstrap implements ServiceLocator {
                 e.printStackTrace();
             }
         }
-        initUsers();
+        try {
+            initUsers();
+        } catch (IncorrectDataException e) {
+            e.printStackTrace();
+        }
     }
 
     private AbstractEndpoint initEndpoint(final Class endpointClass) throws IncorrectClassException, IllegalAccessException, InstantiationException {
@@ -86,7 +91,7 @@ public class Bootstrap implements ServiceLocator {
         return (AbstractEndpoint) endpointClass.newInstance();
     }
 
-    private void initUsers() {
+    private void initUsers() throws IncorrectDataException {
         @NotNull final UserDTO user = new UserDTO();
         user.setId("6bf0f091-e795-42d1-bb9a-77799cdf37da");
         user.setLogin("user");

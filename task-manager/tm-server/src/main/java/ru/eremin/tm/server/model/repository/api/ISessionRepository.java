@@ -1,5 +1,6 @@
 package ru.eremin.tm.server.model.repository.api;
 
+import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.server.model.entity.session.Session;
 
 /**
@@ -7,4 +8,9 @@ import ru.eremin.tm.server.model.entity.session.Session;
  */
 
 public interface ISessionRepository extends IRepository<Session> {
+
+    Session findByUserId(@NotNull String userId);
+
+    void removeAll();
+
 }

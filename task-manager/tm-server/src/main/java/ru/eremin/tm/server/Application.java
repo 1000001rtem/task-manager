@@ -3,10 +3,7 @@ package ru.eremin.tm.server;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.server.bootstrap.Bootstrap;
 import ru.eremin.tm.server.bootstrap.ServiceLocator;
-import ru.eremin.tm.server.endpoint.AdminEndpoint;
-import ru.eremin.tm.server.endpoint.AuthorizationEndpoint;
-import ru.eremin.tm.server.endpoint.ProjectEndpoint;
-import ru.eremin.tm.server.endpoint.TaskEndpoint;
+import ru.eremin.tm.server.endpoint.*;
 
 /**
  * Hello world!
@@ -14,10 +11,13 @@ import ru.eremin.tm.server.endpoint.TaskEndpoint;
 public class Application {
 
     private static final Class[] CLASSES = {
-            TaskEndpoint.class, AuthorizationEndpoint.class, ProjectEndpoint.class, AdminEndpoint.class
+            TaskEndpoint.class, AuthorizationEndpoint.class, ProjectEndpoint.class, AdminEndpoint.class,
+            UserEndpoint.class
     };
 
     public static void main(String[] args) {
+        Thread thread = new Thread(() -> System.out.println("dddddd"));
+        Runtime.getRuntime().addShutdownHook(thread);
         @NotNull final ServiceLocator locator = new Bootstrap();
         locator.init(CLASSES);
     }

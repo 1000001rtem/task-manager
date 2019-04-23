@@ -1,9 +1,10 @@
 package ru.eremin.tm.server.endpoint;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.endpoint.api.IAuthorizationEndpoint;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.exeption.SessionValidateExeption;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.security.IAuthService;
@@ -25,17 +26,18 @@ public class AuthorizationEndpoint extends AbstractEndpoint implements IAuthoriz
 
     @Override
     @WebMethod
-    public SessionDTO login(@Nullable final String login, @Nullable final String hashPassword) {
-        if (login == null || login.isEmpty() || hashPassword == null || hashPassword.isEmpty()) return null;
-        @Nullable final SessionDTO session = authService.login(login, PasswordHashUtil.md5(hashPassword));
-        if (session == null) return null;
+    public SessionDTO login(@Nullable final String login, @Nullable final String password) throws IncorrectDataException, AccessForbiddenException {
+        @NotNull final SessionDTO session = authService.login(login, PasswordHashUtil.md5(password));
+        if (locator.getSessionService().findByUserId(session.getUserId()) == null) {
+            throw new AccessForbiddenException("Session exist");
+        }
         session.setSign(locator.getSessionService().sign(session));
         locator.getSessionService().persist(session);
-        return session; //TODO: check session
+        return session;
     }
 
     @Override
-    public ResultDTO logout(@Nullable final SessionDTO sessionDTO) throws SessionValidateExeption, IncorrectDataException {
+    public ResultDTO logout(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
         locator.getSessionService().remove(sessionDTO.getId());
         return new ResultDTO(true);

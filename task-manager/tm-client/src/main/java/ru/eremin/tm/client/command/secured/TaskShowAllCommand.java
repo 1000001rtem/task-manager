@@ -3,10 +3,7 @@ package ru.eremin.tm.client.command.secured;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.client.command.AbstractTerminalCommand;
-import ru.eremin.tm.server.endpoint.SessionValidateExeption_Exception;
-import ru.eremin.tm.server.endpoint.TaskDTO;
-import ru.eremin.tm.server.endpoint.TaskEndpoint;
-import ru.eremin.tm.server.endpoint.TaskEndpointService;
+import ru.eremin.tm.server.endpoint.*;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class TaskShowAllCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() throws SessionValidateExeption_Exception {
+    public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
         @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
         @NotNull final List<TaskDTO> taskDTOS = taskEndpoint.findAllTasks(locator.getSession());

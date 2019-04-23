@@ -2,6 +2,7 @@ package ru.eremin.tm.server.model.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.model.repository.api.IUserRepository;
 
@@ -22,23 +23,23 @@ public class UserRepository implements IUserRepository {
         this.users = new HashMap<>();
     }
 
+    @NotNull
     @Override
-    @Nullable
-    public User findByLogin(@NotNull final String login) {
+    public User findByLogin(@NotNull final String login) throws IncorrectDataException {
         for (final User user : users.values()) {
             if (user.getLogin().equals(login)) return user;
         }
-        return null;
+        throw new IncorrectDataException("Wrong login");
     }
 
-    @Override
     @NotNull
+    @Override
     public List<User> findAll() {
         return new ArrayList<>(users.values());
     }
 
-    @Override
     @Nullable
+    @Override
     public User findOne(@NotNull final String id) {
         return users.get(id);
     }
@@ -54,8 +55,8 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public void update(@NotNull final User user) {
-        if (users.get(user.getId()) == null) return;
+    public void update(@NotNull final User user) throws IncorrectDataException {
+        if (users.get(user.getId()) == null) throw new IncorrectDataException("Wrong id");
         users.put(user.getId(), user);
     }
 

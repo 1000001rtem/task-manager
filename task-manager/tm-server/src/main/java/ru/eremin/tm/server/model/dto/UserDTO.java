@@ -39,6 +39,16 @@ public class UserDTO extends AbstractDTO implements Serializable {
         if (user.getRole() != null) this.role = user.getRole();
     }
 
+    public UserDTO(@Nullable final UserDTO userDTO) {
+        if (userDTO == null) return;
+        if (userDTO.getLogin() == null || userDTO.getLogin().isEmpty()) return;
+        if (userDTO.getHashPassword() == null || userDTO.getHashPassword().isEmpty()) return;
+        if (userDTO.getRole() == null) return;
+        this.login = userDTO.getLogin();
+        this.hashPassword = userDTO.getHashPassword();
+        this.role = userDTO.getRole();
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +

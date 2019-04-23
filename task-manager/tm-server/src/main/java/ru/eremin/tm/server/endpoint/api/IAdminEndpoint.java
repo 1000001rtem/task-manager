@@ -2,7 +2,8 @@ package ru.eremin.tm.server.endpoint.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.exeption.SessionValidateExeption;
+import ru.eremin.tm.server.exeption.AccessForbiddenException;
+import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 
@@ -12,12 +13,12 @@ import ru.eremin.tm.server.model.dto.SessionDTO;
 
 public interface IAdminEndpoint {
 
-    ResultDTO saveJSON(@Nullable SessionDTO session) throws SessionValidateExeption;
+    ResultDTO saveJSON(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
 
-    ResultDTO loadJSON(@Nullable SessionDTO session) throws SessionValidateExeption;
+    ResultDTO loadJSON(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
 
-    ResultDTO clearJSON(@Nullable SessionDTO session) throws SessionValidateExeption;
+    ResultDTO clearJSON(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
 
-    boolean checkAdminRole(@NotNull SessionDTO session);
+    boolean checkAdminRole(@NotNull SessionDTO sessionDTO);
 
 }
