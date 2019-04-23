@@ -216,4 +216,13 @@ public class ProjectDTO {
         this.userId = value;
     }
 
+    @Override
+    public String toString() {
+        return "{id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
+
 }

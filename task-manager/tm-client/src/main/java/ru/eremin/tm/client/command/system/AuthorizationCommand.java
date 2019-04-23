@@ -3,10 +3,7 @@ package ru.eremin.tm.client.command.system;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.client.command.AbstractTerminalCommand;
-import ru.eremin.tm.client.exeption.BadCommandException;
-import ru.eremin.tm.server.endpoint.AuthorizationEndpoint;
-import ru.eremin.tm.server.endpoint.AuthorizationEndpointService;
-import ru.eremin.tm.server.endpoint.SessionDTO;
+import ru.eremin.tm.server.endpoint.*;
 
 
 /**
@@ -32,8 +29,12 @@ public class AuthorizationCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() throws BadCommandException {
+    public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         System.out.println("*** AUTHORIZATION ***");
+        if (locator.getSession() != null) {
+            System.out.println("*** Please logout ***");
+            return;
+        }
         @NotNull final AuthorizationEndpointService authorizationEndpointService = new AuthorizationEndpointService();
         @NotNull final AuthorizationEndpoint authorizationEndpoint = authorizationEndpointService.getAuthorizationEndpointPort();
         @NotNull final String login = locator.getConsoleService().getStringFieldFromConsole("login");

@@ -24,14 +24,22 @@ public class ObjectFactory {
 
     private final static QName _AccessForbiddenException_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "AccessForbiddenException");
     private final static QName _IncorrectDataException_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "IncorrectDataException");
-    private final static QName _ClearJSON_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "clearJSON");
-    private final static QName _ClearJSONResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "clearJSONResponse");
-    private final static QName _LoadJSON_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "loadJSON");
-    private final static QName _LoadJSONResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "loadJSONResponse");
+    private final static QName _ChangeUserPassword_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "changeUserPassword");
+    private final static QName _ChangeUserPasswordResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "changeUserPasswordResponse");
+    private final static QName _FindAllUsers_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "findAllUsers");
+    private final static QName _FindAllUsersResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "findAllUsersResponse");
+    private final static QName _FindOneUser_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "findOneUser");
+    private final static QName _FindOneUserByLogin_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "findOneUserByLogin");
+    private final static QName _FindOneUserByLoginResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "findOneUserByLoginResponse");
+    private final static QName _FindOneUserResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "findOneUserResponse");
+    private final static QName _PersistUser_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "persistUser");
+    private final static QName _PersistUserResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "persistUserResponse");
+    private final static QName _RemoveUser_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "removeUser");
+    private final static QName _RemoveUserResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "removeUserResponse");
     private final static QName _ResultDTO_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "resultDTO");
-    private final static QName _SaveJSON_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "saveJSON");
-    private final static QName _SaveJSONResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "saveJSONResponse");
     private final static QName _Session_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "session");
+    private final static QName _UpdateUser_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "updateUser");
+    private final static QName _UpdateUserResponse_QNAME = new QName("http://endpoint.server.tm.eremin.ru/", "updateUserResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ru.eremin.tm.server.endpoint
@@ -54,31 +62,87 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ClearJSON }
+     * Create an instance of {@link ChangeUserPassword }
      */
-    public ClearJSON createClearJSON() {
-        return new ClearJSON();
+    public ChangeUserPassword createChangeUserPassword() {
+        return new ChangeUserPassword();
     }
 
     /**
-     * Create an instance of {@link ClearJSONResponse }
+     * Create an instance of {@link ChangeUserPasswordResponse }
      */
-    public ClearJSONResponse createClearJSONResponse() {
-        return new ClearJSONResponse();
+    public ChangeUserPasswordResponse createChangeUserPasswordResponse() {
+        return new ChangeUserPasswordResponse();
     }
 
     /**
-     * Create an instance of {@link LoadJSON }
+     * Create an instance of {@link FindAllUsers }
      */
-    public LoadJSON createLoadJSON() {
-        return new LoadJSON();
+    public FindAllUsers createFindAllUsers() {
+        return new FindAllUsers();
     }
 
     /**
-     * Create an instance of {@link LoadJSONResponse }
+     * Create an instance of {@link FindAllUsersResponse }
      */
-    public LoadJSONResponse createLoadJSONResponse() {
-        return new LoadJSONResponse();
+    public FindAllUsersResponse createFindAllUsersResponse() {
+        return new FindAllUsersResponse();
+    }
+
+    /**
+     * Create an instance of {@link FindOneUser }
+     */
+    public FindOneUser createFindOneUser() {
+        return new FindOneUser();
+    }
+
+    /**
+     * Create an instance of {@link FindOneUserByLogin }
+     */
+    public FindOneUserByLogin createFindOneUserByLogin() {
+        return new FindOneUserByLogin();
+    }
+
+    /**
+     * Create an instance of {@link FindOneUserByLoginResponse }
+     */
+    public FindOneUserByLoginResponse createFindOneUserByLoginResponse() {
+        return new FindOneUserByLoginResponse();
+    }
+
+    /**
+     * Create an instance of {@link FindOneUserResponse }
+     */
+    public FindOneUserResponse createFindOneUserResponse() {
+        return new FindOneUserResponse();
+    }
+
+    /**
+     * Create an instance of {@link PersistUser }
+     */
+    public PersistUser createPersistUser() {
+        return new PersistUser();
+    }
+
+    /**
+     * Create an instance of {@link PersistUserResponse }
+     */
+    public PersistUserResponse createPersistUserResponse() {
+        return new PersistUserResponse();
+    }
+
+    /**
+     * Create an instance of {@link RemoveUser }
+     */
+    public RemoveUser createRemoveUser() {
+        return new RemoveUser();
+    }
+
+    /**
+     * Create an instance of {@link RemoveUserResponse }
+     */
+    public RemoveUserResponse createRemoveUserResponse() {
+        return new RemoveUserResponse();
     }
 
     /**
@@ -89,24 +153,31 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SaveJSON }
-     */
-    public SaveJSON createSaveJSON() {
-        return new SaveJSON();
-    }
-
-    /**
-     * Create an instance of {@link SaveJSONResponse }
-     */
-    public SaveJSONResponse createSaveJSONResponse() {
-        return new SaveJSONResponse();
-    }
-
-    /**
      * Create an instance of {@link SessionDTO }
      */
     public SessionDTO createSessionDTO() {
         return new SessionDTO();
+    }
+
+    /**
+     * Create an instance of {@link UpdateUser }
+     */
+    public UpdateUser createUpdateUser() {
+        return new UpdateUser();
+    }
+
+    /**
+     * Create an instance of {@link UpdateUserResponse }
+     */
+    public UpdateUserResponse createUpdateUserResponse() {
+        return new UpdateUserResponse();
+    }
+
+    /**
+     * Create an instance of {@link UserDTO }
+     */
+    public UserDTO createUserDTO() {
+        return new UserDTO();
     }
 
     /**
@@ -147,35 +218,99 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ClearJSON }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ChangeUserPassword }{@code >}}
      */
-    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "clearJSON")
-    public JAXBElement<ClearJSON> createClearJSON(ClearJSON value) {
-        return new JAXBElement<ClearJSON>(_ClearJSON_QNAME, ClearJSON.class, null, value);
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "changeUserPassword")
+    public JAXBElement<ChangeUserPassword> createChangeUserPassword(ChangeUserPassword value) {
+        return new JAXBElement<ChangeUserPassword>(_ChangeUserPassword_QNAME, ChangeUserPassword.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ClearJSONResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ChangeUserPasswordResponse }{@code >}}
      */
-    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "clearJSONResponse")
-    public JAXBElement<ClearJSONResponse> createClearJSONResponse(ClearJSONResponse value) {
-        return new JAXBElement<ClearJSONResponse>(_ClearJSONResponse_QNAME, ClearJSONResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "changeUserPasswordResponse")
+    public JAXBElement<ChangeUserPasswordResponse> createChangeUserPasswordResponse(ChangeUserPasswordResponse value) {
+        return new JAXBElement<ChangeUserPasswordResponse>(_ChangeUserPasswordResponse_QNAME, ChangeUserPasswordResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link LoadJSON }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindAllUsers }{@code >}}
      */
-    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "loadJSON")
-    public JAXBElement<LoadJSON> createLoadJSON(LoadJSON value) {
-        return new JAXBElement<LoadJSON>(_LoadJSON_QNAME, LoadJSON.class, null, value);
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findAllUsers")
+    public JAXBElement<FindAllUsers> createFindAllUsers(FindAllUsers value) {
+        return new JAXBElement<FindAllUsers>(_FindAllUsers_QNAME, FindAllUsers.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link LoadJSONResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindAllUsersResponse }{@code >}}
      */
-    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "loadJSONResponse")
-    public JAXBElement<LoadJSONResponse> createLoadJSONResponse(LoadJSONResponse value) {
-        return new JAXBElement<LoadJSONResponse>(_LoadJSONResponse_QNAME, LoadJSONResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findAllUsersResponse")
+    public JAXBElement<FindAllUsersResponse> createFindAllUsersResponse(FindAllUsersResponse value) {
+        return new JAXBElement<FindAllUsersResponse>(_FindAllUsersResponse_QNAME, FindAllUsersResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindOneUser }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findOneUser")
+    public JAXBElement<FindOneUser> createFindOneUser(FindOneUser value) {
+        return new JAXBElement<FindOneUser>(_FindOneUser_QNAME, FindOneUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindOneUserByLogin }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findOneUserByLogin")
+    public JAXBElement<FindOneUserByLogin> createFindOneUserByLogin(FindOneUserByLogin value) {
+        return new JAXBElement<FindOneUserByLogin>(_FindOneUserByLogin_QNAME, FindOneUserByLogin.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindOneUserByLoginResponse }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findOneUserByLoginResponse")
+    public JAXBElement<FindOneUserByLoginResponse> createFindOneUserByLoginResponse(FindOneUserByLoginResponse value) {
+        return new JAXBElement<FindOneUserByLoginResponse>(_FindOneUserByLoginResponse_QNAME, FindOneUserByLoginResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindOneUserResponse }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findOneUserResponse")
+    public JAXBElement<FindOneUserResponse> createFindOneUserResponse(FindOneUserResponse value) {
+        return new JAXBElement<FindOneUserResponse>(_FindOneUserResponse_QNAME, FindOneUserResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PersistUser }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "persistUser")
+    public JAXBElement<PersistUser> createPersistUser(PersistUser value) {
+        return new JAXBElement<PersistUser>(_PersistUser_QNAME, PersistUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PersistUserResponse }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "persistUserResponse")
+    public JAXBElement<PersistUserResponse> createPersistUserResponse(PersistUserResponse value) {
+        return new JAXBElement<PersistUserResponse>(_PersistUserResponse_QNAME, PersistUserResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveUser }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "removeUser")
+    public JAXBElement<RemoveUser> createRemoveUser(RemoveUser value) {
+        return new JAXBElement<RemoveUser>(_RemoveUser_QNAME, RemoveUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveUserResponse }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "removeUserResponse")
+    public JAXBElement<RemoveUserResponse> createRemoveUserResponse(RemoveUserResponse value) {
+        return new JAXBElement<RemoveUserResponse>(_RemoveUserResponse_QNAME, RemoveUserResponse.class, null, value);
     }
 
     /**
@@ -187,27 +322,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SaveJSON }{@code >}}
-     */
-    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "saveJSON")
-    public JAXBElement<SaveJSON> createSaveJSON(SaveJSON value) {
-        return new JAXBElement<SaveJSON>(_SaveJSON_QNAME, SaveJSON.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SaveJSONResponse }{@code >}}
-     */
-    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "saveJSONResponse")
-    public JAXBElement<SaveJSONResponse> createSaveJSONResponse(SaveJSONResponse value) {
-        return new JAXBElement<SaveJSONResponse>(_SaveJSONResponse_QNAME, SaveJSONResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SessionDTO }{@code >}}
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "session")
     public JAXBElement<SessionDTO> createSession(SessionDTO value) {
         return new JAXBElement<SessionDTO>(_Session_QNAME, SessionDTO.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link UpdateUser }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "updateUser")
+    public JAXBElement<UpdateUser> createUpdateUser(UpdateUser value) {
+        return new JAXBElement<UpdateUser>(_UpdateUser_QNAME, UpdateUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link UpdateUserResponse }{@code >}}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "updateUserResponse")
+    public JAXBElement<UpdateUserResponse> createUpdateUserResponse(UpdateUserResponse value) {
+        return new JAXBElement<UpdateUserResponse>(_UpdateUserResponse_QNAME, UpdateUserResponse.class, null, value);
     }
 
 }

@@ -5,13 +5,11 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.client.command.AbstractTerminalCommand;
-import ru.eremin.tm.client.exeption.BadCommandException;
 import ru.eremin.tm.client.exeption.IncorrectCommandClassException;
-import ru.eremin.tm.client.exeption.IncorrectDataException;
 import ru.eremin.tm.client.service.ConsoleService;
+import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 import ru.eremin.tm.server.endpoint.SessionDTO;
-import ru.eremin.tm.server.endpoint.SessionValidateExeption_Exception;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
@@ -29,6 +27,10 @@ public class Bootstrap implements ServiceLocator {
     @NotNull
     private final Scanner scanner;
 
+    @NotNull
+    @Getter
+    private final Map<String, AbstractTerminalCommand> commands;
+
     @Nullable
     @Getter
     @Setter
@@ -38,12 +40,8 @@ public class Bootstrap implements ServiceLocator {
     @Getter
     private ConsoleService consoleService;
 
-    @NotNull
-    @Getter
-    private final Map<String, AbstractTerminalCommand> commands;
-
     public Bootstrap() {
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in, "cp1251");
         this.consoleService = new ConsoleService(this.scanner);
         this.commands = new HashMap<>();
     }
@@ -71,14 +69,13 @@ public class Bootstrap implements ServiceLocator {
             else {
                 try {
                     command.execute();
-                } catch (BadCommandException | IncorrectDataException | ClassNotFoundException | JAXBException | IncorrectDataException_Exception e) {
+                } catch (ClassNotFoundException | JAXBException | IncorrectDataException_Exception e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                     File file = new File("data.ser");
                     file.delete();
-                } catch (SessionValidateExeption_Exception e) {
-                    System.out.println("Wrong session");
+                } catch (AccessForbiddenException_Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -96,6 +93,15 @@ public class Bootstrap implements ServiceLocator {
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
             throw new IncorrectCommandClassException(e);
+        }
+    }
+
+    public void closeSession() {
+        try {
+            commands.get("logout").execute();
+            session = null;
+        } catch (IOException | ClassNotFoundException | JAXBException | IncorrectDataException_Exception | AccessForbiddenException_Exception e) {
+            e.printStackTrace();
         }
     }
 

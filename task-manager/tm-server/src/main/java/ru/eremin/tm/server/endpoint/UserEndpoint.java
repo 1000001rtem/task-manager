@@ -1,5 +1,6 @@
 package ru.eremin.tm.server.endpoint;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.endpoint.api.IUserEndpoint;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
@@ -8,6 +9,7 @@ import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.service.api.IUserService;
+import ru.eremin.tm.server.utils.PasswordHashUtil;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -51,6 +53,21 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
     public UserDTO findOneUserByLogin(@Nullable final SessionDTO sessionDTO, @Nullable final String login) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
         return userService.findByLogin(login);
+    }
+
+    @Override
+    @WebMethod
+    public ResultDTO changeUserPassword(@Nullable final SessionDTO sessionDTO,
+                                        @Nullable final String oldPassword,
+                                        @Nullable final String newPassword) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        @NotNull final UserDTO userDTO = userService.findOne(sessionDTO.getUserId());
+        if (!userDTO.getHashPassword().equals(PasswordHashUtil.md5(oldPassword))) {
+            throw new IncorrectDataException("wrong old password");
+        }
+        userDTO.setHashPassword(PasswordHashUtil.md5(newPassword));
+        userService.update(userDTO);
+        return new ResultDTO(true);
     }
 
     @Override

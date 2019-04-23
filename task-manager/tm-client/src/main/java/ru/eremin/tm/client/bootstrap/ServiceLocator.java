@@ -22,4 +22,6 @@ public interface ServiceLocator {
 
     Map<String, AbstractTerminalCommand> getCommands();
 
+    void closeSession();
+
 }

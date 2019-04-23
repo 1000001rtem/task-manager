@@ -16,8 +16,6 @@ public class Application {
     };
 
     public static void main(String[] args) {
-        Thread thread = new Thread(() -> System.out.println("dddddd"));
-        Runtime.getRuntime().addShutdownHook(thread);
         @NotNull final ServiceLocator locator = new Bootstrap();
         locator.init(CLASSES);
     }

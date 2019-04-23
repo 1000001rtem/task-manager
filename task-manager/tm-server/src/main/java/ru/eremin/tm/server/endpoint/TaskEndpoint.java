@@ -56,6 +56,13 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod
+    public List<TaskDTO> findTaskByProjectId(@Nullable final SessionDTO sessionDTO, @Nullable final String projectId) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return taskService.findByProjectId(projectId);
+    }
+
+    @Override
+    @WebMethod
     public ResultDTO updateTask(@Nullable final SessionDTO sessionDTO, @Nullable final TaskDTO taskDTO) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
         taskService.update(taskDTO);

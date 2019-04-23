@@ -28,7 +28,7 @@ public class AuthorizationEndpoint extends AbstractEndpoint implements IAuthoriz
     @WebMethod
     public SessionDTO login(@Nullable final String login, @Nullable final String password) throws IncorrectDataException, AccessForbiddenException {
         @NotNull final SessionDTO session = authService.login(login, PasswordHashUtil.md5(password));
-        if (locator.getSessionService().findByUserId(session.getUserId()) == null) {
+        if (locator.getSessionService().findByUserId(session.getUserId()) != null) {
             throw new AccessForbiddenException("Session exist");
         }
         session.setSign(locator.getSessionService().sign(session));

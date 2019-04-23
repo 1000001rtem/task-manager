@@ -1,8 +1,13 @@
 package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.client.command.AbstractTerminalCommand;
-import ru.eremin.tm.client.exeption.IncorrectDataException;
+import ru.eremin.tm.server.endpoint.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @autor av.eremin on 16.04.2019.
@@ -27,24 +32,22 @@ public class TaskChangeStatusCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() throws IncorrectDataException {
-//        @NotNull final ITaskService taskService = locator.getTaskService();
-//        @NotNull final ConsoleService consoleService = locator.getConsoleService();
-//        @NotNull final String projectId = consoleService.getStringFieldFromConsole("Task id");
-//        @NotNull final TaskDTO taskDTO = taskService.findOne(projectId);
-//        if (taskDTO == null) {
-//            throw new IncorrectDataException("Wrong id");
-//        }
-//        @NotNull final List<Status> statuses = Arrays.stream(Status.values()).collect(Collectors.toList());
-//        statuses.forEach(System.out::println);
-//        @NotNull final String newStatus = consoleService.getStringFieldFromConsole("New status");
-//        for (final Status status : statuses) {
-//            if (status.getDisplayName().equalsIgnoreCase(newStatus)) taskDTO.setStatus(status);
-//        }
-//        if (!newStatus.equalsIgnoreCase(taskDTO.getStatus().getDisplayName())) {
-//            throw new IncorrectDataException("Wrong status");
-//        }
-//        taskService.update(taskDTO);
+    public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
+        @NotNull final String projectId = locator.getConsoleService().getStringFieldFromConsole("Task id");
+        @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
+        @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
+        @NotNull final TaskDTO taskDTO = taskEndpoint.findOneTask(locator.getSession(), projectId);
+        @NotNull final List<Status> statuses = Arrays.stream(Status.values()).collect(Collectors.toList());
+        statuses.forEach(System.out::println);
+        @NotNull final String newStatus = locator.getConsoleService().getStringFieldFromConsole("New status");
+        for (final Status status : statuses) {
+            if (newStatus.equalsIgnoreCase(status.toString())) {
+                taskDTO.setStatus(status);
+            }
+        }
+        taskEndpoint.updateTask(locator.getSession(), taskDTO);
     }
 
 }
+
+

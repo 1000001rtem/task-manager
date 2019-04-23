@@ -74,9 +74,11 @@ public class ProjectRepository implements IProjectRepository {
 
     @Override
     public void removeAll(@NotNull final String userId) {
+        @NotNull final List<Project> projectsByUserId = new ArrayList<>();
         for (final Project project : projects.values()) {
-            if (project.getUserId().equals(userId)) projects.remove(project.getId());
+            if (project.getUserId().equals(userId)) projectsByUserId.add(project);
         }
+        remove(projectsByUserId);
     }
 
 }

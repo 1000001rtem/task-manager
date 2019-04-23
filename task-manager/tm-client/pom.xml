@@ -6,11 +6,9 @@
 
     <groupId>ru.eremin.tm.client</groupId>
     <artifactId>tm-client</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>tm-client</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
 
     <parent>
         <groupId>ru.eremin.tm</groupId>
@@ -19,38 +17,58 @@
     </parent>
 
     <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-codegen-plugin</artifactId>
-                    <version>3.2.7</version>
-                    <executions>
-                        <execution>
-                            <id>generate-sources</id>
-                            <phase>generate-sources</phase>
-                            <configuration>
-                                <sourceRoot>${project.basedir}/src/main/java</sourceRoot>
-                                <wsdlOptions>
-                                    <wsdlOption>
-                                        <wsdl>http://localhost:8080/TaskEndpoint?WSDL</wsdl>
-                                    </wsdlOption>
-                                    <wsdlOption>
-                                        <wsdl>http://localhost:8080/AuthorizationEndpoint?WSDL</wsdl>
-                                    </wsdlOption>
-                                    <wsdlOption>
-                                        <wsdl>http://localhost:8080/ProjectEndpoint?WSDL</wsdl>
-                                    </wsdlOption>
-                                    <wsdlOption>
-                                        <wsdl>http://localhost:8080/AdminEndpoint?WSDL</wsdl>
-                                    </wsdlOption>
-                                </wsdlOptions>
-                            </configuration>
-                            <goals>
-                                <goal>wsdl2java</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>\release\lib\</classpathPrefix>
+                            <mainClass>ru.eremin.tm.client.Application</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Implementation-Build>$\{buildNumber}</Implementation-Build>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.cxf</groupId>-->
+                <!--<artifactId>cxf-codegen-plugin</artifactId>-->
+                <!--<version>3.2.7</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>generate-sources</id>-->
+                        <!--<phase>generate-sources</phase>-->
+                        <!--<configuration>-->
+                            <!--<sourceRoot>${project.basedir}/src/main/java</sourceRoot>-->
+                            <!--<wsdlOptions>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:8080/TaskEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:8080/AuthorizationEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:8080/ProjectEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:8080/AdminEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:8080/UserEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                            <!--</wsdlOptions>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>wsdl2java</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+        </plugins>
     </build>
 </project>

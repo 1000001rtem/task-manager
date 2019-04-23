@@ -239,4 +239,14 @@ public class TaskDTO {
         this.projectId = value;
     }
 
+    @Override
+    public String toString() {
+        return "{id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
+                ", projectId='" + projectId + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
+
 }

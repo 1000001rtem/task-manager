@@ -7,6 +7,9 @@ import ru.eremin.tm.client.util.DateUtils;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 /**
@@ -62,10 +65,13 @@ public class ConsoleService {
 
     @Nullable
     private XMLGregorianCalendar getDateFromString(@NotNull final String dateString) {
+        @NotNull final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        @NotNull final GregorianCalendar gregorianCalendar = new GregorianCalendar();
         XMLGregorianCalendar date = null;
         try {
-            date = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateString);
-        } catch (DatatypeConfigurationException e) {
+            gregorianCalendar.setTime(simpleDateFormat.parse(dateString));
+            date = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+        } catch (DatatypeConfigurationException | ParseException e) {
             e.printStackTrace();
         }
         return date;

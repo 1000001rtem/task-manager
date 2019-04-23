@@ -21,6 +21,8 @@ public interface ITaskEndpoint {
 
     TaskDTO findOneTask(@Nullable SessionDTO sessionDTO, @Nullable String id) throws AccessForbiddenException, IncorrectDataException;
 
+    List<TaskDTO> findTaskByProjectId(@Nullable SessionDTO sessionDTO, @Nullable String projectId) throws AccessForbiddenException, IncorrectDataException;
+
     ResultDTO updateTask(@Nullable SessionDTO sessionDTO, @Nullable TaskDTO taskDTO) throws AccessForbiddenException, IncorrectDataException;
 
     ResultDTO removeTask(@Nullable SessionDTO sessionDTO, @Nullable String id) throws IncorrectDataException, AccessForbiddenException;

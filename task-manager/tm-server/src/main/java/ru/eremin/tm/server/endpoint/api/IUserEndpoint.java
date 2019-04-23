@@ -23,6 +23,8 @@ public interface IUserEndpoint {
 
     UserDTO findOneUserByLogin(@Nullable SessionDTO sessionDTO, @Nullable String login) throws AccessForbiddenException, IncorrectDataException;
 
+    ResultDTO changeUserPassword(@Nullable SessionDTO sessionDTO, @Nullable String oldPassword, @Nullable String newPassword) throws AccessForbiddenException, IncorrectDataException;
+
     ResultDTO updateUser(@Nullable SessionDTO sessionDTO, @Nullable UserDTO userDTO) throws AccessForbiddenException, IncorrectDataException;
 
     ResultDTO removeUser(@Nullable SessionDTO sessionDTO, @Nullable String id) throws AccessForbiddenException, IncorrectDataException;

@@ -83,9 +83,11 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public void removeAll(@NotNull final String userId) {
+        @NotNull final List<Task> tasksByUserId = new ArrayList<>();
         for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasks.remove(task.getId());
+            if (task.getUserId().equals(userId)) tasksByUserId.add(task);
         }
+        remove(tasksByUserId);
     }
 
 }

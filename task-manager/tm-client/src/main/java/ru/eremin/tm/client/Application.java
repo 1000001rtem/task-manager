@@ -30,7 +30,11 @@ public class Application {
     };
 
     public static void main(String[] args) {
+        System.setProperty("console.encoding", "cp1251");
+        System.setProperty("file.encoding", "cp1251");
         @NotNull final Bootstrap bootstrap = new Bootstrap();
+        @NotNull final Thread thread = new Thread(bootstrap::closeSession);
+        Runtime.getRuntime().addShutdownHook(thread);
         bootstrap.init(CLASSES);
     }
 }

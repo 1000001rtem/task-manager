@@ -27,6 +27,7 @@ public class ExitCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
+        locator.closeSession();
         System.out.println("*** GOODBYE ***");
         System.exit(0);
     }
