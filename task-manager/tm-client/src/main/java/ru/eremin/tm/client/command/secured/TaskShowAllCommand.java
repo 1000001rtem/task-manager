@@ -34,7 +34,25 @@ public class TaskShowAllCommand extends AbstractTerminalCommand {
         @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
         @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
         @NotNull final List<TaskDTO> taskDTOS = taskEndpoint.findAllTasks(locator.getSession());
-        taskDTOS.forEach(System.out::println);
+        taskDTOS.forEach(this::print);
+    }
+
+    private void print(@NotNull final TaskDTO taskDTO) {
+        System.out.println(info(taskDTO));
+    }
+
+    private String info(@NotNull final TaskDTO taskDTO) {
+        return taskDTO.getName() +
+                "{id='" + taskDTO.getId() + '\'' +
+                ", name='" + taskDTO.getName() + '\'' +
+                ", description='" + taskDTO.getDescription() + '\'' +
+                ", status='" + taskDTO.getStatus() + '\'' +
+                ", startDate=" + taskDTO.getStartDate() +
+                ", endDate=" + taskDTO.getEndDate() +
+                ", projectId='" + taskDTO.getProjectId() + '\'' +
+                ", userId='" + taskDTO.getUserId() + '\'' +
+                ", createDate='" + taskDTO.getCreateDate() + '\'' +
+                '}';
     }
 
 }

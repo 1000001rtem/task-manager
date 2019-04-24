@@ -34,7 +34,23 @@ public class ProjectShowAllCommand extends AbstractTerminalCommand {
         @NotNull final ProjectEndpointService projectEndpointService = new ProjectEndpointService();
         @NotNull final ProjectEndpoint projectEndpoint = projectEndpointService.getProjectEndpointPort();
         @NotNull final List<ProjectDTO> projectDTOS = projectEndpoint.findAllProjects(locator.getSession());
-        projectDTOS.forEach(System.out::println);
+        projectDTOS.forEach(this::print);
+    }
+
+    private void print(@NotNull final ProjectDTO projectDTO) {
+        System.out.println(info(projectDTO));
+    }
+
+    private String info(@NotNull final ProjectDTO projectDTO) {
+        return projectDTO.getName() +
+                "{id='" + projectDTO.getId() + '\'' +
+                ", description='" + projectDTO.getDescription() + '\'' +
+                ", status='" + projectDTO.getStatus() + '\'' +
+                ", startDate=" + projectDTO.getStartDate() +
+                ", endDate=" + projectDTO.getEndDate() +
+                ", userId=" + projectDTO.getUserId() +
+                ", createDate=" + projectDTO.getCreateDate() +
+                '}';
     }
 
 }

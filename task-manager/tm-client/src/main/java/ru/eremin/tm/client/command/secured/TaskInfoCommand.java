@@ -37,7 +37,7 @@ public class TaskInfoCommand extends AbstractTerminalCommand {
         else System.out.println(info(taskDTO));
     }
 
-    public String info(@NotNull final TaskDTO taskDTO) {
+    private String info(@NotNull final TaskDTO taskDTO) {
         return taskDTO.getName() +
                 "{id='" + taskDTO.getId() + '\'' +
                 ", name='" + taskDTO.getName() + '\'' +

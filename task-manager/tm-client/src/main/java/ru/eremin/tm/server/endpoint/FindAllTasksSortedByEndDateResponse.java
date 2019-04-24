@@ -1,4 +1,3 @@
-
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.annotation.XmlAccessType;

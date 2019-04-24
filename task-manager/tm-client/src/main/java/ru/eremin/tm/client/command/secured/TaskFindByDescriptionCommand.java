@@ -1,7 +1,11 @@
 package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.server.endpoint.*;
+
+import java.util.List;
 
 /**
  * @autor av.eremin on 16.04.2019.
@@ -26,13 +30,31 @@ public class TaskFindByDescriptionCommand extends AbstractTerminalCommand {
     }
 
     @Override
-    public void execute() {
-//        @NotNull final ConsoleService consoleService = locator.getConsoleService();
-//        @NotNull final ITaskService taskService = locator.getTaskService();
-//        @NotNull final List<TaskDTO> tasks = taskService.findAll(locator.getSession().getUser().getId());
-//        @NotNull final String key = consoleService
-//                .getStringFieldFromConsole("*** Write description or part of description of task ***");
-//        tasks.stream().filter(e -> e.getDescription().contains(key)).forEach(System.out::println);
+    public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
+        @NotNull final String description
+                = locator.getConsoleService().getStringFieldFromConsole("description or part of description of task");
+        @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
+        @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
+        @NotNull final List<TaskDTO> taskDTOList = taskEndpoint.findTasksByDescription(locator.getSession(), description);
+        taskDTOList.forEach(this::print);
+    }
+
+    private void print(@NotNull final TaskDTO taskDTO) {
+        System.out.println(info(taskDTO));
+    }
+
+    private String info(@NotNull final TaskDTO taskDTO) {
+        return taskDTO.getName() +
+                "{id='" + taskDTO.getId() + '\'' +
+                ", name='" + taskDTO.getName() + '\'' +
+                ", description='" + taskDTO.getDescription() + '\'' +
+                ", status='" + taskDTO.getStatus() + '\'' +
+                ", startDate=" + taskDTO.getStartDate() +
+                ", endDate=" + taskDTO.getEndDate() +
+                ", projectId='" + taskDTO.getProjectId() + '\'' +
+                ", userId='" + taskDTO.getUserId() + '\'' +
+                ", createDate='" + taskDTO.getCreateDate() + '\'' +
+                '}';
     }
 
 }

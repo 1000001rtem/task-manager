@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -16,14 +15,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "status")
 public enum Status {
 
-    @XmlEnumValue("ЗАПЛАНИРОВАНО")
-    PLANNED("ЗАПЛАНИРОВАНО"),
+    PLANNED("planned"),
 
-    @XmlEnumValue("В ПРОЦЕССЕ")
-    DURING("В ПРОЦЕССЕ"),
+    DURING("during"),
 
-    @XmlEnumValue("ГОТОВО")
-    DONE("ГОТОВО");
+    DONE("done");
 
     @NotNull
     private String displayName;

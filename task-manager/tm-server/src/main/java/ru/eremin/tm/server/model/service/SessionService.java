@@ -77,6 +77,11 @@ public class SessionService implements ISessionService {
     }
 
     @Override
+    public void removeAll() {
+        sessionRepository.removeAll();
+    }
+
+    @Override
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
         return sessionRepository.findOne(id) == null;

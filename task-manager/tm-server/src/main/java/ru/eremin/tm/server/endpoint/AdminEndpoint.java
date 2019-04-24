@@ -35,7 +35,7 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     @WebMethod
     public ResultDTO saveJSON(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
-        if (!checkAdminRole(sessionDTO)) throw new AccessForbiddenException("Need admin rights");
+        checkAdminRole(sessionDTO);
         @NotNull final List<ProjectDTO> projects = projectService.findAll();
         @NotNull final List<TaskDTO> tasks = taskService.findAll();
         @NotNull final Domain domain = new Domain(projects, tasks);
@@ -56,7 +56,7 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     @WebMethod
     public ResultDTO loadJSON(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
-        if (!checkAdminRole(sessionDTO)) throw new AccessForbiddenException("Need admin rights");
+        checkAdminRole(sessionDTO);
         @NotNull final ObjectMapper mapper = new ObjectMapper();
         @NotNull final String path = "tm-server/documents/serialization";
         @Nullable final Domain domain;
@@ -83,6 +83,7 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     @WebMethod
     public ResultDTO clearJSON(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
+        checkAdminRole(sessionDTO);
         @NotNull final String path = "tm-server/documents/serialization";
         @NotNull final File file = new File(path + "/data.json");
         file.delete();
@@ -100,8 +101,8 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
 
     @Override
     @WebMethod(exclude = true)
-    public boolean checkAdminRole(@NotNull final SessionDTO sessionDTO) {
-        return Role.ADMIN.equals(sessionDTO.getUserRole());
+    public void checkAdminRole(@NotNull final SessionDTO sessionDTO) throws AccessForbiddenException {
+        if (!sessionDTO.getUserRole().equals(Role.ADMIN)) throw new AccessForbiddenException("Need Admin rights");
     }
 
 }

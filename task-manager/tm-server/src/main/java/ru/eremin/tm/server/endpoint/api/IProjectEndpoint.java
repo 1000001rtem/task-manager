@@ -1,5 +1,6 @@
 package ru.eremin.tm.server.endpoint.api;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
@@ -26,5 +27,17 @@ public interface IProjectEndpoint {
     ResultDTO removeProject(@Nullable SessionDTO sessionDTO, @Nullable String id) throws IncorrectDataException, AccessForbiddenException;
 
     ResultDTO removeAllProjects(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<ProjectDTO> findAllProjectsSortedByCreateDate(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<ProjectDTO> findAllProjectsSortedByStartDate(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<ProjectDTO> findAllProjectsSortedByEndDate(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<ProjectDTO> findAllProjectsSortedByStatus(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
+
+    List<ProjectDTO> findProjectsByName(@Nullable SessionDTO sessionDTO, @NotNull String name) throws AccessForbiddenException, IncorrectDataException;
+
+    List<ProjectDTO> findProjectsByDescription(@Nullable SessionDTO sessionDTO, @NotNull String description) throws AccessForbiddenException, IncorrectDataException;
 
 }

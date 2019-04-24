@@ -16,4 +16,6 @@ public interface ISessionService extends IService<Session, SessionDTO> {
 
     String sign(@NotNull SessionDTO sessionDTO);
 
+    void removeAll();
+
 }

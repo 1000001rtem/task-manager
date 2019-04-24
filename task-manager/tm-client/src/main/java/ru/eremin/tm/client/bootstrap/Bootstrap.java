@@ -41,7 +41,7 @@ public class Bootstrap implements ServiceLocator {
     private ConsoleService consoleService;
 
     public Bootstrap() {
-        this.scanner = new Scanner(System.in, "cp1251");
+        this.scanner = new Scanner(System.in);
         this.consoleService = new ConsoleService(this.scanner);
         this.commands = new HashMap<>();
     }

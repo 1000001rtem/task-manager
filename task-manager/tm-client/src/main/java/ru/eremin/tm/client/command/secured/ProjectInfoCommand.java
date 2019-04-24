@@ -36,7 +36,7 @@ public class ProjectInfoCommand extends AbstractTerminalCommand {
         else System.out.println(info(projectDTO));
     }
 
-    public String info(@NotNull final ProjectDTO projectDTO) {
+    private String info(@NotNull final ProjectDTO projectDTO) {
         return projectDTO.getName() +
                 "{id='" + projectDTO.getId() + '\'' +
                 ", description='" + projectDTO.getDescription() + '\'' +

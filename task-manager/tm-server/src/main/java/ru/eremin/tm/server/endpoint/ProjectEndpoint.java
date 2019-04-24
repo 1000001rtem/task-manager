@@ -52,6 +52,47 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
 
     @Override
     @WebMethod
+    public List<ProjectDTO> findAllProjectsSortedByCreateDate(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return projectService.findAllSortedByCreateDate(sessionDTO.getUserId());
+    }
+
+    @Override
+    @WebMethod
+    public List<ProjectDTO> findAllProjectsSortedByStartDate(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return projectService.findAllSortedByStartDate(sessionDTO.getUserId());
+    }
+
+    @Override
+    @WebMethod
+    public List<ProjectDTO> findAllProjectsSortedByEndDate(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        return projectService.findAllSortedByEndDate(sessionDTO.getUserId());
+    }
+
+    @Override
+    @WebMethod
+    public List<ProjectDTO> findAllProjectsSortedByStatus(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return projectService.findAllSortedByStatus(sessionDTO.getUserId());
+    }
+
+    @Override
+    @WebMethod
+    public List<ProjectDTO> findProjectsByName(@Nullable final SessionDTO sessionDTO, @NotNull final String name) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return projectService.findByName(sessionDTO.getUserId(), name);
+    }
+
+    @Override
+    @WebMethod
+    public List<ProjectDTO> findProjectsByDescription(@Nullable final SessionDTO sessionDTO, @NotNull final String description) throws AccessForbiddenException, IncorrectDataException {
+        sessionValidate(sessionDTO);
+        return projectService.findByDescription(sessionDTO.getUserId(), description);
+    }
+
+    @Override
+    @WebMethod
     public ResultDTO updateProject(@Nullable final SessionDTO sessionDTO, @Nullable final ProjectDTO projectDTO) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
         projectService.update(projectDTO);

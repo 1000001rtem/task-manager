@@ -1,4 +1,3 @@
-
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for updateProject complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="updateProject"&gt;
  *   &lt;complexContent&gt;
@@ -23,8 +22,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- *
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "updateProject", propOrder = {
@@ -39,10 +36,8 @@ public class UpdateProject {
     /**
      * Gets the value of the arg0 property.
      *
-     * @return
-     *     possible object is
-     *     {@link SessionDTO }
-     *     
+     * @return possible object is
+     * {@link SessionDTO }
      */
     public SessionDTO getArg0() {
         return arg0;
@@ -51,10 +46,8 @@ public class UpdateProject {
     /**
      * Sets the value of the arg0 property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link SessionDTO }
-     *     
+     * @param value allowed object is
+     *              {@link SessionDTO }
      */
     public void setArg0(SessionDTO value) {
         this.arg0 = value;
@@ -63,10 +56,8 @@ public class UpdateProject {
     /**
      * Gets the value of the arg1 property.
      *
-     * @return
-     *     possible object is
-     *     {@link ProjectDTO }
-     *     
+     * @return possible object is
+     * {@link ProjectDTO }
      */
     public ProjectDTO getArg1() {
         return arg1;
@@ -75,10 +66,8 @@ public class UpdateProject {
     /**
      * Sets the value of the arg1 property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link ProjectDTO }
-     *     
+     * @param value allowed object is
+     *              {@link ProjectDTO }
      */
     public void setArg1(ProjectDTO value) {
         this.arg1 = value;

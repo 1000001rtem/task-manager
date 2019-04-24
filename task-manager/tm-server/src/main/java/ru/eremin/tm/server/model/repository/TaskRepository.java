@@ -47,20 +47,14 @@ public class TaskRepository implements ITaskRepository {
     @NotNull
     @Override
     public List<Task> findByUserId(@NotNull final String userId) {
-        @NotNull final List<Task> tasksByUser = new ArrayList<>();
-        for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUser.add(task);
-        }
+        @NotNull final List<Task> tasksByUser = getTasksByUser(userId);
         return tasksByUser;
     }
 
     @NotNull
     @Override
     public List<Task> findAllSortedByCreateDate(@NotNull final String userId) {
-        @NotNull final List<Task> tasksByUser = new ArrayList<>();
-        for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUser.add(task);
-        }
+        @NotNull final List<Task> tasksByUser = getTasksByUser(userId);
         tasksByUser.sort(Comparator.comparing(AbstractEntity::getCreateDate));
         return tasksByUser;
     }
@@ -68,10 +62,7 @@ public class TaskRepository implements ITaskRepository {
     @NotNull
     @Override
     public List<Task> findAllSortedByStartDate(@NotNull final String userId) {
-        @NotNull final List<Task> tasksByUser = new ArrayList<>();
-        for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUser.add(task);
-        }
+        @NotNull final List<Task> tasksByUser = getTasksByUser(userId);
         tasksByUser.sort(Comparator.comparing(BaseEntity::getStartDate));
         return tasksByUser;
     }
@@ -79,10 +70,7 @@ public class TaskRepository implements ITaskRepository {
     @NotNull
     @Override
     public List<Task> findAllSortedByEndDate(@NotNull final String userId) {
-        @NotNull final List<Task> tasksByUser = new ArrayList<>();
-        for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUser.add(task);
-        }
+        @NotNull final List<Task> tasksByUser = getTasksByUser(userId);
         tasksByUser.sort(Comparator.comparing(BaseEntity::getEndDate));
         return tasksByUser;
     }
@@ -90,10 +78,7 @@ public class TaskRepository implements ITaskRepository {
     @NotNull
     @Override
     public List<Task> findAllSortedByStatus(@NotNull final String userId) {
-        @NotNull final List<Task> tasksByUser = new ArrayList<>();
-        for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUser.add(task);
-        }
+        @NotNull final List<Task> tasksByUser = getTasksByUser(userId);
         tasksByUser.sort(Comparator.comparing(BaseEntity::getStatus));
         return tasksByUser;
 
@@ -102,20 +87,14 @@ public class TaskRepository implements ITaskRepository {
     @NotNull
     @Override
     public List<Task> findByName(@NotNull final String userId, @NotNull final String name) {
-        @NotNull final List<Task> tasksByUser = new ArrayList<>();
-        for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUser.add(task);
-        }
+        @NotNull final List<Task> tasksByUser = getTasksByUser(userId);
         return tasksByUser.stream().filter(e -> e.getName().contains(name)).collect(Collectors.toList());
     }
 
     @NotNull
     @Override
     public List<Task> findByDescription(@NotNull final String userId, @NotNull final String description) {
-        @NotNull final List<Task> tasksByUser = new ArrayList<>();
-        for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUser.add(task);
-        }
+        @NotNull final List<Task> tasksByUser = getTasksByUser(userId);
         return tasksByUser.stream().filter(e -> e.getName().contains(description)).collect(Collectors.toList());
 
     }
@@ -149,11 +128,17 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public void removeAll(@NotNull final String userId) {
-        @NotNull final List<Task> tasksByUserId = new ArrayList<>();
-        for (final Task task : tasks.values()) {
-            if (task.getUserId().equals(userId)) tasksByUserId.add(task);
-        }
+        @NotNull final List<Task> tasksByUserId = getTasksByUser(userId);
         remove(tasksByUserId);
+    }
+
+    @NotNull
+    private List<Task> getTasksByUser(@NotNull final String userId) {
+        @NotNull final List<Task> tasksByUser = new ArrayList<>();
+        for (final Task task : tasks.values()) {
+            if (task.getUserId().equals(userId)) tasksByUser.add(task);
+        }
+        return tasksByUser;
     }
 
 }

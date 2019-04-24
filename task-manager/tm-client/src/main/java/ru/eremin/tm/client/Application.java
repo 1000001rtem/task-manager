@@ -17,12 +17,15 @@ public class Application {
 
             TaskCreateCommand.class, TaskClearCommand.class, TaskInfoCommand.class,
             TaskRemoveCommand.class, TaskShowAllCommand.class, TaskShowInProjectCommand.class,
-            TaskChangeStatusCommand.class, TaskFindByNameCommand.class,
-            TaskFindByDescriptionCommand.class, TaskSortByStatusCommand.class,
+            TaskChangeStatusCommand.class, TaskFindByNameCommand.class, TaskFindByDescriptionCommand.class,
+            TaskSortByStatusCommand.class, TaskSortByStartDateCommand.class, TaskSortByEndDateCommand.class,
+            TaskSortByCreateDateCommand.class,
 
             ProjectCreateCommand.class, ProjectClearCommand.class, ProjectInfoCommand.class,
             ProjectRemoveCommand.class, ProjectShowAllCommand.class,
             ProjectChangeStatusCommand.class, ProjectFindByNameCommand.class, ProjectFindByDescriptionCommand.class,
+            ProjectSortByCreateDateCommand.class, ProjectSortByStartDateCommand.class, ProjectSortByEndDateCommand.class,
+            ProjectSortByStatusCommand.class,
 
             DataClearJSONCommand.class, DataSaveJacksonJSONCommand.class, DataLoadJacksonJSONCommand.class,
 
@@ -30,8 +33,6 @@ public class Application {
     };
 
     public static void main(String[] args) {
-        System.setProperty("console.encoding", "cp1251");
-        System.setProperty("file.encoding", "cp1251");
         @NotNull final Bootstrap bootstrap = new Bootstrap();
         @NotNull final Thread thread = new Thread(bootstrap::closeSession);
         Runtime.getRuntime().addShutdownHook(thread);

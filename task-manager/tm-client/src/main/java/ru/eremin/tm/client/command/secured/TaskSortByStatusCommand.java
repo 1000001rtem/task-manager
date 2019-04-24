@@ -35,7 +35,25 @@ public class TaskSortByStatusCommand extends AbstractTerminalCommand {
         @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
         @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
         @NotNull final List<TaskDTO> taskDTOList = taskEndpoint.findAllTasksSortedByStatus(locator.getSession());
-        taskDTOList.forEach(System.out::println);
+        taskDTOList.forEach(this::print);
+    }
+
+    private void print(@NotNull final TaskDTO taskDTO) {
+        System.out.println(info(taskDTO));
+    }
+
+    private String info(@NotNull final TaskDTO taskDTO) {
+        return taskDTO.getName() +
+                "{id='" + taskDTO.getId() + '\'' +
+                ", name='" + taskDTO.getName() + '\'' +
+                ", description='" + taskDTO.getDescription() + '\'' +
+                ", status='" + taskDTO.getStatus() + '\'' +
+                ", startDate=" + taskDTO.getStartDate() +
+                ", endDate=" + taskDTO.getEndDate() +
+                ", projectId='" + taskDTO.getProjectId() + '\'' +
+                ", userId='" + taskDTO.getUserId() + '\'' +
+                ", createDate='" + taskDTO.getCreateDate() + '\'' +
+                '}';
     }
 
 }

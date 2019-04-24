@@ -4,15 +4,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.model.dto.AbstractDTO;
-import ru.eremin.tm.server.model.dto.BaseDTO;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.repository.api.IProjectRepository;
 import ru.eremin.tm.server.model.service.api.IProjectService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,40 +99,57 @@ public class ProjectService implements IProjectService {
 
     @Override
     public List<ProjectDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
-        @NotNull final List<ProjectDTO> tasks = findByUserId(userId);
-        tasks.sort(Comparator.comparing(AbstractDTO::getCreateDate));
-        return tasks;
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        return projectRepository.findAllSortedByCreateDate(userId)
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ProjectDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
-        @NotNull final List<ProjectDTO> tasks = findByUserId(userId);
-        tasks.sort(Comparator.comparing(BaseDTO::getStartDate));
-        return tasks;
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        return projectRepository.findAllSortedByStartDate(userId)
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ProjectDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
-        @NotNull final List<ProjectDTO> tasks = findByUserId(userId);
-        tasks.sort(Comparator.comparing(BaseDTO::getEndDate));
-        return tasks;
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        return projectRepository.findAllSortedByEndDate(userId)
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ProjectDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
-        @NotNull final List<ProjectDTO> tasks = findByUserId(userId);
-        tasks.sort(Comparator.comparing(BaseDTO::getStatus));
-        return tasks;
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        return projectRepository.findAllSortedByStatus(userId)
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ProjectDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
-        return null;
+        if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
+        return projectRepository.findByName(userId, name)
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ProjectDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
-        return null;
+        if (userId == null || userId.isEmpty() || description == null || description.isEmpty())
+            throw new AccessForbiddenException();
+        return projectRepository.findByDescription(userId, description)
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
     }
 
     @NotNull
