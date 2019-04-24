@@ -2,6 +2,7 @@ package ru.eremin.tm.server.model.entity.enumerated;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
@@ -28,6 +29,13 @@ public enum Status {
         this.displayName = displayName;
     }
 
+    @Nullable
+    public static Status getByDisplayName(@Nullable final String displayName){
+        for (final Status status : values()) {
+            if(status.displayName.equalsIgnoreCase(displayName)) return status;
+        }
+        return null;
+    }
     @Override
     public String toString() {
         return displayName;

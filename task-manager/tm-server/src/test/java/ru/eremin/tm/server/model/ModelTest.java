@@ -28,6 +28,7 @@ import ru.eremin.tm.server.model.service.api.IProjectService;
 import ru.eremin.tm.server.model.service.api.ISessionService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 import ru.eremin.tm.server.model.service.api.IUserService;
+import ru.eremin.tm.server.utils.DBConnectionUtils;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -56,7 +57,7 @@ public class ModelTest {
         taskDTO = EntityFactory.getTask(projectDTO, userDTO);
         sessionDTO = EntityFactory.getSession(userDTO);
 
-        final IProjectRepository projectRepository = new ProjectRepository();
+        final IProjectRepository projectRepository = new ProjectRepository(DBConnectionUtils.getConnection());
         final ITaskRepository taskRepository = new TaskRepository();
         final IUserRepository userRepository = new UserRepository();
         final ISessionRepository sessionRepository = new SessionRepository();
@@ -152,6 +153,10 @@ public class ModelTest {
         assertEquals("UpdateLogin", userService.findOne(userDTO1.getId()).getLogin());
         assertEquals("UpdateName", projectService.findOne(projectDTO1.getId()).getName());
         assertEquals("UpdateName", taskService.findOne(taskDTO1.getId()).getName());
+
+        userService.remove(userDTO1.getId());
+        projectService.remove(projectDTO1.getId());
+        taskService.remove(taskDTO1.getId());
 
     }
 

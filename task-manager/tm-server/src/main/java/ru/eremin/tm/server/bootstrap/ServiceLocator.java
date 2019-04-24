@@ -6,6 +6,8 @@ import ru.eremin.tm.server.model.service.api.ITaskService;
 import ru.eremin.tm.server.model.service.api.IUserService;
 import ru.eremin.tm.server.security.IAuthService;
 
+import java.sql.Connection;
+
 /**
  * @autor av.eremin on 12.04.2019.
  */
@@ -23,5 +25,7 @@ public interface ServiceLocator {
     IAuthService getAuthService();
 
     ISessionService getSessionService();
+
+    Connection getConnection();
 
 }

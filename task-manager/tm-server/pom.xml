@@ -7,14 +7,6 @@
     <groupId>ru.eremin.tm.server</groupId>
     <artifactId>tm-server</artifactId>
     <version>1.0.0</version>
-    <dependencies>
-        <dependency>
-            <groupId>ru.eremin.tm</groupId>
-            <artifactId>task-manager</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 
     <name>tm-server</name>
 
@@ -23,6 +15,14 @@
         <version>1.0.0</version>
         <artifactId>task-manager</artifactId>
     </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.46</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

@@ -22,6 +22,7 @@ import ru.eremin.tm.server.model.service.UserService;
 import ru.eremin.tm.server.model.service.api.IProjectService;
 import ru.eremin.tm.server.model.service.api.ITaskService;
 import ru.eremin.tm.server.model.service.api.IUserService;
+import ru.eremin.tm.server.utils.DBConnectionUtils;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
 import java.util.Date;
@@ -50,7 +51,7 @@ public class MappingEntityTest {
     @BeforeClass
     public static void before() {
         final IUserRepository userRepository = new UserRepository();
-        final IProjectRepository projectRepository = new ProjectRepository();
+        final IProjectRepository projectRepository = new ProjectRepository(DBConnectionUtils.getConnection());
         final ITaskRepository taskRepository = new TaskRepository();
         userService = new UserService(userRepository);
         taskService = new TaskService(taskRepository);

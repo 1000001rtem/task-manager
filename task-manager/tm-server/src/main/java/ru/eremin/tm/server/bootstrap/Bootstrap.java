@@ -25,7 +25,10 @@ import ru.eremin.tm.server.model.service.api.ITaskService;
 import ru.eremin.tm.server.model.service.api.IUserService;
 import ru.eremin.tm.server.security.AuthService;
 import ru.eremin.tm.server.security.IAuthService;
+import ru.eremin.tm.server.utils.DBConnectionUtils;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
+
+import java.sql.Connection;
 
 /**
  * @autor av.eremin on 18.04.2019.
@@ -33,28 +36,33 @@ import ru.eremin.tm.server.utils.PasswordHashUtil;
 
 public class Bootstrap implements ServiceLocator {
 
-    @NotNull
     @Getter
+    @NotNull
     private final IProjectService projectService;
 
-    @NotNull
     @Getter
+    @NotNull
     private final ITaskService taskService;
 
-    @NotNull
     @Getter
+    @NotNull
     private final IUserService userService;
 
-    @NotNull
     @Getter
+    @NotNull
     private final IAuthService authService;
 
-    @NotNull
     @Getter
+    @NotNull
     private final ISessionService sessionService;
 
+    @Getter
+    @NotNull
+    private final Connection connection;
+
     public Bootstrap() {
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository();
+        this.connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
         @NotNull final ITaskRepository taskRepository = new TaskRepository();
         @NotNull final IUserRepository userRepository = new UserRepository();
         @NotNull final ISessionRepository sessionRepository = new SessionRepository();
