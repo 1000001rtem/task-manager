@@ -1,3 +1,4 @@
+
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.annotation.*;
@@ -7,9 +8,9 @@ import java.util.List;
 
 /**
  * <p>Java class for throwable complex type.
- *
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- *
+ * 
  * <pre>
  * &lt;complexType name="throwable"&gt;
  *   &lt;complexContent&gt;
@@ -21,13 +22,15 @@ import java.util.List;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "throwable", propOrder = {
-        "stackTrace"
+    "stackTrace"
 })
 @XmlSeeAlso({
-        Exception.class
+    Exception.class
 })
 public class Throwable {
 
@@ -36,23 +39,25 @@ public class Throwable {
 
     /**
      * Gets the value of the stackTrace property.
-     *
+     * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the stackTrace property.
-     *
+     * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getStackTrace().add(newItem);
      * </pre>
-     *
-     *
+     * 
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link StackTraceElement }
+     * 
+     * 
      */
     public List<StackTraceElement> getStackTrace() {
         if (stackTrace == null) {

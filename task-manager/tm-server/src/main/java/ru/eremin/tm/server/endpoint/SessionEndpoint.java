@@ -11,6 +11,7 @@ import ru.eremin.tm.server.model.entity.enumerated.Role;
 import ru.eremin.tm.server.model.service.api.ISessionService;
 
 import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 import java.util.List;
 
@@ -18,12 +19,14 @@ import java.util.List;
  * @autor av.eremin on 18.04.2019.
  */
 
+@WebService
 public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoint {
 
     @NotNull
     private ISessionService sessionService;
 
     @Override
+    @WebMethod
     public ResultDTO persistSession(@Nullable final SessionDTO adminSession, @Nullable final SessionDTO newSession) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(adminSession);
         checkAdminRole(adminSession);
@@ -32,6 +35,7 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     }
 
     @Override
+    @WebMethod
     public List<SessionDTO> findAllSessions(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
         checkAdminRole(sessionDTO);
@@ -39,6 +43,7 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     }
 
     @Override
+    @WebMethod
     public SessionDTO findOneSession(@Nullable final SessionDTO sessionDTO, @Nullable final String id) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
         checkAdminRole(sessionDTO);
@@ -46,6 +51,7 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     }
 
     @Override
+    @WebMethod
     public ResultDTO updateSession(@Nullable final SessionDTO adminSession, @Nullable final SessionDTO updatedSession) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(adminSession);
         checkAdminRole(adminSession);
@@ -54,6 +60,7 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     }
 
     @Override
+    @WebMethod
     public ResultDTO removeSession(@Nullable final SessionDTO adminSession, @Nullable final String id) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(adminSession);
         checkAdminRole(adminSession);
@@ -62,6 +69,7 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     }
 
     @Override
+    @WebMethod
     public ResultDTO removeAllSessions(@Nullable final SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException {
         sessionValidate(sessionDTO);
         checkAdminRole(sessionDTO);
