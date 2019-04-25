@@ -3,9 +3,9 @@ package ru.eremin.tm.server.repository;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.api.ITaskRepository;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.entity.enumerated.Status;
-import ru.eremin.tm.server.api.ITaskRepository;
 import ru.eremin.tm.server.utils.FieldConst;
 
 import java.sql.*;
@@ -27,7 +27,7 @@ public class TaskRepository implements ITaskRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findByProjectId(@NotNull final String projectId) {
         @NotNull final String query = "SELECT * FROM `task_table` WHERE `project_id` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -41,7 +41,7 @@ public class TaskRepository implements ITaskRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findAll() {
         @NotNull final String query = "SELECT * FROM `task_table`";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -54,7 +54,7 @@ public class TaskRepository implements ITaskRepository {
 
     @Nullable
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public Task findOne(@NotNull final String id) {
         @NotNull final String query = "SELECT * FROM `task_table` WHERE `id` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -68,7 +68,7 @@ public class TaskRepository implements ITaskRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findByUserId(@NotNull final String userId) {
         @NotNull final String query = "SELECT * FROM `task_table` WHERE `user_id` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -82,35 +82,35 @@ public class TaskRepository implements ITaskRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findAllSortedByCreateDate(@NotNull final String userId) {
         return getSortTasks(userId, "`create_date`");
     }
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findAllSortedByStartDate(@NotNull final String userId) {
         return getSortTasks(userId, "`start_date`");
     }
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findAllSortedByEndDate(@NotNull final String userId) {
         return getSortTasks(userId, "`end_date`");
     }
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findAllSortedByStatus(@NotNull final String userId) {
         return getSortTasks(userId, "`task_status`");
     }
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findByName(@NotNull final String userId, @NotNull final String name) {
         @NotNull final String query = "SELECT * FROM `task_table` WHERE `user_id` = ? and `task_name` LIKE ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -125,7 +125,7 @@ public class TaskRepository implements ITaskRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Task> findByDescription(@NotNull final String userId, @NotNull final String description) {
         @NotNull final String query = "SELECT * FROM `task_table` WHERE `user_id` = ? and `task_description` LIKE ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -139,7 +139,7 @@ public class TaskRepository implements ITaskRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void persist(@NotNull final Task task) {
         @NotNull final String query = "INSERT INTO `task_table`" + "(" +
                 FieldConst.ID + ", " +
@@ -174,7 +174,7 @@ public class TaskRepository implements ITaskRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void update(@NotNull final Task task) {
         @NotNull final String query = "UPDATE `task_table` SET " +
                 FieldConst.TASK_NAME + "= ?, " +
@@ -199,7 +199,7 @@ public class TaskRepository implements ITaskRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void remove(@NotNull final String id) {
         @NotNull final String query = "DELETE FROM `task_table` WHERE id = ?";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -219,7 +219,7 @@ public class TaskRepository implements ITaskRepository {
         remove(tasksByUserId);
     }
 
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     private Task fetch(final ResultSet row) {
         if (row == null) return null;
         @NotNull final Task task = new Task();

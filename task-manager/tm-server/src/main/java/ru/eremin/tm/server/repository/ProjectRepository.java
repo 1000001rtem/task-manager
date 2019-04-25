@@ -3,9 +3,9 @@ package ru.eremin.tm.server.repository;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.api.IProjectRepository;
 import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.entity.enumerated.Status;
-import ru.eremin.tm.server.api.IProjectRepository;
 import ru.eremin.tm.server.utils.FieldConst;
 
 import java.sql.*;
@@ -27,7 +27,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Project> findAll() {
         @NotNull final String query = "SELECT * FROM `project_table`;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -40,7 +40,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @Nullable
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public Project findOne(@NotNull final String id) {
         @NotNull final String query = "SELECT * FROM `project_table` WHERE `id` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -54,7 +54,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Project> findByUserId(@NotNull final String userId) {
         @NotNull final String query = "SELECT * FROM `project_table` WHERE `user_id` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -68,7 +68,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Project> findAllSortedByCreateDate(@NotNull final String userId) {
         return getSortProjects(userId, "`create_date`");
 
@@ -76,28 +76,28 @@ public class ProjectRepository implements IProjectRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Project> findAllSortedByStartDate(@NotNull final String userId) {
         return getSortProjects(userId, "`start_date`");
     }
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Project> findAllSortedByEndDate(@NotNull final String userId) {
         return getSortProjects(userId, "`end_date`");
     }
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Project> findAllSortedByStatus(@NotNull final String userId) {
         return getSortProjects(userId, "`project_status`");
     }
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Project> findByName(@NotNull final String userId, @NotNull final String name) {
         @NotNull final String query = "SELECT * FROM `project_table` WHERE `user_id` = ? and `project_name` LIKE ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -112,7 +112,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Project> findByDescription(@NotNull final String userId, @NotNull final String description) {
         @NotNull final String query = "SELECT * FROM `project_table` WHERE `user_id` = ? and `project_description` LIKE ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -126,7 +126,7 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void persist(@NotNull final Project project) {
         @NotNull final String query = "INSERT INTO `project_table`" + "(" +
                 FieldConst.ID + ", " +
@@ -159,7 +159,7 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void update(@NotNull final Project project) {
         @NotNull final String query = "UPDATE `project_table` SET " +
                 FieldConst.PROJECT_NAME + "= ?, " +
@@ -182,7 +182,7 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void remove(@NotNull final String id) {
         @NotNull final String query = "DELETE FROM `project_table` WHERE id = ?";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -203,7 +203,7 @@ public class ProjectRepository implements IProjectRepository {
     }
 
     @Nullable
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     private Project fetch(@Nullable final ResultSet row) {
         if (row == null) return null;
         @NotNull final Project project = new Project();

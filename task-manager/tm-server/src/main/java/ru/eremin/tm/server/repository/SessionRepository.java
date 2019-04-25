@@ -3,15 +3,12 @@ package ru.eremin.tm.server.repository;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.api.ISessionRepository;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 import ru.eremin.tm.server.model.entity.session.Session;
-import ru.eremin.tm.server.api.ISessionRepository;
 import ru.eremin.tm.server.utils.FieldConst;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class SessionRepository implements ISessionRepository {
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<Session> findAll() {
         @NotNull final String query = "SELECT * FROM `session_table`";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -43,7 +40,7 @@ public class SessionRepository implements ISessionRepository {
 
     @Nullable
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public Session findOne(@NotNull final String id) {
         @NotNull final String query = "SELECT * FROM `session_table` WHERE `id` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -57,7 +54,7 @@ public class SessionRepository implements ISessionRepository {
 
     @Nullable
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public Session findByUserId(@NotNull final String userId) {
         @NotNull final String query = "SELECT * FROM `session_table` WHERE `user_id` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -70,7 +67,7 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void persist(@NotNull final Session session) {
         @NotNull final String query = "INSERT INTO `session_table`" + "(" +
                 FieldConst.ID + ", " +
@@ -83,7 +80,6 @@ public class SessionRepository implements ISessionRepository {
         statement.setString(1, session.getId());
         statement.setDate(2, new Date(session.getCreateDate().getTime()));
         statement.setString(3, session.getUserId());
-        System.out.println(session.getUserRole());
         statement.setString(4, session.getUserRole().toString());
         statement.setString(5, session.getSign());
         statement.executeUpdate();
@@ -98,7 +94,7 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void update(@NotNull final Session session) {
         @NotNull final String query = "UPDATE `session_table` SET " +
                 FieldConst.USER_ID + "= ?, " +
@@ -114,7 +110,7 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void remove(@NotNull final String id) {
         @NotNull final String query = "DELETE FROM `session_table` WHERE id = ?";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -129,7 +125,7 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void removeAll() {
         @NotNull final String query = "DELETE FROM `session_table`";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -138,7 +134,7 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Nullable
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     private Session fetch(@Nullable final ResultSet row) {
         if (row == null) return null;
         @NotNull final Session session = new Session();

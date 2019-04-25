@@ -1,15 +1,20 @@
 package ru.eremin.tm.server.service;
 
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.api.IProjectRepository;
+import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.entity.Project;
-import ru.eremin.tm.server.api.IProjectRepository;
-import ru.eremin.tm.server.api.IProjectService;
-import ru.eremin.tm.server.api.ITaskService;
+import ru.eremin.tm.server.repository.ProjectRepository;
+import ru.eremin.tm.server.utils.DBConnectionUtils;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,137 +25,238 @@ import java.util.stream.Collectors;
 public class ProjectService implements IProjectService {
 
     @Nullable
-    private IProjectRepository projectRepository;
-
-    @Nullable
     private ITaskService taskService;
 
     public ProjectService(@Nullable final IProjectRepository projectRepository, @Nullable final ITaskService taskService) {
-        if (projectRepository == null || taskService == null) return;
-        this.projectRepository = projectRepository;
+        if (taskService == null) return;
         this.taskService = taskService;
     }
 
     @NotNull
     @Override
+    @SneakyThrows(SQLException.class)
     public List<ProjectDTO> findAll() {
-        return projectRepository.findAll().stream().map(ProjectDTO::new).collect(Collectors.toList());
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAll()
+                .stream()
+                .map(ProjectDTO::new)
+                .collect(Collectors.toList());
+        connection.commit();
+        connection.close();
+        return projectDTOS;
     }
 
     @NotNull
     @Override
+    @SneakyThrows(SQLException.class)
     public ProjectDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
         @Nullable final Project project = projectRepository.findOne(id);
-        if (project == null) throw new IncorrectDataException("Wrong id");
+        if (project == null) {
+            connection.close();
+            throw new IncorrectDataException("Wrong id");
+        }
+        connection.commit();
+        connection.close();
         return new ProjectDTO(project);
     }
 
     @NotNull
     @Override
+    @SneakyThrows(SQLException.class)
     public List<ProjectDTO> findByUserId(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findByUserId(userId)
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByUserId(userId)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
+        connection.commit();
+        connection.close();
+        return projectDTOS;
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public void persist(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         if (projectDTO == null) throw new IncorrectDataException("Project is null");
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
         @NotNull final Project project = getEntity(projectDTO);
         projectRepository.persist(project);
+        connection.commit();
+        connection.close();
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public void merge(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         if (projectDTO == null) throw new IncorrectDataException("Project is null");
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
         @NotNull final Project project = getEntity(projectDTO);
         projectRepository.merge(project);
+        connection.commit();
+        connection.close();
     }
 
 
     @Override
+    @SneakyThrows(SQLException.class)
     public void update(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         if (projectDTO == null) throw new IncorrectDataException("Project is null");
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
         @NotNull final Project project = getEntity(projectDTO);
         projectRepository.update(project);
+        connection.commit();
+        connection.close();
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
         projectRepository.remove(id);
         taskService.removeAllTasksInProject(id);
+        connection.commit();
+        connection.close();
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public void removeAll(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
         projectRepository.removeAll(userId);
         taskService.removeAll(userId);
+        connection.commit();
+        connection.close();
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        return projectRepository.findOne(id) != null;
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @Nullable final Project project = projectRepository.findOne(id);
+        connection.commit();
+        connection.close();
+        return project != null;
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public List<ProjectDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findAllSortedByCreateDate(userId)
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByCreateDate(userId)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
+        connection.commit();
+        connection.close();
+        return projectDTOS;
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public List<ProjectDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findAllSortedByStartDate(userId)
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByStartDate(userId)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
+        connection.commit();
+        connection.close();
+        return projectDTOS;
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public List<ProjectDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findAllSortedByEndDate(userId)
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByEndDate(userId)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
+        connection.commit();
+        connection.close();
+        return projectDTOS;
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public List<ProjectDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findAllSortedByStatus(userId)
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByStatus(userId)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
+        connection.commit();
+        connection.close();
+        return projectDTOS;
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public List<ProjectDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findByName(userId, name)
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByName(userId, name)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
+        connection.commit();
+        connection.close();
+        return projectDTOS;
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
     public List<ProjectDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty() || description == null || description.isEmpty())
             throw new AccessForbiddenException();
-        return projectRepository.findByDescription(userId, description)
+        @NotNull final Connection connection = DBConnectionUtils.getConnection();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+        connection.setAutoCommit(false);
+        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByDescription(userId, description)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
+        connection.commit();
+        connection.close();
+        return projectDTOS;
     }
 
     @NotNull

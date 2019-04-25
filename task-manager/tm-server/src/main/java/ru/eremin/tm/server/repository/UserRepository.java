@@ -3,15 +3,12 @@ package ru.eremin.tm.server.repository;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.utils.FieldConst;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,21 +27,21 @@ public class UserRepository implements IUserRepository {
 
     @Nullable
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public User findByLogin(@NotNull final String login) {
         @NotNull final String query = "SELECT * FROM `user_table` WHERE `login` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, login);
         @NotNull final ResultSet resultSet = statement.executeQuery();
         if (!resultSet.next()) return null;
-        @NotNull final User user = fetch(resultSet);
+        @Nullable final User user = fetch(resultSet);
         statement.close();
         return user;
     }
 
     @NotNull
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public List<User> findAll() {
         @NotNull final String query = "SELECT * FROM `user_table`;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -58,21 +55,21 @@ public class UserRepository implements IUserRepository {
 
     @Nullable
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public User findOne(@NotNull final String id) {
         @NotNull final String query = "SELECT * FROM `user_table` WHERE `id` = ?;";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, id);
         @NotNull final ResultSet resultSet = statement.executeQuery();
         if (!resultSet.next()) return null;
-        @NotNull final User user = fetch(resultSet);
+        @Nullable final User user = fetch(resultSet);
         statement.close();
         return user;
 
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void persist(@NotNull final User user) {
         @NotNull final String query = "INSERT INTO `user_table`" + "(" +
                 FieldConst.ID + ", " +
@@ -93,13 +90,13 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public void merge(@NotNull final User user) {
-        @NotNull final User user1 = findOne(user.getId());
+        @Nullable final User user1 = findOne(user.getId());
         if (user1 == null) persist(user);
         else update(user);
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void update(@NotNull final User user) {
         @NotNull final String query = "UPDATE `user_table` SET " +
                 FieldConst.LOGIN + "= ?, " +
@@ -116,7 +113,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     public void remove(@NotNull final String id) {
         @NotNull final String query = "DELETE FROM `user_table` WHERE id = ?";
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
@@ -131,7 +128,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Nullable
-    @SneakyThrows
+    @SneakyThrows(SQLException.class)
     private User fetch(@Nullable final ResultSet row) {
         if (row == null) return null;
         @NotNull final User user = new User();
