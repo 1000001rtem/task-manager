@@ -54,6 +54,6 @@ public class EntityFactory {
     }
 
     private static int getRandom() {
-        return Math.round(30);
+        return ((int) (Math.random() * 30));
     }
 }

@@ -3,18 +3,14 @@ package ru.eremin.tm.server.model.repository;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.model.entity.AbstractEntity;
-import ru.eremin.tm.server.model.entity.BaseEntity;
 import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.entity.enumerated.Status;
 import ru.eremin.tm.server.model.repository.api.IProjectRepository;
 import ru.eremin.tm.server.utils.FieldConst;
 
 import java.sql.*;
-import java.sql.Date;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
@@ -50,8 +46,8 @@ public class ProjectRepository implements IProjectRepository {
         @NotNull final PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, id);
         @NotNull final ResultSet resultSet = statement.executeQuery();
-        if(!resultSet.next()) return null;
-        @NotNull final Project project = fetch(resultSet);
+        if (!resultSet.next()) return null;
+        @Nullable final Project project = fetch(resultSet);
         statement.close();
         return project;
     }
@@ -158,7 +154,7 @@ public class ProjectRepository implements IProjectRepository {
     @Override
     public void merge(@NotNull final Project project) {
         @NotNull final Project project1 = findOne(project.getId());
-        if(project1 == null) persist(project);
+        if (project1 == null) persist(project);
         else update(project);
     }
 

@@ -1,10 +1,8 @@
 package ru.eremin.tm.server.utils;
 
 
-import com.sun.org.apache.bcel.internal.util.ClassPath;
 import lombok.SneakyThrows;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;

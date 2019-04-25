@@ -50,9 +50,9 @@ public class MappingEntityTest {
 
     @BeforeClass
     public static void before() {
-        final IUserRepository userRepository = new UserRepository();
+        final IUserRepository userRepository = new UserRepository(DBConnectionUtils.getConnection());
         final IProjectRepository projectRepository = new ProjectRepository(DBConnectionUtils.getConnection());
-        final ITaskRepository taskRepository = new TaskRepository();
+        final ITaskRepository taskRepository = new TaskRepository(DBConnectionUtils.getConnection());
         userService = new UserService(userRepository);
         taskService = new TaskService(taskRepository);
         projectService = new ProjectService(projectRepository, taskService);

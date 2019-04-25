@@ -63,9 +63,9 @@ public class Bootstrap implements ServiceLocator {
     public Bootstrap() {
         this.connection = DBConnectionUtils.getConnection();
         @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
-        @NotNull final ITaskRepository taskRepository = new TaskRepository();
-        @NotNull final IUserRepository userRepository = new UserRepository();
-        @NotNull final ISessionRepository sessionRepository = new SessionRepository();
+        @NotNull final ITaskRepository taskRepository = new TaskRepository(connection);
+        @NotNull final IUserRepository userRepository = new UserRepository(connection);
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(connection);
         this.taskService = new TaskService(taskRepository);
         this.projectService = new ProjectService(projectRepository, this.taskService);
         this.userService = new UserService(userRepository);
@@ -112,8 +112,8 @@ public class Bootstrap implements ServiceLocator {
         admin.setHashPassword(PasswordHashUtil.md5("pass"));
         admin.setRole(Role.ADMIN);
 
-        userService.persist(user);
-        userService.persist(admin);
+        if (userService.findOne(user.getId()) == null) userService.persist(user);
+        if (userService.findOne(admin.getId()) == null) userService.persist(admin);
     }
 
 }

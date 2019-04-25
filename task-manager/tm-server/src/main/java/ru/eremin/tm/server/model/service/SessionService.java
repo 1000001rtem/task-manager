@@ -95,7 +95,7 @@ public class SessionService implements ISessionService {
         if (sessionDTO.getUserId() != null && !sessionDTO.getUserId().isEmpty())
             session.setUserId(sessionDTO.getUserId());
         if (sessionDTO.getSign() != null && !sessionDTO.getSign().isEmpty()) session.setSign(sessionDTO.getSign());
-        if (session.getUserRole() != null) session.setUserRole(sessionDTO.getUserRole());
+        if (sessionDTO.getUserRole() != null) session.setUserRole(sessionDTO.getUserRole());
         return session;
     }
 

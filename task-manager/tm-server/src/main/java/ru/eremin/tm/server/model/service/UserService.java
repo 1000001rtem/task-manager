@@ -62,7 +62,7 @@ public class UserService implements IUserService {
     public void merge(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
-        userRepository.persist(user);
+        userRepository.merge(user);
     }
 
     @Override

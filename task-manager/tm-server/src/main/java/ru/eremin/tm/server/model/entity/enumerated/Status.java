@@ -30,12 +30,13 @@ public enum Status {
     }
 
     @Nullable
-    public static Status getByDisplayName(@Nullable final String displayName){
+    public static Status getByDisplayName(@Nullable final String displayName) {
         for (final Status status : values()) {
-            if(status.displayName.equalsIgnoreCase(displayName)) return status;
+            if (status.displayName.equalsIgnoreCase(displayName)) return status;
         }
         return null;
     }
+
     @Override
     public String toString() {
         return displayName;

@@ -10,6 +10,7 @@ import ru.eremin.tm.server.model.repository.UserRepository;
 import ru.eremin.tm.server.model.repository.api.IUserRepository;
 import ru.eremin.tm.server.model.service.UserService;
 import ru.eremin.tm.server.model.service.api.IUserService;
+import ru.eremin.tm.server.utils.DBConnectionUtils;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -22,7 +23,7 @@ public class AuthTest {
 
     @Test
     public void authTest() throws IncorrectDataException, AccessForbiddenException {
-        final IUserRepository userRepository = new UserRepository();
+        final IUserRepository userRepository = new UserRepository(DBConnectionUtils.getConnection());
         final IUserService userService = new UserService(userRepository);
         final IAuthService authService = new AuthService(userService);
 

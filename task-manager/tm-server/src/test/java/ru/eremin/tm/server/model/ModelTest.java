@@ -1,6 +1,7 @@
 package ru.eremin.tm.server.model;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ru.eremin.tm.server.config.EntityFactory;
@@ -58,9 +59,10 @@ public class ModelTest {
         sessionDTO = EntityFactory.getSession(userDTO);
 
         final IProjectRepository projectRepository = new ProjectRepository(DBConnectionUtils.getConnection());
-        final ITaskRepository taskRepository = new TaskRepository();
-        final IUserRepository userRepository = new UserRepository();
-        final ISessionRepository sessionRepository = new SessionRepository();
+        final ITaskRepository taskRepository = new TaskRepository(DBConnectionUtils.getConnection());
+        final IUserRepository userRepository = new UserRepository(DBConnectionUtils.getConnection());
+        final ISessionRepository sessionRepository = new SessionRepository(DBConnectionUtils.getConnection());
+
         userService = new UserService(userRepository);
         taskService = new TaskService(taskRepository);
         projectService = new ProjectService(projectRepository, taskService);
@@ -154,9 +156,9 @@ public class ModelTest {
         assertEquals("UpdateName", projectService.findOne(projectDTO1.getId()).getName());
         assertEquals("UpdateName", taskService.findOne(taskDTO1.getId()).getName());
 
-        userService.remove(userDTO1.getId());
-        projectService.remove(projectDTO1.getId());
         taskService.remove(taskDTO1.getId());
+        projectService.remove(projectDTO1.getId());
+        userService.remove(userDTO1.getId());
 
     }
 
@@ -168,10 +170,10 @@ public class ModelTest {
         final int beforeTasksSize = taskService.findByUserId(userDTO.getId()).size();
         final int beforeSessionsSize = sessionService.findAll().size();
 
-        userService.remove(userDTO.getId());
         taskService.remove(taskDTO.getId());
         projectService.remove(projectDTO.getId());
         sessionService.remove(sessionDTO.getId());
+        userService.remove(userDTO.getId());
 
         assertEquals(beforeUsersSize - 1, userService.findAll().size());
         assertEquals(beforeProjectsSize - 1, projectService.findByUserId(userDTO.getId()).size());

@@ -31,8 +31,9 @@ public class ProjectService implements IProjectService {
         this.taskService = taskService;
     }
 
+    @NotNull
     @Override
-    public @NotNull List<ProjectDTO> findAll() {
+    public List<ProjectDTO> findAll() {
         return projectRepository.findAll().stream().map(ProjectDTO::new).collect(Collectors.toList());
     }
 
