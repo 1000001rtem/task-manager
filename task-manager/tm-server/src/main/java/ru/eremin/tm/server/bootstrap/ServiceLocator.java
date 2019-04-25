@@ -1,9 +1,9 @@
 package ru.eremin.tm.server.bootstrap;
 
-import ru.eremin.tm.server.model.service.api.IProjectService;
-import ru.eremin.tm.server.model.service.api.ISessionService;
-import ru.eremin.tm.server.model.service.api.ITaskService;
-import ru.eremin.tm.server.model.service.api.IUserService;
+import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ISessionService;
+import ru.eremin.tm.server.api.ITaskService;
+import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.security.IAuthService;
 
 import java.sql.Connection;

@@ -3,13 +3,13 @@ package ru.eremin.tm.server.endpoint;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.endpoint.api.IAdminEndpoint;
+import ru.eremin.tm.server.api.IAdminEndpoint;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.*;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.model.service.api.IProjectService;
-import ru.eremin.tm.server.model.service.api.ITaskService;
+import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ITaskService;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

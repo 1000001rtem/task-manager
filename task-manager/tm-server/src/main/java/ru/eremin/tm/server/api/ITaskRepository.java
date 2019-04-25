@@ -1,4 +1,4 @@
-package ru.eremin.tm.server.model.repository.api;
+package ru.eremin.tm.server.api;
 
 import ru.eremin.tm.server.model.entity.Task;
 

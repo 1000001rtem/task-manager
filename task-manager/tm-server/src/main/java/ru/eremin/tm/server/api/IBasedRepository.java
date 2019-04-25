@@ -1,4 +1,4 @@
-package ru.eremin.tm.server.model.repository.api;
+package ru.eremin.tm.server.api;
 
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.server.model.entity.AbstractEntity;

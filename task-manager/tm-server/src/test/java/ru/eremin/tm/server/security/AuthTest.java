@@ -6,10 +6,10 @@ import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.model.repository.UserRepository;
-import ru.eremin.tm.server.model.repository.api.IUserRepository;
-import ru.eremin.tm.server.model.service.UserService;
-import ru.eremin.tm.server.model.service.api.IUserService;
+import ru.eremin.tm.server.repository.UserRepository;
+import ru.eremin.tm.server.api.IUserRepository;
+import ru.eremin.tm.server.service.UserService;
+import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.utils.DBConnectionUtils;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 

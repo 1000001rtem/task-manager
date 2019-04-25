@@ -1,11 +1,11 @@
-package ru.eremin.tm.server.model.repository;
+package ru.eremin.tm.server.repository;
 
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 import ru.eremin.tm.server.model.entity.session.Session;
-import ru.eremin.tm.server.model.repository.api.ISessionRepository;
+import ru.eremin.tm.server.api.ISessionRepository;
 import ru.eremin.tm.server.utils.FieldConst;
 
 import java.sql.Connection;

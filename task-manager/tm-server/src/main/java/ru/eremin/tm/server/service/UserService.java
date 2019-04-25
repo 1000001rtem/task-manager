@@ -1,12 +1,12 @@
-package ru.eremin.tm.server.model.service;
+package ru.eremin.tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.User;
-import ru.eremin.tm.server.model.repository.api.IUserRepository;
-import ru.eremin.tm.server.model.service.api.IUserService;
+import ru.eremin.tm.server.api.IUserRepository;
+import ru.eremin.tm.server.api.IUserService;
 
 import java.util.List;
 import java.util.stream.Collectors;

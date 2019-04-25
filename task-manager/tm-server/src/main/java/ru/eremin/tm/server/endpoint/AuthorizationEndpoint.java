@@ -2,7 +2,7 @@ package ru.eremin.tm.server.endpoint;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.endpoint.api.IAuthorizationEndpoint;
+import ru.eremin.tm.server.api.IAuthorizationEndpoint;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ResultDTO;

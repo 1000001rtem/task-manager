@@ -1,4 +1,4 @@
-package ru.eremin.tm.server.model.service;
+package ru.eremin.tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -6,8 +6,8 @@ import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.entity.Task;
-import ru.eremin.tm.server.model.repository.api.ITaskRepository;
-import ru.eremin.tm.server.model.service.api.ITaskService;
+import ru.eremin.tm.server.api.ITaskRepository;
+import ru.eremin.tm.server.api.ITaskService;
 
 import java.util.List;
 import java.util.stream.Collectors;

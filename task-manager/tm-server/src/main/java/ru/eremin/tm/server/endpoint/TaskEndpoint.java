@@ -2,14 +2,14 @@ package ru.eremin.tm.server.endpoint;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.endpoint.api.ITaskEndpoint;
+import ru.eremin.tm.server.api.ITaskEndpoint;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
-import ru.eremin.tm.server.model.service.api.IProjectService;
-import ru.eremin.tm.server.model.service.api.ITaskService;
+import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ITaskService;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

@@ -1,4 +1,4 @@
-package ru.eremin.tm.server.model.service.api;
+package ru.eremin.tm.server.api;
 
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.entity.Project;
