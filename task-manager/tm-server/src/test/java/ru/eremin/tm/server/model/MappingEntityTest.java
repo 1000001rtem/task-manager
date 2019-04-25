@@ -53,9 +53,9 @@ public class MappingEntityTest {
         final IUserRepository userRepository = new UserRepository(DBConnectionUtils.getConnection());
         final IProjectRepository projectRepository = new ProjectRepository(DBConnectionUtils.getConnection());
         final ITaskRepository taskRepository = new TaskRepository(DBConnectionUtils.getConnection());
-        userService = new UserService(userRepository);
-        taskService = new TaskService(taskRepository);
-        projectService = new ProjectService(projectRepository, taskService);
+        userService = new UserService();
+        taskService = new TaskService();
+        projectService = new ProjectService(taskService);
 
         user = new User();
         user.setId(UUID.randomUUID().toString());

@@ -62,10 +62,10 @@ public class ModelTest {
         final IUserRepository userRepository = new UserRepository(DBConnectionUtils.getConnection());
         final ISessionRepository sessionRepository = new SessionRepository(DBConnectionUtils.getConnection());
 
-        userService = new UserService(userRepository);
-        taskService = new TaskService(taskRepository);
-        projectService = new ProjectService(projectRepository, taskService);
-        sessionService = new SessionService(sessionRepository);
+        userService = new UserService();
+        taskService = new TaskService();
+        projectService = new ProjectService(taskService);
+        sessionService = new SessionService();
     }
 
     @Test

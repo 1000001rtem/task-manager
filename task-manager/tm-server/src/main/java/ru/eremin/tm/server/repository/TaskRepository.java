@@ -209,6 +209,16 @@ public class TaskRepository implements ITaskRepository {
     }
 
     @Override
+    @SneakyThrows(SQLException.class)
+    public void removeAllTasksInProject(@Nullable final String projectId) {
+        @NotNull final String query = "DELETE FROM `task_table` WHERE project_id = ?";
+        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, projectId);
+        statement.executeUpdate();
+        statement.close();
+    }
+
+    @Override
     public void remove(@NotNull final List<Task> tasks) {
         tasks.forEach(e -> remove(e.getId()));
     }

@@ -27,7 +27,7 @@ public class ProjectService implements IProjectService {
     @Nullable
     private ITaskService taskService;
 
-    public ProjectService(@Nullable final IProjectRepository projectRepository, @Nullable final ITaskService taskService) {
+    public ProjectService(@Nullable final ITaskService taskService) {
         if (taskService == null) return;
         this.taskService = taskService;
     }
@@ -143,8 +143,8 @@ public class ProjectService implements IProjectService {
         @NotNull final Connection connection = DBConnectionUtils.getConnection();
         @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
         connection.setAutoCommit(false);
-        projectRepository.removeAll(userId);
         taskService.removeAll(userId);
+        projectRepository.removeAll(userId);
         connection.commit();
         connection.close();
     }

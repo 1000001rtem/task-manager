@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class UserService implements IUserService {
 
-    public UserService(@Nullable final IUserRepository userRepository) {
+    public UserService() {
     }
 
     @NotNull

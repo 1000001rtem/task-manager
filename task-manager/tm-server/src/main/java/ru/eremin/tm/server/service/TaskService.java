@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class TaskService implements ITaskService {
 
 
-    public TaskService(@Nullable final ITaskRepository taskRepository) {
+    public TaskService() {
     }
 
     @Override
@@ -66,15 +66,9 @@ public class TaskService implements ITaskService {
         @NotNull final Connection connection = DBConnectionUtils.getConnection();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(connection);
         connection.setAutoCommit(false);
-        @NotNull final List<TaskDTO> tasksInProject = findByProjectId(projectId);
-        if (tasksInProject.isEmpty()) {
-            connection.commit();
-            connection.close();
-            return;
-        }
-        taskRepository.remove(tasksInProject.stream().map(this::getEntity).collect(Collectors.toList()));
+        taskRepository.removeAllTasksInProject(projectId);
         connection.commit();
-        connection.close();//todo: ref
+        connection.close();
     }
 
     @NotNull

@@ -2,16 +2,15 @@ package ru.eremin.tm.server.bootstrap;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.server.api.*;
+import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ISessionService;
+import ru.eremin.tm.server.api.ITaskService;
+import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.endpoint.AbstractEndpoint;
 import ru.eremin.tm.server.exeption.IncorrectClassException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.repository.ProjectRepository;
-import ru.eremin.tm.server.repository.SessionRepository;
-import ru.eremin.tm.server.repository.TaskRepository;
-import ru.eremin.tm.server.repository.UserRepository;
 import ru.eremin.tm.server.security.AuthService;
 import ru.eremin.tm.server.security.IAuthService;
 import ru.eremin.tm.server.service.ProjectService;
@@ -55,15 +54,11 @@ public class Bootstrap implements ServiceLocator {
 
     public Bootstrap() {
         this.connection = DBConnectionUtils.getConnection();
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(connection);
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        @NotNull final ISessionRepository sessionRepository = new SessionRepository(connection);
-        this.taskService = new TaskService(taskRepository);
-        this.projectService = new ProjectService(projectRepository, this.taskService);
-        this.userService = new UserService(userRepository);
+        this.taskService = new TaskService();
+        this.projectService = new ProjectService(this.taskService);
+        this.userService = new UserService();
         this.authService = new AuthService(userService);
-        this.sessionService = new SessionService(sessionRepository);
+        this.sessionService = new SessionService();
     }
 
     @Override

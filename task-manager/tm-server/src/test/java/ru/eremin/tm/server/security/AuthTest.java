@@ -24,7 +24,7 @@ public class AuthTest {
     @Test
     public void authTest() throws IncorrectDataException, AccessForbiddenException {
         final IUserRepository userRepository = new UserRepository(DBConnectionUtils.getConnection());
-        final IUserService userService = new UserService(userRepository);
+        final IUserService userService = new UserService();
         final IAuthService authService = new AuthService(userService);
 
         final UserDTO userDTO = new UserDTO();

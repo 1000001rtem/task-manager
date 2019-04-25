@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 public class SessionService implements ISessionService {
 
-    public SessionService(@Nullable final ISessionRepository sessionRepository) {
+    public SessionService() {
     }
 
     @Override
