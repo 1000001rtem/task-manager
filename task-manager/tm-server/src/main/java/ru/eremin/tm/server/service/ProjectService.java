@@ -11,7 +11,6 @@ import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.entity.Project;
-import ru.eremin.tm.server.repository.ProjectRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -315,7 +314,7 @@ public class ProjectService implements IProjectService {
         if (projectDTO.getStartDate() != null) project.setStartDate(projectDTO.getStartDate());
         if (projectDTO.getEndDate() != null) project.setEndDate(projectDTO.getEndDate());
         if (projectDTO.getUserId() != null && !projectDTO.getUserId().isEmpty()) {
-            project.setUserId(projectDTO.getUserId());
+            project.setUser(projectDTO.getUserId());
         }
         project.setStatus(projectDTO.getStatus());
         project.setCreateDate(projectDTO.getCreateDate());

@@ -24,8 +24,8 @@ import java.io.Serializable;
 @XmlRootElement(name = "project")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId"})
-@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId"})
+@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "user"})
+@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "user"})
 public class ProjectDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -379365728203711699L;
@@ -39,7 +39,7 @@ public class ProjectDTO extends BaseDTO implements Serializable {
         }
         if (project.getStartDate() != null) this.startDate = project.getStartDate();
         if (project.getEndDate() != null) this.endDate = project.getEndDate();
-        if (project.getUserId() != null && !project.getUserId().isEmpty()) this.userId = project.getUserId();
+        if (project.getUser() != null && !project.getUser().isEmpty()) this.userId = project.getUser();
         if (project.getStatus() != null) this.status = project.getStatus();
         this.createDate = project.getCreateDate();
     }
@@ -62,7 +62,7 @@ public class ProjectDTO extends BaseDTO implements Serializable {
                 ", status='" + status + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", userId=" + userId +
+                ", user=" + userId +
                 ", createDate=" + createDate +
                 '}';
     }
@@ -72,7 +72,7 @@ public class ProjectDTO extends BaseDTO implements Serializable {
         return "{id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", status='" + status + '\'' +
-                ", userId='" + userId + '\'' +
+                ", user='" + userId + '\'' +
                 '}';
     }
 

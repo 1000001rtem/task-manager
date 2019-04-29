@@ -10,7 +10,6 @@ import ru.eremin.tm.server.config.SqlSessionConfig;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.User;
-import ru.eremin.tm.server.repository.UserRepository;
 
 import java.util.Collections;
 import java.util.List;

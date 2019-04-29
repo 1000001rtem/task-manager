@@ -11,7 +11,6 @@ import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.entity.Task;
-import ru.eremin.tm.server.repository.TaskRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -357,9 +356,9 @@ public class TaskService implements ITaskService {
         if (taskDTO.getStartDate() != null) task.setStartDate(taskDTO.getStartDate());
         if (taskDTO.getEndDate() != null) task.setEndDate(taskDTO.getEndDate());
         if (taskDTO.getProjectId() != null && !taskDTO.getProjectId().isEmpty()) {
-            task.setProjectId(taskDTO.getProjectId());
+            task.setProject(taskDTO.getProjectId());
         }
-        if (taskDTO.getUserId() != null && !taskDTO.getUserId().isEmpty()) task.setUserId(taskDTO.getUserId());
+        if (taskDTO.getUserId() != null && !taskDTO.getUserId().isEmpty()) task.setUser(taskDTO.getUserId());
         task.setStatus(taskDTO.getStatus());
         task.setCreateDate(taskDTO.getCreateDate());
         return task;

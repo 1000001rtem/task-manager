@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="createDate" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="userId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="user" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="userRole" type="{http://endpoint.server.tm.eremin.ru/}role" minOccurs="0"/&gt;
  *         &lt;element name="sign" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "sessionDTO", propOrder = {
     "id",
     "createDate",
-    "userId",
+    "user",
     "userRole",
     "sign"
 })
@@ -96,7 +96,7 @@ public class SessionDTO {
     }
 
     /**
-     * Gets the value of the userId property.
+     * Gets the value of the user property.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class SessionDTO {
     }
 
     /**
-     * Sets the value of the userId property.
+     * Sets the value of the user property.
      * 
      * @param value
      *     allowed object is

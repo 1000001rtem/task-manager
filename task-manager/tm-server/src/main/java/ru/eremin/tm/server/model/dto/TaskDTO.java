@@ -21,14 +21,14 @@ import java.io.Serializable;
 @XmlRootElement(name = "task")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId", "projectId"})
-@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId", "projectId"})
+@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "user", "project"})
+@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "user", "project"})
 public class TaskDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -8634181313297237339L;
 
     @Nullable
-    @XmlElement(name = "projectId")
+    @XmlElement(name = "project")
     private String projectId;
 
     public TaskDTO(@Nullable final Task task) {
@@ -38,8 +38,8 @@ public class TaskDTO extends BaseDTO implements Serializable {
         if (task.getDescription() != null && !task.getDescription().isEmpty()) this.description = task.getDescription();
         if (task.getStartDate() != null) this.startDate = task.getStartDate();
         if (task.getEndDate() != null) this.endDate = task.getEndDate();
-        if (task.getProjectId() != null && !task.getProjectId().isEmpty()) this.projectId = task.getProjectId();
-        if (task.getUserId() != null && !task.getUserId().isEmpty()) this.userId = task.getUserId();
+        if (task.getProject() != null && !task.getProject().isEmpty()) this.projectId = task.getProject();
+        if (task.getUser() != null && !task.getUser().isEmpty()) this.userId = task.getUser();
         if (task.getStatus() != null) this.status = task.getStatus();
         this.createDate = task.getCreateDate();
     }
@@ -66,8 +66,8 @@ public class TaskDTO extends BaseDTO implements Serializable {
                 ", status='" + status + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", projectId='" + projectId + '\'' +
-                ", userId='" + userId + '\'' +
+                ", project='" + projectId + '\'' +
+                ", user='" + userId + '\'' +
                 ", createDate='" + createDate + '\'' +
                 '}';
     }
@@ -77,8 +77,8 @@ public class TaskDTO extends BaseDTO implements Serializable {
         return "{id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", status='" + status + '\'' +
-                ", projectId='" + projectId + '\'' +
-                ", userId='" + userId + '\'' +
+                ", project='" + projectId + '\'' +
+                ", user='" + userId + '\'' +
                 '}';
     }
 

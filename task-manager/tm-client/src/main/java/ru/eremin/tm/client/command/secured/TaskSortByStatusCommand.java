@@ -50,8 +50,8 @@ public class TaskSortByStatusCommand extends AbstractTerminalCommand {
                 ", status='" + taskDTO.getStatus() + '\'' +
                 ", startDate=" + taskDTO.getStartDate() +
                 ", endDate=" + taskDTO.getEndDate() +
-                ", projectId='" + taskDTO.getProjectId() + '\'' +
-                ", userId='" + taskDTO.getUserId() + '\'' +
+                ", project='" + taskDTO.getProjectId() + '\'' +
+                ", user='" + taskDTO.getUserId() + '\'' +
                 ", createDate='" + taskDTO.getCreateDate() + '\'' +
                 '}';
     }

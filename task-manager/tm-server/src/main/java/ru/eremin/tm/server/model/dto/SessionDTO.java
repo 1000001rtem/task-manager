@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SessionDTO extends AbstractDTO {
 
     @Nullable
-    @XmlElement(name = "userId")
+    @XmlElement(name = "user")
     private String userId;
 
     @Nullable
@@ -61,7 +61,7 @@ public class SessionDTO extends AbstractDTO {
     @Override
     public String toString() {
         return "SessionDTO{" +
-                "userId='" + userId + '\'' +
+                "user='" + userId + '\'' +
                 ", userRole=" + userRole +
                 ", sign='" + sign + '\'' +
                 ", id='" + id + '\'' +

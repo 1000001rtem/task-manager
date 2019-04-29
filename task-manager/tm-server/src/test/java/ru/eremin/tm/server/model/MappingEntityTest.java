@@ -59,7 +59,7 @@ public class MappingEntityTest {
         project.setDescription("twtdtghf");
         project.setStartDate(new Date());
         project.setEndDate(new Date());
-        project.setUserId(user.getId());
+        project.setUser(user.getId());
 
         task = new Task();
         task.setId(UUID.randomUUID().toString());
@@ -67,8 +67,8 @@ public class MappingEntityTest {
         task.setDescription("testets");
         task.setStartDate(new Date());
         task.setEndDate(new Date());
-        task.setProjectId(project.getId());
-        task.setUserId(user.getId());
+        task.setProject(project.getId());
+        task.setUser(user.getId());
 
         userDTO = EntityFactory.getUser();
 
@@ -91,7 +91,7 @@ public class MappingEntityTest {
         assertEquals(projectDTOtmp.getDescription(), project.getDescription());
         assertEquals(projectDTOtmp.getStartDate(), project.getStartDate());
         assertEquals(projectDTOtmp.getEndDate(), project.getEndDate());
-        assertEquals(projectDTOtmp.getUserId(), project.getUserId());
+        assertEquals(projectDTOtmp.getUserId(), project.getUser());
 
         final TaskDTO taskDTOtmp = new TaskDTO(task);
         assertEquals(taskDTOtmp.getId(), task.getId());
@@ -99,8 +99,8 @@ public class MappingEntityTest {
         assertEquals(taskDTOtmp.getDescription(), task.getDescription());
         assertEquals(taskDTOtmp.getStartDate(), task.getStartDate());
         assertEquals(taskDTOtmp.getEndDate(), task.getEndDate());
-        assertEquals(taskDTOtmp.getProjectId(), task.getProjectId());
-        assertEquals(taskDTOtmp.getUserId(), task.getUserId());
+        assertEquals(taskDTOtmp.getProjectId(), task.getProject());
+        assertEquals(taskDTOtmp.getUserId(), task.getUser());
     }
 
     @Test
@@ -117,7 +117,7 @@ public class MappingEntityTest {
         assertEquals(projectDTO.getDescription(), project.getDescription());
         assertEquals(projectDTO.getStartDate(), project.getStartDate());
         assertEquals(projectDTO.getEndDate(), project.getEndDate());
-        assertEquals(projectDTO.getUserId(), project.getUserId());
+        assertEquals(projectDTO.getUserId(), project.getUser());
 
         final Task task = taskService.getEntity(taskDTO);
         assertEquals(taskDTO.getId(), task.getId());
@@ -125,8 +125,8 @@ public class MappingEntityTest {
         assertEquals(taskDTO.getDescription(), task.getDescription());
         assertEquals(taskDTO.getStartDate(), task.getStartDate());
         assertEquals(taskDTO.getEndDate(), task.getEndDate());
-        assertEquals(taskDTO.getProjectId(), task.getProjectId());
-        assertEquals(taskDTO.getUserId(), task.getUserId());
+        assertEquals(taskDTO.getProjectId(), task.getProject());
+        assertEquals(taskDTO.getUserId(), task.getUser());
     }
 
 }

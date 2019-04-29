@@ -25,7 +25,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="startDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
  *         &lt;element name="endDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
  *         &lt;element name="status" type="{http://endpoint.server.tm.eremin.ru/}status" minOccurs="0"/&gt;
- *         &lt;element name="userId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="user" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -43,7 +43,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "startDate",
     "endDate",
     "status",
-    "userId"
+    "user"
 })
 public class ProjectDTO {
 
@@ -228,7 +228,7 @@ public class ProjectDTO {
     }
 
     /**
-     * Gets the value of the userId property.
+     * Gets the value of the user property.
      * 
      * @return
      *     possible object is
@@ -240,7 +240,7 @@ public class ProjectDTO {
     }
 
     /**
-     * Sets the value of the userId property.
+     * Sets the value of the user property.
      * 
      * @param value
      *     allowed object is

@@ -10,10 +10,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.repository.ProjectRepository;
-import ru.eremin.tm.server.repository.SessionRepository;
-import ru.eremin.tm.server.repository.TaskRepository;
-import ru.eremin.tm.server.repository.UserRepository;
 
 import javax.sql.DataSource;
 import java.io.IOException;

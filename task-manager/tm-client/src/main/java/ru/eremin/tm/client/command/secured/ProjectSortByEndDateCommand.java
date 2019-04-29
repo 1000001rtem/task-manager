@@ -48,7 +48,7 @@ public class ProjectSortByEndDateCommand extends AbstractTerminalCommand {
                 ", status='" + projectDTO.getStatus() + '\'' +
                 ", startDate=" + projectDTO.getStartDate() +
                 ", endDate=" + projectDTO.getEndDate() +
-                ", userId=" + projectDTO.getUserId() +
+                ", user=" + projectDTO.getUserId() +
                 ", createDate=" + projectDTO.getCreateDate() +
                 '}';
     }
