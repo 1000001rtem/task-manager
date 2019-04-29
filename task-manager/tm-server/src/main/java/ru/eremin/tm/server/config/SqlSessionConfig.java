@@ -2,17 +2,19 @@ package ru.eremin.tm.server.config;
 
 
 import lombok.SneakyThrows;
-import org.apache.ibatis.datasource.pooled.PooledDataSource;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.transaction.TransactionFactory;
-import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.jetbrains.annotations.Nullable;
+import org.eclipse.persistence.sessions.Session;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Environment;
+import ru.eremin.tm.server.model.entity.Project;
+import ru.eremin.tm.server.model.entity.Task;
+import ru.eremin.tm.server.model.entity.User;
 
-import javax.sql.DataSource;
-import java.io.IOException;
+import javax.persistence.EntityManagerFactory;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -22,27 +24,32 @@ import java.util.Properties;
 public final class SqlSessionConfig {
 
     @SneakyThrows
-    public static SqlSessionFactory getSessionFactory() {
-        Properties properties = getProperties();
-        @Nullable final String user = properties.getProperty("jdbc.username");
-        @Nullable final String password = properties.getProperty("jdbc.password");
-        @Nullable final String url = properties.getProperty("jdbc.url");
-        @Nullable final String driver = properties.getProperty("jdbc.driver");
-        final DataSource dataSource = new PooledDataSource(driver, url, user, password);
-        final TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        final Environment environment = new Environment("development", transactionFactory, dataSource);
-        final Configuration configuration = new Configuration(environment);
-        configuration.addMapper(ProjectRepository.class);
-        configuration.addMapper(SessionRepository.class);
-        configuration.addMapper(UserRepository.class);
-        configuration.addMapper(TaskRepository.class);
-        return new SqlSessionFactoryBuilder().build(configuration);
-    }
-
-    private static Properties getProperties() throws IOException {
+    private static Properties getProperties() {
         Properties properties = new Properties();
         properties.load(SqlSessionConfig.class.getClassLoader().getResourceAsStream("db.properties"));
         return properties;
+    }
+
+    private EntityManagerFactory factory() {
+        Properties properties = getProperties();
+        final Map<String, String> settings = new HashMap<>();
+        settings.put(Environment.DRIVER, properties.getProperty("jdbc.driver"));
+        settings.put(Environment.URL, properties.getProperty("jdbc.url"));
+        settings.put(Environment.USER, properties.getProperty("jdbc.username"));
+        settings.put(Environment.PASS, properties.getProperty("jdbc.password"));
+        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
+        settings.put(Environment.HBM2DDL_AUTO, "update");
+        settings.put(Environment.SHOW_SQL, "true");
+        final StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
+        registryBuilder.applySettings(settings);
+        final StandardServiceRegistry registry = registryBuilder.build();
+        final MetadataSources sources = new MetadataSources(registry);
+        sources.addAnnotatedClass(Task.class);
+        sources.addAnnotatedClass(Project.class);
+        sources.addAnnotatedClass(User.class);
+        sources.addAnnotatedClass(Session.class);
+        final Metadata metadata = sources.getMetadataBuilder().build();
+        return metadata.getSessionFactoryBuilder().build();
     }
 
 }

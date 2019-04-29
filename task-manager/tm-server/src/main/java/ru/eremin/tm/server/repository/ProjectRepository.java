@@ -1,15 +1,12 @@
 package ru.eremin.tm.server.repository;
 
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.IProjectRepository;
 import ru.eremin.tm.server.model.entity.Project;
-import ru.eremin.tm.server.model.entity.enumerated.Status;
-import ru.eremin.tm.server.utils.FieldConst;
+import ru.eremin.tm.server.model.entity.User;
 
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -19,215 +16,128 @@ import java.util.List;
 public class ProjectRepository implements IProjectRepository {
 
     @NotNull
-    private final Connection connection;
+    private final EntityManager em;
 
-    public ProjectRepository(@NotNull final Connection connection) {
-        this.connection = connection;
+    public ProjectRepository(@NotNull final EntityManager em) {
+        this.em = em;
     }
 
     @NotNull
     @Override
-    @SneakyThrows(SQLException.class)
     public List<Project> findAll() {
-        @NotNull final String query = "SELECT * FROM `project_table`;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        @NotNull final List<Project> projects = new ArrayList<>();
-        while (resultSet.next()) projects.add(fetch(resultSet));
-        statement.close();
+        @NotNull final List<Project> projects = em.createQuery("SELECT e FROM Project e", Project.class).getResultList();
         return projects;
     }
 
     @Nullable
     @Override
-    @SneakyThrows(SQLException.class)
     public Project findOne(@NotNull final String id) {
-        @NotNull final String query = "SELECT * FROM `project_table` WHERE `id` = ?;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, id);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        if (!resultSet.next()) return null;
-        @Nullable final Project project = fetch(resultSet);
-        statement.close();
-        return project;
+        return em.find(Project.class, id);
     }
 
     @NotNull
     @Override
-    @SneakyThrows(SQLException.class)
-    public List<Project> findByUserId(@NotNull final String userId) {
-        @NotNull final String query = "SELECT * FROM `project_table` WHERE `user_id` = ?;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, userId);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        @NotNull final List<Project> projects = new ArrayList<>();
-        while (resultSet.next()) projects.add(fetch(resultSet));
-        statement.close();
+    public List<Project> findByUserId(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
         return projects;
     }
 
     @NotNull
     @Override
-    @SneakyThrows(SQLException.class)
-    public List<Project> findAllSortedByCreateDate(@NotNull final String userId) {
-        return getSortProjects(userId, "`create_date`");
-
-    }
-
-    @NotNull
-    @Override
-    @SneakyThrows(SQLException.class)
-    public List<Project> findAllSortedByStartDate(@NotNull final String userId) {
-        return getSortProjects(userId, "`start_date`");
-    }
-
-    @NotNull
-    @Override
-    @SneakyThrows(SQLException.class)
-    public List<Project> findAllSortedByEndDate(@NotNull final String userId) {
-        return getSortProjects(userId, "`end_date`");
-    }
-
-    @NotNull
-    @Override
-    @SneakyThrows(SQLException.class)
-    public List<Project> findAllSortedByStatus(@NotNull final String userId) {
-        return getSortProjects(userId, "`project_status`");
-    }
-
-    @NotNull
-    @Override
-    @SneakyThrows(SQLException.class)
-    public List<Project> findByName(@NotNull final String userId, @NotNull final String name) {
-        @NotNull final String query = "SELECT * FROM `project_table` WHERE `user_id` = ? and `project_name` LIKE ?;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, userId);
-        statement.setString(2, name);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        @NotNull final List<Project> projects = new ArrayList<>();
-        while (resultSet.next()) projects.add(fetch(resultSet));
-        statement.close();
+    public List<Project> findAllSortedByCreateDate(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user ORDER BY e.createDate";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
         return projects;
     }
 
     @NotNull
     @Override
-    @SneakyThrows(SQLException.class)
-    public List<Project> findByDescription(@NotNull final String userId, @NotNull final String description) {
-        @NotNull final String query = "SELECT * FROM `project_table` WHERE `user_id` = ? and `project_description` LIKE ?;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, userId);
-        statement.setString(2, description);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        @NotNull final List<Project> projects = new ArrayList<>();
-        while (resultSet.next()) projects.add(fetch(resultSet));
-        statement.close();
+    public List<Project> findAllSortedByStartDate(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user ORDER BY e.startDate";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        return projects;
+    }
+
+    @NotNull
+    @Override
+    public List<Project> findAllSortedByEndDate(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user ORDER BY e.endDate";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        return projects;
+    }
+
+    @NotNull
+    @Override
+    public List<Project> findAllSortedByStatus(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user ORDER BY e.status";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        return projects;
+    }
+
+    @NotNull
+    @Override
+    public List<Project> findByName(@NotNull final User user, @NotNull final String name) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user and e.name LIKE :name";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .setParameter("name", name)
+                .getResultList();
+        return projects;
+    }
+
+    @NotNull
+    @Override
+    public List<Project> findByDescription(@NotNull final User user, @NotNull final String description) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user and e.description LIKE :description";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .setParameter("name", description)
+                .getResultList();
         return projects;
     }
 
     @Override
-    @SneakyThrows(SQLException.class)
     public void persist(@NotNull final Project project) {
-        @NotNull final String query = "INSERT INTO `project_table`" + "(" +
-                FieldConst.ID + ", " +
-                FieldConst.CREATE_DATE + ", " +
-                FieldConst.PROJECT_NAME + ", " +
-                FieldConst.PROJECT_DESC + ", " +
-                FieldConst.START_DATE + ", " +
-                FieldConst.END_DATE + ", " +
-                FieldConst.PROJECT_STATUS + ", " +
-                FieldConst.USER_ID + ") " +
-                "VALUES (?,?,?,?,?,?,?,?);";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, project.getId());
-        statement.setDate(2, new Date(project.getCreateDate().getTime()));
-        statement.setString(3, project.getName());
-        statement.setString(4, project.getDescription());
-        statement.setDate(5, new Date(project.getStartDate().getTime()));
-        statement.setDate(6, new Date(project.getEndDate().getTime()));
-        statement.setString(7, project.getStatus().toString());
-        statement.setString(8, project.getUserId());
-        statement.executeUpdate();
-        statement.close();
+        em.persist(project);
     }
 
     @Override
     public void merge(@NotNull final Project project) {
-        @NotNull final Project project1 = findOne(project.getId());
-        if (project1 == null) persist(project);
-        else update(project);
+        em.merge(project);
     }
 
     @Override
-    @SneakyThrows(SQLException.class)
     public void update(@NotNull final Project project) {
-        @NotNull final String query = "UPDATE `project_table` SET " +
-                FieldConst.PROJECT_NAME + "= ?, " +
-                FieldConst.PROJECT_DESC + "= ?, " +
-                FieldConst.START_DATE + "= ?, " +
-                FieldConst.END_DATE + "= ?, " +
-                FieldConst.PROJECT_STATUS + "= ?, " +
-                FieldConst.USER_ID + "= ? " +
-                "WHERE `id` = ?;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, project.getName());
-        statement.setString(2, project.getDescription());
-        statement.setDate(3, new Date(project.getStartDate().getTime()));
-        statement.setDate(4, new Date(project.getEndDate().getTime()));
-        statement.setString(5, project.getStatus().toString());
-        statement.setString(6, project.getUserId());
-        statement.setString(7, project.getId());
-        statement.executeUpdate();
-        statement.close();
+        @Nullable final Project project1 = em.find(Project.class, project.getId());
+        if (project1 == null) return;
+        else em.merge(project);
     }
 
     @Override
-    @SneakyThrows(SQLException.class)
     public void remove(@NotNull final String id) {
-        @NotNull final String query = "DELETE FROM `project_table` WHERE id = ?";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, id);
-        statement.executeUpdate();
-        statement.close();
+        @Nullable final Project project = em.find(Project.class, id);
+        if (project == null) return;
+        em.remove(project);
     }
 
     @Override
-    public void remove(@NotNull final List<Project> projects) {
-        projects.forEach(e -> remove(e.getId()));
-    }
-
-    @Override
-    public void removeAll(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUserId = findByUserId(userId);
-        remove(projectsByUserId);
-    }
-
-    @Nullable
-    @SneakyThrows(SQLException.class)
-    private Project fetch(@Nullable final ResultSet row) {
-        if (row == null) return null;
-        @NotNull final Project project = new Project();
-        project.setId(row.getString(FieldConst.ID));
-        project.setCreateDate(row.getDate(FieldConst.CREATE_DATE));
-        project.setName(row.getString(FieldConst.PROJECT_NAME));
-        project.setDescription(row.getString(FieldConst.PROJECT_DESC));
-        project.setStartDate(row.getDate(FieldConst.START_DATE));
-        project.setEndDate(row.getDate(FieldConst.END_DATE));
-        project.setStatus(Status.getByDisplayName(row.getString(FieldConst.PROJECT_STATUS)));
-        project.setUserId(row.getString(FieldConst.USER_ID));
-        return project;
-    }
-
-    @NotNull
-    private List<Project> getSortProjects(final @NotNull String userId, final @NotNull String parameter) throws SQLException {
-        @NotNull final String query = "SELECT * FROM `project_table` WHERE `user_id` = ? ORDER BY " + parameter;
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, userId);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        @NotNull final List<Project> projects = new ArrayList<>();
-        while (resultSet.next()) projects.add(fetch(resultSet));
-        statement.close();
-        return projects;
+    public void removeAll(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        projects.forEach(em::remove);
     }
 
 }
