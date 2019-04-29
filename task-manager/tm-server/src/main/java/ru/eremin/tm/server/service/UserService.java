@@ -1,18 +1,18 @@
 package ru.eremin.tm.server.service;
 
-import lombok.SneakyThrows;
+import lombok.NoArgsConstructor;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.api.IUserService;
+import ru.eremin.tm.server.config.SqlSessionConfig;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.repository.UserRepository;
-import ru.eremin.tm.server.utils.DBConnectionUtils;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,125 +20,144 @@ import java.util.stream.Collectors;
  * @autor av.eremin on 12.04.2019.
  */
 
+@NoArgsConstructor
 public class UserService implements IUserService {
 
-    public UserService() {
-    }
-
     @NotNull
+    private final SqlSessionFactory sessionFactory = SqlSessionConfig.getSessionFactory();
+
+    @Nullable
     @Override
-    @SneakyThrows(SQLException.class)
     public UserDTO findByLogin(@Nullable final String login) throws IncorrectDataException {
         if (login == null || login.isEmpty()) throw new IncorrectDataException("Wrong login");
-        @NotNull final Connection connection = DBConnectionUtils.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        connection.setAutoCommit(false);
-        @Nullable final User user = userRepository.findByLogin(login);
-        if (user == null) {
-            connection.close();
-            throw new IncorrectDataException("Wrong login");
+        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        try {
+            @NotNull final UserRepository userRepository = sqlSession.getMapper(UserRepository.class);
+            @Nullable final User user = userRepository.findByLogin(login);
+            if (user == null) {
+                throw new IncorrectDataException("Wrong login");
+            }
+            sqlSession.commit();
+            return new UserDTO(user);
+        } catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
         }
-        connection.commit();
-        connection.close();
-        return new UserDTO(user);
+        return null;
     }
 
     @NotNull
     @Override
-    @SneakyThrows(SQLException.class)
     public List<UserDTO> findAll() {
-        @NotNull final Connection connection = DBConnectionUtils.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        connection.setAutoCommit(false);
-        @NotNull final List<UserDTO> userDTOS = userRepository.findAll()
-                .stream()
-                .map(UserDTO::new)
-                .collect(Collectors.toList());
-        connection.commit();
-        connection.close();
-        return userDTOS;
+        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        try {
+            @NotNull final UserRepository userRepository = sqlSession.getMapper(UserRepository.class);
+            @NotNull final List<UserDTO> userDTOS = userRepository.findAll()
+                    .stream()
+                    .map(UserDTO::new)
+                    .collect(Collectors.toList());
+            sqlSession.commit();
+            return userDTOS;
+        } catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return Collections.emptyList();
     }
 
-    @NotNull
+    @Nullable
     @Override
-    @SneakyThrows(SQLException.class)
     public UserDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @NotNull final Connection connection = DBConnectionUtils.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        connection.setAutoCommit(false);
-        @Nullable final User user = userRepository.findOne(id);
-        if (user == null) {
-            connection.close();
-            throw new IncorrectDataException("Wrong id");
+        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        try {
+            @NotNull final UserRepository userRepository = sqlSession.getMapper(UserRepository.class);
+            @Nullable final User user = userRepository.findOne(id);
+            if (user == null) {
+                throw new IncorrectDataException("Wrong id");
+            }
+            sqlSession.commit();
+            return new UserDTO(user);
+        } catch (IncorrectDataException e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
         }
-        connection.commit();
-        connection.close();
-        return new UserDTO(user);
+        return null;
     }
 
     @Override
-    @SneakyThrows(SQLException.class)
     public void persist(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         if (userDTO == null) throw new IncorrectDataException("User is null");
-        @NotNull final Connection connection = DBConnectionUtils.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        connection.setAutoCommit(false);
-        @NotNull final User user = getEntity(userDTO);
-        userRepository.persist(user);
-        connection.commit();
-        connection.close();
+        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        try {
+            @NotNull final UserRepository userRepository = sqlSession.getMapper(UserRepository.class);
+            @NotNull final User user = getEntity(userDTO);
+            userRepository.persist(user);
+            sqlSession.commit();
+        } catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
     }
 
     @Override
-    @SneakyThrows(SQLException.class)
-    public void merge(@Nullable final UserDTO userDTO) throws IncorrectDataException {
-        if (userDTO == null) throw new IncorrectDataException("User is null");
-        @NotNull final Connection connection = DBConnectionUtils.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        connection.setAutoCommit(false);
-        @NotNull final User user = getEntity(userDTO);
-        userRepository.merge(user);
-        connection.commit();
-        connection.close();
-    }
-
-    @Override
-    @SneakyThrows(SQLException.class)
     public void update(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         if (userDTO == null) throw new IncorrectDataException("User is null");
-        @NotNull final Connection connection = DBConnectionUtils.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        connection.setAutoCommit(false);
-        @NotNull final User user = getEntity(userDTO);
-        userRepository.update(user);
-        connection.commit();
-        connection.close();
+        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        try {
+            @NotNull final UserRepository userRepository = sqlSession.getMapper(UserRepository.class);
+            @NotNull final User user = getEntity(userDTO);
+            userRepository.update(user);
+            sqlSession.commit();
+        } catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
     }
 
     @Override
-    @SneakyThrows(SQLException.class)
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
-        @NotNull final Connection connection = DBConnectionUtils.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        connection.setAutoCommit(false);
-        userRepository.remove(id);
-        connection.commit();
-        connection.close();
+        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        try {
+            @NotNull final UserRepository userRepository = sqlSession.getMapper(UserRepository.class);
+            userRepository.remove(id);
+            sqlSession.commit();
+        } catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
     }
 
     @Override
-    @SneakyThrows(SQLException.class)
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        @NotNull final Connection connection = DBConnectionUtils.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        connection.setAutoCommit(false);
-        @NotNull final User user = userRepository.findOne(id);
-        connection.commit();
-        connection.close();
-        return user != null;
+        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final User user;
+        try {
+            @NotNull final UserRepository userRepository = sqlSession.getMapper(UserRepository.class);
+            user = userRepository.findOne(id);
+            sqlSession.commit();
+            return user != null;
+        } catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return false;
     }
 
     @NotNull

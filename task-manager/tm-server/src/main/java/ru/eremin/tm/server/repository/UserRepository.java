@@ -1,143 +1,56 @@
 package ru.eremin.tm.server.repository;
 
-import lombok.SneakyThrows;
+import org.apache.ibatis.annotations.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.model.entity.User;
-import ru.eremin.tm.server.model.entity.enumerated.Role;
 import ru.eremin.tm.server.utils.FieldConst;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @autor av.eremin on 12.04.2019.
+ * @autor av.eremin on 29.04.2019.
  */
 
-public class UserRepository implements IUserRepository {
+public interface UserRepository {
 
-    @NotNull
-    private final Connection connection;
+    @Select("SELECT * FROM `user_table` WHERE `login` = #{login};")
+    @Results({@Result(property = "createDate", column = FieldConst.CREATE_DATE),
+            @Result(property = "hashPassword", column = FieldConst.HASH_PASSWORD),
+            @Result(property = "role", column = FieldConst.USER_ROLE)})
+    User findByLogin(@NotNull final String login);
 
-    public UserRepository(@NotNull final Connection connection) {
-        this.connection = connection;
-    }
+    @Select("SELECT * FROM `user_table`;")
+    @Results({@Result(property = "createDate", column = FieldConst.CREATE_DATE),
+            @Result(property = "hashPassword", column = FieldConst.HASH_PASSWORD),
+            @Result(property = "role", column = FieldConst.USER_ROLE)})
+    List<User> findAll();
 
-    @Nullable
-    @Override
-    @SneakyThrows(SQLException.class)
-    public User findByLogin(@NotNull final String login) {
-        @NotNull final String query = "SELECT * FROM `user_table` WHERE `login` = ?;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, login);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        if (!resultSet.next()) return null;
-        @Nullable final User user = fetch(resultSet);
-        statement.close();
-        return user;
-    }
+    @Select("SELECT * FROM `user_table` WHERE `id` = #{id};")
+    @Results({@Result(property = "createDate", column = FieldConst.CREATE_DATE),
+            @Result(property = "hashPassword", column = FieldConst.HASH_PASSWORD),
+            @Result(property = "role", column = FieldConst.USER_ROLE)})
+    User findOne(@NotNull final String id);
 
-    @NotNull
-    @Override
-    @SneakyThrows(SQLException.class)
-    public List<User> findAll() {
-        @NotNull final String query = "SELECT * FROM `user_table`;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        @NotNull final List<User> users = new ArrayList<>();
-        while (resultSet.next()) users.add(fetch(resultSet));
-        statement.close();
-        return users;
+    @Insert("INSERT INTO `user_table`" + "(" +
+            FieldConst.ID + ", " +
+            FieldConst.CREATE_DATE + ", " +
+            FieldConst.LOGIN + ", " +
+            FieldConst.HASH_PASSWORD + ", " +
+            FieldConst.USER_ROLE + ") " +
+            "VALUES (#{id},#{createDate},#{login},#{hashPassword},#{role});")
+    void persist(@NotNull final User user);
 
-    }
+    @Update("UPDATE `user_table` SET " +
+            FieldConst.LOGIN + "= #{login}, " +
+            FieldConst.HASH_PASSWORD + "= #{hashPassword}, " +
+            FieldConst.USER_ROLE + "= #{role} " +
+            "WHERE `id` = #{id};")
+    void update(@NotNull final User user);
 
-    @Nullable
-    @Override
-    @SneakyThrows(SQLException.class)
-    public User findOne(@NotNull final String id) {
-        @NotNull final String query = "SELECT * FROM `user_table` WHERE `id` = ?;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, id);
-        @NotNull final ResultSet resultSet = statement.executeQuery();
-        if (!resultSet.next()) return null;
-        @Nullable final User user = fetch(resultSet);
-        statement.close();
-        return user;
+    @Delete("DELETE FROM `user_table` WHERE id = #{id}")
+    void remove(@NotNull final String id);
 
-    }
-
-    @Override
-    @SneakyThrows(SQLException.class)
-    public void persist(@NotNull final User user) {
-        @NotNull final String query = "INSERT INTO `user_table`" + "(" +
-                FieldConst.ID + ", " +
-                FieldConst.CREATE_DATE + ", " +
-                FieldConst.LOGIN + ", " +
-                FieldConst.HASH_PASSWORD + ", " +
-                FieldConst.USER_ROLE + ") " +
-                "VALUES (?,?,?,?,?);";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, user.getId());
-        statement.setDate(2, new Date(user.getCreateDate().getTime()));
-        statement.setString(3, user.getLogin());
-        statement.setString(4, user.getHashPassword());
-        statement.setString(5, user.getRole().toString());
-        statement.executeUpdate();
-        statement.close();
-    }
-
-    @Override
-    public void merge(@NotNull final User user) {
-        @Nullable final User user1 = findOne(user.getId());
-        if (user1 == null) persist(user);
-        else update(user);
-    }
-
-    @Override
-    @SneakyThrows(SQLException.class)
-    public void update(@NotNull final User user) {
-        @NotNull final String query = "UPDATE `user_table` SET " +
-                FieldConst.LOGIN + "= ?, " +
-                FieldConst.HASH_PASSWORD + "= ?, " +
-                FieldConst.USER_ROLE + "= ? " +
-                "WHERE `id` = ?;";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, user.getLogin());
-        statement.setString(2, user.getHashPassword());
-        statement.setString(3, user.getRole().toString());
-        statement.setString(4, user.getId());
-        statement.executeUpdate();
-        statement.close();
-    }
-
-    @Override
-    @SneakyThrows(SQLException.class)
-    public void remove(@NotNull final String id) {
-        @NotNull final String query = "DELETE FROM `user_table` WHERE id = ?";
-        @NotNull final PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, id);
-        statement.executeUpdate();
-        statement.close();
-    }
-
-    @Override
-    public void remove(final List<User> users) {
-        users.forEach(e -> remove(e.getId()));
-    }
-
-    @Nullable
-    @SneakyThrows(SQLException.class)
-    private User fetch(@Nullable final ResultSet row) {
-        if (row == null) return null;
-        @NotNull final User user = new User();
-        user.setId(row.getString(FieldConst.ID));
-        user.setCreateDate(row.getDate(FieldConst.CREATE_DATE));
-        user.setLogin(row.getString(FieldConst.LOGIN));
-        user.setHashPassword(row.getString(FieldConst.HASH_PASSWORD));
-        user.setRole(Role.getByDisplayName(row.getString(FieldConst.USER_ROLE)));
-        return user;
-    }
+    @Delete("DELETE FROM `user_table`")
+    void removeAll();
 
 }

@@ -1,5 +1,6 @@
 package ru.eremin.tm.server.model.entity.enumerated;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -7,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
  * @autor av.eremin on 11.04.2019.
  */
 
+@Getter
 public enum Role {
 
     ADMIN("admin"),

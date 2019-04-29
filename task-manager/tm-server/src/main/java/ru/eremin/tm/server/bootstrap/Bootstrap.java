@@ -17,10 +17,7 @@ import ru.eremin.tm.server.service.ProjectService;
 import ru.eremin.tm.server.service.SessionService;
 import ru.eremin.tm.server.service.TaskService;
 import ru.eremin.tm.server.service.UserService;
-import ru.eremin.tm.server.utils.DBConnectionUtils;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
-
-import java.sql.Connection;
 
 /**
  * @autor av.eremin on 18.04.2019.
@@ -48,14 +45,9 @@ public class Bootstrap implements ServiceLocator {
     @NotNull
     private final ISessionService sessionService;
 
-    @Getter
-    @NotNull
-    private final Connection connection;
-
     public Bootstrap() {
-        this.connection = DBConnectionUtils.getConnection();
         this.taskService = new TaskService();
-        this.projectService = new ProjectService(this.taskService);
+        this.projectService = new ProjectService();
         this.userService = new UserService();
         this.authService = new AuthService(userService);
         this.sessionService = new SessionService();
@@ -73,11 +65,7 @@ public class Bootstrap implements ServiceLocator {
                 e.printStackTrace();
             }
         }
-        try {
-            initUsers();
-        } catch (IncorrectDataException e) {
-            e.printStackTrace();
-        }
+        initUsers();
     }
 
     private AbstractEndpoint initEndpoint(final Class endpointClass) throws IncorrectClassException, IllegalAccessException, InstantiationException {
@@ -87,7 +75,7 @@ public class Bootstrap implements ServiceLocator {
         return (AbstractEndpoint) endpointClass.newInstance();
     }
 
-    private void initUsers() throws IncorrectDataException {
+    private void initUsers() {
         @NotNull final UserDTO user = new UserDTO();
         user.setId("6bf0f091-e795-42d1-bb9a-77799cdf37da");
         user.setLogin("user");
@@ -100,8 +88,17 @@ public class Bootstrap implements ServiceLocator {
         admin.setHashPassword(PasswordHashUtil.md5("pass"));
         admin.setRole(Role.ADMIN);
 
-        if (userService.findOne(user.getId()) == null) userService.persist(user);
-        if (userService.findOne(admin.getId()) == null) userService.persist(admin);
+        try {
+            userService.findOne(user.getId());
+            userService.findOne(admin.getId());
+        } catch (IncorrectDataException e) {
+            try {
+                userService.persist(user);
+                userService.persist(admin);
+            } catch (IncorrectDataException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package ru.eremin.tm.server.model;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ru.eremin.tm.server.config.EntityFactory;
@@ -12,14 +13,6 @@ import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
-import ru.eremin.tm.server.repository.ProjectRepository;
-import ru.eremin.tm.server.repository.SessionRepository;
-import ru.eremin.tm.server.repository.TaskRepository;
-import ru.eremin.tm.server.repository.UserRepository;
-import ru.eremin.tm.server.api.IProjectRepository;
-import ru.eremin.tm.server.api.ISessionRepository;
-import ru.eremin.tm.server.api.ITaskRepository;
-import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.service.ProjectService;
 import ru.eremin.tm.server.service.SessionService;
 import ru.eremin.tm.server.service.TaskService;
@@ -28,7 +21,6 @@ import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserService;
-import ru.eremin.tm.server.utils.DBConnectionUtils;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -57,14 +49,9 @@ public class ModelTest {
         taskDTO = EntityFactory.getTask(projectDTO, userDTO);
         sessionDTO = EntityFactory.getSession(userDTO);
 
-        final IProjectRepository projectRepository = new ProjectRepository(DBConnectionUtils.getConnection());
-        final ITaskRepository taskRepository = new TaskRepository(DBConnectionUtils.getConnection());
-        final IUserRepository userRepository = new UserRepository(DBConnectionUtils.getConnection());
-        final ISessionRepository sessionRepository = new SessionRepository(DBConnectionUtils.getConnection());
-
         userService = new UserService();
         taskService = new TaskService();
-        projectService = new ProjectService(taskService);
+        projectService = new ProjectService();
         sessionService = new SessionService();
     }
 
@@ -116,7 +103,6 @@ public class ModelTest {
         userTMP.setLogin(updateName);
         taskTMP.setName(updateName);
         projectTMP.setName(updateName);
-
         userService.update(userTMP);
         projectService.update(projectTMP);
         taskService.update(taskTMP);
@@ -128,41 +114,6 @@ public class ModelTest {
 
     @Test
     @Order(order = 4)
-    public void mergeTest() throws IncorrectDataException {
-        final UserDTO userDTO1 = EntityFactory.getUser();
-
-        final ProjectDTO projectDTO1 = EntityFactory.getProject(userDTO1);
-
-        final TaskDTO taskDTO1 = EntityFactory.getTask(projectDTO1, userDTO1);
-
-        userService.merge(userDTO1);
-        projectService.merge(projectDTO1);
-        taskService.merge(taskDTO1);
-
-        assertNotNull(userService.findOne(userDTO1.getId()));
-        assertNotNull(projectService.findOne(projectDTO1.getId()));
-        assertNotNull(taskService.findOne(taskDTO1.getId()));
-
-        userDTO1.setLogin("UpdateLogin");
-        projectDTO1.setName("UpdateName");
-        taskDTO1.setName("UpdateName");
-
-        userService.merge(userDTO1);
-        projectService.merge(projectDTO1);
-        taskService.merge(taskDTO1);
-
-        assertEquals("UpdateLogin", userService.findOne(userDTO1.getId()).getLogin());
-        assertEquals("UpdateName", projectService.findOne(projectDTO1.getId()).getName());
-        assertEquals("UpdateName", taskService.findOne(taskDTO1.getId()).getName());
-
-        taskService.remove(taskDTO1.getId());
-        projectService.remove(projectDTO1.getId());
-        userService.remove(userDTO1.getId());
-
-    }
-
-    @Test
-    @Order(order = 5)
     public void deleteTest() throws IncorrectDataException, AccessForbiddenException {
         final int beforeUsersSize = userService.findAll().size();
         final int beforeProjectsSize = projectService.findByUserId(userDTO.getId()).size();

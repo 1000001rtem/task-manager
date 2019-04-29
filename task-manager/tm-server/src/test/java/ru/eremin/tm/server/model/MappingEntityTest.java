@@ -10,19 +10,12 @@ import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.repository.ProjectRepository;
-import ru.eremin.tm.server.repository.TaskRepository;
-import ru.eremin.tm.server.repository.UserRepository;
-import ru.eremin.tm.server.api.IProjectRepository;
-import ru.eremin.tm.server.api.ITaskRepository;
-import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.service.ProjectService;
 import ru.eremin.tm.server.service.TaskService;
 import ru.eremin.tm.server.service.UserService;
 import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserService;
-import ru.eremin.tm.server.utils.DBConnectionUtils;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
 import java.util.Date;
@@ -50,12 +43,9 @@ public class MappingEntityTest {
 
     @BeforeClass
     public static void before() {
-        final IUserRepository userRepository = new UserRepository(DBConnectionUtils.getConnection());
-        final IProjectRepository projectRepository = new ProjectRepository(DBConnectionUtils.getConnection());
-        final ITaskRepository taskRepository = new TaskRepository(DBConnectionUtils.getConnection());
         userService = new UserService();
         taskService = new TaskService();
-        projectService = new ProjectService(taskService);
+        projectService = new ProjectService();
 
         user = new User();
         user.setId(UUID.randomUUID().toString());

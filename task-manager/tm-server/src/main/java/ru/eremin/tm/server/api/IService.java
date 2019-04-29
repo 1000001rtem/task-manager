@@ -22,8 +22,6 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
 
     void persist(@Nullable E e) throws IncorrectDataException;
 
-    void merge(@Nullable E e) throws IncorrectDataException;
-
     void update(@Nullable E e) throws IncorrectDataException;
 
     void remove(@Nullable String id) throws IncorrectDataException;
