@@ -131,7 +131,6 @@ public class ProjectService implements IProjectService {
         @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
         connection.setAutoCommit(false);
         projectRepository.remove(id);
-        taskService.removeAllTasksInProject(id);
         connection.commit();
         connection.close();
     }
@@ -143,7 +142,6 @@ public class ProjectService implements IProjectService {
         @NotNull final Connection connection = DBConnectionUtils.getConnection();
         @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
         connection.setAutoCommit(false);
-        taskService.removeAll(userId);
         projectRepository.removeAll(userId);
         connection.commit();
         connection.close();
