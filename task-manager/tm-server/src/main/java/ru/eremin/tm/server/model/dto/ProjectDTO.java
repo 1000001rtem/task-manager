@@ -24,8 +24,8 @@ import java.io.Serializable;
 @XmlRootElement(name = "project")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "user"})
-@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "user"})
+@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId"})
+@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId"})
 public class ProjectDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -379365728203711699L;

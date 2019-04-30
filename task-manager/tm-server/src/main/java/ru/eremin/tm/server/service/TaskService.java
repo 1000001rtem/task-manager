@@ -64,13 +64,17 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findByProjectId(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
-        if (projectDTO == null) throw new IncorrectDataException("Wrong project id");
+    public List<TaskDTO> findByProjectId(@Nullable final String projectId) throws IncorrectDataException {
+        if (projectId == null || projectId.isEmpty()) throw new IncorrectDataException("Wrong project id");
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final Project project = getProject(projectDTO.getId(), em);
+            @Nullable final Project project = getProject(projectId, em);
+            if(project == null){
+                em.close();
+                return Collections.emptyList();
+            }
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByProjectId(project)
                     .stream()
                     .map(TaskDTO::new)
@@ -87,13 +91,17 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public void removeAllTasksInProject(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
-        if (projectDTO == null) throw new IncorrectDataException("Wrong project id");
+    public void removeAllTasksInProject(@Nullable final String projectId) throws IncorrectDataException {
+        if (projectId== null || projectId.isEmpty()) throw new IncorrectDataException("Wrong project id");
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final Project project = getProject(projectDTO.getId(), em);
+            @Nullable final Project project = getProject(projectId, em);
+            if(project == null){
+                em.close();
+                return;
+            }
             taskRepository.removeAllTasksInProject(project);
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -127,14 +135,17 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findByUserId(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
-        if (userDTO == null) throw new AccessForbiddenException();
+    public List<TaskDTO> findByUserId(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final User user = getUser(userDTO.getId(), em);
-            if(user == null) throw new AccessForbiddenException();
+            @Nullable final User user = getUser(userId, em);
+            if(user == null) {
+                em.close();
+                return Collections.emptyList();
+            }
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByUserId(user)
                     .stream()
                     .map(TaskDTO::new)
@@ -187,6 +198,24 @@ public class TaskService implements ITaskService {
     }
 
     @Override
+    public void merge(@Nullable final TaskDTO taskDTO) throws IncorrectDataException {
+        if (taskDTO == null) throw new IncorrectDataException("Task is null");
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
+        try {
+            em.getTransaction().begin();
+            @NotNull final Task task = getEntity(taskDTO, em);
+            taskRepository.merge(task);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
@@ -204,14 +233,17 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public void removeAll(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
-        if (userDTO == null) throw new AccessForbiddenException();
+    public void removeAll(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final User user = getUser(userDTO.getId(), em);
-            if(user == null) throw new AccessForbiddenException();
+            @Nullable final User user = getUser(userId, em);
+            if(user == null) {
+                em.close();
+                return;
+            }
             taskRepository.removeAll(user);
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -243,14 +275,17 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findAllSortedByCreateDate(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
-        if (userDTO == null) throw new AccessForbiddenException();
+    public List<TaskDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final User user = getUser(userDTO.getId(), em);
-            if(user == null) throw new AccessForbiddenException();
+            @Nullable final User user = getUser(userId, em);
+            if(user == null) {
+                em.close();
+                return Collections.emptyList();
+            }
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByCreateDate(user)
                     .stream()
                     .map(TaskDTO::new)
@@ -268,14 +303,17 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findAllSortedByStartDate(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
-        if (userDTO == null) throw new AccessForbiddenException();
+    public List<TaskDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final User user = getUser(userDTO.getId(), em);
-            if(user == null) throw new AccessForbiddenException();
+            @Nullable final User user = getUser(userId, em);
+            if(user == null) {
+                em.close();
+                return Collections.emptyList();
+            }
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStartDate(user)
                     .stream()
                     .map(TaskDTO::new)
@@ -293,14 +331,17 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findAllSortedByEndDate(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
-        if (userDTO == null) throw new AccessForbiddenException();
+    public List<TaskDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final User user = getUser(userDTO.getId(), em);
-            if(user == null) throw new AccessForbiddenException();
+            @Nullable final User user = getUser(userId, em);
+            if(user == null) {
+                em.close();
+                return Collections.emptyList();
+            }
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByEndDate(user)
                     .stream()
                     .map(TaskDTO::new)
@@ -318,14 +359,17 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findAllSortedByStatus(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
-        if (userDTO == null) throw new AccessForbiddenException();
+    public List<TaskDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final User user = getUser(userDTO.getId(), em);
-            if(user == null) throw new AccessForbiddenException();
+            @Nullable final User user = getUser(userId, em);
+            if(user == null) {
+                em.close();
+                return Collections.emptyList();
+            }
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStatus(user)
                     .stream()
                     .map(TaskDTO::new)
@@ -343,14 +387,17 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findByName(@Nullable final UserDTO userDTO, @Nullable final String name) throws AccessForbiddenException {
-        if (userDTO == null || name == null || name.isEmpty()) throw new AccessForbiddenException();
+    public List<TaskDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
+        if (userId == null ||userId.isEmpty()|| name == null || name.isEmpty()) throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final User user = getUser(userDTO.getId(), em);
-            if(user == null) throw new AccessForbiddenException();
+            @Nullable final User user = getUser(userId, em);
+            if(user == null){
+                em.close();
+                return Collections.emptyList();
+            }
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByName(user, name)
                     .stream()
                     .map(TaskDTO::new)
@@ -368,15 +415,18 @@ public class TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findByDescription(@Nullable final UserDTO userDTO, @Nullable final String description) throws AccessForbiddenException {
-        if (userDTO == null || description == null || description.isEmpty())
+    public List<TaskDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
+        if (userId == null ||userId.isEmpty()|| description == null || description.isEmpty())
             throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
-            @Nullable final User user = getUser(userDTO.getId(), em);
-            if(user == null) throw new AccessForbiddenException();
+            @Nullable final User user = getUser(userId, em);
+            if(user == null) {
+                em.close();
+                return Collections.emptyList();
+            }
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByDescription(user, description)
                     .stream()
                     .map(TaskDTO::new)
@@ -413,15 +463,13 @@ public class TaskService implements ITaskService {
     }
 
     @Nullable
-    private Project getProject(@Nullable final String projectId, @NotNull final EntityManager em) {
-        if(projectId == null || projectId.isEmpty()) return null;
+    private Project getProject(@NotNull final String projectId, @NotNull final EntityManager em) {
         @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         return projectRepository.findOne(projectId);
     }
 
     @Nullable
-    private User getUser(final String userId, final EntityManager em) {
-        if(userId == null || userId.isEmpty()) return null;
+    private User getUser(@NotNull final String userId, @NotNull final EntityManager em) {
         @NotNull final IUserRepository userRepository = new UserRepository(em);
         return userRepository.findOne(userId);
     }

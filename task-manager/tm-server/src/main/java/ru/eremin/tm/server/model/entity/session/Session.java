@@ -8,10 +8,7 @@ import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.AbstractEntity;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.util.UUID;
 
 /**
@@ -22,6 +19,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "session_table")
 public class Session extends AbstractEntity {
 
     @Nullable

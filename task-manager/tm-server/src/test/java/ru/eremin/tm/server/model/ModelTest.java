@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import ru.eremin.tm.server.config.EntityFactory;
 import ru.eremin.tm.server.config.Order;
 import ru.eremin.tm.server.config.OrderedRunner;
+import ru.eremin.tm.server.config.SqlSessionConfig;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
@@ -21,6 +22,8 @@ import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserService;
+
+import javax.persistence.EntityManagerFactory;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -49,10 +52,11 @@ public class ModelTest {
         taskDTO = EntityFactory.getTask(projectDTO, userDTO);
         sessionDTO = EntityFactory.getSession(userDTO);
 
-        userService = new UserService();
-        taskService = new TaskService();
-        projectService = new ProjectService();
-        sessionService = new SessionService();
+        final EntityManagerFactory entityManagerFactory = SqlSessionConfig.factory();
+        userService = new UserService(entityManagerFactory);
+        taskService = new TaskService(entityManagerFactory);
+        projectService = new ProjectService(entityManagerFactory);
+        sessionService = new SessionService(entityManagerFactory);
     }
 
     @Test
@@ -111,9 +115,43 @@ public class ModelTest {
         assertEquals(updateName, projectService.findOne(projectDTO.getId()).getName());
         assertEquals(updateName, taskService.findOne(taskDTO.getId()).getName());
     }
-
     @Test
     @Order(order = 4)
+    public void mergeTest() throws IncorrectDataException {
+        final UserDTO userDTO1 = EntityFactory.getUser();
+
+        final ProjectDTO projectDTO1 = EntityFactory.getProject(userDTO1);
+
+        final TaskDTO taskDTO1 = EntityFactory.getTask(projectDTO1, userDTO1);
+
+        userService.merge(userDTO1);
+        projectService.merge(projectDTO1);
+        taskService.merge(taskDTO1);
+
+        assertNotNull(userService.findOne(userDTO1.getId()));
+        assertNotNull(projectService.findOne(projectDTO1.getId()));
+        assertNotNull(taskService.findOne(taskDTO1.getId()));
+
+        userDTO1.setLogin("UpdateLogin");
+        projectDTO1.setName("UpdateName");
+        taskDTO1.setName("UpdateName");
+
+        userService.merge(userDTO1);
+        projectService.merge(projectDTO1);
+        taskService.merge(taskDTO1);
+
+        assertEquals("UpdateLogin", userService.findOne(userDTO1.getId()).getLogin());
+        assertEquals("UpdateName", projectService.findOne(projectDTO1.getId()).getName());
+        assertEquals("UpdateName", taskService.findOne(taskDTO1.getId()).getName());
+
+        taskService.remove(taskDTO1.getId());
+        projectService.remove(projectDTO1.getId());
+        userService.remove(userDTO1.getId());
+    }
+
+
+    @Test
+    @Order(order = 5)
     public void deleteTest() throws IncorrectDataException, AccessForbiddenException {
         final int beforeUsersSize = userService.findAll().size();
         final int beforeProjectsSize = projectService.findByUserId(userDTO.getId()).size();

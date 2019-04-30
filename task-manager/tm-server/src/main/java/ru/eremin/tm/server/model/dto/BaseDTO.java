@@ -51,7 +51,7 @@ public abstract class BaseDTO extends AbstractDTO implements Serializable {
     protected Status status = Status.PLANNED;
 
     @Nullable
-    @XmlElement(name = "user")
+    @XmlElement(name = "userId")
     protected String userId;
 
 }

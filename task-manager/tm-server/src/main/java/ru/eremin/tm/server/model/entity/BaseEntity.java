@@ -6,10 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.model.entity.enumerated.Status;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -46,7 +43,7 @@ public class BaseEntity extends AbstractEntity implements Serializable {
     @Enumerated(value = EnumType.STRING)
     protected Status status;
 
-    @Column(name = "user_id")
+    @ManyToOne
     protected User user;
 
 }

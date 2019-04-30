@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -16,11 +15,12 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "task_table")
 public class Task extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -575064935487180132L;
 
-    @Column(name = "project_id")
+    @ManyToOne
     private Project project;
 
     @Override

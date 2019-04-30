@@ -21,14 +21,14 @@ import java.io.Serializable;
 @XmlRootElement(name = "task")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "user", "project"})
-@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "user", "project"})
+@XmlType(propOrder = {"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId", "projectId"})
+@JsonPropertyOrder({"id", "name", "description", "createDate", "startDate", "endDate", "status", "userId", "projectId"})
 public class TaskDTO extends BaseDTO implements Serializable {
 
     private static final long serialVersionUID = -8634181313297237339L;
 
     @Nullable
-    @XmlElement(name = "project")
+    @XmlElement(name = "projectId")
     private String projectId;
 
     public TaskDTO(@Nullable final Task task) {
@@ -38,8 +38,8 @@ public class TaskDTO extends BaseDTO implements Serializable {
         if (task.getDescription() != null && !task.getDescription().isEmpty()) this.description = task.getDescription();
         if (task.getStartDate() != null) this.startDate = task.getStartDate();
         if (task.getEndDate() != null) this.endDate = task.getEndDate();
-        if (task.getProject() != null && !task.getProject().isEmpty()) this.projectId = task.getProject();
-        if (task.getUser() != null && !task.getUser().isEmpty()) this.userId = task.getUser();
+        if (task.getProject() != null) this.projectId = task.getProject().getId();
+        if (task.getUser() != null) this.userId = task.getUser().getId();
         if (task.getStatus() != null) this.status = task.getStatus();
         this.createDate = task.getCreateDate();
     }

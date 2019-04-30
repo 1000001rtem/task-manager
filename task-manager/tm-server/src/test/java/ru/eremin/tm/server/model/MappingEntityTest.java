@@ -3,6 +3,7 @@ package ru.eremin.tm.server.model;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.eremin.tm.server.config.EntityFactory;
+import ru.eremin.tm.server.config.SqlSessionConfig;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
@@ -18,6 +19,7 @@ import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.Date;
 import java.util.UUID;
 
@@ -43,9 +45,10 @@ public class MappingEntityTest {
 
     @BeforeClass
     public static void before() {
-        userService = new UserService();
-        taskService = new TaskService();
-        projectService = new ProjectService();
+        final EntityManagerFactory entityManagerFactory = SqlSessionConfig.factory();
+        userService = new UserService(entityManagerFactory);
+        taskService = new TaskService(entityManagerFactory);
+        projectService = new ProjectService(entityManagerFactory);
 
         user = new User();
         user.setId(UUID.randomUUID().toString());
@@ -59,7 +62,7 @@ public class MappingEntityTest {
         project.setDescription("twtdtghf");
         project.setStartDate(new Date());
         project.setEndDate(new Date());
-        project.setUser(user.getId());
+        project.setUser(user);
 
         task = new Task();
         task.setId(UUID.randomUUID().toString());
@@ -67,8 +70,8 @@ public class MappingEntityTest {
         task.setDescription("testets");
         task.setStartDate(new Date());
         task.setEndDate(new Date());
-        task.setProject(project.getId());
-        task.setUser(user.getId());
+        task.setProject(project);
+        task.setUser(user);
 
         userDTO = EntityFactory.getUser();
 
@@ -105,13 +108,14 @@ public class MappingEntityTest {
 
     @Test
     public void dtoToEntity() {
-        final User user = userService.getEntity(userDTO);
+        final EntityManagerFactory entityManagerFactory = SqlSessionConfig.factory();
+        final User user = userService.getEntity(userDTO, entityManagerFactory.createEntityManager());
         assertEquals(userDTO.getId(), user.getId());
         assertEquals(userDTO.getLogin(), user.getLogin());
         assertEquals(userDTO.getHashPassword(), user.getHashPassword());
         assertEquals(userDTO.getRole(), user.getRole());
 
-        final Project project = projectService.getEntity(projectDTO);
+        final Project project = projectService.getEntity(projectDTO, entityManagerFactory.createEntityManager());
         assertEquals(projectDTO.getId(), project.getId());
         assertEquals(projectDTO.getName(), project.getName());
         assertEquals(projectDTO.getDescription(), project.getDescription());
@@ -119,7 +123,7 @@ public class MappingEntityTest {
         assertEquals(projectDTO.getEndDate(), project.getEndDate());
         assertEquals(projectDTO.getUserId(), project.getUser());
 
-        final Task task = taskService.getEntity(taskDTO);
+        final Task task = taskService.getEntity(taskDTO, entityManagerFactory.createEntityManager());
         assertEquals(taskDTO.getId(), task.getId());
         assertEquals(taskDTO.getName(), task.getName());
         assertEquals(taskDTO.getDescription(), task.getDescription());

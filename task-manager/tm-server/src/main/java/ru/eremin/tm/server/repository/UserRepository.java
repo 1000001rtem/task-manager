@@ -36,7 +36,7 @@ public class UserRepository implements IUserRepository {
     @NotNull
     @Override
     public List<User> findAll() {
-        @NotNull final String query = "SELECT e FROM User e;";
+        @NotNull final String query = "SELECT e FROM User e";
         return em.createQuery(query, User.class).getResultList();
 
     }
@@ -58,7 +58,6 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    @SneakyThrows(SQLException.class)
     public void update(@NotNull final User user) {
         @Nullable final User user1 = em.find(User.class, user.getId());
         if (user1 == null) return;

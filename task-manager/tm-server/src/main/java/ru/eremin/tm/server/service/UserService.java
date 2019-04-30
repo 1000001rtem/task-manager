@@ -91,7 +91,7 @@ public class UserService implements IUserService {
             }
             em.getTransaction().commit();
             return new UserDTO(user);
-        } catch (IncorrectDataException e) {
+        } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
@@ -127,6 +127,24 @@ public class UserService implements IUserService {
             em.getTransaction().begin();
             @NotNull final User user = getEntity(userDTO, em);
             userRepository.update(user);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public void merge(@Nullable final UserDTO userDTO) throws IncorrectDataException {
+        if (userDTO == null) throw new IncorrectDataException("User is null");
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IUserRepository userRepository = new UserRepository(em);
+        try {
+            em.getTransaction().begin();
+            @NotNull final User user = getEntity(userDTO, em);
+            userRepository.merge(user);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();

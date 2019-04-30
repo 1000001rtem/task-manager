@@ -134,6 +134,24 @@ public class SessionService implements ISessionService {
     }
 
     @Override
+    public void merge(@Nullable final SessionDTO sessionDTO) throws IncorrectDataException {
+        if (sessionDTO == null) throw new IncorrectDataException("Session is null");
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
+        try {
+            em.getTransaction().begin();
+            @NotNull final Session session = getEntity(sessionDTO, em);
+            sessionRepository.merge(session);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();

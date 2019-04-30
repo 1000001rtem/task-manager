@@ -15,8 +15,8 @@ import java.util.List;
 
 public interface ITaskService extends IBasedService<Task, TaskDTO> {
 
-    List<TaskDTO> findByProjectId(@Nullable ProjectDTO project) throws IncorrectDataException;
+    List<TaskDTO> findByProjectId(@Nullable String projectId) throws IncorrectDataException;
 
-    void removeAllTasksInProject(@Nullable ProjectDTO project) throws IncorrectDataException;
+    void removeAllTasksInProject(@Nullable String projectId) throws IncorrectDataException;
 
 }

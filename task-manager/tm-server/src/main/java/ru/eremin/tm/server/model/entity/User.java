@@ -6,10 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -20,6 +17,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "user_table")
 public class User extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 7036583160470114038L;

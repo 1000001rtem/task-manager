@@ -6,6 +6,7 @@ import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserService;
+import ru.eremin.tm.server.config.SqlSessionConfig;
 import ru.eremin.tm.server.endpoint.AbstractEndpoint;
 import ru.eremin.tm.server.exeption.IncorrectClassException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
@@ -18,6 +19,8 @@ import ru.eremin.tm.server.service.SessionService;
 import ru.eremin.tm.server.service.TaskService;
 import ru.eremin.tm.server.service.UserService;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
+
+import javax.persistence.EntityManagerFactory;
 
 /**
  * @autor av.eremin on 18.04.2019.
@@ -45,12 +48,16 @@ public class Bootstrap implements ServiceLocator {
     @NotNull
     private final ISessionService sessionService;
 
+    @Getter
+    @NotNull
+    private final EntityManagerFactory entityManagerFactory = SqlSessionConfig.factory();
+
     public Bootstrap() {
-        this.taskService = new TaskService();
-        this.projectService = new ProjectService();
-        this.userService = new UserService();
+        this.taskService = new TaskService(entityManagerFactory);
+        this.projectService = new ProjectService(entityManagerFactory);
+        this.userService = new UserService(entityManagerFactory);
         this.authService = new AuthService(userService);
-        this.sessionService = new SessionService();
+        this.sessionService = new SessionService(entityManagerFactory);
     }
 
     @Override
@@ -89,16 +96,12 @@ public class Bootstrap implements ServiceLocator {
         admin.setRole(Role.ADMIN);
 
         try {
-            userService.findOne(user.getId());
-            userService.findOne(admin.getId());
+            if(!userService.isExist(admin.getId())) userService.persist(admin);
+            if(!userService.isExist(user.getId())) userService.persist(user);
         } catch (IncorrectDataException e) {
-            try {
-                userService.persist(user);
-                userService.persist(admin);
-            } catch (IncorrectDataException e1) {
-                e1.printStackTrace();
-            }
+            e.printStackTrace();
         }
+
     }
 
 }

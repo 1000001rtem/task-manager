@@ -15,20 +15,20 @@ import java.util.List;
 
 public interface IBasedService<T extends AbstractEntity, E extends AbstractDTO> extends IService<T, E> {
 
-    List<E> findByUserId(@Nullable UserDTO userDTO) throws AccessForbiddenException;
+    List<E> findByUserId(@Nullable String userId) throws AccessForbiddenException;
 
-    void removeAll(@Nullable UserDTO userDTO) throws AccessForbiddenException;
+    void removeAll(@Nullable String userId) throws AccessForbiddenException;
 
-    List<E> findAllSortedByCreateDate(@Nullable UserDTO userDTO) throws AccessForbiddenException;
+    List<E> findAllSortedByCreateDate(@Nullable String userId) throws AccessForbiddenException;
 
-    List<E> findAllSortedByStartDate(@Nullable UserDTO userDTO) throws AccessForbiddenException;
+    List<E> findAllSortedByStartDate(@Nullable String userId) throws AccessForbiddenException;
 
-    List<E> findAllSortedByEndDate(@Nullable UserDTO userDTO) throws AccessForbiddenException;
+    List<E> findAllSortedByEndDate(@Nullable String userId) throws AccessForbiddenException;
 
-    List<E> findAllSortedByStatus(@Nullable UserDTO userDTO) throws AccessForbiddenException;
+    List<E> findAllSortedByStatus(@Nullable String userId) throws AccessForbiddenException;
 
-    List<E> findByName(@Nullable UserDTO userDTO, @Nullable String name) throws AccessForbiddenException;
+    List<E> findByName(@Nullable String userId, @Nullable String name) throws AccessForbiddenException;
 
-    List<E> findByDescription(@Nullable UserDTO userDTO, @Nullable String description) throws AccessForbiddenException;
+    List<E> findByDescription(@Nullable String userId, @Nullable String description) throws AccessForbiddenException;
 
 }

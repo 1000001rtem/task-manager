@@ -2,7 +2,6 @@ package ru.eremin.tm.server.config;
 
 
 import lombok.SneakyThrows;
-import org.eclipse.persistence.sessions.Session;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -11,6 +10,7 @@ import org.hibernate.cfg.Environment;
 import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.entity.User;
+import ru.eremin.tm.server.model.entity.session.Session;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public final class SqlSessionConfig {
         return properties;
     }
 
-    private EntityManagerFactory factory() {
+    public static EntityManagerFactory factory() {
         Properties properties = getProperties();
         final Map<String, String> settings = new HashMap<>();
         settings.put(Environment.DRIVER, properties.getProperty("jdbc.driver"));
