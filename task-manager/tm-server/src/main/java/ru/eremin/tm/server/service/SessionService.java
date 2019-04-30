@@ -1,7 +1,6 @@
 package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.ISessionRepository;
@@ -64,7 +63,7 @@ public class SessionService implements ISessionService {
         try {
             em.getTransaction().begin();
             @Nullable final Session session = sessionRepository.findOne(id);
-            if (session == null)throw new IncorrectDataException("Wrong id");
+            if (session == null) throw new IncorrectDataException("Wrong id");
             em.getTransaction().commit();
             return new SessionDTO(session);
         } catch (Exception e) {

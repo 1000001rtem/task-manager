@@ -1,13 +1,11 @@
 package ru.eremin.tm.server.repository;
 
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.model.entity.User;
 
 import javax.persistence.EntityManager;
-import java.sql.SQLException;
 import java.util.List;
 
 /**

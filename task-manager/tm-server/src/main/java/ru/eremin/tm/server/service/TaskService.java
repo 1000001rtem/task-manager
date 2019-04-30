@@ -9,9 +9,7 @@ import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
-import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.entity.User;
@@ -36,7 +34,7 @@ public class TaskService implements ITaskService {
     private EntityManagerFactory entityManagerFactory;
 
     public TaskService(@Nullable final EntityManagerFactory entityManagerFactory) {
-        if(entityManagerFactory == null) return;
+        if (entityManagerFactory == null) return;
         this.entityManagerFactory = entityManagerFactory;
     }
 
@@ -71,7 +69,7 @@ public class TaskService implements ITaskService {
         try {
             em.getTransaction().begin();
             @Nullable final Project project = getProject(projectId, em);
-            if(project == null){
+            if (project == null) {
                 em.close();
                 return Collections.emptyList();
             }
@@ -92,13 +90,13 @@ public class TaskService implements ITaskService {
 
     @Override
     public void removeAllTasksInProject(@Nullable final String projectId) throws IncorrectDataException {
-        if (projectId== null || projectId.isEmpty()) throw new IncorrectDataException("Wrong project id");
+        if (projectId == null || projectId.isEmpty()) throw new IncorrectDataException("Wrong project id");
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
             @Nullable final Project project = getProject(projectId, em);
-            if(project == null){
+            if (project == null) {
                 em.close();
                 return;
             }
@@ -142,7 +140,7 @@ public class TaskService implements ITaskService {
         try {
             em.getTransaction().begin();
             @Nullable final User user = getUser(userId, em);
-            if(user == null) {
+            if (user == null) {
                 em.close();
                 return Collections.emptyList();
             }
@@ -240,7 +238,7 @@ public class TaskService implements ITaskService {
         try {
             em.getTransaction().begin();
             @Nullable final User user = getUser(userId, em);
-            if(user == null) {
+            if (user == null) {
                 em.close();
                 return;
             }
@@ -282,7 +280,7 @@ public class TaskService implements ITaskService {
         try {
             em.getTransaction().begin();
             @Nullable final User user = getUser(userId, em);
-            if(user == null) {
+            if (user == null) {
                 em.close();
                 return Collections.emptyList();
             }
@@ -310,7 +308,7 @@ public class TaskService implements ITaskService {
         try {
             em.getTransaction().begin();
             @Nullable final User user = getUser(userId, em);
-            if(user == null) {
+            if (user == null) {
                 em.close();
                 return Collections.emptyList();
             }
@@ -338,7 +336,7 @@ public class TaskService implements ITaskService {
         try {
             em.getTransaction().begin();
             @Nullable final User user = getUser(userId, em);
-            if(user == null) {
+            if (user == null) {
                 em.close();
                 return Collections.emptyList();
             }
@@ -366,7 +364,7 @@ public class TaskService implements ITaskService {
         try {
             em.getTransaction().begin();
             @Nullable final User user = getUser(userId, em);
-            if(user == null) {
+            if (user == null) {
                 em.close();
                 return Collections.emptyList();
             }
@@ -388,13 +386,13 @@ public class TaskService implements ITaskService {
     @NotNull
     @Override
     public List<TaskDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
-        if (userId == null ||userId.isEmpty()|| name == null || name.isEmpty()) throw new AccessForbiddenException();
+        if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
             @Nullable final User user = getUser(userId, em);
-            if(user == null){
+            if (user == null) {
                 em.close();
                 return Collections.emptyList();
             }
@@ -403,6 +401,7 @@ public class TaskService implements ITaskService {
                     .map(TaskDTO::new)
                     .collect(Collectors.toList());
             em.getTransaction().commit();
+            System.out.println(taskDTOS);
             return taskDTOS;
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -416,14 +415,14 @@ public class TaskService implements ITaskService {
     @NotNull
     @Override
     public List<TaskDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
-        if (userId == null ||userId.isEmpty()|| description == null || description.isEmpty())
+        if (userId == null || userId.isEmpty() || description == null || description.isEmpty())
             throw new AccessForbiddenException();
         @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
         @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
         try {
             em.getTransaction().begin();
             @Nullable final User user = getUser(userId, em);
-            if(user == null) {
+            if (user == null) {
                 em.close();
                 return Collections.emptyList();
             }

@@ -100,10 +100,10 @@ public class TaskRepository implements ITaskRepository {
     @NotNull
     @Override
     public List<Task> findByName(@NotNull final User user, @NotNull final String name) {
-        @NotNull final String query = "SELECT e FROM Task e WHERE e.user = :user and e.name LIKE :name;";
+        @NotNull final String query = "SELECT e FROM Task e WHERE e.user = :user and e.name LIKE :name";
         @NotNull final List<Task> tasks = em.createQuery(query, Task.class)
                 .setParameter("user", user)
-                .setParameter("name", name)
+                .setParameter("name", "%" + name + "%")
                 .getResultList();
         return tasks;
     }
@@ -111,10 +111,10 @@ public class TaskRepository implements ITaskRepository {
     @NotNull
     @Override
     public List<Task> findByDescription(@NotNull final User user, @NotNull final String description) {
-        @NotNull final String query = "SELECT e FROM Task e WHERE e.user = :user and e.description LIKE :description;";
+        @NotNull final String query = "SELECT e FROM Task e WHERE e.user = :user and e.description LIKE :description";
         @NotNull final List<Task> tasks = em.createQuery(query, Task.class)
                 .setParameter("user", user)
-                .setParameter("description", description)
+                .setParameter("description", "%" + description + "%")
                 .getResultList();
         return tasks;
     }

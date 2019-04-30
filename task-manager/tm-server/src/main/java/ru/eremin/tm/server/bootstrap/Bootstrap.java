@@ -6,7 +6,7 @@ import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserService;
-import ru.eremin.tm.server.config.SqlSessionConfig;
+import ru.eremin.tm.server.config.DBConfig;
 import ru.eremin.tm.server.endpoint.AbstractEndpoint;
 import ru.eremin.tm.server.exeption.IncorrectClassException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
@@ -50,9 +50,10 @@ public class Bootstrap implements ServiceLocator {
 
     @Getter
     @NotNull
-    private final EntityManagerFactory entityManagerFactory = SqlSessionConfig.factory();
+    private final EntityManagerFactory entityManagerFactory = DBConfig.getFactory();
 
     public Bootstrap() {
+        System.out.println(entityManagerFactory);
         this.taskService = new TaskService(entityManagerFactory);
         this.projectService = new ProjectService(entityManagerFactory);
         this.userService = new UserService(entityManagerFactory);
@@ -96,8 +97,8 @@ public class Bootstrap implements ServiceLocator {
         admin.setRole(Role.ADMIN);
 
         try {
-            if(!userService.isExist(admin.getId())) userService.persist(admin);
-            if(!userService.isExist(user.getId())) userService.persist(user);
+            if (!userService.isExist(admin.getId())) userService.persist(admin);
+            if (!userService.isExist(user.getId())) userService.persist(user);
         } catch (IncorrectDataException e) {
             e.printStackTrace();
         }

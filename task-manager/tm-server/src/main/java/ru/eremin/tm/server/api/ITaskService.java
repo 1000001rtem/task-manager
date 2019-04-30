@@ -2,9 +2,7 @@ package ru.eremin.tm.server.api;
 
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
-import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
-import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.entity.Task;
 
 import java.util.List;

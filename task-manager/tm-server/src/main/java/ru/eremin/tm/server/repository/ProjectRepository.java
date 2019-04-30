@@ -91,7 +91,7 @@ public class ProjectRepository implements IProjectRepository {
         @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user and e.name LIKE :name";
         @NotNull final List<Project> projects = em.createQuery(query, Project.class)
                 .setParameter("user", user)
-                .setParameter("name", name)
+                .setParameter("name", "%" + name + "%")
                 .getResultList();
         return projects;
     }
@@ -102,7 +102,7 @@ public class ProjectRepository implements IProjectRepository {
         @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user and e.description LIKE :description";
         @NotNull final List<Project> projects = em.createQuery(query, Project.class)
                 .setParameter("user", user)
-                .setParameter("name", description)
+                .setParameter("name", "%" + description + "%")
                 .getResultList();
         return projects;
     }

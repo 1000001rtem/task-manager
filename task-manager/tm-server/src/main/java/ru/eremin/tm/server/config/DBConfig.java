@@ -21,16 +21,9 @@ import java.util.Properties;
  * @autor av.eremin on 24.04.2019.
  */
 
-public final class SqlSessionConfig {
+public final class DBConfig {
 
-    @SneakyThrows
-    private static Properties getProperties() {
-        Properties properties = new Properties();
-        properties.load(SqlSessionConfig.class.getClassLoader().getResourceAsStream("db.properties"));
-        return properties;
-    }
-
-    public static EntityManagerFactory factory() {
+    public static EntityManagerFactory getFactory() {
         Properties properties = getProperties();
         final Map<String, String> settings = new HashMap<>();
         settings.put(Environment.DRIVER, properties.getProperty("jdbc.driver"));
@@ -50,6 +43,13 @@ public final class SqlSessionConfig {
         sources.addAnnotatedClass(Session.class);
         final Metadata metadata = sources.getMetadataBuilder().build();
         return metadata.getSessionFactoryBuilder().build();
+    }
+
+    @SneakyThrows
+    private static Properties getProperties() {
+        Properties properties = new Properties();
+        properties.load(DBConfig.class.getClassLoader().getResourceAsStream("db.properties"));
+        return properties;
     }
 
 }

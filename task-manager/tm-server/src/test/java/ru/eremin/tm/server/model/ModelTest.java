@@ -1,13 +1,16 @@
 package ru.eremin.tm.server.model;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ISessionService;
+import ru.eremin.tm.server.api.ITaskService;
+import ru.eremin.tm.server.api.IUserService;
+import ru.eremin.tm.server.config.DBConfig;
 import ru.eremin.tm.server.config.EntityFactory;
 import ru.eremin.tm.server.config.Order;
 import ru.eremin.tm.server.config.OrderedRunner;
-import ru.eremin.tm.server.config.SqlSessionConfig;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
@@ -18,10 +21,6 @@ import ru.eremin.tm.server.service.ProjectService;
 import ru.eremin.tm.server.service.SessionService;
 import ru.eremin.tm.server.service.TaskService;
 import ru.eremin.tm.server.service.UserService;
-import ru.eremin.tm.server.api.IProjectService;
-import ru.eremin.tm.server.api.ISessionService;
-import ru.eremin.tm.server.api.ITaskService;
-import ru.eremin.tm.server.api.IUserService;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -52,7 +51,7 @@ public class ModelTest {
         taskDTO = EntityFactory.getTask(projectDTO, userDTO);
         sessionDTO = EntityFactory.getSession(userDTO);
 
-        final EntityManagerFactory entityManagerFactory = SqlSessionConfig.factory();
+        final EntityManagerFactory entityManagerFactory = DBConfig.getFactory();
         userService = new UserService(entityManagerFactory);
         taskService = new TaskService(entityManagerFactory);
         projectService = new ProjectService(entityManagerFactory);

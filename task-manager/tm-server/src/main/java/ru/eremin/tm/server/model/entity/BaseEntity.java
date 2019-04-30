@@ -43,7 +43,7 @@ public class BaseEntity extends AbstractEntity implements Serializable {
     @Enumerated(value = EnumType.STRING)
     protected Status status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     protected User user;
 
 }

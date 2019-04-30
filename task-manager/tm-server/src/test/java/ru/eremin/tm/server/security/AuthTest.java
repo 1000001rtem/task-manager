@@ -1,13 +1,14 @@
 package ru.eremin.tm.server.security;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 import ru.eremin.tm.server.service.UserService;
-import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -19,6 +20,7 @@ import static junit.framework.TestCase.assertNotNull;
 public class AuthTest {
 
     @Test
+    @Ignore
     public void authTest() throws IncorrectDataException, AccessForbiddenException {
         final IUserService userService = new UserService();
         final IAuthService authService = new AuthService(userService);

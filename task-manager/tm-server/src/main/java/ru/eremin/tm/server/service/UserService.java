@@ -1,13 +1,10 @@
 package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.api.IUserService;
-import ru.eremin.tm.server.config.SqlSessionConfig;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.User;
@@ -30,7 +27,7 @@ public class UserService implements IUserService {
     private EntityManagerFactory entityManagerFactory;
 
     public UserService(@Nullable final EntityManagerFactory entityManagerFactory) {
-        if(entityManagerFactory == null) return;
+        if (entityManagerFactory == null) return;
         this.entityManagerFactory = entityManagerFactory;
     }
 

@@ -8,6 +8,7 @@ import ru.eremin.tm.server.model.entity.enumerated.Role;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @autor av.eremin on 11.04.2019.
@@ -34,5 +35,8 @@ public class User extends AbstractEntity implements Serializable {
     @Column(name = "user_role")
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Project> projects;
 
 }
