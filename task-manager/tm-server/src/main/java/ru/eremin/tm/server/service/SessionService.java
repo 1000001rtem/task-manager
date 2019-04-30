@@ -2,16 +2,18 @@ package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.api.ISessionRepository;
 import ru.eremin.tm.server.api.ISessionService;
-import ru.eremin.tm.server.config.SqlSessionConfig;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.entity.session.Session;
+import ru.eremin.tm.server.repository.SessionRepository;
 import ru.eremin.tm.server.utils.SignatureUtil;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,25 +25,32 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class SessionService implements ISessionService {
 
-    @NotNull
-    final SqlSessionFactory sessionFactory = SqlSessionConfig.getSessionFactory();
+    @Nullable
+    private EntityManagerFactory entityManagerFactory;
 
+    public SessionService(@Nullable final EntityManagerFactory entityManagerFactory) {
+        if (entityManagerFactory == null) return;
+        this.entityManagerFactory = entityManagerFactory;
+    }
+
+    @NotNull
     @Override
-    public @NotNull List<SessionDTO> findAll() {
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+    public List<SessionDTO> findAll() {
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
         try {
-            @NotNull final SessionRepository sessionRepository = sqlSession.getMapper(SessionRepository.class);
+            em.getTransaction().begin();
             @NotNull final List<SessionDTO> sessionDTOS = sessionRepository.findAll()
                     .stream()
                     .map(SessionDTO::new)
                     .collect(Collectors.toList());
-            sqlSession.commit();
+            em.getTransaction().commit();
             return sessionDTOS;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return Collections.emptyList();
     }
@@ -50,20 +59,19 @@ public class SessionService implements ISessionService {
     @Override
     public SessionDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
         try {
-            @NotNull final SessionRepository sessionRepository = sqlSession.getMapper(SessionRepository.class);
+            em.getTransaction().begin();
             @Nullable final Session session = sessionRepository.findOne(id);
-            if (session == null) {
-                throw new IncorrectDataException("Wrong id");
-            }
-            sqlSession.commit();
+            if (session == null)throw new IncorrectDataException("Wrong id");
+            em.getTransaction().commit();
             return new SessionDTO(session);
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return null;
     }
@@ -72,20 +80,19 @@ public class SessionService implements ISessionService {
     @Override
     public SessionDTO findByUserId(@Nullable final String userId) throws IncorrectDataException {
         if (userId == null || userId.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
         try {
-            @NotNull final SessionRepository sessionRepository = sqlSession.getMapper(SessionRepository.class);
+            em.getTransaction().begin();
             @Nullable final Session session = sessionRepository.findByUserId(userId);
-            if (session == null) {
-                return null;
-            }
-            sqlSession.commit();
+            if (session == null) return null;
+            em.getTransaction().commit();
             return new SessionDTO(session);
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return null;
     }
@@ -93,89 +100,94 @@ public class SessionService implements ISessionService {
     @Override
     public void persist(@Nullable final SessionDTO sessionDTO) throws IncorrectDataException {
         if (sessionDTO == null) throw new IncorrectDataException("Session is null");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
         try {
-            @NotNull final SessionRepository sessionRepository = sqlSession.getMapper(SessionRepository.class);
-            @NotNull final Session session = getEntity(sessionDTO);
+            em.getTransaction().begin();
+            @NotNull final Session session = getEntity(sessionDTO, em);
             sessionRepository.persist(session);
-            sqlSession.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
     }
 
     @Override
     public void update(@Nullable final SessionDTO sessionDTO) throws IncorrectDataException {
         if (sessionDTO == null) throw new IncorrectDataException("Session is null");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
         try {
-            @NotNull final SessionRepository sessionRepository = sqlSession.getMapper(SessionRepository.class);
-            @NotNull final Session session = getEntity(sessionDTO);
+            em.getTransaction().begin();
+            @NotNull final Session session = getEntity(sessionDTO, em);
             sessionRepository.update(session);
-            sqlSession.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
     }
 
     @Override
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
         try {
-            @NotNull final SessionRepository sessionRepository = sqlSession.getMapper(SessionRepository.class);
+            em.getTransaction().begin();
             sessionRepository.remove(id);
-            sqlSession.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
     }
 
     @Override
     public void removeAll() {
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
         try {
-            @NotNull final SessionRepository sessionRepository = sqlSession.getMapper(SessionRepository.class);
+            em.getTransaction().begin();
             sessionRepository.removeAll();
-            sqlSession.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
-            sqlSession.rollback();
-            e.printStackTrace();
+            em.getTransaction().rollback();
+            em.getTransaction().rollback();
         } finally {
-            sqlSession.close();
+            em.close();
         }
     }
 
     @Override
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final ISessionRepository sessionRepository = new SessionRepository(em);
         try {
-            @NotNull final SessionRepository sessionRepository = sqlSession.getMapper(SessionRepository.class);
+            em.getTransaction().begin();
             @NotNull final Session session = sessionRepository.findOne(id);
-            sqlSession.commit();
+            em.getTransaction().commit();
             return session != null;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return false;
     }
 
     @NotNull
     @Override
-    public Session getEntity(@NotNull final SessionDTO sessionDTO) {
+    public Session getEntity(@NotNull final SessionDTO sessionDTO, @NotNull final EntityManager em) {
         @NotNull final Session session = new Session();
         session.setId(sessionDTO.getId());
         if (sessionDTO.getUserId() != null && !sessionDTO.getUserId().isEmpty())

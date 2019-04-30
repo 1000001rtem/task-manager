@@ -6,6 +6,7 @@ import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.AbstractDTO;
 import ru.eremin.tm.server.model.entity.AbstractEntity;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -29,6 +30,6 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
     boolean isExist(@Nullable String id);
 
     @NotNull
-    T getEntity(@NotNull E e);
+    T getEntity(@NotNull E e, @NotNull EntityManager em);
 
 }

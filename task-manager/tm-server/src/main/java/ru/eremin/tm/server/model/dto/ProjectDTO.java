@@ -39,7 +39,7 @@ public class ProjectDTO extends BaseDTO implements Serializable {
         }
         if (project.getStartDate() != null) this.startDate = project.getStartDate();
         if (project.getEndDate() != null) this.endDate = project.getEndDate();
-        if (project.getUser() != null && !project.getUser().isEmpty()) this.userId = project.getUser();
+        if (project.getUser() != null ) this.userId = project.getUser().getId();
         if (project.getStatus() != null) this.status = project.getStatus();
         this.createDate = project.getCreateDate();
     }

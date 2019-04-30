@@ -1,17 +1,22 @@
 package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.api.IProjectRepository;
 import ru.eremin.tm.server.api.IProjectService;
-import ru.eremin.tm.server.config.SqlSessionConfig;
+import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
+import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.Project;
+import ru.eremin.tm.server.model.entity.User;
+import ru.eremin.tm.server.repository.ProjectRepository;
+import ru.eremin.tm.server.repository.UserRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,26 +28,32 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ProjectService implements IProjectService {
 
-    @NotNull
-    private final SqlSessionFactory sessionFactory = SqlSessionConfig.getSessionFactory();
+    @Nullable
+    private EntityManagerFactory entityManagerFactory;
+
+    public ProjectService(@Nullable final EntityManagerFactory entityManagerFactory) {
+        if (entityManagerFactory == null) return;
+        this.entityManagerFactory = entityManagerFactory;
+    }
 
     @NotNull
     @Override
     public List<ProjectDTO> findAll() {
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAll()
+            em.getTransaction().begin();
+            final List<ProjectDTO> projectDTOS = projectRepository.findAll()
                     .stream()
                     .map(ProjectDTO::new)
                     .collect(Collectors.toList());
-            sqlSession.commit();
+            em.getTransaction().commit();
             return projectDTOS;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return Collections.emptyList();
     }
@@ -51,42 +62,44 @@ public class ProjectService implements IProjectService {
     @Override
     public ProjectDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
+            em.getTransaction().begin();
             @Nullable final Project project = projectRepository.findOne(id);
-            if (project == null) {
-                throw new IncorrectDataException("Wrong id");
-            }
-            sqlSession.commit();
+            if (project == null) throw new IncorrectDataException("Wrong id");
+            em.getTransaction().commit();
             return new ProjectDTO(project);
-        } catch (Exception e) {
-            sqlSession.rollback();
+        } catch (IncorrectDataException e) {
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return null;
     }
 
     @NotNull
     @Override
-    public List<ProjectDTO> findByUserId(@Nullable final String userId) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+    public List<ProjectDTO> findByUserId(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
+        if (userDTO == null) throw new AccessForbiddenException();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByUserId(userId)
+            em.getTransaction().begin();
+            @Nullable final User user = getUser(userDTO, em);
+            if(user == null) throw new AccessForbiddenException();
+            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByUserId(user)
                     .stream()
                     .map(ProjectDTO::new)
                     .collect(Collectors.toList());
-            sqlSession.commit();
+            em.getTransaction().commit();
             return projectDTOS;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return Collections.emptyList();
     }
@@ -94,217 +107,242 @@ public class ProjectService implements IProjectService {
     @Override
     public void persist(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         if (projectDTO == null) throw new IncorrectDataException("Project is null");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final Project project = getEntity(projectDTO);
+            em.getTransaction().begin();
+            @NotNull final Project project = getEntity(projectDTO, em);
             projectRepository.persist(project);
-            sqlSession.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
     }
 
     @Override
     public void update(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         if (projectDTO == null) throw new IncorrectDataException("Project is null");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final Project project = getEntity(projectDTO);
+            em.getTransaction().begin();
+            @NotNull final Project project = getEntity(projectDTO, em);
             projectRepository.update(project);
-            sqlSession.commit();
-        } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().commit();
+        } catch (IncorrectDataException e) {
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
     }
 
     @Override
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
+            em.getTransaction().begin();
             projectRepository.remove(id);
-            sqlSession.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
     }
 
     @Override
-    public void removeAll(@Nullable final String userId) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+    public void removeAll(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
+        if (userDTO == null) throw new AccessForbiddenException();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            projectRepository.removeAll(userId);
-            sqlSession.commit();
+            em.getTransaction().begin();
+            @Nullable final User user = getUser(userDTO, em);
+            if(user == null) throw new AccessForbiddenException();
+            projectRepository.removeAll(user);
+            em.getTransaction().commit();
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
     }
 
     @Override
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
-        @Nullable Project project = null;
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            project = projectRepository.findOne(id);
-            sqlSession.commit();
+            em.getTransaction().begin();
+            @Nullable final Project project = projectRepository.findOne(id);
+            em.getTransaction().commit();
+            return project != null;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
-        return project != null;
+        return false;
     }
 
     @Override
-    public List<ProjectDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+    public List<ProjectDTO> findAllSortedByCreateDate(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
+        if (userDTO == null) throw new AccessForbiddenException();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByCreateDate(userId)
+            em.getTransaction().begin();
+            @Nullable final User user = getUser(userDTO, em);
+            if(user == null) throw new AccessForbiddenException();
+            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByCreateDate(user)
                     .stream()
                     .map(ProjectDTO::new)
                     .collect(Collectors.toList());
-            sqlSession.commit();
+            em.getTransaction().commit();
             return projectDTOS;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<ProjectDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
-        try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByStartDate(userId)
-                    .stream()
-                    .map(ProjectDTO::new)
-                    .collect(Collectors.toList());
-            sqlSession.commit();
-            return projectDTOS;
-        } catch (Exception e) {
-            sqlSession.rollback();
-            e.printStackTrace();
-        } finally {
-            sqlSession.close();
+            em.close();
         }
         return Collections.emptyList();
     }
 
     @Override
-    public List<ProjectDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+    public List<ProjectDTO> findAllSortedByStartDate(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
+        if (userDTO == null) throw new AccessForbiddenException();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByEndDate(userId)
+            em.getTransaction().begin();
+            @Nullable final User user = getUser(userDTO, em);
+            if(user == null) throw new AccessForbiddenException();
+            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByStartDate(user)
                     .stream()
                     .map(ProjectDTO::new)
                     .collect(Collectors.toList());
-            sqlSession.commit();
+            em.getTransaction().commit();
             return projectDTOS;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return Collections.emptyList();
     }
 
     @Override
-    public List<ProjectDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+    public List<ProjectDTO> findAllSortedByEndDate(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
+        if (userDTO == null) throw new AccessForbiddenException();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByStatus(userId)
+            em.getTransaction().begin();
+            @Nullable final User user = getUser(userDTO, em);
+            if(user == null) throw new AccessForbiddenException();
+            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByEndDate(user)
                     .stream()
                     .map(ProjectDTO::new)
                     .collect(Collectors.toList());
-            sqlSession.commit();
+            em.getTransaction().commit();
             return projectDTOS;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return Collections.emptyList();
     }
 
     @Override
-    public List<ProjectDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+    public List<ProjectDTO> findAllSortedByStatus(@Nullable final UserDTO userDTO) throws AccessForbiddenException {
+        if (userDTO == null) throw new AccessForbiddenException();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByName(userId, name)
+            em.getTransaction().begin();
+            @Nullable final User user = getUser(userDTO, em);
+            if(user == null) throw new AccessForbiddenException();
+            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByStatus(user)
                     .stream()
                     .map(ProjectDTO::new)
                     .collect(Collectors.toList());
-            sqlSession.commit();
+            em.getTransaction().commit();
             return projectDTOS;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
         }
         return Collections.emptyList();
     }
 
     @Override
-    public List<ProjectDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty() || description == null || description.isEmpty())
-            throw new AccessForbiddenException();
-        @NotNull final SqlSession sqlSession = sessionFactory.openSession();
+    public List<ProjectDTO> findByName(@Nullable final UserDTO userDTO, @Nullable final String name) throws AccessForbiddenException {
+        if (userDTO == null || name == null || name.isEmpty()) throw new AccessForbiddenException();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
         try {
-            @NotNull final ProjectRepository projectRepository = sqlSession.getMapper(ProjectRepository.class);
-            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByDescription(userId, description)
+            em.getTransaction().begin();
+            @Nullable final User user = getUser(userDTO, em);
+            if(user == null) throw new AccessForbiddenException();
+            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByName(user, name)
                     .stream()
                     .map(ProjectDTO::new)
                     .collect(Collectors.toList());
-            sqlSession.commit();
+            em.getTransaction().commit();
             return projectDTOS;
         } catch (Exception e) {
-            sqlSession.rollback();
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            sqlSession.close();
+            em.close();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ProjectDTO> findByDescription(@Nullable final UserDTO userDTO, @Nullable final String description) throws AccessForbiddenException {
+        if (userDTO == null || description == null || description.isEmpty()) throw new AccessForbiddenException();
+        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
+        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
+        try {
+            em.getTransaction().begin();
+            @Nullable final User user = getUser(userDTO, em);
+            if(user == null) throw new AccessForbiddenException();
+            @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByDescription(user, description)
+                    .stream()
+                    .map(ProjectDTO::new)
+                    .collect(Collectors.toList());
+            em.getTransaction().commit();
+            return projectDTOS;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
         }
         return Collections.emptyList();
     }
 
     @NotNull
     @Override
-    public Project getEntity(@NotNull final ProjectDTO projectDTO) {
+    public Project getEntity(@NotNull final ProjectDTO projectDTO, @NotNull final EntityManager em) {
+        @NotNull final IUserRepository userRepository = new UserRepository(em);
         @NotNull final Project project = new Project();
         project.setId(projectDTO.getId());
         if (projectDTO.getName() != null && !projectDTO.getName().isEmpty()) project.setName(projectDTO.getName());
@@ -314,11 +352,16 @@ public class ProjectService implements IProjectService {
         if (projectDTO.getStartDate() != null) project.setStartDate(projectDTO.getStartDate());
         if (projectDTO.getEndDate() != null) project.setEndDate(projectDTO.getEndDate());
         if (projectDTO.getUserId() != null && !projectDTO.getUserId().isEmpty()) {
-            project.setUser(projectDTO.getUserId());
+            project.setUser(userRepository.findOne(projectDTO.getUserId()));
         }
         project.setStatus(projectDTO.getStatus());
         project.setCreateDate(projectDTO.getCreateDate());
         return project;
+    }
+
+    private User getUser(final UserDTO userDTO, final EntityManager em) {
+        @NotNull final IUserRepository userRepository = new UserRepository(em);
+        return userRepository.findOne(userDTO.getId());
     }
 
 }
