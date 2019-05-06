@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface ServiceLocator {
 
-    void init(Class[] classes);
+    void init();
 
     SessionDTO getSession();
 

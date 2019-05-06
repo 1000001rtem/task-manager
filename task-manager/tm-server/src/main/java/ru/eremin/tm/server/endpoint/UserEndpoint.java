@@ -35,8 +35,7 @@ public class UserEndpoint implements IUserEndpoint {
 
     @Override
     @WebMethod
-    public ResultDTO persistUser(@Nullable final SessionDTO sessionDTO, @Nullable final UserDTO userDTO) throws AccessForbiddenException, IncorrectDataException {
-        sessionValidate(sessionDTO);
+    public ResultDTO persistUser(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         userService.persist(new UserDTO(userDTO));
         return new ResultDTO(true);
     }

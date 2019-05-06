@@ -17,7 +17,7 @@ public interface IUserEndpoint {
 
     void init();
 
-    ResultDTO persistUser(@Nullable SessionDTO sessionDTO, @Nullable UserDTO userDTO) throws AccessForbiddenException, IncorrectDataException;
+    ResultDTO persistUser(@Nullable UserDTO userDTO) throws AccessForbiddenException, IncorrectDataException;
 
     List<UserDTO> findAllUsers(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
 

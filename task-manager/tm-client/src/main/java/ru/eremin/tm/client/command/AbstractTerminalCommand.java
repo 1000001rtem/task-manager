@@ -6,6 +6,7 @@ import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 
+import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
@@ -17,6 +18,7 @@ import java.io.IOException;
 @NoArgsConstructor
 public abstract class AbstractTerminalCommand {
 
+    @Inject
     protected ServiceLocator locator;
 
     public abstract String getName();

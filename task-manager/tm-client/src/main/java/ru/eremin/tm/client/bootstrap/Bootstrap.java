@@ -5,12 +5,15 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.client.command.AbstractTerminalCommand;
-import ru.eremin.tm.client.exeption.IncorrectCommandClassException;
 import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 import ru.eremin.tm.server.endpoint.SessionDTO;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.CDI;
+import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +25,7 @@ import java.util.Scanner;
  * @autor Eremin Artem on 08.04.2019.
  */
 
+@ApplicationScoped
 public class Bootstrap implements ServiceLocator {
 
     @NotNull
@@ -46,18 +50,8 @@ public class Bootstrap implements ServiceLocator {
         this.commands = new HashMap<>();
     }
 
-    public void init(@NotNull final Class[] classes) {
-        for (final Class commandClass : classes) {
-            AbstractTerminalCommand command = null;
-            try {
-                command = initCommand(commandClass);
-            } catch (IncorrectCommandClassException e) {
-                e.printStackTrace();
-            }
-            command.setLocator(this);
-            command.getSecured();
-            commands.put(command.getName(), command);
-        }
+    public void init() {
+        initCommands();
         System.out.println("*** WELCOME TO TASK MANAGER ***");
         while (true) {
             AbstractTerminalCommand command;
@@ -82,17 +76,10 @@ public class Bootstrap implements ServiceLocator {
         }
     }
 
-    private AbstractTerminalCommand initCommand(@NotNull final Class<AbstractTerminalCommand> commandClass)
-            throws IncorrectCommandClassException {
-        if (!commandClass.getSuperclass().equals(AbstractTerminalCommand.class)) {
-            throw new IncorrectCommandClassException("command super class is not AbstractTerminalCommand");
-        }
-        try {
-            @NotNull final AbstractTerminalCommand command = commandClass.newInstance();
-            return command;
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            throw new IncorrectCommandClassException(e);
+    private void initCommands() {
+        final Instance<AbstractTerminalCommand> abstractTerminalCommands = CDI.current().select(AbstractTerminalCommand.class);
+        for (final AbstractTerminalCommand abstractTerminalCommand : abstractTerminalCommands) {
+            commands.put(abstractTerminalCommand.getName(), abstractTerminalCommand);
         }
     }
 

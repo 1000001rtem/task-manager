@@ -15,9 +15,6 @@ import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.service.ProjectService;
-import ru.eremin.tm.server.service.TaskService;
-import ru.eremin.tm.server.service.UserService;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
 import javax.inject.Inject;

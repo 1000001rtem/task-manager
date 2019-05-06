@@ -1,12 +1,13 @@
 package ru.eremin.tm.server.model;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ru.eremin.tm.server.Application;
-import ru.eremin.tm.server.api.*;
-import ru.eremin.tm.server.config.DBConfig;
+import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ISessionService;
+import ru.eremin.tm.server.api.ITaskService;
+import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.config.EntityFactory;
 import ru.eremin.tm.server.config.Order;
 import ru.eremin.tm.server.config.OrderedRunner;
@@ -16,15 +17,9 @@ import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
-import ru.eremin.tm.server.service.ProjectService;
-import ru.eremin.tm.server.service.SessionService;
-import ru.eremin.tm.server.service.TaskService;
-import ru.eremin.tm.server.service.UserService;
 
 import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
-import javax.inject.Inject;
-import javax.persistence.EntityManagerFactory;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -115,6 +110,7 @@ public class ModelTest {
         assertEquals(updateName, projectService.findOne(projectDTO.getId()).getName());
         assertEquals(updateName, taskService.findOne(taskDTO.getId()).getName());
     }
+
     @Test
     @Order(order = 4)
     public void mergeTest() throws IncorrectDataException {

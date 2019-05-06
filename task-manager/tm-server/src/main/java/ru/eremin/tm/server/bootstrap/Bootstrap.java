@@ -94,9 +94,16 @@ public class Bootstrap implements ServiceLocator {
         admin.setHashPassword(PasswordHashUtil.md5("pass"));
         admin.setRole(Role.ADMIN);
 
+        @NotNull final UserDTO test = new UserDTO();
+        admin.setId("8ea5b36e-537e-44c3-92a2-c79ef0900dcf");
+        admin.setLogin("test");
+        admin.setHashPassword(PasswordHashUtil.md5("test"));
+        admin.setRole(Role.ADMIN);
+
         try {
             if (!userService.isExist(admin.getId())) userService.persist(admin);
             if (!userService.isExist(user.getId())) userService.persist(user);
+            if (!userService.isExist(user.getId())) userService.persist(test);
         } catch (IncorrectDataException e) {
             e.printStackTrace();
         }
