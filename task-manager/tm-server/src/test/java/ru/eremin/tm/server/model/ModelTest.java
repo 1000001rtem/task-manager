@@ -151,7 +151,6 @@ public class ModelTest {
 
 
     @Test
-    @Ignore
     @Order(order = 5)
     public void deleteTest() throws IncorrectDataException, AccessForbiddenException {
         final int beforeUsersSize = userService.findAll().size();
