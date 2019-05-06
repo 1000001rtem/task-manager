@@ -2,10 +2,13 @@ package ru.eremin.tm.client.command.system;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.client.util.PasswordHashUtil;
 import ru.eremin.tm.server.endpoint.*;
+
+import javax.inject.Inject;
 
 
 /**
@@ -13,7 +16,16 @@ import ru.eremin.tm.server.endpoint.*;
  */
 
 @NoArgsConstructor
-public class UserRegistrationCommand extends AbstractTerminalCommand {
+public class UserRegistrationCommand implements ICommand {
+
+    @Inject
+    private UserEndpoint userEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
+
+    @Inject
+    private ConsoleService consoleService;
 
     @Override
     public String getName() {
@@ -33,15 +45,12 @@ public class UserRegistrationCommand extends AbstractTerminalCommand {
     @Override
     public void execute() throws IncorrectDataException_Exception {
         System.out.println("*** REGISTRATION ***");
-        @NotNull final ConsoleService consoleService = locator.getConsoleService();
         @NotNull final String login = consoleService.getStringFieldFromConsole("Login");
         @NotNull final String hashPassword = PasswordHashUtil.md5(consoleService.getStringFieldFromConsole("Password"));
         @NotNull final UserDTO userDTO = new UserDTO();
         userDTO.setLogin(login);
         userDTO.setHashPassword(hashPassword);
         userDTO.setRole(Role.USER);
-        @NotNull final UserEndpointService userEndpointService = new UserEndpointService();
-        @NotNull final UserEndpoint userEndpoint = userEndpointService.getUserEndpointPort();
         userEndpoint.persistUser(userDTO);
     }
 

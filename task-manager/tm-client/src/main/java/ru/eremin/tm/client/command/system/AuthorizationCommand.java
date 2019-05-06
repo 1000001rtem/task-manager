@@ -2,8 +2,12 @@ package ru.eremin.tm.client.command.system;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
+import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
+
+import javax.inject.Inject;
 
 
 /**
@@ -11,7 +15,16 @@ import ru.eremin.tm.server.endpoint.*;
  */
 
 @NoArgsConstructor
-public class AuthorizationCommand extends AbstractTerminalCommand {
+public class AuthorizationCommand implements ICommand {
+
+    @Inject
+    private AuthorizationEndpoint authorizationEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
+
+    @Inject
+    private ConsoleService consoleService;
 
     @Override
     public String getName() {
@@ -35,10 +48,8 @@ public class AuthorizationCommand extends AbstractTerminalCommand {
             System.out.println("*** Please logout ***");
             return;
         }
-        @NotNull final AuthorizationEndpointService authorizationEndpointService = new AuthorizationEndpointService();
-        @NotNull final AuthorizationEndpoint authorizationEndpoint = authorizationEndpointService.getAuthorizationEndpointPort();
-        @NotNull final String login = locator.getConsoleService().getStringFieldFromConsole("login");
-        @NotNull final String password = locator.getConsoleService().getStringFieldFromConsole("password");
+        @NotNull final String login = consoleService.getStringFieldFromConsole("login");
+        @NotNull final String password = consoleService.getStringFieldFromConsole("password");
         @NotNull final SessionDTO session = authorizationEndpoint.login(login, password);
         if (session == null) System.out.println("Wrong login or password");
         else locator.setSession(session);

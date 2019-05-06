@@ -2,9 +2,12 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
+import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -12,7 +15,13 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class ProjectSortByStartDateCommand extends AbstractTerminalCommand {
+public class ProjectSortByStartDateCommand implements ICommand {
+
+    @Inject
+    private ProjectEndpoint projectEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
 
     @Override
     public String getName() {
@@ -31,8 +40,6 @@ public class ProjectSortByStartDateCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
-        @NotNull final ProjectEndpointService projectEndpointService = new ProjectEndpointService();
-        @NotNull final ProjectEndpoint projectEndpoint = projectEndpointService.getProjectEndpointPort();
         @NotNull final List<ProjectDTO> projectDTOS = projectEndpoint.findAllProjectsSortedByStartDate(locator.getSession());
         projectDTOS.forEach(this::print);
     }

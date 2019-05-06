@@ -2,9 +2,12 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
+import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -12,7 +15,13 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class TaskShowAllCommand extends AbstractTerminalCommand {
+public class TaskShowAllCommand implements ICommand {
+
+    @Inject
+    private TaskEndpoint taskEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
 
     @Override
     public String getName() {
@@ -31,8 +40,6 @@ public class TaskShowAllCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
-        @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
-        @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
         @NotNull final List<TaskDTO> taskDTOS = taskEndpoint.findAllTasks(locator.getSession());
         taskDTOS.forEach(this::print);
     }

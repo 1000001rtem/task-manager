@@ -2,9 +2,12 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
+import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -12,7 +15,16 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class TaskFindByDescriptionCommand extends AbstractTerminalCommand {
+public class TaskFindByDescriptionCommand implements ICommand {
+
+    @Inject
+    private TaskEndpoint taskEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
+
+    @Inject
+    private ConsoleService consoleService;
 
     @Override
     public String getName() {
@@ -32,9 +44,7 @@ public class TaskFindByDescriptionCommand extends AbstractTerminalCommand {
     @Override
     public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         @NotNull final String description
-                = locator.getConsoleService().getStringFieldFromConsole("description or part of description of task");
-        @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
-        @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
+                = consoleService.getStringFieldFromConsole("description or part of description of task");
         @NotNull final List<TaskDTO> taskDTOList = taskEndpoint.findTasksByDescription(locator.getSession(), description);
         taskDTOList.forEach(this::print);
     }

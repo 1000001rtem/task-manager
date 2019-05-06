@@ -2,15 +2,28 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
+import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
+
+import javax.inject.Inject;
 
 /**
  * @autor av.eremin on 12.04.2019.
  */
 
 @NoArgsConstructor
-public class UserUpdateCommand extends AbstractTerminalCommand {
+public class UserUpdateCommand implements ICommand {
+
+    @Inject
+    private UserEndpoint userEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
+
+    @Inject
+    private ConsoleService consoleService;
 
     @Override
     public String getName() {
@@ -29,9 +42,7 @@ public class UserUpdateCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
-        @NotNull final String newLogin = locator.getConsoleService().getStringFieldFromConsole("New Login");
-        @NotNull final UserEndpointService userEndpointService = new UserEndpointService();
-        @NotNull final UserEndpoint userEndpoint = userEndpointService.getUserEndpointPort();
+        @NotNull final String newLogin = consoleService.getStringFieldFromConsole("New Login");
         @NotNull final UserDTO userDTO = userEndpoint.findOneUser(locator.getSession(), locator.getSession().getUserId());
         userDTO.setLogin(newLogin);
         userEndpoint.updateUser(locator.getSession(), userDTO);

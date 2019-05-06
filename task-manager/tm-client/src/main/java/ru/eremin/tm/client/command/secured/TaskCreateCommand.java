@@ -3,10 +3,12 @@ package ru.eremin.tm.client.command.secured;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
 
+import javax.inject.Inject;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
 
@@ -15,7 +17,19 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class TaskCreateCommand extends AbstractTerminalCommand {
+public class TaskCreateCommand implements ICommand {
+
+    @Inject
+    private TaskEndpoint taskEndpoint;
+
+    @Inject
+    private ProjectEndpoint projectEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
+
+    @Inject
+    private ConsoleService consoleService;
 
     @Override
     public String getName() {
@@ -35,14 +49,11 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
     @Override
     public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         @NotNull final TaskDTO task = getTask();
-        @NotNull final TaskEndpointService taskEndpointService = new TaskEndpointService();
-        @NotNull final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
         taskEndpoint.persistTask(locator.getSession(), task);
     }
 
     @NotNull
     private TaskDTO getTask() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
-        @NotNull final ConsoleService consoleService = locator.getConsoleService();
         @NotNull final String name = consoleService.getStringFieldFromConsole("Task name");
         @NotNull final String description = consoleService.getStringFieldFromConsole("Description");
         @Nullable final XMLGregorianCalendar startDate = consoleService.getDateFieldFromConsole("Start date");
@@ -60,13 +71,10 @@ public class TaskCreateCommand extends AbstractTerminalCommand {
 
     @NotNull
     private String getProjectIdFromConsole() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
-        @NotNull final ConsoleService consoleService = locator.getConsoleService();
         String id;
         boolean flag;
         do {
             System.out.println("*** Please write project id ***");
-            @NotNull final ProjectEndpointService projectEndpointService = new ProjectEndpointService();
-            @NotNull final ProjectEndpoint projectEndpoint = projectEndpointService.getProjectEndpointPort();
             @NotNull final List<ProjectDTO> projectDTOS = projectEndpoint.findAllProjects(locator.getSession());
             projectDTOS.forEach(System.out::println);
             flag = true;

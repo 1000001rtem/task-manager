@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
@@ -28,25 +28,21 @@ import java.util.Scanner;
 @ApplicationScoped
 public class Bootstrap implements ServiceLocator {
 
-    @NotNull
-    private final Scanner scanner;
-
     @Getter
     @NotNull
-    private final Map<String, AbstractTerminalCommand> commands;
+    private final Map<String, ICommand> commands;
 
     @Getter
     @Setter
     @Nullable
     private SessionDTO session;
 
+    @Inject
     @Getter
     @Nullable
     private ConsoleService consoleService;
 
     public Bootstrap() {
-        this.scanner = new Scanner(System.in);
-        this.consoleService = new ConsoleService(this.scanner);
         this.commands = new HashMap<>();
     }
 
@@ -54,7 +50,7 @@ public class Bootstrap implements ServiceLocator {
         initCommands();
         System.out.println("*** WELCOME TO TASK MANAGER ***");
         while (true) {
-            AbstractTerminalCommand command;
+            ICommand command;
             final String answer = consoleService.getNextLine();
             if (answer == null) command = commands.get("help");
             else command = commands.get(answer);
@@ -77,9 +73,9 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initCommands() {
-        final Instance<AbstractTerminalCommand> abstractTerminalCommands = CDI.current().select(AbstractTerminalCommand.class);
-        for (final AbstractTerminalCommand abstractTerminalCommand : abstractTerminalCommands) {
-            commands.put(abstractTerminalCommand.getName(), abstractTerminalCommand);
+        final Instance<ICommand> abstractTerminalCommands = CDI.current().select(ICommand.class);
+        for (final ICommand iCommand : abstractTerminalCommands) {
+            commands.put(iCommand.getName(), iCommand);
         }
     }
 

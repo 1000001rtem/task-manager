@@ -1,6 +1,6 @@
 package ru.eremin.tm.client.bootstrap;
 
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.SessionDTO;
 
@@ -20,7 +20,7 @@ public interface ServiceLocator {
 
     ConsoleService getConsoleService();
 
-    Map<String, AbstractTerminalCommand> getCommands();
+    Map<String, ICommand> getCommands();
 
     void closeSession();
 

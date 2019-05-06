@@ -1,5 +1,6 @@
 package ru.eremin.tm.client.service;
 
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.client.util.DateUtils;
@@ -16,14 +17,11 @@ import java.util.Scanner;
  * @autor av.eremin on 11.04.2019.
  */
 
+@NoArgsConstructor
 public class ConsoleService {
 
     @NotNull
-    private final Scanner scanner;
-
-    public ConsoleService(@NotNull final Scanner scanner) {
-        this.scanner = scanner;
-    }
+    private final Scanner scanner = new Scanner(System.in);
 
     public String getNextLine() {
         return scanner.nextLine();

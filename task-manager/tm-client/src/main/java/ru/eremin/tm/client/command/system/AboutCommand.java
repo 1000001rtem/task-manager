@@ -2,14 +2,14 @@ package ru.eremin.tm.client.command.system;
 
 import com.jcabi.manifests.Manifests;
 import lombok.NoArgsConstructor;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.command.ICommand;
 
 /**
  * @autor av.eremin on 12.04.2019.
  */
 
 @NoArgsConstructor
-public class AboutCommand extends AbstractTerminalCommand {
+public class AboutCommand implements ICommand {
 
     @Override
     public String getName() {

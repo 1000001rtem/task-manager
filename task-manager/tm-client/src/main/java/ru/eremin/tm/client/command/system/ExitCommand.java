@@ -1,14 +1,22 @@
 package ru.eremin.tm.client.command.system;
 
 import lombok.NoArgsConstructor;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
+import ru.eremin.tm.client.service.ConsoleService;
+import ru.eremin.tm.server.endpoint.UserEndpoint;
+
+import javax.inject.Inject;
 
 /**
  * @autor av.eremin on 10.04.2019.
  */
 
 @NoArgsConstructor
-public class ExitCommand extends AbstractTerminalCommand {
+public class ExitCommand implements ICommand {
+
+    @Inject
+    private ServiceLocator locator;
 
     @Override
     public String getName() {

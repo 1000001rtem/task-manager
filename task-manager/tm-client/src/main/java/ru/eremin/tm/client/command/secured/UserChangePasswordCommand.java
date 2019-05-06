@@ -2,19 +2,28 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.client.service.ConsoleService;
-import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
-import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
-import ru.eremin.tm.server.endpoint.UserEndpoint;
-import ru.eremin.tm.server.endpoint.UserEndpointService;
+import ru.eremin.tm.server.endpoint.*;
+
+import javax.inject.Inject;
 
 /**
  * @autor av.eremin on 12.04.2019.
  */
 
 @NoArgsConstructor
-public class UserChangePasswordCommand extends AbstractTerminalCommand {
+public class UserChangePasswordCommand implements ICommand {
+
+    @Inject
+    private UserEndpoint userEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
+
+    @Inject
+    private ConsoleService consoleService;
 
     @Override
     public String getName() {
@@ -33,11 +42,8 @@ public class UserChangePasswordCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
-        @NotNull final ConsoleService consoleService = locator.getConsoleService();
         @NotNull final String oldPassword = consoleService.getStringFieldFromConsole("Old password");
         @NotNull final String newPassword = consoleService.getStringFieldFromConsole("New Password");
-        @NotNull final UserEndpointService userEndpointService = new UserEndpointService();
-        @NotNull final UserEndpoint userEndpoint = userEndpointService.getUserEndpointPort();
         userEndpoint.changeUserPassword(locator.getSession(), oldPassword, newPassword);
     }
 

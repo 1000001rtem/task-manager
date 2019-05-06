@@ -2,18 +2,28 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
+import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 import ru.eremin.tm.server.endpoint.ProjectEndpoint;
 import ru.eremin.tm.server.endpoint.ProjectEndpointService;
+
+import javax.inject.Inject;
 
 /**
  * @autor av.eremin on 10.04.2019.
  */
 
 @NoArgsConstructor
-public class ProjectClearCommand extends AbstractTerminalCommand {
+public class ProjectClearCommand implements ICommand {
+
+    @Inject
+    private ProjectEndpoint projectEndpoint;
+
+    @Inject
+    private ServiceLocator locator;
 
     @Override
     public String getName() {
@@ -32,8 +42,6 @@ public class ProjectClearCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
-        @NotNull final ProjectEndpointService projectEndpointService = new ProjectEndpointService();
-        @NotNull final ProjectEndpoint projectEndpoint = projectEndpointService.getProjectEndpointPort();
         projectEndpoint.removeAllProjects(locator.getSession());
     }
 

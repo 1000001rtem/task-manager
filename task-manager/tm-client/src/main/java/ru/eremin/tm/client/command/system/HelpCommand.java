@@ -1,8 +1,12 @@
 package ru.eremin.tm.client.command.system;
 
 import lombok.NoArgsConstructor;
-import ru.eremin.tm.client.command.AbstractTerminalCommand;
+import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.command.ICommand;
+import ru.eremin.tm.client.service.ConsoleService;
+import ru.eremin.tm.server.endpoint.UserEndpoint;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,7 +16,10 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class HelpCommand extends AbstractTerminalCommand {
+public class HelpCommand implements ICommand {
+
+    @Inject
+    private ServiceLocator locator;
 
     @Override
     public String getName() {
@@ -31,9 +38,9 @@ public class HelpCommand extends AbstractTerminalCommand {
 
     @Override
     public void execute() {
-        final List<AbstractTerminalCommand> commands = new ArrayList<>(locator.getCommands().values());
-        commands.sort(Comparator.comparing(AbstractTerminalCommand::getName));
-        for (final AbstractTerminalCommand command : commands) {
+        final List<ICommand> commands = new ArrayList<>(locator.getCommands().values());
+        commands.sort(Comparator.comparing(ICommand::getName));
+        for (final ICommand command : commands) {
             System.out.println(command.getName() + ": " + command.getDescription());
         }
     }
