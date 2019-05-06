@@ -17,6 +17,10 @@ import ru.eremin.tm.server.repository.ProjectRepository;
 import ru.eremin.tm.server.repository.TaskRepository;
 import ru.eremin.tm.server.repository.UserRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.Collections;
@@ -27,16 +31,13 @@ import java.util.stream.Collectors;
  * @autor Eremin Artem on 08.04.2019.
  */
 
+@ApplicationScoped
 @NoArgsConstructor
 public class TaskService implements ITaskService {
 
+    @Inject
     @Nullable
     private EntityManagerFactory entityManagerFactory;
-
-    public TaskService(@Nullable final EntityManagerFactory entityManagerFactory) {
-        if (entityManagerFactory == null) return;
-        this.entityManagerFactory = entityManagerFactory;
-    }
 
     @NotNull
     @Override

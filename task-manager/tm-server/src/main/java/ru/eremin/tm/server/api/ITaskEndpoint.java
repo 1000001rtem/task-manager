@@ -42,5 +42,4 @@ public interface ITaskEndpoint {
 
     List<TaskDTO> findTasksByDescription(@Nullable SessionDTO sessionDTO, @NotNull String description) throws AccessForbiddenException, IncorrectDataException;
 
-
 }

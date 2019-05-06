@@ -5,12 +5,14 @@ import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.api.ITaskEndpoint;
 import ru.eremin.tm.server.api.ITaskService;
+import ru.eremin.tm.server.bootstrap.ServiceLocator;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.TaskDTO;
 
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;

@@ -22,6 +22,7 @@ import ru.eremin.tm.server.service.SessionService;
 import ru.eremin.tm.server.service.TaskService;
 import ru.eremin.tm.server.service.UserService;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 
 import static junit.framework.TestCase.assertEquals;
@@ -50,12 +51,6 @@ public class ModelTest {
         projectDTO = EntityFactory.getProject(userDTO);
         taskDTO = EntityFactory.getTask(projectDTO, userDTO);
         sessionDTO = EntityFactory.getSession(userDTO);
-
-        final EntityManagerFactory entityManagerFactory = DBConfig.getFactory();
-        userService = new UserService(entityManagerFactory);
-        taskService = new TaskService(entityManagerFactory);
-        projectService = new ProjectService(entityManagerFactory);
-        sessionService = new SessionService(entityManagerFactory);
     }
 
     @Test

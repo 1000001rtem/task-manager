@@ -14,6 +14,11 @@ import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.repository.ProjectRepository;
 import ru.eremin.tm.server.repository.UserRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.Collections;
@@ -24,16 +29,13 @@ import java.util.stream.Collectors;
  * @autor Eremin Artem on 08.04.2019.
  */
 
+@ApplicationScoped
 @NoArgsConstructor
 public class ProjectService implements IProjectService {
 
+    @Inject
     @Nullable
     private EntityManagerFactory entityManagerFactory;
-
-    public ProjectService(@Nullable final EntityManagerFactory entityManagerFactory) {
-        if (entityManagerFactory == null) return;
-        this.entityManagerFactory = entityManagerFactory;
-    }
 
     @NotNull
     @Override

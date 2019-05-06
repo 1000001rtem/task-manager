@@ -20,6 +20,7 @@ import ru.eremin.tm.server.service.TaskService;
 import ru.eremin.tm.server.service.UserService;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import java.util.Date;
 import java.util.UUID;
@@ -40,16 +41,16 @@ public class MappingEntityTest {
     private static ProjectDTO projectDTO;
     private static UserDTO userDTO;
 
+    @Inject
     private static IUserService userService;
+    @Inject
     private static IProjectService projectService;
+    @Inject
     private static ITaskService taskService;
 
     @BeforeClass
     public static void before() {
         final EntityManagerFactory entityManagerFactory = DBConfig.getFactory();
-        userService = new UserService(entityManagerFactory);
-        taskService = new TaskService(entityManagerFactory);
-        projectService = new ProjectService(entityManagerFactory);
 
         user = new User();
         user.setId(UUID.randomUUID().toString());

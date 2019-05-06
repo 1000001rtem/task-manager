@@ -23,7 +23,7 @@ public class AuthTest {
     @Ignore
     public void authTest() throws IncorrectDataException, AccessForbiddenException {
         final IUserService userService = new UserService();
-        final IAuthService authService = new AuthService(userService);
+        final IAuthService authService = new AuthService();
 
         final UserDTO userDTO = new UserDTO();
         userDTO.setLogin("testLogin");

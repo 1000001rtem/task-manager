@@ -7,6 +7,8 @@ import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 
+import javax.inject.Inject;
+
 /**
  * @autor av.eremin on 18.04.2019.
  */
@@ -14,15 +16,15 @@ import ru.eremin.tm.server.model.dto.SessionDTO;
 @NoArgsConstructor
 public abstract class AbstractEndpoint {
 
+
     protected ServiceLocator locator;
-
-
-    public abstract void init();
 
     public void setLocator(@Nullable final ServiceLocator serviceLocator) {
         if (serviceLocator == null) throw new NullPointerException("ServiceLocator == null");
         this.locator = serviceLocator;
     }
+
+    public abstract void init();
 
     public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {
         if (session == null) throw new AccessForbiddenException();

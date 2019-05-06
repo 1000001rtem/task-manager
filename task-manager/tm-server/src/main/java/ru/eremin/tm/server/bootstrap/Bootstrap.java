@@ -2,12 +2,10 @@ package ru.eremin.tm.server.bootstrap;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.server.api.IProjectService;
-import ru.eremin.tm.server.api.ISessionService;
-import ru.eremin.tm.server.api.ITaskService;
-import ru.eremin.tm.server.api.IUserService;
+import ru.eremin.tm.server.api.*;
 import ru.eremin.tm.server.config.DBConfig;
 import ru.eremin.tm.server.endpoint.AbstractEndpoint;
+import ru.eremin.tm.server.endpoint.TaskEndpoint;
 import ru.eremin.tm.server.exeption.IncorrectClassException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
@@ -20,46 +18,41 @@ import ru.eremin.tm.server.service.TaskService;
 import ru.eremin.tm.server.service.UserService;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 
 /**
  * @autor av.eremin on 18.04.2019.
  */
 
+@ApplicationScoped
 public class Bootstrap implements ServiceLocator {
 
+    @Inject
     @Getter
     @NotNull
-    private final IProjectService projectService;
+    private IProjectService projectService;
 
+    @Inject
     @Getter
     @NotNull
-    private final ITaskService taskService;
+    private ITaskService taskService;
 
+    @Inject
     @Getter
     @NotNull
-    private final IUserService userService;
+    private IUserService userService;
 
+    @Inject
     @Getter
     @NotNull
-    private final IAuthService authService;
+    private IAuthService authService;
 
+    @Inject
     @Getter
     @NotNull
-    private final ISessionService sessionService;
-
-    @Getter
-    @NotNull
-    private final EntityManagerFactory entityManagerFactory = DBConfig.getFactory();
-
-    public Bootstrap() {
-        System.out.println(entityManagerFactory);
-        this.taskService = new TaskService(entityManagerFactory);
-        this.projectService = new ProjectService(entityManagerFactory);
-        this.userService = new UserService(entityManagerFactory);
-        this.authService = new AuthService(userService);
-        this.sessionService = new SessionService(entityManagerFactory);
-    }
+    private ISessionService sessionService;
 
     @Override
     public void init(final Class[] classes) {

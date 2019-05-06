@@ -26,6 +26,4 @@ public interface ServiceLocator {
 
     ISessionService getSessionService();
 
-    EntityManagerFactory getEntityManagerFactory();
-
 }
