@@ -1,8 +1,6 @@
 package ru.eremin.tm.server;
 
-import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.server.bootstrap.Bootstrap;
-import ru.eremin.tm.server.bootstrap.ServiceLocator;
 import ru.eremin.tm.server.endpoint.*;
 
 import javax.enterprise.inject.se.SeContainerInitializer;
@@ -14,7 +12,7 @@ import javax.enterprise.inject.se.SeContainerInitializer;
 public class Application {
 
     private static final Class[] CLASSES = {
-            AuthorizationEndpoint.class, ProjectEndpoint.class, AdminEndpoint.class,
+            TaskEndpoint.class, AuthorizationEndpoint.class, ProjectEndpoint.class, AdminEndpoint.class,
             UserEndpoint.class, SessionEndpoint.class
     };
 
@@ -22,7 +20,7 @@ public class Application {
         SeContainerInitializer.newInstance()
                 .addPackages(Application.class)
                 .initialize()
-                .select(Bootstrap.class).get().init(CLASSES);
+                .select(Bootstrap.class).get().init();
     }
 
 }

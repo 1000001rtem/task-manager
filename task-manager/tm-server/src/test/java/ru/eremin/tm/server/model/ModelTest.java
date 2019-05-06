@@ -1,12 +1,11 @@
 package ru.eremin.tm.server.model;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import ru.eremin.tm.server.api.IProjectService;
-import ru.eremin.tm.server.api.ISessionService;
-import ru.eremin.tm.server.api.ITaskService;
-import ru.eremin.tm.server.api.IUserService;
+import ru.eremin.tm.server.Application;
+import ru.eremin.tm.server.api.*;
 import ru.eremin.tm.server.config.DBConfig;
 import ru.eremin.tm.server.config.EntityFactory;
 import ru.eremin.tm.server.config.Order;
@@ -22,6 +21,8 @@ import ru.eremin.tm.server.service.SessionService;
 import ru.eremin.tm.server.service.TaskService;
 import ru.eremin.tm.server.service.UserService;
 
+import javax.enterprise.inject.se.SeContainer;
+import javax.enterprise.inject.se.SeContainerInitializer;
 import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 
@@ -47,6 +48,13 @@ public class ModelTest {
 
     @BeforeClass
     public static void before() {
+        SeContainerInitializer initializer = SeContainerInitializer.newInstance();
+        initializer.addPackages(Application.class.getPackage());
+        SeContainer container = initializer.initialize();
+        projectService = container.select(IProjectService.class).get();
+        taskService = container.select(ITaskService.class).get();
+        userService = container.select(IUserService.class).get();
+        sessionService = container.select(ISessionService.class).get();
         userDTO = EntityFactory.getUser();
         projectDTO = EntityFactory.getProject(userDTO);
         taskDTO = EntityFactory.getTask(projectDTO, userDTO);
@@ -91,11 +99,9 @@ public class ModelTest {
         final UserDTO userTMP = userService.findOne(userDTO.getId());
         final ProjectDTO projectTMP = projectService.findOne(projectDTO.getId());
         final TaskDTO taskTMP = taskService.findOne(taskDTO.getId());
-
         assertNotNull(userTMP);
         assertNotNull(projectTMP);
         assertNotNull(taskTMP);
-
         final String updateName = "UpdateName";
 
         userTMP.setLogin(updateName);
@@ -145,6 +151,7 @@ public class ModelTest {
 
 
     @Test
+    @Ignore
     @Order(order = 5)
     public void deleteTest() throws IncorrectDataException, AccessForbiddenException {
         final int beforeUsersSize = userService.findAll().size();

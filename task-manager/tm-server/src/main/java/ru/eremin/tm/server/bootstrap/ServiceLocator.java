@@ -6,15 +6,13 @@ import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.security.IAuthService;
 
-import javax.persistence.EntityManagerFactory;
-
 /**
  * @autor av.eremin on 12.04.2019.
  */
 
 public interface ServiceLocator {
 
-    void init(Class[] classes);
+    void init();
 
     IProjectService getProjectService();
 

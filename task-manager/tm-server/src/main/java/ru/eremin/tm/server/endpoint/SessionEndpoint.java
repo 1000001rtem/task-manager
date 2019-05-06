@@ -10,6 +10,7 @@ import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
@@ -20,8 +21,9 @@ import java.util.List;
  */
 
 @WebService
-public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoint {
+public class SessionEndpoint implements ISessionEndpoint {
 
+    @Inject
     @NotNull
     private ISessionService sessionService;
 
@@ -80,7 +82,6 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     @Override
     @WebMethod(exclude = true)
     public void init() {
-        sessionService = locator.getSessionService();
         System.out.println("http://localhost:8080/SessionEndpoint?WSDL");
         Endpoint.publish("http://localhost:8080/SessionEndpoint", this);
     }
@@ -89,6 +90,15 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     @WebMethod(exclude = true)
     public void checkAdminRole(@NotNull final SessionDTO sessionDTO) throws AccessForbiddenException {
         if (!sessionDTO.getUserRole().equals(Role.ADMIN)) throw new AccessForbiddenException("Need Admin rights");
+    }
+
+    public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {
+        if (session == null) throw new AccessForbiddenException();
+        @Nullable final SessionDTO sessionDTO = sessionService.findOne(session.getId());
+        if (sessionDTO == null) throw new AccessForbiddenException();
+        if (session.getUserId() == null && !session.getUserId().isEmpty()) throw new AccessForbiddenException();
+        if (session.getUserRole() == null) throw new AccessForbiddenException();
+        if (!session.getSign().equals(sessionDTO.getSign())) throw new AccessForbiddenException();
     }
 
 }

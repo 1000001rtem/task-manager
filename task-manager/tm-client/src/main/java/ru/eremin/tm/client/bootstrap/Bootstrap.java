@@ -27,17 +27,17 @@ public class Bootstrap implements ServiceLocator {
     @NotNull
     private final Scanner scanner;
 
-    @NotNull
     @Getter
+    @NotNull
     private final Map<String, AbstractTerminalCommand> commands;
 
-    @Nullable
     @Getter
     @Setter
+    @Nullable
     private SessionDTO session;
 
-    @Nullable
     @Getter
+    @Nullable
     private ConsoleService consoleService;
 
     public Bootstrap() {

@@ -15,10 +15,7 @@ import ru.eremin.tm.server.repository.ProjectRepository;
 import ru.eremin.tm.server.repository.UserRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.Collections;
@@ -386,7 +383,6 @@ public class ProjectService implements IProjectService {
     @NotNull
     @Override
     public Project getEntity(@NotNull final ProjectDTO projectDTO, @NotNull final EntityManager em) {
-        @NotNull final IUserRepository userRepository = new UserRepository(em);
         @NotNull final Project project = new Project();
         project.setId(projectDTO.getId());
         if (projectDTO.getName() != null && !projectDTO.getName().isEmpty()) project.setName(projectDTO.getName());
@@ -396,7 +392,7 @@ public class ProjectService implements IProjectService {
         if (projectDTO.getStartDate() != null) project.setStartDate(projectDTO.getStartDate());
         if (projectDTO.getEndDate() != null) project.setEndDate(projectDTO.getEndDate());
         if (projectDTO.getUserId() != null && !projectDTO.getUserId().isEmpty()) {
-            project.setUser(userRepository.findOne(projectDTO.getUserId()));
+            project.setUser(getUser(projectDTO.getUserId(), em));
         }
         project.setStatus(projectDTO.getStatus());
         project.setCreateDate(projectDTO.getCreateDate());

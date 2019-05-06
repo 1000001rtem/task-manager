@@ -11,9 +11,7 @@ import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.repository.UserRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.Collections;

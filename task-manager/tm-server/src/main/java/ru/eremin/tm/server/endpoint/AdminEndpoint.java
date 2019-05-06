@@ -5,12 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.IAdminEndpoint;
 import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.*;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
@@ -23,13 +25,19 @@ import java.util.List;
  */
 
 @WebService
-public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
+public class AdminEndpoint implements IAdminEndpoint {
 
+    @Inject
     @NotNull
     private ITaskService taskService;
 
+    @Inject
     @NotNull
     private IProjectService projectService;
+
+    @Inject
+    @NotNull
+    private ISessionService sessionService;
 
     @Override
     @WebMethod
@@ -67,8 +75,6 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
             return new ResultDTO(e);
         }
         if (domain == null || domain.getProjects() == null) return new ResultDTO(false);
-        @NotNull final IProjectService projectService = locator.getProjectService();
-        @NotNull final ITaskService taskService = locator.getTaskService();
         for (final ProjectDTO projectDTO : domain.getProjects()) {
             projectService.persist(projectDTO);
         }
@@ -93,8 +99,6 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     @Override
     @WebMethod(exclude = true)
     public void init() {
-        taskService = locator.getTaskService();
-        projectService = locator.getProjectService();
         System.out.println("http://localhost:8080/AdminEndpoint?WSDL");
         Endpoint.publish("http://localhost:8080/AdminEndpoint", this);
     }
@@ -103,6 +107,15 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
     @WebMethod(exclude = true)
     public void checkAdminRole(@NotNull final SessionDTO sessionDTO) throws AccessForbiddenException {
         if (!sessionDTO.getUserRole().equals(Role.ADMIN)) throw new AccessForbiddenException("Need Admin rights");
+    }
+
+    public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {
+        if (session == null) throw new AccessForbiddenException();
+        @Nullable final SessionDTO sessionDTO = sessionService.findByUserId(session.getUserId());
+        if (sessionDTO == null) throw new AccessForbiddenException();
+        if (session.getUserId() == null && !session.getUserId().isEmpty()) throw new AccessForbiddenException();
+        if (session.getUserRole() == null) throw new AccessForbiddenException();
+        if (!session.getSign().equals(sessionDTO.getSign())) throw new AccessForbiddenException();
     }
 
 }

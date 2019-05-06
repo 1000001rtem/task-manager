@@ -4,12 +4,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.IProjectEndpoint;
 import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
 import ru.eremin.tm.server.model.dto.ResultDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
@@ -20,10 +22,15 @@ import java.util.List;
  */
 
 @WebService
-public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoint {
+public class ProjectEndpoint implements IProjectEndpoint {
 
+    @Inject
     @NotNull
     private IProjectService projectService;
+
+    @Inject
+    @NotNull
+    private ISessionService sessionService;
 
     @Override
     @WebMethod
@@ -118,9 +125,17 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @Override
     @WebMethod(exclude = true)
     public void init() {
-        projectService = locator.getProjectService();
         System.out.println("http://localhost:8080/ProjectEndpoint?WSDL");
         Endpoint.publish("http://localhost:8080/ProjectEndpoint", this);
+    }
+
+    public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {
+        if (session == null) throw new AccessForbiddenException();
+        @Nullable final SessionDTO sessionDTO = sessionService.findOne(session.getId());
+        if (sessionDTO == null) throw new AccessForbiddenException();
+        if (session.getUserId() == null && !session.getUserId().isEmpty()) throw new AccessForbiddenException();
+        if (session.getUserRole() == null) throw new AccessForbiddenException();
+        if (!session.getSign().equals(sessionDTO.getSign())) throw new AccessForbiddenException();
     }
 
 }

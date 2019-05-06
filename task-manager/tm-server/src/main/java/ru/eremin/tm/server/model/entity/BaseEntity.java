@@ -44,6 +44,7 @@ public class BaseEntity extends AbstractEntity implements Serializable {
     protected Status status;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     protected User user;
 
 }

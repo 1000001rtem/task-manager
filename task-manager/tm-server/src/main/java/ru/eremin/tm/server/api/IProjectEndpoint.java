@@ -16,6 +16,8 @@ import java.util.List;
 
 public interface IProjectEndpoint {
 
+    void init();
+
     ResultDTO persistProject(@Nullable SessionDTO sessionDTO, @Nullable ProjectDTO projectDTO) throws AccessForbiddenException, IncorrectDataException;
 
     List<ProjectDTO> findAllProjects(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;

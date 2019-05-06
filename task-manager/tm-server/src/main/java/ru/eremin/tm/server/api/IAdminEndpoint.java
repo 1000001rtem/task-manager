@@ -12,6 +12,8 @@ import ru.eremin.tm.server.model.dto.SessionDTO;
 
 public interface IAdminEndpoint extends Admined {
 
+    void init();
+
     ResultDTO saveJSON(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
 
     ResultDTO loadJSON(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;

@@ -2,6 +2,7 @@ package ru.eremin.tm.server.endpoint;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.api.IUserEndpoint;
 import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
@@ -11,6 +12,7 @@ import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
@@ -21,10 +23,15 @@ import java.util.List;
  */
 
 @WebService
-public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
+public class UserEndpoint implements IUserEndpoint {
 
+    @Inject
     @Nullable
     private IUserService userService;
+
+    @Inject
+    @Nullable
+    private ISessionService sessionService;
 
     @Override
     @WebMethod
@@ -89,9 +96,17 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
     @Override
     @WebMethod(exclude = true)
     public void init() {
-        userService = locator.getUserService();
         System.out.println("http://localhost:8080/UserEndpoint?WSDL");
         Endpoint.publish("http://localhost:8080/UserEndpoint", this);
+    }
+
+    public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {
+        if (session == null) throw new AccessForbiddenException();
+        @Nullable final SessionDTO sessionDTO = sessionService.findOne(session.getId());
+        if (sessionDTO == null) throw new AccessForbiddenException();
+        if (session.getUserId() == null && !session.getUserId().isEmpty()) throw new AccessForbiddenException();
+        if (session.getUserRole() == null) throw new AccessForbiddenException();
+        if (!session.getSign().equals(sessionDTO.getSign())) throw new AccessForbiddenException();
     }
 
 }

@@ -8,12 +8,14 @@ import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 /**
  * @autor av.eremin on 12.04.2019.
  */
 
+@ApplicationScoped
 public class AuthService implements IAuthService {
 
     @Inject

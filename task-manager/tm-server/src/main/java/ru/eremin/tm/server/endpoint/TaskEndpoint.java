@@ -3,9 +3,9 @@ package ru.eremin.tm.server.endpoint;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.IProjectService;
+import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.api.ITaskEndpoint;
 import ru.eremin.tm.server.api.ITaskService;
-import ru.eremin.tm.server.bootstrap.ServiceLocator;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ResultDTO;
@@ -23,13 +23,19 @@ import java.util.List;
  */
 
 @WebService
-public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
+public class TaskEndpoint implements ITaskEndpoint {
 
+    @Inject
     @NotNull
     private ITaskService taskService;
 
+    @Inject
     @NotNull
     private IProjectService projectService;
+
+    @Inject
+    @NotNull
+    private ISessionService sessionService;
 
     @Override
     @WebMethod
@@ -126,10 +132,17 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @Override
     @WebMethod(exclude = true)
     public void init() {
-        taskService = locator.getTaskService();
-        projectService = locator.getProjectService();
         System.out.println("http://localhost:8080/TaskEndpoint?WSDL");
         Endpoint.publish("http://localhost:8080/TaskEndpoint", this);
+    }
+
+    public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {
+        if (session == null) throw new AccessForbiddenException();
+        @Nullable final SessionDTO sessionDTO = sessionService.findOne(session.getId());
+        if (sessionDTO == null) throw new AccessForbiddenException();
+        if (session.getUserId() == null && !session.getUserId().isEmpty()) throw new AccessForbiddenException();
+        if (session.getUserRole() == null) throw new AccessForbiddenException();
+        if (!session.getSign().equals(sessionDTO.getSign())) throw new AccessForbiddenException();
     }
 
 }

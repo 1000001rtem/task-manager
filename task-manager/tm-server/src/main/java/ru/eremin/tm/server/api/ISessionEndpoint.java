@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface ISessionEndpoint extends Admined {
 
+    void init();
+
     ResultDTO persistSession(@Nullable SessionDTO adminSession, @Nullable SessionDTO newSession) throws AccessForbiddenException, IncorrectDataException;
 
     List<SessionDTO> findAllSessions(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;

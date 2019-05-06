@@ -18,9 +18,7 @@ import ru.eremin.tm.server.repository.TaskRepository;
 import ru.eremin.tm.server.repository.UserRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.Collections;
@@ -402,7 +400,6 @@ public class TaskService implements ITaskService {
                     .map(TaskDTO::new)
                     .collect(Collectors.toList());
             em.getTransaction().commit();
-            System.out.println(taskDTOS);
             return taskDTOS;
         } catch (Exception e) {
             em.getTransaction().rollback();
