@@ -59,10 +59,10 @@ public class ModelTest {
     @Test
     @Order(order = 1)
     public void insertTest() throws AccessForbiddenException, IncorrectDataException {
+        final int beforeSessionSize = sessionService.findAll().size();
         final int beforeUsersSize = userService.findAll().size();
         final int beforeProjectsSize = projectService.findByUserId(userDTO.getId()).size();
         final int beforeTasksSize = taskService.findByUserId(userDTO.getId()).size();
-        final int beforeSessionSize = sessionService.findAll().size();
 
         userService.persist(userDTO);
         projectService.persist(projectDTO);
@@ -121,6 +121,7 @@ public class ModelTest {
         final TaskDTO taskDTO1 = EntityFactory.getTask(projectDTO1, userDTO1);
 
         userService.merge(userDTO1);
+        System.out.println(projectDTO1.getUserId());
         projectService.merge(projectDTO1);
         taskService.merge(taskDTO1);
 

@@ -1,12 +1,10 @@
 package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.api.IProjectRepository;
-import ru.eremin.tm.server.api.ITaskRepository;
 import ru.eremin.tm.server.api.ITaskService;
-import ru.eremin.tm.server.api.IUserRepository;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.TaskDTO;
@@ -19,8 +17,6 @@ import ru.eremin.tm.server.repository.UserRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,416 +30,220 @@ import java.util.stream.Collectors;
 public class TaskService implements ITaskService {
 
     @Inject
-    @Nullable
-    private EntityManagerFactory entityManagerFactory;
+    @NotNull
+    private ProjectRepository projectRepository;
+
+    @Inject
+    @NotNull
+    private UserRepository userRepository;
+
+    @Inject
+    @NotNull
+    private TaskRepository taskRepository;
 
     @NotNull
     @Override
     public List<TaskDTO> findAll() {
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAll()
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            em.getTransaction().commit();
-            return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAll()
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTO> findByProjectId(@Nullable final String projectId) throws IncorrectDataException {
         if (projectId == null || projectId.isEmpty()) throw new IncorrectDataException("Wrong project id");
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final Project project = getProject(projectId, em);
-            if (project == null) {
-                em.close();
-                return Collections.emptyList();
-            }
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByProjectId(project)
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            em.getTransaction().commit();
-            return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
+        @Nullable final Project project = getProject(projectId);
+        if (project == null) return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByProject(project)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @Override
+    @Transactional
     public void removeAllTasksInProject(@Nullable final String projectId) throws IncorrectDataException {
         if (projectId == null || projectId.isEmpty()) throw new IncorrectDataException("Wrong project id");
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final Project project = getProject(projectId, em);
-            if (project == null) {
-                em.close();
-                return;
-            }
-            taskRepository.removeAllTasksInProject(project);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
+        @Nullable final Project project = getProject(projectId);
+        if (project == null) return;
+        @NotNull final List<Task> tasks = taskRepository.findByProject(project);
+        if(tasks.isEmpty()) return;
+        tasks.forEach(taskRepository::remove);
     }
 
-    @Nullable
+    @NotNull
     @Override
+    @Transactional(readOnly = true)
     public TaskDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final Task task = taskRepository.findOne(id);
-            if (task == null) throw new IncorrectDataException("Wrong id");
-            em.getTransaction().commit();
-            return new TaskDTO(task);
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-        } finally {
-            em.close();
-        }
-        return null;
+        @Nullable final Task task = taskRepository.findBy(id);
+        if (task == null) throw new IncorrectDataException("Wrong id");
+        return new TaskDTO(task);
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTO> findByUserId(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final User user = getUser(userId, em);
-            if (user == null) {
-                em.close();
-                return Collections.emptyList();
-            }
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByUserId(user)
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            em.getTransaction().commit();
-            return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
+        @Nullable final User user = getUser(userId);
+        if (user == null) return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByUser(user)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @Override
+    @Transactional
     public void persist(@Nullable final TaskDTO taskDTO) throws IncorrectDataException {
         if (taskDTO == null) throw new IncorrectDataException("Task is null");
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @NotNull final Task task = getEntity(taskDTO, em);
-            taskRepository.persist(task);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
+        @NotNull final Task task = getEntity(taskDTO);
+        taskRepository.save(task);
     }
 
     @Override
+    @Transactional
     public void update(@Nullable final TaskDTO taskDTO) throws IncorrectDataException {
         if (taskDTO == null) throw new IncorrectDataException("Task is null");
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @NotNull final Task task = getEntity(taskDTO, em);
-            taskRepository.update(task);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
+        if (!isExist(taskDTO.getId())) throw new IncorrectDataException("Task is not exist");
+        @NotNull final Task task = getEntity(taskDTO);
+        taskRepository.save(task);
     }
 
     @Override
+    @Transactional
     public void merge(@Nullable final TaskDTO taskDTO) throws IncorrectDataException {
         if (taskDTO == null) throw new IncorrectDataException("Task is null");
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @NotNull final Task task = getEntity(taskDTO, em);
-            taskRepository.merge(task);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
+        @NotNull final Task task = getEntity(taskDTO);
+        taskRepository.save(task);
     }
 
     @Override
+    @Transactional
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            taskRepository.remove(id);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
+        @Nullable final Task task = taskRepository.findBy(id);
+        if (task == null) throw new IncorrectDataException("Wrong id");
+        taskRepository.remove(task);
     }
 
     @Override
+    @Transactional
     public void removeAll(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final User user = getUser(userId, em);
-            if (user == null) {
-                em.close();
-                return;
-            }
-            taskRepository.removeAll(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
+        @Nullable final User user = getUser(userId);
+        if (user == null) return;
+        @NotNull final List<Task> tasks = taskRepository.findByUser(user);
+        if(tasks.isEmpty()) return;
+        tasks.forEach(taskRepository::remove);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @NotNull final Task task = taskRepository.findOne(id);
-            em.getTransaction().commit();
-            return task != null;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return false;
+        @NotNull final Task task = taskRepository.findBy(id);
+        return task != null;
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final User user = getUser(userId, em);
-            if (user == null) {
-                em.close();
-                return Collections.emptyList();
-            }
+            @Nullable final User user = getUser(userId);
+            if (user == null) return Collections.emptyList();
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByCreateDate(user)
                     .stream()
                     .map(TaskDTO::new)
                     .collect(Collectors.toList());
-            em.getTransaction().commit();
             return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final User user = getUser(userId, em);
-            if (user == null) {
-                em.close();
-                return Collections.emptyList();
-            }
+            @Nullable final User user = getUser(userId);
+            if (user == null) return Collections.emptyList();
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStartDate(user)
                     .stream()
                     .map(TaskDTO::new)
                     .collect(Collectors.toList());
-            em.getTransaction().commit();
             return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final User user = getUser(userId, em);
-            if (user == null) {
-                em.close();
-                return Collections.emptyList();
-            }
+            @Nullable final User user = getUser(userId);
+            if (user == null) return Collections.emptyList();
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByEndDate(user)
                     .stream()
                     .map(TaskDTO::new)
                     .collect(Collectors.toList());
-            em.getTransaction().commit();
             return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final User user = getUser(userId, em);
-            if (user == null) {
-                em.close();
-                return Collections.emptyList();
-            }
+            @Nullable final User user = getUser(userId);
+            if (user == null) return Collections.emptyList();
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStatus(user)
                     .stream()
                     .map(TaskDTO::new)
                     .collect(Collectors.toList());
-            em.getTransaction().commit();
             return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final User user = getUser(userId, em);
-            if (user == null) {
-                em.close();
-                return Collections.emptyList();
-            }
+            @Nullable final User user = getUser(userId);
+            if (user == null) return Collections.emptyList();
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByName(user, name)
                     .stream()
                     .map(TaskDTO::new)
                     .collect(Collectors.toList());
-            em.getTransaction().commit();
             return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty() || description == null || description.isEmpty())
             throw new AccessForbiddenException();
-        @NotNull final EntityManager em = entityManagerFactory.createEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(em);
-        try {
-            em.getTransaction().begin();
-            @Nullable final User user = getUser(userId, em);
-            if (user == null) {
-                em.close();
-                return Collections.emptyList();
-            }
+            @Nullable final User user = getUser(userId);
+            if (user == null) return Collections.emptyList();
             @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByDescription(user, description)
                     .stream()
                     .map(TaskDTO::new)
                     .collect(Collectors.toList());
-            em.getTransaction().commit();
             return taskDTOS;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return Collections.emptyList();
     }
 
     @NotNull
     @Override
-    public Task getEntity(@NotNull final TaskDTO taskDTO, @NotNull final EntityManager em) {
-        @Nullable final Project project = getProject(taskDTO.getProjectId(), em);
-        @Nullable final User user = getUser(taskDTO.getUserId(), em);
+    @Transactional(readOnly = true)
+    public Task getEntity(@NotNull final TaskDTO taskDTO) {
+        @Nullable final Project project = getProject(taskDTO.getProjectId());
+        @Nullable final User user = getUser(taskDTO.getUserId());
         @NotNull final Task task = new Task();
         task.setId(taskDTO.getId());
         if (taskDTO.getName() != null && !taskDTO.getName().isEmpty()) task.setName(taskDTO.getName());
@@ -460,15 +260,15 @@ public class TaskService implements ITaskService {
     }
 
     @Nullable
-    private Project getProject(@NotNull final String projectId, @NotNull final EntityManager em) {
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(em);
-        return projectRepository.findOne(projectId);
+    @Transactional(readOnly = true)
+    private Project getProject(@NotNull final String projectId) {
+        return projectRepository.findBy(projectId);
     }
 
     @Nullable
-    private User getUser(@NotNull final String userId, @NotNull final EntityManager em) {
-        @NotNull final IUserRepository userRepository = new UserRepository(em);
-        return userRepository.findOne(userId);
+    @Transactional(readOnly = true)
+    private User getUser(@NotNull final String userId) {
+        return userRepository.findBy(userId);
     }
 
 }

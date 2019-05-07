@@ -1,9 +1,15 @@
 package ru.eremin.tm.server.utils;
 
+import org.apache.deltaspike.jpa.api.entitymanager.PersistenceUnitName;
+import org.apache.deltaspike.jpa.api.transaction.TransactionScoped;
+import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.server.config.DBConfig;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
@@ -14,12 +20,22 @@ import javax.persistence.PersistenceContext;
 @ApplicationScoped
 public class EntityManagerFactoryProducer {
 
-    @PersistenceContext
+    @NotNull
+    private static final String UNIT_NAME = "ENTERPRISE";
+
+    @Inject
+    @PersistenceUnitName(UNIT_NAME)
     private EntityManagerFactory entityManagerFactory;
 
+    @NotNull
     @Produces
-    public EntityManagerFactory getEntityManagerFactory() {
-        return DBConfig.getFactory();
+    @TransactionScoped
+    public EntityManager getEntityManager() {
+        return entityManagerFactory.createEntityManager();
+    }
+
+    public void dispose(@Disposes EntityManager entityManager) {
+        if (entityManager.isOpen()) entityManager.close();
     }
 
 }

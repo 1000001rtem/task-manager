@@ -110,13 +110,13 @@ public class MappingEntityTest {
     @Ignore
     public void dtoToEntity() {
         final EntityManagerFactory entityManagerFactory = DBConfig.getFactory();
-        final User user = userService.getEntity(userDTO, entityManagerFactory.createEntityManager());
+        final User user = userService.getEntity(userDTO);
         assertEquals(userDTO.getId(), user.getId());
         assertEquals(userDTO.getLogin(), user.getLogin());
         assertEquals(userDTO.getHashPassword(), user.getHashPassword());
         assertEquals(userDTO.getRole(), user.getRole());
 
-        final Project project = projectService.getEntity(projectDTO, entityManagerFactory.createEntityManager());
+        final Project project = projectService.getEntity(projectDTO);
         assertEquals(projectDTO.getId(), project.getId());
         assertEquals(projectDTO.getName(), project.getName());
         assertEquals(projectDTO.getDescription(), project.getDescription());
@@ -124,7 +124,7 @@ public class MappingEntityTest {
         assertEquals(projectDTO.getEndDate(), project.getEndDate());
         assertEquals(projectDTO.getUserId(), project.getUser());
 
-        final Task task = taskService.getEntity(taskDTO, entityManagerFactory.createEntityManager());
+        final Task task = taskService.getEntity(taskDTO);
         assertEquals(taskDTO.getId(), task.getId());
         assertEquals(taskDTO.getName(), task.getName());
         assertEquals(taskDTO.getDescription(), task.getDescription());

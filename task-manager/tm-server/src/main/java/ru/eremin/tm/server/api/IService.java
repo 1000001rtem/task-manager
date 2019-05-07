@@ -32,6 +32,6 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
     boolean isExist(@Nullable String id);
 
     @NotNull
-    T getEntity(@NotNull E e, @NotNull EntityManager em);
+    T getEntity(@NotNull E e);
 
 }

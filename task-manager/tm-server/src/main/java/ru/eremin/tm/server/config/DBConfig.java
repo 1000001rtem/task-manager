@@ -26,6 +26,7 @@ public final class DBConfig {
     public static EntityManagerFactory getFactory() {
         Properties properties = getProperties();
         final Map<String, String> settings = new HashMap<>();
+        settings.put(Environment.PERSISTENCE_UNIT_NAME, "ENTERPRISE");
         settings.put(Environment.DRIVER, properties.getProperty("jdbc.driver"));
         settings.put(Environment.URL, properties.getProperty("jdbc.url"));
         settings.put(Environment.USER, properties.getProperty("jdbc.username"));

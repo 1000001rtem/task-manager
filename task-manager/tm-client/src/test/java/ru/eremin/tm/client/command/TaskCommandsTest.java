@@ -70,7 +70,7 @@ public class TaskCommandsTest {
         assertEquals(Status.DONE, taskEndpoint.findAllTasks(sessionDTO).get(0).getStatus());
     }
 
-    @Test
+    @Test(expected = IncorrectDataException_Exception.class)
     @Category(IntegrationTest.class)
     public void deleteTest() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
         final TaskDTO taskDTO = EntityFactory.getTask(projectDTO);
