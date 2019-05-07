@@ -1,12 +1,8 @@
 package ru.eremin.tm.client.command;
 
-import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 
-import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 

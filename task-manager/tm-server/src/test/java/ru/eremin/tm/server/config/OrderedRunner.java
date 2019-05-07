@@ -1,6 +1,6 @@
 package ru.eremin.tm.server.config;
 
-import org.junit.runners.BlockJUnit4ClassRunner;
+import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @autor Artem Eremin on 23.12.2018.
  */
 
-public class OrderedRunner extends BlockJUnit4ClassRunner {
+public class OrderedRunner extends CdiTestRunner {
 
     public OrderedRunner(Class<?> clazz) throws InitializationError {
         super(clazz);

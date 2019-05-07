@@ -13,37 +13,37 @@ import javax.enterprise.inject.Produces;
 public class EndpointProducer {
 
     @Produces
-    public UserEndpoint getUserEndpoint(){
+    public UserEndpoint getUserEndpoint() {
         final UserEndpointService userEndpointService = new UserEndpointService();
         return userEndpointService.getUserEndpointPort();
     }
 
     @Produces
-    public SessionEndpoint getSessionEndpoint(){
+    public SessionEndpoint getSessionEndpoint() {
         final SessionEndpointService sessionEndpointService = new SessionEndpointService();
         return sessionEndpointService.getSessionEndpointPort();
     }
 
     @Produces
-    public TaskEndpoint getTaskEndpoint(){
+    public TaskEndpoint getTaskEndpoint() {
         final TaskEndpointService taskEndpointService = new TaskEndpointService();
         return taskEndpointService.getTaskEndpointPort();
     }
 
     @Produces
-    public ProjectEndpoint getProjectEndpoint(){
+    public ProjectEndpoint getProjectEndpoint() {
         final ProjectEndpointService projectEndpointService = new ProjectEndpointService();
         return projectEndpointService.getProjectEndpointPort();
     }
 
     @Produces
-    public AuthorizationEndpoint getAuthorizationEndpoint(){
+    public AuthorizationEndpoint getAuthorizationEndpoint() {
         final AuthorizationEndpointService authorizationEndpointService = new AuthorizationEndpointService();
         return authorizationEndpointService.getAuthorizationEndpointPort();
     }
 
     @Produces
-    public AdminEndpoint getAdminEndpoint(){
+    public AdminEndpoint getAdminEndpoint() {
         final AdminEndpointService adminEndpointService = new AdminEndpointService();
         return adminEndpointService.getAdminEndpointPort();
     }

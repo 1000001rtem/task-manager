@@ -6,7 +6,6 @@ import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.AbstractDTO;
 import ru.eremin.tm.server.model.entity.AbstractEntity;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 /**

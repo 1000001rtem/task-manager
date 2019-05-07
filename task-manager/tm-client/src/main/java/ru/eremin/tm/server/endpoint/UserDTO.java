@@ -1,4 +1,3 @@
-
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for userDTO complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="userDTO"&gt;
  *   &lt;complexContent&gt;
@@ -27,16 +26,14 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "userDTO", propOrder = {
-    "id",
-    "createDate",
-    "login",
-    "hashPassword",
-    "role"
+        "id",
+        "createDate",
+        "login",
+        "hashPassword",
+        "role"
 })
 public class UserDTO {
 
@@ -49,11 +46,9 @@ public class UserDTO {
 
     /**
      * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getId() {
         return id;
@@ -61,11 +56,9 @@ public class UserDTO {
 
     /**
      * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setId(String value) {
         this.id = value;
@@ -73,11 +66,9 @@ public class UserDTO {
 
     /**
      * Gets the value of the createDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCreateDate() {
         return createDate;
@@ -85,11 +76,9 @@ public class UserDTO {
 
     /**
      * Sets the value of the createDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCreateDate(String value) {
         this.createDate = value;
@@ -97,11 +86,9 @@ public class UserDTO {
 
     /**
      * Gets the value of the login property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getLogin() {
         return login;
@@ -109,11 +96,9 @@ public class UserDTO {
 
     /**
      * Sets the value of the login property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setLogin(String value) {
         this.login = value;
@@ -121,11 +106,9 @@ public class UserDTO {
 
     /**
      * Gets the value of the hashPassword property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getHashPassword() {
         return hashPassword;
@@ -133,11 +116,9 @@ public class UserDTO {
 
     /**
      * Sets the value of the hashPassword property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setHashPassword(String value) {
         this.hashPassword = value;
@@ -145,11 +126,9 @@ public class UserDTO {
 
     /**
      * Gets the value of the role property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Role }
-     *     
+     *
+     * @return possible object is
+     * {@link Role }
      */
     public Role getRole() {
         return role;
@@ -157,11 +136,9 @@ public class UserDTO {
 
     /**
      * Sets the value of the role property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Role }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Role }
      */
     public void setRole(Role value) {
         this.role = value;

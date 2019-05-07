@@ -72,7 +72,7 @@ public class TaskService implements ITaskService {
         @Nullable final Project project = getProject(projectId);
         if (project == null) return;
         @NotNull final List<Task> tasks = taskRepository.findByProject(project);
-        if(tasks.isEmpty()) return;
+        if (tasks.isEmpty()) return;
         tasks.forEach(taskRepository::remove);
     }
 
@@ -141,7 +141,7 @@ public class TaskService implements ITaskService {
         @Nullable final User user = getUser(userId);
         if (user == null) return;
         @NotNull final List<Task> tasks = taskRepository.findByUser(user);
-        if(tasks.isEmpty()) return;
+        if (tasks.isEmpty()) return;
         tasks.forEach(taskRepository::remove);
     }
 
@@ -158,13 +158,13 @@ public class TaskService implements ITaskService {
     @Transactional(readOnly = true)
     public List<TaskDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-            @Nullable final User user = getUser(userId);
-            if (user == null) return Collections.emptyList();
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByCreateDate(user)
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            return taskDTOS;
+        @Nullable final User user = getUser(userId);
+        if (user == null) return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByCreateDate(user)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @NotNull
@@ -172,13 +172,13 @@ public class TaskService implements ITaskService {
     @Transactional(readOnly = true)
     public List<TaskDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-            @Nullable final User user = getUser(userId);
-            if (user == null) return Collections.emptyList();
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStartDate(user)
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            return taskDTOS;
+        @Nullable final User user = getUser(userId);
+        if (user == null) return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStartDate(user)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @NotNull
@@ -186,13 +186,13 @@ public class TaskService implements ITaskService {
     @Transactional(readOnly = true)
     public List<TaskDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-            @Nullable final User user = getUser(userId);
-            if (user == null) return Collections.emptyList();
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByEndDate(user)
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            return taskDTOS;
+        @Nullable final User user = getUser(userId);
+        if (user == null) return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByEndDate(user)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @NotNull
@@ -200,13 +200,13 @@ public class TaskService implements ITaskService {
     @Transactional(readOnly = true)
     public List<TaskDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-            @Nullable final User user = getUser(userId);
-            if (user == null) return Collections.emptyList();
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStatus(user)
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            return taskDTOS;
+        @Nullable final User user = getUser(userId);
+        if (user == null) return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStatus(user)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @NotNull
@@ -214,13 +214,13 @@ public class TaskService implements ITaskService {
     @Transactional(readOnly = true)
     public List<TaskDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
-            @Nullable final User user = getUser(userId);
-            if (user == null) return Collections.emptyList();
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByName(user, name)
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            return taskDTOS;
+        @Nullable final User user = getUser(userId);
+        if (user == null) return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByName(user, name)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @NotNull
@@ -229,13 +229,13 @@ public class TaskService implements ITaskService {
     public List<TaskDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty() || description == null || description.isEmpty())
             throw new AccessForbiddenException();
-            @Nullable final User user = getUser(userId);
-            if (user == null) return Collections.emptyList();
-            @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByDescription(user, description)
-                    .stream()
-                    .map(TaskDTO::new)
-                    .collect(Collectors.toList());
-            return taskDTOS;
+        @Nullable final User user = getUser(userId);
+        if (user == null) return Collections.emptyList();
+        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByDescription(user, description)
+                .stream()
+                .map(TaskDTO::new)
+                .collect(Collectors.toList());
+        return taskDTOS;
     }
 
     @NotNull

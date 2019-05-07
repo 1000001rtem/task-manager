@@ -1,12 +1,10 @@
 package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.AuthorizationEndpoint;
-import ru.eremin.tm.server.endpoint.AuthorizationEndpointService;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 
 import javax.inject.Inject;

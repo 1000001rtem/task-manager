@@ -111,7 +111,7 @@ public class ProjectService implements IProjectService {
         @Nullable final User user = getUser(userId);
         if (user == null) return;
         @NotNull final List<Project> projects = projectRepository.findByUser(user);
-        if(projects.isEmpty()) return;
+        if (projects.isEmpty()) return;
         projects.forEach(projectRepository::remove);
     }
 
@@ -214,7 +214,7 @@ public class ProjectService implements IProjectService {
         }
         if (projectDTO.getStartDate() != null) project.setStartDate(projectDTO.getStartDate());
         if (projectDTO.getEndDate() != null) project.setEndDate(projectDTO.getEndDate());
-        if (user!=null) project.setUser(user);
+        if (user != null) project.setUser(user);
         project.setStatus(projectDTO.getStatus());
         project.setCreateDate(projectDTO.getCreateDate());
         return project;

@@ -14,7 +14,7 @@ public interface SessionRepository extends EntityRepository<Session, String> {
     Session findByUserId(String id);
 
     @Modifying
-    @Query ("DELETE FROM Session e")
+    @Query("DELETE FROM Session e")
     void removeAll();
 
 }

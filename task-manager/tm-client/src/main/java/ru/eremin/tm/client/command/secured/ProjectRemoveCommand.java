@@ -8,7 +8,6 @@ import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 import ru.eremin.tm.server.endpoint.ProjectEndpoint;
-import ru.eremin.tm.server.endpoint.ProjectEndpointService;
 
 import javax.inject.Inject;
 

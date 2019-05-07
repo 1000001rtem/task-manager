@@ -4,8 +4,10 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.client.command.ICommand;
-import ru.eremin.tm.client.service.ConsoleService;
-import ru.eremin.tm.server.endpoint.*;
+import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
+import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
+import ru.eremin.tm.server.endpoint.ProjectDTO;
+import ru.eremin.tm.server.endpoint.ProjectEndpoint;
 
 import javax.inject.Inject;
 import java.util.List;

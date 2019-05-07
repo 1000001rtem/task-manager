@@ -1,7 +1,6 @@
 package ru.eremin.tm.server.repository;
 
 import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Modifying;
 import org.apache.deltaspike.data.api.Query;
 import org.apache.deltaspike.data.api.Repository;
 import ru.eremin.tm.server.model.entity.Project;
