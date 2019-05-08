@@ -94,9 +94,9 @@ public class UserEndpoint implements IUserEndpoint {
 
     @Override
     @WebMethod(exclude = true)
-    public void init() {
-        System.out.println("http://localhost:8080/UserEndpoint?WSDL");
-        Endpoint.publish("http://localhost:8080/UserEndpoint", this);
+    public void init(String port) {
+        System.out.println("http://localhost:" + port + "/UserEndpoint?WSDL");
+        Endpoint.publish("http://localhost:" + port + "/UserEndpoint", this);
     }
 
     public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {

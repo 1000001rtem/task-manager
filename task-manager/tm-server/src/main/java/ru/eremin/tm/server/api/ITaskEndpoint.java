@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface ITaskEndpoint {
 
-    void init();
+    void init(String port);
 
     ResultDTO persistTask(@Nullable SessionDTO sessionDTO, @Nullable TaskDTO taskDTO) throws AccessForbiddenException, IncorrectDataException;
 

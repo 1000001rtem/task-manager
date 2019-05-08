@@ -81,9 +81,9 @@ public class SessionEndpoint implements ISessionEndpoint {
 
     @Override
     @WebMethod(exclude = true)
-    public void init() {
-        System.out.println("http://localhost:8080/SessionEndpoint?WSDL");
-        Endpoint.publish("http://localhost:8080/SessionEndpoint", this);
+    public void init(String port) {
+        System.out.println("http://localhost:" + port + "/SessionEndpoint?WSDL");
+        Endpoint.publish("http://localhost:" + port + "/SessionEndpoint", this);
     }
 
     @Override

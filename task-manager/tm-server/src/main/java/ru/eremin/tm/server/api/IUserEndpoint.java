@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface IUserEndpoint {
 
-    void init();
+    void init(String port);
 
     ResultDTO persistUser(@Nullable UserDTO userDTO) throws AccessForbiddenException, IncorrectDataException;
 

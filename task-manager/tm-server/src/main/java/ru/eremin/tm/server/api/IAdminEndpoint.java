@@ -12,7 +12,7 @@ import ru.eremin.tm.server.model.dto.SessionDTO;
 
 public interface IAdminEndpoint extends Admined {
 
-    void init();
+    void init(String port);
 
     ResultDTO saveJSON(@Nullable SessionDTO sessionDTO) throws AccessForbiddenException, IncorrectDataException;
 

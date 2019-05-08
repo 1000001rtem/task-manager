@@ -131,9 +131,9 @@ public class TaskEndpoint implements ITaskEndpoint {
 
     @Override
     @WebMethod(exclude = true)
-    public void init() {
-        System.out.println("http://localhost:8080/TaskEndpoint?WSDL");
-        Endpoint.publish("http://localhost:8080/TaskEndpoint", this);
+    public void init(String port) {
+        System.out.println("http://localhost:" + port + "/TaskEndpoint?WSDL");
+        Endpoint.publish("http://localhost:" + port + "/TaskEndpoint", this);
     }
 
     public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {

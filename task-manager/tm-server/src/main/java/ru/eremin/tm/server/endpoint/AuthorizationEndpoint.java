@@ -52,9 +52,9 @@ public class AuthorizationEndpoint implements IAuthorizationEndpoint {
 
     @Override
     @WebMethod(exclude = true)
-    public void init() {
-        System.out.println("http://localhost:8080/AuthorizationEndpoint?WSDL");
-        Endpoint.publish("http://localhost:8080/AuthorizationEndpoint", this);
+    public void init(String port) {
+        System.out.println("http://localhost:" + port + "/AuthorizationEndpoint?WSDL");
+        Endpoint.publish("http://localhost:" + port + "/AuthorizationEndpoint", this);
     }
 
     public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {

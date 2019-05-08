@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface IProjectEndpoint {
 
-    void init();
+    void init(String port);
 
     ResultDTO persistProject(@Nullable SessionDTO sessionDTO, @Nullable ProjectDTO projectDTO) throws AccessForbiddenException, IncorrectDataException;
 

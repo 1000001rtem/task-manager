@@ -98,9 +98,9 @@ public class AdminEndpoint implements IAdminEndpoint {
 
     @Override
     @WebMethod(exclude = true)
-    public void init() {
-        System.out.println("http://localhost:8080/AdminEndpoint?WSDL");
-        Endpoint.publish("http://localhost:8080/AdminEndpoint", this);
+    public void init(String port) {
+        System.out.println("http://localhost:" + port + "/AdminEndpoint?WSDL");
+        Endpoint.publish("http://localhost:"+ port + "/AdminEndpoint", this);
     }
 
     @Override

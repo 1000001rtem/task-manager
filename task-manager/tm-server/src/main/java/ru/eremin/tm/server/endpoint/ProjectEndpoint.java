@@ -124,9 +124,9 @@ public class ProjectEndpoint implements IProjectEndpoint {
 
     @Override
     @WebMethod(exclude = true)
-    public void init() {
-        System.out.println("http://localhost:8080/ProjectEndpoint?WSDL");
-        Endpoint.publish("http://localhost:8080/ProjectEndpoint", this);
+    public void init(String port) {
+        System.out.println("http://localhost:" + port + "/ProjectEndpoint?WSDL");
+        Endpoint.publish("http://localhost:" + port + "/ProjectEndpoint", this);
     }
 
     public void sessionValidate(@Nullable final SessionDTO session) throws AccessForbiddenException, IncorrectDataException {

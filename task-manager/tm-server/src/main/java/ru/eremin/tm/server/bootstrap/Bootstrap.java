@@ -72,12 +72,14 @@ public class Bootstrap implements ServiceLocator {
 
     @Override
     public void init() {
-        adminEndpoint.init();
-        authorizationEndpoint.init();
-        projectEndpoint.init();
-        sessionEndpoint.init();
-        taskEndpoint.init();
-        userEndpoint.init();
+        if(System.getProperty("server.port") == null) System.setProperty("server.port", "8080");
+        String port = System.getProperty("server.port");
+        adminEndpoint.init(port);
+        authorizationEndpoint.init(port);
+        projectEndpoint.init(port);
+        sessionEndpoint.init(port);
+        taskEndpoint.init(port);
+        userEndpoint.init(port);
         initUsers();
     }
 
