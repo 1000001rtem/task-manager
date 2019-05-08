@@ -72,7 +72,7 @@ public class Bootstrap implements ServiceLocator {
 
     @Override
     public void init() {
-        if(System.getProperty("server.port") == null) System.setProperty("server.port", "8080");
+        if (System.getProperty("server.port") == null) System.setProperty("server.port", "8080");
         String port = System.getProperty("server.port");
         adminEndpoint.init(port);
         authorizationEndpoint.init(port);
