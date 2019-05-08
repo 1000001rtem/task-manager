@@ -1,4 +1,3 @@
-
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for findAllProjectsSortedByStartDate complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="findAllProjectsSortedByStartDate"&gt;
  *   &lt;complexContent&gt;
@@ -22,12 +21,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "findAllProjectsSortedByStartDate", propOrder = {
-    "arg0"
+        "arg0"
 })
 public class FindAllProjectsSortedByStartDate {
 
@@ -35,11 +32,9 @@ public class FindAllProjectsSortedByStartDate {
 
     /**
      * Gets the value of the arg0 property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SessionDTO }
-     *     
+     *
+     * @return possible object is
+     * {@link SessionDTO }
      */
     public SessionDTO getArg0() {
         return arg0;
@@ -47,11 +42,9 @@ public class FindAllProjectsSortedByStartDate {
 
     /**
      * Sets the value of the arg0 property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SessionDTO }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link SessionDTO }
      */
     public void setArg0(SessionDTO value) {
         this.arg0 = value;

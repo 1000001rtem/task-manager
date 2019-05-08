@@ -73,22 +73,25 @@
                             <sourceRoot>${project.basedir}/src/main/java</sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <wsdl>http://localhost:8080/TaskEndpoint?WSDL</wsdl>
+                                    <wsdl>http://localhost:80/TaskEndpoint?WSDL</wsdl>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>http://localhost:8080/AuthorizationEndpoint?WSDL</wsdl>
+                                    <wsdl>http://localhost:80/AuthorizationEndpoint?WSDL</wsdl>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>http://localhost:8080/ProjectEndpoint?WSDL</wsdl>
+                                    <wsdl>http://localhost:80/ProjectEndpoint?WSDL</wsdl>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>http://localhost:8080/AdminEndpoint?WSDL</wsdl>
+                                    <wsdl>http://localhost:80/AdminEndpoint?WSDL</wsdl>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>http://localhost:8080/UserEndpoint?WSDL</wsdl>
+                                    <wsdl>http://localhost:80/UserEndpoint?WSDL</wsdl>
                                 </wsdlOption>
                                 <wsdlOption>
-                                    <wsdl>http://localhost:8080/SessionEndpoint?WSDL</wsdl>
+                                    <wsdl>http://localhost:80/SessionEndpoint?WSDL</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>http://localhost:80/ServerEndpoint?WSDL</wsdl>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>

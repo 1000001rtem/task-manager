@@ -1,4 +1,3 @@
-
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for findOneUserByLoginResponse complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="findOneUserByLoginResponse"&gt;
  *   &lt;complexContent&gt;
@@ -23,12 +22,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "findOneUserByLoginResponse", propOrder = {
-    "_return"
+        "_return"
 })
 public class FindOneUserByLoginResponse {
 
@@ -37,11 +34,9 @@ public class FindOneUserByLoginResponse {
 
     /**
      * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link UserDTO }
-     *     
+     *
+     * @return possible object is
+     * {@link UserDTO }
      */
     public UserDTO getReturn() {
         return _return;
@@ -49,11 +44,9 @@ public class FindOneUserByLoginResponse {
 
     /**
      * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link UserDTO }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link UserDTO }
      */
     public void setReturn(UserDTO value) {
         this._return = value;

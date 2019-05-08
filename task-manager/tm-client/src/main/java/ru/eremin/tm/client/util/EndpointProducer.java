@@ -48,4 +48,10 @@ public class EndpointProducer {
         return adminEndpointService.getAdminEndpointPort();
     }
 
+    @Produces
+    public ServerEndpoint getServerEndpoint() {
+        final ServerEndpointService serverEndpointService = new ServerEndpointService();
+        return serverEndpointService.getServerEndpointPort();
+    }
+
 }
