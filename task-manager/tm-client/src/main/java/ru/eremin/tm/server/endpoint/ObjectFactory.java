@@ -1,3 +1,4 @@
+
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.JAXBElement;
@@ -7,17 +8,18 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each
- * Java content interface and Java element interface
- * generated in the ru.eremin.tm.server.endpoint package.
- * <p>An ObjectFactory allows you to programatically
- * construct new instances of the Java representation
- * for XML content. The Java representation of XML
- * content can consist of schema derived interfaces
- * and classes representing the binding of schema
- * type definitions, element declarations and model
- * groups.  Factory methods for each of these are
+ * This object contains factory methods for each 
+ * Java content interface and Java element interface 
+ * generated in the ru.eremin.tm.server.endpoint package. 
+ * <p>An ObjectFactory allows you to programatically 
+ * construct new instances of the Java representation 
+ * for XML content. The Java representation of XML 
+ * content can consist of schema derived interfaces 
+ * and classes representing the binding of schema 
+ * type definitions, element declarations and model 
+ * groups.  Factory methods for each of these are 
  * provided in this class.
+ * 
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -43,12 +45,14 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ru.eremin.tm.server.endpoint
+     * 
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link AccessForbiddenException }
+     * 
      */
     public AccessForbiddenException createAccessForbiddenException() {
         return new AccessForbiddenException();
@@ -56,6 +60,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link IncorrectDataException }
+     * 
      */
     public IncorrectDataException createIncorrectDataException() {
         return new IncorrectDataException();
@@ -63,6 +68,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FindAllSessions }
+     * 
      */
     public FindAllSessions createFindAllSessions() {
         return new FindAllSessions();
@@ -70,6 +76,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FindAllSessionsResponse }
+     * 
      */
     public FindAllSessionsResponse createFindAllSessionsResponse() {
         return new FindAllSessionsResponse();
@@ -77,6 +84,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FindOneSession }
+     * 
      */
     public FindOneSession createFindOneSession() {
         return new FindOneSession();
@@ -84,6 +92,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FindOneSessionResponse }
+     * 
      */
     public FindOneSessionResponse createFindOneSessionResponse() {
         return new FindOneSessionResponse();
@@ -91,6 +100,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link PersistSession }
+     * 
      */
     public PersistSession createPersistSession() {
         return new PersistSession();
@@ -98,6 +108,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link PersistSessionResponse }
+     * 
      */
     public PersistSessionResponse createPersistSessionResponse() {
         return new PersistSessionResponse();
@@ -105,6 +116,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RemoveAllSessions }
+     * 
      */
     public RemoveAllSessions createRemoveAllSessions() {
         return new RemoveAllSessions();
@@ -112,6 +124,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RemoveAllSessionsResponse }
+     * 
      */
     public RemoveAllSessionsResponse createRemoveAllSessionsResponse() {
         return new RemoveAllSessionsResponse();
@@ -119,6 +132,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RemoveSession }
+     * 
      */
     public RemoveSession createRemoveSession() {
         return new RemoveSession();
@@ -126,6 +140,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RemoveSessionResponse }
+     * 
      */
     public RemoveSessionResponse createRemoveSessionResponse() {
         return new RemoveSessionResponse();
@@ -133,6 +148,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ResultDTO }
+     * 
      */
     public ResultDTO createResultDTO() {
         return new ResultDTO();
@@ -140,6 +156,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SessionDTO }
+     * 
      */
     public SessionDTO createSessionDTO() {
         return new SessionDTO();
@@ -147,6 +164,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SessionValidate }
+     * 
      */
     public SessionValidate createSessionValidate() {
         return new SessionValidate();
@@ -154,6 +172,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SessionValidateResponse }
+     * 
      */
     public SessionValidateResponse createSessionValidateResponse() {
         return new SessionValidateResponse();
@@ -161,6 +180,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UpdateSession }
+     * 
      */
     public UpdateSession createUpdateSession() {
         return new UpdateSession();
@@ -168,6 +188,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UpdateSessionResponse }
+     * 
      */
     public UpdateSessionResponse createUpdateSessionResponse() {
         return new UpdateSessionResponse();
@@ -175,6 +196,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Exception }
+     * 
      */
     public Exception createException() {
         return new Exception();
@@ -182,6 +204,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Throwable }
+     * 
      */
     public Throwable createThrowable() {
         return new Throwable();
@@ -189,6 +212,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link StackTraceElement }
+     * 
      */
     public StackTraceElement createStackTraceElement() {
         return new StackTraceElement();
@@ -196,6 +220,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AccessForbiddenException }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "AccessForbiddenException")
     public JAXBElement<AccessForbiddenException> createAccessForbiddenException(AccessForbiddenException value) {
@@ -204,6 +229,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link IncorrectDataException }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "IncorrectDataException")
     public JAXBElement<IncorrectDataException> createIncorrectDataException(IncorrectDataException value) {
@@ -212,6 +238,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FindAllSessions }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findAllSessions")
     public JAXBElement<FindAllSessions> createFindAllSessions(FindAllSessions value) {
@@ -220,6 +247,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FindAllSessionsResponse }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findAllSessionsResponse")
     public JAXBElement<FindAllSessionsResponse> createFindAllSessionsResponse(FindAllSessionsResponse value) {
@@ -228,6 +256,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FindOneSession }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findOneSession")
     public JAXBElement<FindOneSession> createFindOneSession(FindOneSession value) {
@@ -236,6 +265,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FindOneSessionResponse }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "findOneSessionResponse")
     public JAXBElement<FindOneSessionResponse> createFindOneSessionResponse(FindOneSessionResponse value) {
@@ -244,6 +274,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link PersistSession }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "persistSession")
     public JAXBElement<PersistSession> createPersistSession(PersistSession value) {
@@ -252,6 +283,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link PersistSessionResponse }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "persistSessionResponse")
     public JAXBElement<PersistSessionResponse> createPersistSessionResponse(PersistSessionResponse value) {
@@ -260,6 +292,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RemoveAllSessions }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "removeAllSessions")
     public JAXBElement<RemoveAllSessions> createRemoveAllSessions(RemoveAllSessions value) {
@@ -268,6 +301,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RemoveAllSessionsResponse }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "removeAllSessionsResponse")
     public JAXBElement<RemoveAllSessionsResponse> createRemoveAllSessionsResponse(RemoveAllSessionsResponse value) {
@@ -276,6 +310,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RemoveSession }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "removeSession")
     public JAXBElement<RemoveSession> createRemoveSession(RemoveSession value) {
@@ -284,6 +319,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RemoveSessionResponse }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "removeSessionResponse")
     public JAXBElement<RemoveSessionResponse> createRemoveSessionResponse(RemoveSessionResponse value) {
@@ -292,6 +328,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ResultDTO }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "resultDTO")
     public JAXBElement<ResultDTO> createResultDTO(ResultDTO value) {
@@ -300,6 +337,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SessionDTO }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "session")
     public JAXBElement<SessionDTO> createSession(SessionDTO value) {
@@ -308,6 +346,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SessionValidate }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "sessionValidate")
     public JAXBElement<SessionValidate> createSessionValidate(SessionValidate value) {
@@ -316,6 +355,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SessionValidateResponse }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "sessionValidateResponse")
     public JAXBElement<SessionValidateResponse> createSessionValidateResponse(SessionValidateResponse value) {
@@ -324,6 +364,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link UpdateSession }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "updateSession")
     public JAXBElement<UpdateSession> createUpdateSession(UpdateSession value) {
@@ -332,6 +373,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link UpdateSessionResponse }{@code >}}
+     * 
      */
     @XmlElementDecl(namespace = "http://endpoint.server.tm.eremin.ru/", name = "updateSessionResponse")
     public JAXBElement<UpdateSessionResponse> createUpdateSessionResponse(UpdateSessionResponse value) {

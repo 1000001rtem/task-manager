@@ -3,9 +3,10 @@ package ru.eremin.tm.server.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.model.dto.UserDTO;
-import ru.eremin.tm.server.model.entity.AbstractEntity;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 
 import javax.persistence.*;
@@ -18,8 +19,10 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Cacheable
 @NoArgsConstructor
 @Table(name = "session_table")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Session extends AbstractEntity {
 
     @Nullable

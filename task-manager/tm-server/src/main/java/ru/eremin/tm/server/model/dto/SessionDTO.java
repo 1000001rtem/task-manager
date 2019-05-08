@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
-import ru.eremin.tm.server.model.entity.enumerated.Role;
 import ru.eremin.tm.server.model.entity.Session;
+import ru.eremin.tm.server.model.entity.enumerated.Role;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

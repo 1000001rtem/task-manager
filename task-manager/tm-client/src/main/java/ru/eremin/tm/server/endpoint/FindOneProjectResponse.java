@@ -1,3 +1,4 @@
+
 package ru.eremin.tm.server.endpoint;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for findOneProjectResponse complex type.
- *
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- *
+ * 
  * <pre>
  * &lt;complexType name="findOneProjectResponse"&gt;
  *   &lt;complexContent&gt;
@@ -22,10 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "findOneProjectResponse", propOrder = {
-        "_return"
+    "_return"
 })
 public class FindOneProjectResponse {
 
@@ -34,9 +37,11 @@ public class FindOneProjectResponse {
 
     /**
      * Gets the value of the return property.
-     *
-     * @return possible object is
-     * {@link ProjectDTO }
+     * 
+     * @return
+     *     possible object is
+     *     {@link ProjectDTO }
+     *     
      */
     public ProjectDTO getReturn() {
         return _return;
@@ -44,9 +49,11 @@ public class FindOneProjectResponse {
 
     /**
      * Sets the value of the return property.
-     *
-     * @param value allowed object is
-     *              {@link ProjectDTO }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ProjectDTO }
+     *     
      */
     public void setReturn(ProjectDTO value) {
         this._return = value;
