@@ -1,7 +1,7 @@
 package ru.eremin.tm.server.repository;
 
 import org.apache.deltaspike.data.api.*;
-import ru.eremin.tm.server.model.entity.session.Session;
+import ru.eremin.tm.server.model.entity.Session;
 
 /**
  * @autor av.eremin on 07.05.2019.

@@ -1,4 +1,4 @@
-package ru.eremin.tm.server.model.entity.session;
+package ru.eremin.tm.server.model.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

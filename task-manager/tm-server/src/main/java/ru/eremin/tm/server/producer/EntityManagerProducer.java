@@ -1,4 +1,4 @@
-package ru.eremin.tm.server.utils;
+package ru.eremin.tm.server.producer;
 
 import org.apache.deltaspike.jpa.api.entitymanager.PersistenceUnitName;
 import org.apache.deltaspike.jpa.api.transaction.TransactionScoped;
@@ -16,7 +16,7 @@ import javax.persistence.EntityManagerFactory;
  */
 
 @ApplicationScoped
-public class EntityManagerFactoryProducer {
+public class EntityManagerProducer {
 
     @NotNull
     private static final String UNIT_NAME = "ENTERPRISE";

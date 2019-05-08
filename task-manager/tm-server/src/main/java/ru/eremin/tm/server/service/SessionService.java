@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
-import ru.eremin.tm.server.model.entity.session.Session;
+import ru.eremin.tm.server.model.entity.Session;
 import ru.eremin.tm.server.repository.SessionRepository;
 import ru.eremin.tm.server.utils.SignatureUtil;
 

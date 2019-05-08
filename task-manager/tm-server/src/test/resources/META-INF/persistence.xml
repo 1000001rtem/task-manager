@@ -6,7 +6,7 @@
         <class>ru.eremin.tm.server.model.entity.User</class>
         <class>ru.eremin.tm.server.model.entity.Task</class>
         <class>ru.eremin.tm.server.model.entity.Project</class>
-        <class>ru.eremin.tm.server.model.entity.session.Session</class>
+        <class>ru.eremin.tm.server.model.entity.Session</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/test"/>

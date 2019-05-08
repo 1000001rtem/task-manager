@@ -99,7 +99,6 @@ public class Bootstrap implements ServiceLocator {
         test.setLogin("test");
         test.setHashPassword(PasswordHashUtil.md5("test"));
         test.setRole(Role.ADMIN);
-        System.out.println(userService.isExist(admin.getId()));
 
         try {
             if (!userService.isExist(admin.getId())) userService.persist(admin);
