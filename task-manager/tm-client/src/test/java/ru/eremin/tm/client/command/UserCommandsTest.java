@@ -3,7 +3,12 @@ package ru.eremin.tm.client.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.eremin.tm.client.api.IntegrationTest;
+import ru.eremin.tm.client.config.AppClientConfiguration;
 import ru.eremin.tm.client.util.PasswordHashUtil;
 import ru.eremin.tm.server.endpoint.*;
 
@@ -13,15 +18,17 @@ import static junit.framework.TestCase.assertNotNull;
  * @autor av.eremin on 06.05.2019.
  */
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppClientConfiguration.class)
 public class UserCommandsTest {
 
-    private SessionDTO sessionDTO;
+    @Autowired
     private UserEndpoint userEndpoint;
+
+    private SessionDTO sessionDTO;
 
     @Before
     public void before() throws IncorrectDataException_Exception, AccessForbiddenException_Exception {
-        final UserEndpointService userEndpointService = new UserEndpointService();
-        userEndpoint = userEndpointService.getUserEndpointPort();
         sessionDTO = auth(null, null);
     }
 

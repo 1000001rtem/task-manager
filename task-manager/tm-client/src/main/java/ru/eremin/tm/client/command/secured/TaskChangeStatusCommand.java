@@ -2,12 +2,13 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
 
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,16 +17,17 @@ import java.util.stream.Collectors;
  * @autor av.eremin on 16.04.2019.
  */
 
+@Component
 @NoArgsConstructor
 public class TaskChangeStatusCommand implements ICommand {
 
-    @Inject
+    @Autowired
     private TaskEndpoint taskEndpoint;
 
-    @Inject
+    @Autowired
     private ServiceLocator locator;
 
-    @Inject
+    @Autowired
     private ConsoleService consoleService;
 
     @Override

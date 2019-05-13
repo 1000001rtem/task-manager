@@ -2,6 +2,8 @@ package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
@@ -9,20 +11,20 @@ import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 import ru.eremin.tm.server.endpoint.ProjectDTO;
 import ru.eremin.tm.server.endpoint.ProjectEndpoint;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
  * @autor av.eremin on 15.04.2019.
  */
 
+@Component
 @NoArgsConstructor
 public class ProjectSortByCreateDateCommand implements ICommand {
 
-    @Inject
+    @Autowired
     private ProjectEndpoint projectEndpoint;
 
-    @Inject
+    @Autowired
     private ServiceLocator locator;
 
     @Override

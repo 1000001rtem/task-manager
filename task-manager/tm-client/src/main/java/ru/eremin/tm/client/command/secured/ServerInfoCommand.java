@@ -1,6 +1,8 @@
 package ru.eremin.tm.client.command.secured;
 
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
@@ -8,7 +10,6 @@ import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 import ru.eremin.tm.server.endpoint.ServerDTO;
 import ru.eremin.tm.server.endpoint.ServerEndpoint;
 
-import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
@@ -16,12 +17,13 @@ import java.io.IOException;
  * @autor av.eremin on 08.05.2019.
  */
 
+@Component
 public class ServerInfoCommand implements ICommand {
 
-    @Inject
+    @Autowired
     private ServerEndpoint serverEndpoint;
 
-    @Inject
+    @Autowired
     private ServiceLocator locator;
 
     @Override

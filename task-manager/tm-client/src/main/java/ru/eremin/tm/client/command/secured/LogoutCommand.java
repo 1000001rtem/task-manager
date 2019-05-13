@@ -1,25 +1,26 @@
 package ru.eremin.tm.client.command.secured;
 
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.server.endpoint.AccessForbiddenException_Exception;
 import ru.eremin.tm.server.endpoint.AuthorizationEndpoint;
 import ru.eremin.tm.server.endpoint.IncorrectDataException_Exception;
 
-import javax.inject.Inject;
-
 /**
  * @autor av.eremin on 12.04.2019.
  */
 
+@Component
 @NoArgsConstructor
 public class LogoutCommand implements ICommand {
 
-    @Inject
+    @Autowired
     private ServiceLocator locator;
 
-    @Inject
+    @Autowired
     private AuthorizationEndpoint authorizationEndpoint;
 
     @Override

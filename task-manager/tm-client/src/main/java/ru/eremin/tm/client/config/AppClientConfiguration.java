@@ -1,54 +1,55 @@
-package ru.eremin.tm.client.util;
+package ru.eremin.tm.client.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import ru.eremin.tm.server.endpoint.*;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-
 /**
- * @autor av.eremin on 06.05.2019.
+ * @autor av.eremin on 13.05.2019.
  */
 
-@ApplicationScoped
-public class EndpointProducer {
+@Configuration
+@ComponentScan("ru.eremin.tm.client")
+public class AppClientConfiguration {
 
-    @Produces
+    @Bean
     public UserEndpoint getUserEndpoint() {
         final UserEndpointService userEndpointService = new UserEndpointService();
         return userEndpointService.getUserEndpointPort();
     }
 
-    @Produces
+    @Bean
     public SessionEndpoint getSessionEndpoint() {
         final SessionEndpointService sessionEndpointService = new SessionEndpointService();
         return sessionEndpointService.getSessionEndpointPort();
     }
 
-    @Produces
+    @Bean
     public TaskEndpoint getTaskEndpoint() {
         final TaskEndpointService taskEndpointService = new TaskEndpointService();
         return taskEndpointService.getTaskEndpointPort();
     }
 
-    @Produces
+    @Bean
     public ProjectEndpoint getProjectEndpoint() {
         final ProjectEndpointService projectEndpointService = new ProjectEndpointService();
         return projectEndpointService.getProjectEndpointPort();
     }
 
-    @Produces
+    @Bean
     public AuthorizationEndpoint getAuthorizationEndpoint() {
         final AuthorizationEndpointService authorizationEndpointService = new AuthorizationEndpointService();
         return authorizationEndpointService.getAuthorizationEndpointPort();
     }
 
-    @Produces
+    @Bean
     public AdminEndpoint getAdminEndpoint() {
         final AdminEndpointService adminEndpointService = new AdminEndpointService();
         return adminEndpointService.getAdminEndpointPort();
     }
 
-    @Produces
+    @Bean
     public ServerEndpoint getServerEndpoint() {
         final ServerEndpointService serverEndpointService = new ServerEndpointService();
         return serverEndpointService.getServerEndpointPort();

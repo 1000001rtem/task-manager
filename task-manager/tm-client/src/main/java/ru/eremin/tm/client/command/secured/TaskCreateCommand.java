@@ -3,12 +3,13 @@ package ru.eremin.tm.client.command.secured;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.client.command.ICommand;
 import ru.eremin.tm.client.service.ConsoleService;
 import ru.eremin.tm.server.endpoint.*;
 
-import javax.inject.Inject;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.List;
 
@@ -16,19 +17,20 @@ import java.util.List;
  * @autor av.eremin on 10.04.2019.
  */
 
+@Component
 @NoArgsConstructor
 public class TaskCreateCommand implements ICommand {
 
-    @Inject
+    @Autowired
     private TaskEndpoint taskEndpoint;
 
-    @Inject
+    @Autowired
     private ProjectEndpoint projectEndpoint;
 
-    @Inject
+    @Autowired
     private ServiceLocator locator;
 
-    @Inject
+    @Autowired
     private ConsoleService consoleService;
 
     @Override

@@ -3,6 +3,7 @@ package ru.eremin.tm.client.service;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.client.util.DateUtils;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -17,6 +18,7 @@ import java.util.Scanner;
  * @autor av.eremin on 11.04.2019.
  */
 
+@Component
 @NoArgsConstructor
 public class ConsoleService {
 

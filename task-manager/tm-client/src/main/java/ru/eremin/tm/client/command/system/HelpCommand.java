@@ -1,10 +1,11 @@
 package ru.eremin.tm.client.command.system;
 
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
 import ru.eremin.tm.client.command.ICommand;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,10 +14,11 @@ import java.util.List;
  * @autor av.eremin on 10.04.2019.
  */
 
+@Component
 @NoArgsConstructor
 public class HelpCommand implements ICommand {
 
-    @Inject
+    @Autowired
     private ServiceLocator locator;
 
     @Override

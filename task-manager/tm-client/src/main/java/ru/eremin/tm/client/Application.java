@@ -1,10 +1,11 @@
 package ru.eremin.tm.client;
 
 import org.jetbrains.annotations.NotNull;
-import ru.eremin.tm.client.bootstrap.Bootstrap;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.eremin.tm.client.bootstrap.ServiceLocator;
+import ru.eremin.tm.client.config.AppClientConfiguration;
 
-import javax.enterprise.inject.se.SeContainerInitializer;
 
 /**
  * Hello world!
@@ -12,10 +13,8 @@ import javax.enterprise.inject.se.SeContainerInitializer;
 public class Application {
 
     public static void main(String[] args) {
-        @NotNull final ServiceLocator bootstrap = SeContainerInitializer.newInstance()
-                .addPackages(Application.class)
-                .initialize()
-                .select(Bootstrap.class).get();
+        final ApplicationContext context = new AnnotationConfigApplicationContext(AppClientConfiguration.class);
+        @NotNull final ServiceLocator bootstrap = context.getBean(ServiceLocator.class);
         @NotNull final Thread thread = new Thread(bootstrap::closeSession);
         Runtime.getRuntime().addShutdownHook(thread);
         bootstrap.init();
