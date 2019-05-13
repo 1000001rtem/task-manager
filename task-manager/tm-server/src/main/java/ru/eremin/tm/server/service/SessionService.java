@@ -1,9 +1,11 @@
 package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
@@ -11,8 +13,6 @@ import ru.eremin.tm.server.model.entity.Session;
 import ru.eremin.tm.server.repository.SessionRepository;
 import ru.eremin.tm.server.utils.SignatureUtil;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,23 +20,24 @@ import java.util.stream.Collectors;
  * @autor av.eremin on 22.04.2019.
  */
 
-@ApplicationScoped
 @NoArgsConstructor
+@Service(SessionService.NAME)
 public class SessionService implements ISessionService {
 
-    @Inject
+    public static final String NAME = "sessionService";
+
     @NotNull
+    @Autowired
     private SessionRepository sessionRepository;
 
     @NotNull
     @Override
     @Transactional(readOnly = true)
     public List<SessionDTO> findAll() {
-        @NotNull final List<SessionDTO> sessionDTOS = sessionRepository.findAll()
+        return sessionRepository.findAll()
                 .stream()
                 .map(SessionDTO::new)
                 .collect(Collectors.toList());
-        return sessionDTOS;
     }
 
     @NotNull
@@ -44,8 +45,7 @@ public class SessionService implements ISessionService {
     @Transactional(readOnly = true)
     public SessionDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @Nullable final Session session = sessionRepository.findBy(id);
-        if (session == null) throw new IncorrectDataException("Wrong id");
+        @Nullable final Session session = sessionRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
         return new SessionDTO(session);
     }
 
@@ -88,9 +88,8 @@ public class SessionService implements ISessionService {
     @Transactional
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null) throw new IncorrectDataException("Wrong id");
-        @Nullable final Session session = sessionRepository.findBy(id);
-        if (session == null) throw new IncorrectDataException("Wrong id");
-        sessionRepository.remove(session);
+        @Nullable final Session session = sessionRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
+        sessionRepository.delete(session);
     }
 
     @Override
@@ -102,7 +101,7 @@ public class SessionService implements ISessionService {
     @Override
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        @NotNull final Session session = sessionRepository.findBy(id);
+        @Nullable final Session session = sessionRepository.findById(id).orElse(null);
         return session != null;
     }
 

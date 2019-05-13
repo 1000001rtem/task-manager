@@ -1,8 +1,8 @@
 package ru.eremin.tm.server.repository;
 
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import ru.eremin.tm.server.model.entity.Project;
 import ru.eremin.tm.server.model.entity.Task;
 import ru.eremin.tm.server.model.entity.User;
@@ -13,8 +13,10 @@ import java.util.List;
  * @autor av.eremin on 07.05.2019.
  */
 
-@Repository
-public interface TaskRepository extends EntityRepository<Task, String> {
+@Repository(TaskRepository.NAME)
+public interface TaskRepository extends JpaRepository<Task, String> {
+
+    String NAME = "taskRepository";
 
     @Query("SELECT e FROM Task e WHERE e.project = ?1")
     List<Task> findByProject(Project project);

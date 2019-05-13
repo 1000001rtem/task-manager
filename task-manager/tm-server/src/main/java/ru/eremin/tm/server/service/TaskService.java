@@ -1,9 +1,11 @@
 package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
@@ -15,8 +17,6 @@ import ru.eremin.tm.server.repository.ProjectRepository;
 import ru.eremin.tm.server.repository.TaskRepository;
 import ru.eremin.tm.server.repository.UserRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,30 +25,31 @@ import java.util.stream.Collectors;
  * @autor Eremin Artem on 08.04.2019.
  */
 
-@ApplicationScoped
 @NoArgsConstructor
+@Service(TaskService.NAME)
 public class TaskService implements ITaskService {
 
-    @Inject
+    public static final String NAME = "taskService";
+
     @NotNull
+    @Autowired
     private ProjectRepository projectRepository;
 
-    @Inject
     @NotNull
+    @Autowired
     private UserRepository userRepository;
 
-    @Inject
     @NotNull
+    @Autowired
     private TaskRepository taskRepository;
 
     @NotNull
     @Override
     public List<TaskDTO> findAll() {
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAll()
+        return taskRepository.findAll()
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @NotNull
@@ -58,11 +59,10 @@ public class TaskService implements ITaskService {
         if (projectId == null || projectId.isEmpty()) throw new IncorrectDataException("Wrong project id");
         @Nullable final Project project = getProject(projectId);
         if (project == null) return Collections.emptyList();
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByProject(project)
+        return taskRepository.findByProject(project)
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class TaskService implements ITaskService {
         if (project == null) return;
         @NotNull final List<Task> tasks = taskRepository.findByProject(project);
         if (tasks.isEmpty()) return;
-        tasks.forEach(taskRepository::remove);
+        tasks.forEach(taskRepository::delete);
     }
 
     @NotNull
@@ -81,8 +81,7 @@ public class TaskService implements ITaskService {
     @Transactional(readOnly = true)
     public TaskDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @Nullable final Task task = taskRepository.findBy(id);
-        if (task == null) throw new IncorrectDataException("Wrong id");
+        @Nullable final Task task = taskRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
         return new TaskDTO(task);
     }
 
@@ -93,11 +92,10 @@ public class TaskService implements ITaskService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByUser(user)
+        return taskRepository.findByUser(user)
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @Override
@@ -129,9 +127,8 @@ public class TaskService implements ITaskService {
     @Transactional
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
-        @Nullable final Task task = taskRepository.findBy(id);
-        if (task == null) throw new IncorrectDataException("Wrong id");
-        taskRepository.remove(task);
+        @Nullable final Task task = taskRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
+        taskRepository.delete(task);
     }
 
     @Override
@@ -142,14 +139,14 @@ public class TaskService implements ITaskService {
         if (user == null) return;
         @NotNull final List<Task> tasks = taskRepository.findByUser(user);
         if (tasks.isEmpty()) return;
-        tasks.forEach(taskRepository::remove);
+        tasks.forEach(taskRepository::delete);
     }
 
     @Override
     @Transactional(readOnly = true)
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        @NotNull final Task task = taskRepository.findBy(id);
+        @Nullable final Task task = taskRepository.findById(id).orElse(null);
         return task != null;
     }
 
@@ -160,11 +157,10 @@ public class TaskService implements ITaskService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByCreateDate(user)
+        return taskRepository.findAllSortedByCreateDate(user)
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @NotNull
@@ -174,11 +170,10 @@ public class TaskService implements ITaskService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStartDate(user)
+        return taskRepository.findAllSortedByStartDate(user)
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @NotNull
@@ -188,11 +183,10 @@ public class TaskService implements ITaskService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByEndDate(user)
+        return taskRepository.findAllSortedByEndDate(user)
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @NotNull
@@ -202,11 +196,10 @@ public class TaskService implements ITaskService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findAllSortedByStatus(user)
+        return taskRepository.findAllSortedByStatus(user)
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @NotNull
@@ -216,11 +209,10 @@ public class TaskService implements ITaskService {
         if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByName(user, name)
+        return taskRepository.findByName(user, name)
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @NotNull
@@ -231,11 +223,10 @@ public class TaskService implements ITaskService {
             throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<TaskDTO> taskDTOS = taskRepository.findByDescription(user, description)
+        return taskRepository.findByDescription(user, description)
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
-        return taskDTOS;
     }
 
     @NotNull
@@ -262,13 +253,13 @@ public class TaskService implements ITaskService {
     @Nullable
     @Transactional(readOnly = true)
     private Project getProject(@NotNull final String projectId) {
-        return projectRepository.findBy(projectId);
+        return projectRepository.findById(projectId).orElse(null);
     }
 
     @Nullable
     @Transactional(readOnly = true)
     private User getUser(@NotNull final String userId) {
-        return userRepository.findBy(userId);
+        return userRepository.findById(userId).orElse(null);
     }
 
 }

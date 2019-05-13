@@ -1,25 +1,24 @@
-package ru.eremin.tm.server.security;
+package ru.eremin.tm.server.service.security;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 /**
  * @autor av.eremin on 12.04.2019.
  */
 
-@ApplicationScoped
+@Service
 public class AuthService implements IAuthService {
 
-    @Inject
     @Nullable
+    @Autowired
     private IUserService userService;
 
     @NotNull

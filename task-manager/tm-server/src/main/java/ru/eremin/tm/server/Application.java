@@ -1,8 +1,9 @@
 package ru.eremin.tm.server;
 
-import ru.eremin.tm.server.bootstrap.Bootstrap;
-
-import javax.enterprise.inject.se.SeContainerInitializer;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.eremin.tm.server.bootstrap.ServiceLocator;
+import ru.eremin.tm.server.config.AppConfiguration;
 
 
 /**
@@ -11,10 +12,9 @@ import javax.enterprise.inject.se.SeContainerInitializer;
 public class Application {
 
     public static void main(String[] args) {
-        SeContainerInitializer.newInstance()
-                .addPackages(Application.class)
-                .initialize()
-                .select(Bootstrap.class).get().init();
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        final ServiceLocator locator = context.getBean(ServiceLocator.class);
+        locator.init();
     }
 
 }

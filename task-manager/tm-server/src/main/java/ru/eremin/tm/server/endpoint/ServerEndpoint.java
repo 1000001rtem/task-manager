@@ -2,6 +2,8 @@ package ru.eremin.tm.server.endpoint;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.server.api.IServerEndpoint;
 import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
@@ -9,7 +11,6 @@ import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ServerDTO;
 import ru.eremin.tm.server.model.dto.SessionDTO;
 
-import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
@@ -18,11 +19,12 @@ import javax.xml.ws.Endpoint;
  * @autor av.eremin on 08.05.2019.
  */
 
+@Component
 @WebService
 public class ServerEndpoint implements IServerEndpoint {
 
-    @Inject
     @NotNull
+    @Autowired
     private ISessionService sessionService;
 
     @Override

@@ -1,9 +1,11 @@
 package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
@@ -13,8 +15,6 @@ import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.repository.ProjectRepository;
 import ru.eremin.tm.server.repository.UserRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,27 +23,28 @@ import java.util.stream.Collectors;
  * @autor Eremin Artem on 08.04.2019.
  */
 
-@ApplicationScoped
 @NoArgsConstructor
+@Service(ProjectService.NAME)
 public class ProjectService implements IProjectService {
 
-    @Inject
+    public static final String NAME = "projectService";
+
     @NotNull
+    @Autowired
     private ProjectRepository projectRepository;
 
-    @Inject
     @NotNull
+    @Autowired
     private UserRepository userRepository;
 
     @NotNull
     @Override
     @Transactional(readOnly = true)
     public List<ProjectDTO> findAll() {
-        final List<ProjectDTO> projectDTOS = projectRepository.findAll()
+        return projectRepository.findAll()
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
-        return projectDTOS;
     }
 
     @NotNull
@@ -51,8 +52,7 @@ public class ProjectService implements IProjectService {
     @Transactional(readOnly = true)
     public ProjectDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @Nullable final Project project = projectRepository.findBy(id);
-        if (project == null) throw new IncorrectDataException("Wrong id");
+        @Nullable final Project project = projectRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
         return new ProjectDTO(project);
     }
 
@@ -63,11 +63,10 @@ public class ProjectService implements IProjectService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByUser(user)
+        return projectRepository.findByUser(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
-        return projectDTOS;
     }
 
     @Override
@@ -99,9 +98,8 @@ public class ProjectService implements IProjectService {
     @Transactional
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @Nullable final Project project = projectRepository.findBy(id);
-        if (project == null) throw new IncorrectDataException("Wrong id");
-        projectRepository.remove(project);
+        @Nullable final Project project = projectRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
+        projectRepository.delete(project);
     }
 
     @Override
@@ -112,13 +110,13 @@ public class ProjectService implements IProjectService {
         if (user == null) return;
         @NotNull final List<Project> projects = projectRepository.findByUser(user);
         if (projects.isEmpty()) return;
-        projects.forEach(projectRepository::remove);
+        projects.forEach(projectRepository::delete);
     }
 
     @Override
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        @Nullable final Project project = projectRepository.findBy(id);
+        @Nullable final Project project = projectRepository.findById(id).orElse(null);
         return project != null;
     }
 
@@ -128,11 +126,10 @@ public class ProjectService implements IProjectService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByCreateDate(user)
+        return projectRepository.findAllSortedByCreateDate(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
-        return projectDTOS;
     }
 
     @Override
@@ -141,11 +138,10 @@ public class ProjectService implements IProjectService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByStartDate(user)
+        return projectRepository.findAllSortedByStartDate(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
-        return projectDTOS;
     }
 
     @Override
@@ -154,11 +150,10 @@ public class ProjectService implements IProjectService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByEndDate(user)
+        return projectRepository.findAllSortedByEndDate(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
-        return projectDTOS;
     }
 
     @Override
@@ -167,11 +162,10 @@ public class ProjectService implements IProjectService {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findAllSortedByStatus(user)
+        return projectRepository.findAllSortedByStatus(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
-        return projectDTOS;
     }
 
     @Override
@@ -180,11 +174,10 @@ public class ProjectService implements IProjectService {
         if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByName(user, name)
+        return projectRepository.findByName(user, name)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
-        return projectDTOS;
     }
 
     @Override
@@ -194,11 +187,10 @@ public class ProjectService implements IProjectService {
             throw new AccessForbiddenException();
         @Nullable final User user = getUser(userId);
         if (user == null) return Collections.emptyList();
-        @NotNull final List<ProjectDTO> projectDTOS = projectRepository.findByDescription(user, description)
+        return projectRepository.findByDescription(user, description)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
-        return projectDTOS;
     }
 
     @NotNull
@@ -223,7 +215,7 @@ public class ProjectService implements IProjectService {
     @Nullable
     @Transactional(readOnly = true)
     private User getUser(@NotNull final String userId) {
-        return userRepository.findBy(userId);
+        return userRepository.findById(userId).orElse(null);
     }
 
 }

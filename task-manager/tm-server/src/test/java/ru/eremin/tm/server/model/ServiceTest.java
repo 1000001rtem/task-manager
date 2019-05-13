@@ -1,13 +1,16 @@
 package ru.eremin.tm.server.model;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.api.ISessionService;
 import ru.eremin.tm.server.api.ITaskService;
 import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.config.EntityFactory;
+import ru.eremin.tm.server.config.TestConfiguration;
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.ProjectDTO;
@@ -16,8 +19,6 @@ import ru.eremin.tm.server.model.dto.TaskDTO;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 
-import javax.inject.Inject;
-
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
@@ -25,19 +26,20 @@ import static junit.framework.TestCase.assertNotNull;
  * @autor av.eremin on 07.05.2019.
  */
 
-@RunWith(CdiTestRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestConfiguration.class)
 public class ServiceTest {
 
-    @Inject
+    @Autowired
     private IUserService userService;
 
-    @Inject
+    @Autowired
     private ISessionService sessionService;
 
-    @Inject
+    @Autowired
     private IProjectService projectService;
 
-    @Inject
+    @Autowired
     private ITaskService taskService;
 
     @Test

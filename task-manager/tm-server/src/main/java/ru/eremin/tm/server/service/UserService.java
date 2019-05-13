@@ -1,17 +1,17 @@
 package ru.eremin.tm.server.service;
 
 import lombok.NoArgsConstructor;
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.eremin.tm.server.api.IUserService;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.User;
 import ru.eremin.tm.server.repository.UserRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,12 +19,14 @@ import java.util.stream.Collectors;
  * @autor av.eremin on 12.04.2019.
  */
 
-@ApplicationScoped
 @NoArgsConstructor
+@Service(UserService.NAME)
 public class UserService implements IUserService {
 
-    @Inject
+    public static final String NAME = "userService";
+
     @NotNull
+    @Autowired
     private UserRepository userRepository;
 
     @NotNull
@@ -41,11 +43,10 @@ public class UserService implements IUserService {
     @Override
     @Transactional(readOnly = true)
     public List<UserDTO> findAll() {
-        @NotNull final List<UserDTO> userDTOS = userRepository.findAll()
+        return userRepository.findAll()
                 .stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toList());
-        return userDTOS;
     }
 
     @NotNull
@@ -53,8 +54,7 @@ public class UserService implements IUserService {
     @Transactional(readOnly = true)
     public UserDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @Nullable final User user = userRepository.findBy(id);
-        if (user == null) throw new IncorrectDataException("Wrong id");
+        @Nullable final User user = userRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
         return new UserDTO(user);
     }
 
@@ -87,16 +87,15 @@ public class UserService implements IUserService {
     @Transactional
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @Nullable final User user = userRepository.findBy(id);
-        if (user == null) throw new IncorrectDataException("Wrong id");
-        userRepository.remove(user);
+        @Nullable final User user = userRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
+        userRepository.delete(user);
     }
 
     @Override
     @Transactional
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        @Nullable final User user = userRepository.findBy(id);
+        @Nullable final User user = userRepository.findById(id).orElse(null);
         return user != null;
     }
 

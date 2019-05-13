@@ -3,80 +3,82 @@ package ru.eremin.tm.server.bootstrap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.server.api.*;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.UserDTO;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
-import ru.eremin.tm.server.security.IAuthService;
+import ru.eremin.tm.server.service.security.IAuthService;
 import ru.eremin.tm.server.utils.PasswordHashUtil;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 /**
  * @autor av.eremin on 18.04.2019.
  */
 
-@ApplicationScoped
+@Component(Bootstrap.NAME)
 public class Bootstrap implements ServiceLocator {
 
-    @Inject
+    public static final String NAME = "bootstrap";
+
     @Getter
     @NotNull
+    @Autowired
     private IProjectService projectService;
 
-    @Inject
     @Getter
     @NotNull
+    @Autowired
     private ITaskService taskService;
 
-    @Inject
     @Getter
     @NotNull
+    @Autowired
     private IUserService userService;
 
-    @Inject
     @Getter
     @NotNull
+    @Autowired
     private IAuthService authService;
 
-    @Inject
     @Getter
     @NotNull
+    @Autowired
     private ISessionService sessionService;
 
-    @Inject
     @Nullable
+    @Autowired
     private IAdminEndpoint adminEndpoint;
 
-    @Inject
     @Nullable
+    @Autowired
     private IAuthorizationEndpoint authorizationEndpoint;
 
-    @Inject
     @Nullable
+    @Autowired
     private IProjectEndpoint projectEndpoint;
 
-    @Inject
     @Nullable
+    @Autowired
     private ISessionEndpoint sessionEndpoint;
 
-    @Inject
     @Nullable
+    @Autowired
     private ITaskEndpoint taskEndpoint;
 
-    @Inject
     @Nullable
+    @Autowired
     private IUserEndpoint userEndpoint;
 
-    @Inject
     @Nullable
+    @Autowired
     private IServerEndpoint serverEndpoint;
 
 
     @Override
     public void init() {
-        if (System.getProperty("server.port") == null) System.setProperty("server.port", "8080");
+        if (System.getProperty("server.port") == null) System.setProperty("server.port", "80");
         String port = System.getProperty("server.port");
         System.setProperty("server.address", "localhost");
         adminEndpoint.init(port);

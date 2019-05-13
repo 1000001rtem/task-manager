@@ -3,6 +3,8 @@ package ru.eremin.tm.server.endpoint;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.server.api.IAdminEndpoint;
 import ru.eremin.tm.server.api.IProjectService;
 import ru.eremin.tm.server.api.ISessionService;
@@ -12,7 +14,6 @@ import ru.eremin.tm.server.exeption.IncorrectDataException;
 import ru.eremin.tm.server.model.dto.*;
 import ru.eremin.tm.server.model.entity.enumerated.Role;
 
-import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
@@ -24,19 +25,20 @@ import java.util.List;
  * @autor av.eremin on 19.04.2019.
  */
 
+@Component
 @WebService
 public class AdminEndpoint implements IAdminEndpoint {
 
-    @Inject
     @NotNull
+    @Autowired
     private ITaskService taskService;
 
-    @Inject
     @NotNull
+    @Autowired
     private IProjectService projectService;
 
-    @Inject
     @NotNull
+    @Autowired
     private ISessionService sessionService;
 
     @Override

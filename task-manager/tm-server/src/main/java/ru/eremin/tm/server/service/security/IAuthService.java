@@ -1,4 +1,4 @@
-package ru.eremin.tm.server.security;
+package ru.eremin.tm.server.service.security;
 
 import ru.eremin.tm.server.exeption.AccessForbiddenException;
 import ru.eremin.tm.server.exeption.IncorrectDataException;
