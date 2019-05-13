@@ -52,55 +52,56 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>\release\lib\</classpathPrefix>
+                            <classpathPrefix>../lib/</classpathPrefix>
                             <mainClass>ru.eremin.tm.client.Application</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Implementation-Build>$\{buildNumber}</Implementation-Build>
                         </manifestEntries>
                     </archive>
+                    <outputDirectory>${project.build.directory}/release/bin</outputDirectory>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-codegen-plugin</artifactId>
-                <version>3.2.3</version>
-                <executions>
-                    <execution>
-                        <id>generate-sources</id>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <sourceRoot>${project.basedir}/src/main/java</sourceRoot>
-                            <wsdlOptions>
-                                <wsdlOption>
-                                    <wsdl>http://localhost:80/TaskEndpoint?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <wsdl>http://localhost:80/AuthorizationEndpoint?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <wsdl>http://localhost:80/ProjectEndpoint?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <wsdl>http://localhost:80/AdminEndpoint?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <wsdl>http://localhost:80/UserEndpoint?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <wsdl>http://localhost:80/SessionEndpoint?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <wsdl>http://localhost:80/ServerEndpoint?WSDL</wsdl>
-                                </wsdlOption>
-                            </wsdlOptions>
-                        </configuration>
-                        <goals>
-                            <goal>wsdl2java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.cxf</groupId>-->
+                <!--<artifactId>cxf-codegen-plugin</artifactId>-->
+                <!--<version>3.2.3</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>generate-sources</id>-->
+                        <!--<phase>generate-sources</phase>-->
+                        <!--<configuration>-->
+                            <!--<sourceRoot>${project.basedir}/src/main/java</sourceRoot>-->
+                            <!--<wsdlOptions>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:80/TaskEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:80/AuthorizationEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:80/ProjectEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:80/AdminEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:80/UserEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:80/SessionEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                                <!--<wsdlOption>-->
+                                    <!--<wsdl>http://localhost:80/ServerEndpoint?WSDL</wsdl>-->
+                                <!--</wsdlOption>-->
+                            <!--</wsdlOptions>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>wsdl2java</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 </project>
