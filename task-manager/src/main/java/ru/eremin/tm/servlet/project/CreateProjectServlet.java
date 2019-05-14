@@ -64,7 +64,7 @@ public class CreateProjectServlet extends HttpServlet {
     @Nullable
     private Date getDate(final String dateString) {
         try {
-            Date date = new SimpleDateFormat("dd-MM-yyyy").parse("10-10-2010");
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
             return date;
         } catch (ParseException e) {
             e.printStackTrace();

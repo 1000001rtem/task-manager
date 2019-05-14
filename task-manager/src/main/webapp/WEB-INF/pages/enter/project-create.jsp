@@ -11,11 +11,11 @@
         </tr>
         <tr>
             <td>Start Date:</td>
-            <td><input name="description" type="date" value="start"/></td>
+            <td><input name="startDate" type="date" value="start"/></td>
         </tr>
         <tr>
             <td>End Date:</td>
-            <td><input name="description" type="date" value="end"/></td>
+            <td><input name="endDate" type="date" value="end"/></td>
         </tr>
         <tr>
             <td colspan="2">

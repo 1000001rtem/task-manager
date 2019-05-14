@@ -35,8 +35,8 @@ public class EditProjectServlet extends HttpServlet {
         try {
             project = projectService.findOne(id);
         } catch (IncorrectDataException e) {
-            req.getRequestDispatcher("/WEB-INF/pages/enter/project-list.jsp").forward(req, resp);
             e.printStackTrace();
+            req.getRequestDispatcher("/WEB-INF/pages/enter/project-list.jsp").forward(req, resp);
         }
         req.setAttribute("project", project);
         req.getRequestDispatcher("/WEB-INF/pages/enter/project-edit.jsp").forward(req, resp);
@@ -53,9 +53,15 @@ public class EditProjectServlet extends HttpServlet {
         resp.sendRedirect("project-list");
     }
 
-    @NotNull
+    @Nullable
     private ProjectDTO getProject(final HttpServletRequest req) {
-        @NotNull final ProjectDTO projectDTO = new ProjectDTO();
+        @Nullable ProjectDTO projectDTO = null;
+        try {
+            projectDTO = projectService.findOne(req.getParameter("id"));
+        } catch (IncorrectDataException e) {
+            e.printStackTrace();
+        }
+        if(projectDTO == null) return null;
         @Nullable final String id = req.getParameter("id");
         @Nullable final String projectName = req.getParameter("name");
         @Nullable final String projectDescription = req.getParameter("description");
@@ -78,7 +84,7 @@ public class EditProjectServlet extends HttpServlet {
     @Nullable
     private Date getDate(final String dateString) {
         try {
-            Date date = new SimpleDateFormat("dd-MM-yyyy").parse("10-10-2010");
+            @Nullable final Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
             return date;
         } catch (ParseException e) {
             e.printStackTrace();
