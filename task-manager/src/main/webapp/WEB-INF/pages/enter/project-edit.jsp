@@ -6,7 +6,6 @@
     final Object projectObject = request.getAttribute("project");
     final ProjectDTO project = (ProjectDTO) projectObject;
 %>
-<h5><%=project.getName()%></h5>
 <form action = "/enter/project-edit" method="POST">
 
       <table>

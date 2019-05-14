@@ -20,3 +20,4 @@
     <%}%>
 
     <a href="/enter/project-create">Create</a>
+    <a href="/enter/task-list">Tasks</a>
