@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -67,15 +67,14 @@ public class TaskEditServlet extends HttpServlet {
     }
 
     private void putProjectAttribute(final HttpServletRequest req) {
-        @NotNull final List<String> projectIds = projectService.findAll().stream()
-                .map(ProjectDTO::getName)
-                .collect(Collectors.toList());
+        @NotNull final Map<String, ProjectDTO> projectIds = projectService.findAll().stream()
+                .collect(Collectors.toMap(ProjectDTO::getId, projectDTO -> projectDTO));
         req.setAttribute("projects", projectIds);
     }
 
     @Nullable
     private TaskDTO getProject(final HttpServletRequest req) {
-        @NotNull TaskDTO taskDTO = null;
+        @Nullable TaskDTO taskDTO = null;
         try {
             taskDTO = taskService.findOne(req.getParameter("id"));
         } catch (IncorrectDataException e) {
@@ -101,6 +100,7 @@ public class TaskEditServlet extends HttpServlet {
 
     @Nullable
     private Date getDate(final String dateString) {
+        if (dateString == null || dateString.isEmpty()) return null;
         try {
             final Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
             return date;

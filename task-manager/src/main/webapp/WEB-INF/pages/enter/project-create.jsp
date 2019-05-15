@@ -1,6 +1,6 @@
 <h1>create</h1>
-<form action = "/enter/project-create" method="POST">
-      <table>
+<form action="${pageContext.request.contextPath}/enter/project-create" method="POST">
+    <table>
         <tr>
             <td>Project Name:</td>
             <td><input name="name" type="text" value="project"/></td>
@@ -19,8 +19,8 @@
         </tr>
         <tr>
             <td colspan="2">
-              <input type="submit" value="Save" />
+                <input type="submit" value="Save"/>
             </td>
         </tr>
-      </table>
-  </form>
+    </table>
+</form>

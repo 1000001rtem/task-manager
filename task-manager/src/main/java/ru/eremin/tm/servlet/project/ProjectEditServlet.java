@@ -81,6 +81,7 @@ public class ProjectEditServlet extends HttpServlet {
 
     @Nullable
     private Date getDate(final String dateString) {
+        if (dateString == null || dateString.isEmpty()) return null;
         try {
             @Nullable final Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
             return date;

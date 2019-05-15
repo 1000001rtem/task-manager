@@ -20,7 +20,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @autor av.eremin on 14.05.2019.
@@ -37,9 +36,7 @@ public class TaskCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        @NotNull final List<String> projectIds = projectService.findAll().stream()
-                .map(ProjectDTO::getName)
-                .collect(Collectors.toList());
+        @NotNull final List<ProjectDTO> projectIds = projectService.findAll();
         req.setAttribute("projects", projectIds);
         req.getRequestDispatcher("/WEB-INF/pages/enter/task-create.jsp").forward(req, resp);
     }
@@ -75,6 +72,7 @@ public class TaskCreateServlet extends HttpServlet {
 
     @Nullable
     private Date getDate(final String dateString) {
+        if (dateString == null || dateString.isEmpty()) return null;
         try {
             final Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
             return date;
