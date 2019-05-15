@@ -1,5 +1,7 @@
-<html>
-<body>
-<h2>Hello World!</h2>
-</body>
-</html>
+<jsp:include page="/WEB-INF/pages/head.jsp"/>
+
+<div class="helloBox">
+    <h1>Welcome to Task Manager</h1>
+</div>
+
+<jsp:include page="/WEB-INF/pages/foot.jsp"/>

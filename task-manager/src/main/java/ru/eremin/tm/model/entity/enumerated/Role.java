@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 public enum Role {
 
-    ADMIN("АДМИНИСТРАТОР"),
-    USER("ПОЛЬЗОВАТЕЛЬ");
+    ADMIN("ADMIN"),
+    USER("USER");
 
     @NotNull
     private String displayName;

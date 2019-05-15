@@ -4,6 +4,8 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<jsp:include page="/WEB-INF/pages/head.jsp"/>
+
 <%
     final Object tasksObject = request.getAttribute("tasks");
     final List<TaskDTO> tasks = (ArrayList<TaskDTO>) tasksObject;
@@ -22,3 +24,4 @@
 </c:forEach>
 
 <a href="/enter/task-create">Create</a>
+<jsp:include page="/WEB-INF/pages/foot.jsp"/>

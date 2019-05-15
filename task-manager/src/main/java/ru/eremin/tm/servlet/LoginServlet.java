@@ -36,6 +36,7 @@ public class LoginServlet extends HttpServlet {
             @NotNull final HttpSession session = req.getSession();
             session.setAttribute("auth", true);
             session.setAttribute("userId", user.getId());
+            session.setAttribute("userRole", user.getRole());
             resp.sendRedirect("enter/project-list");
         }
     }

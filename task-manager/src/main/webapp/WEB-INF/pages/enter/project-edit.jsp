@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:include page="/WEB-INF/pages/head.jsp"/>
 
 <h1>edit</h1>
 
@@ -37,3 +38,4 @@
         </tr>
     </table>
 </form>
+<jsp:include page="/WEB-INF/pages/foot.jsp"/>

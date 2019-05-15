@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<jsp:include page="/WEB-INF/pages/head.jsp"/>
+
 <c:set var="projects" value="${requestScope.projects}"/>
 
 <h1>create</h1>
@@ -40,3 +42,4 @@
         </tr>
     </table>
 </form>
+<jsp:include page="/WEB-INF/pages/foot.jsp"/>

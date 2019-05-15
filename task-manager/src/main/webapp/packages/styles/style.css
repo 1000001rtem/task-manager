@@ -1,0 +1,76 @@
+header {
+    background-color: rgb(31, 30, 30);
+    color: rgb(206, 206, 206);
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.linkBox {
+    font-size: 20px;
+    float: left;
+}
+
+.actionBox {
+    font-size: 20px;
+    float: left;
+}
+
+header a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: rgb(206, 206, 206);
+}
+
+.helloBox {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+caption {
+    border: 2px solid black;
+    border-bottom: none;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.entityTable {
+    margin: 40px 0 0 0;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 20px;
+}
+
+.entityTable a {
+    text-decoration: none;
+    color: black;
+}
+
+.entityTable td {
+    border: 2px solid black;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.entityTable th {
+    border: 2px solid black;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.createEntityForm {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 10px;
+}
+
+.createEntityForm button {
+    padding: 10px;
+    font-size: 20px;
+    background-color: rgb(31, 30, 30);
+    color: rgb(206, 206, 206);
+}

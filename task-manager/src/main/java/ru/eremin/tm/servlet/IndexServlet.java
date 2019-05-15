@@ -11,7 +11,7 @@ import java.io.IOException;
  * @autor av.eremin on 13.05.2019.
  */
 
-@WebServlet(urlPatterns = "/")
+@WebServlet(urlPatterns = "/index")
 public class IndexServlet extends HttpServlet {
 
     @Override

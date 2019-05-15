@@ -1,3 +1,4 @@
+<jsp:include page="/WEB-INF/pages/head.jsp"/>
 <h1>create</h1>
 <form action="${pageContext.request.contextPath}/enter/project-create" method="POST">
     <table>
@@ -24,3 +25,4 @@
         </tr>
     </table>
 </form>
+<jsp:include page="/WEB-INF/pages/foot.jsp"/>
