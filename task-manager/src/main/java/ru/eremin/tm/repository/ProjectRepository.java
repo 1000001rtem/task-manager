@@ -2,6 +2,7 @@ package ru.eremin.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Repository;
 import ru.eremin.tm.api.IProjectRepository;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.entity.AbstractEntity;
@@ -19,9 +20,10 @@ import java.util.stream.Collectors;
  * @autor Eremin Artem on 08.04.2019.
  */
 
-public enum ProjectRepository implements IProjectRepository {
+@Repository(ProjectRepository.NAME)
+public class ProjectRepository implements IProjectRepository {
 
-    INSTANCE;
+    public static final String NAME = "projectRepository";
 
     @NotNull
     private final Map<String, Project> projects;

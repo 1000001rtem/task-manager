@@ -3,6 +3,8 @@ package ru.eremin.tm.service;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.eremin.tm.api.IProjectRepository;
 import ru.eremin.tm.api.IProjectService;
 import ru.eremin.tm.api.ITaskService;
@@ -10,7 +12,6 @@ import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.entity.Project;
-import ru.eremin.tm.repository.ProjectRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,15 +22,18 @@ import java.util.stream.Collectors;
  */
 
 @NoArgsConstructor
-public enum ProjectService implements IProjectService {
+@Service(ProjectService.NAME)
+public class ProjectService implements IProjectService {
 
-    INSTANCE;
+    public static final String NAME = "projectService";
 
     @NotNull
-    private IProjectRepository projectRepository = ProjectRepository.INSTANCE;
+    @Autowired
+    private IProjectRepository projectRepository;
 
     @Nullable
-    private ITaskService taskService = TaskService.INSTANCE;
+    @Autowired
+    private ITaskService taskService;
 
     @Override
     public @NotNull List<ProjectDTO> findAll() {

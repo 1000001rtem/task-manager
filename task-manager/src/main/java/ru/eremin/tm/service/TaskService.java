@@ -3,13 +3,14 @@ package ru.eremin.tm.service;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.eremin.tm.api.ITaskRepository;
 import ru.eremin.tm.api.ITaskService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.entity.Task;
-import ru.eremin.tm.repository.TaskRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,12 +21,14 @@ import java.util.stream.Collectors;
  */
 
 @NoArgsConstructor
-public enum TaskService implements ITaskService {
+@Service(TaskService.NAME)
+public class TaskService implements ITaskService {
 
-    INSTANCE;
+    public static final String NAME = "taskService";
 
     @NotNull
-    private ITaskRepository taskRepository = TaskRepository.INSTANCE;
+    @Autowired
+    private ITaskRepository taskRepository;
 
     @Override
     public @NotNull List<TaskDTO> findAll() {

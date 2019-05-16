@@ -17,7 +17,7 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
     @NotNull
     List<E> findAll();
 
-    @Nullable
+    @NotNull
     E findOne(@Nullable String id) throws IncorrectDataException;
 
     void persist(@Nullable E e) throws IncorrectDataException;

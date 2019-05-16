@@ -1,0 +1,158 @@
+@headerBgColor: #303437;
+@contentBgColor: #ffffff;
+@lightFontColor: #cecece;
+@darkFontColor: #000000;
+@buttonBgColor: #1f1e1e;
+
+.abstractButton() {
+    background-color: @buttonBgColor;
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: @buttonBgColor;
+    color: @lightFontColor;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: @contentBgColor;
+}
+
+header {
+    font-size: 20px;
+    flex-shrink: 0;
+    background-color: @headerBgColor;
+    color: @lightFontColor;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .linkBox {
+        float: left;
+    }
+
+    .actionBox {
+        float: left;
+    }
+
+    a {
+        margin: 0 15px;
+        text-decoration: none;
+        color: @lightFontColor;
+
+        &:hover {
+            font-size: 25px;
+        }
+    }
+}
+
+.content {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    padding: 15px;
+
+    .loginBox {
+        position: absolute;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .loginForm {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 500px;
+            min-height: 200px;
+            border: 1px solid black;
+
+            .groupBox {
+                .formGroup {
+                    margin: 10px 0 0 0;
+                    font-size: 23px;
+                    color: @darkFontColor;
+
+                    .buttonBox {
+                        display: flex;
+                        justify-content: flex-end;
+
+                        button {
+                            .abstractButton();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .helloBox {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .entityTable {
+        margin: 40px 0px 0 0px;
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 20px;
+
+        caption {
+            border: 2px solid @darkFontColor;
+            border-bottom: none;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        a {
+            text-decoration: none;
+            color: @darkFontColor;
+        }
+
+        td {
+            border: 2px solid black;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        th {
+            border: 2px solid black;
+            vertical-align: middle;
+            text-align: center;
+        }
+    }
+
+    .createEntityForm {
+        display: flex;
+        justify-content: flex-end;
+        margin: 20px 10px;
+
+        button {
+            padding: 10px;
+            font-size: 20px;
+            background-color: @buttonBgColor;
+            color: @lightFontColor;
+        }
+    }
+
+    .saveEntityForm {
+        button {
+            .abstractButton();
+        }
+    }
+
+}
+
+footer {
+    background-color: @headerBgColor;
+    min-height: 100px;
+    flex-shrink: 0;
+}

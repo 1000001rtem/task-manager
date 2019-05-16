@@ -3,12 +3,13 @@ package ru.eremin.tm.service;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.eremin.tm.api.IUserRepository;
 import ru.eremin.tm.api.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.User;
-import ru.eremin.tm.repository.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,12 +19,14 @@ import java.util.stream.Collectors;
  */
 
 @NoArgsConstructor
-public enum UserService implements IUserService {
+@Service(UserService.NAME)
+public class UserService implements IUserService {
 
-    INSTANCE;
+    public static final String NAME = "userService";
 
     @NotNull
-    private IUserRepository userRepository = UserRepository.INSTANCE;
+    @Autowired
+    private IUserRepository userRepository;
 
     @NotNull
     @Override

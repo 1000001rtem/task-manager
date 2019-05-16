@@ -2,6 +2,7 @@ package ru.eremin.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Repository;
 import ru.eremin.tm.api.IUserRepository;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.entity.User;
@@ -17,9 +18,10 @@ import java.util.Map;
  * @autor av.eremin on 12.04.2019.
  */
 
-public enum UserRepository implements IUserRepository {
+@Repository(UserRepository.NAME)
+public class UserRepository implements IUserRepository {
 
-    INSTANCE;
+    public static final String NAME = "userRepository";
 
     private final Map<String, User> users;
 
