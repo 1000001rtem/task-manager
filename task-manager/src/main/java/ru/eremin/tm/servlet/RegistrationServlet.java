@@ -7,7 +7,7 @@ import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.service.UserService;
-import ru.eremin.tm.utils.PasswordHashUtil;
+import ru.eremin.tm.util.PasswordHashUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

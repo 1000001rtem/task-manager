@@ -1,4 +1,4 @@
-package ru.eremin.tm.utils;
+package ru.eremin.tm.util;
 
 import org.jetbrains.annotations.NotNull;
 

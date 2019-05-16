@@ -6,7 +6,7 @@ import ru.eremin.tm.api.IUserRepository;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.entity.User;
 import ru.eremin.tm.model.entity.enumerated.Role;
-import ru.eremin.tm.utils.PasswordHashUtil;
+import ru.eremin.tm.util.PasswordHashUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;

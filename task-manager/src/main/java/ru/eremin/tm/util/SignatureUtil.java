@@ -1,4 +1,4 @@
-package ru.eremin.tm.utils;
+package ru.eremin.tm.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

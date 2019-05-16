@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.service.AuthService;
-import ru.eremin.tm.utils.PasswordHashUtil;
+import ru.eremin.tm.util.PasswordHashUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
