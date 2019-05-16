@@ -25,7 +25,8 @@ public class ProjectListServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        @NotNull final List<ProjectDTO> projects = projectService.findAll();
+        @NotNull final String userId = (String) req.getSession().getAttribute("userId");
+        @NotNull final List<ProjectDTO> projects = projectService.findByUserId(userId);
         req.setAttribute("projects", projects);
         req.getRequestDispatcher("/WEB-INF/pages/enter/project-list.jsp").forward(req, resp);
     }

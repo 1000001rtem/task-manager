@@ -33,10 +33,11 @@ public class TaskListServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        @NotNull final Map<String, ProjectDTO> projectIds = projectService.findAll().stream()
+        @NotNull final String userId = (String) req.getSession().getAttribute("userId");
+        @NotNull final Map<String, ProjectDTO> projectIds = projectService.findByUserId(userId).stream()
                 .collect(Collectors.toMap(ProjectDTO::getId, projectDTO -> projectDTO));
         req.setAttribute("projects", projectIds);
-        @NotNull final List<TaskDTO> tasks = taskService.findAll();
+        @NotNull final List<TaskDTO> tasks = taskService.findByUserId(userId);
         req.setAttribute("tasks", tasks);
         req.getRequestDispatcher("/WEB-INF/pages/enter/task-list.jsp").forward(req, resp);
     }

@@ -67,6 +67,8 @@ public class TaskCreateServlet extends HttpServlet {
         if (startDate != null) taskDTO.setStartDate(startDate);
         if (endDate != null) taskDTO.setEndDate(endDate);
         if (taskProjectId != null && !taskProjectId.isEmpty()) taskDTO.setProjectId(taskProjectId);
+        @Nullable final String userId = (String) req.getSession().getAttribute("userId");
+        taskDTO.setUserId(userId);
         return taskDTO;
     }
 

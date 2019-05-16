@@ -12,6 +12,7 @@ import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.entity.Project;
 import ru.eremin.tm.repository.ProjectRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,8 +47,8 @@ public enum ProjectService implements IProjectService {
 
     @NotNull
     @Override
-    public List<ProjectDTO> findByUserId(@Nullable final String userId) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+    public List<ProjectDTO> findByUserId(@Nullable final String userId) {
+        if (userId == null || userId.isEmpty()) return Collections.emptyList();
         return projectRepository.findByUserId(userId)
                 .stream()
                 .map(ProjectDTO::new)

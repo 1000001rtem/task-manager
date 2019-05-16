@@ -11,6 +11,7 @@ import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.entity.Task;
 import ru.eremin.tm.repository.TaskRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,8 +64,8 @@ public enum TaskService implements ITaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findByUserId(@Nullable final String userId) throws AccessForbiddenException {
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
+    public List<TaskDTO> findByUserId(@Nullable final String userId) {
+        if (userId == null || userId.isEmpty()) return Collections.emptyList();
         return taskRepository.findByUserId(userId)
                 .stream()
                 .map(TaskDTO::new)
