@@ -1,6 +1,6 @@
 <jsp:include page="/WEB-INF/pages/head.jsp"/>
-<h1>create</h1>
-<form action="${pageContext.request.contextPath}/enter/project-create" method="POST">
+<h1>Project create</h1>
+<form class="saveEntityForm" action="${pageContext.request.contextPath}/enter/project-create" method="POST">
     <table>
         <tr>
             <td>Project Name:</td>
@@ -20,7 +20,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <input type="submit" value="Save"/>
+                <button type="submit">Save</button>
             </td>
         </tr>
     </table>

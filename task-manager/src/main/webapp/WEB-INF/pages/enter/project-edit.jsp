@@ -1,12 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="/WEB-INF/pages/head.jsp"/>
 
-<h1>edit</h1>
+<h1>Project edit</h1>
 
 <c:set var="project" value="${requestScope.project}"/>
 
-<form action="${pageContext.request.contextPath}/enter/project-edit" method="POST">
-
+<form class="saveEntityForm" action="${pageContext.request.contextPath}/enter/project-edit" method="POST">
     <table>
         <tr>
             <td><input name="id" type="hidden" value="${project.getId()}"></td>
@@ -33,7 +32,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <input type="submit" value="Save"/>
+                <button type="submit">Save</button>
             </td>
         </tr>
     </table>

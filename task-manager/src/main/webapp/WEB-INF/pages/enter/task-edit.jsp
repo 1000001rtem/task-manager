@@ -3,14 +3,13 @@
 
 <jsp:include page="/WEB-INF/pages/head.jsp"/>
 
-<h1>edit</h1>
+<h1>Task edit</h1>
 
 <c:set var="projects" value="${requestScope.projects}"/>
 <c:set var="task" value="${requestScope.task}"/>
 
-<form action="${pageContext.request.contextPath}/enter/task-edit" method="POST">
-
-    <table>
+<form class="saveEntityForm" action="${pageContext.request.contextPath}/enter/task-edit" method="POST">
+    <table class="createEntityTable">
         <tr>
             <td><input name="id" type="hidden" value="${task.getId()}"></td>
         </tr>
@@ -48,7 +47,7 @@
             </td>
         </tr>
         <td colspan="2">
-            <input type="submit" value="Save"/>
+            <button type="submit">Save</button>
         </td>
         </tr>
     </table>

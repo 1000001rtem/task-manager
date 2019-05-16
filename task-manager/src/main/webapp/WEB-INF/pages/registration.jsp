@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="/WEB-INF/pages/head.jsp"/>
 <div class="loginBox">
-    <form class="loginForm" action="${pageContext.request.contextPath}/login" method="post">
+    <form class="loginForm" action="${pageContext.request.contextPath}/registration" method="post">
         <div class="groupBox">
             <div class="formGroup">
                 <label for="inputLogin">Login</label>
@@ -17,7 +17,7 @@
             </div>
             <div class="formGroup">
                 <div class="buttonBox">
-                    <button type="submit">Sign in</button>
+                    <button type="submit">Registration</button>
                 </div>
             </div>
         </div>

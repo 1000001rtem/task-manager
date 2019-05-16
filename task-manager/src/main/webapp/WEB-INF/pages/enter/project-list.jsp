@@ -20,21 +20,21 @@
     </tr>
     </thead>
     <tbody>
+    <c:forEach var="project" items="${projects}" varStatus="loop">
     <tr>
-        <c:forEach var="project" items="${projects}" varStatus="loop">
-            <td>${loop.count}</td>
-            <td width="10%">${project.getId()}</td>
-            <td>${project.getName()}</td>
-            <td>${project.getDescription()}</td>
-            <td>${project.getStartDate()}</td>
-            <td>${project.getEndDate()}</td>
-            <td>${project.getStatus()}</td>
-            <td>
-                <a href="${pageContext.request.contextPath}/enter/project-remove?id=${project.getId()}">&#x292B;</a>
-            </td>
-            <td>
-                <a href="${pageContext.request.contextPath}/enter/project-edit?id=${project.getId()}">&#x2710;</a>
-            </td>
+        <td>${loop.count}</td>
+        <td width="10%">${project.getId()}</td>
+        <td>${project.getName()}</td>
+        <td>${project.getDescription()}</td>
+        <td>${project.getStartDate()}</td>
+        <td>${project.getEndDate()}</td>
+        <td>${project.getStatus()}</td>
+        <td>
+            <a href="${pageContext.request.contextPath}/enter/project-remove?id=${project.getId()}">&#x292B;</a>
+        </td>
+        <td>
+            <a href="${pageContext.request.contextPath}/enter/project-edit?id=${project.getId()}">&#x2710;</a>
+        </td>
         </c:forEach>
     </tr>
     </tbody>

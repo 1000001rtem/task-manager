@@ -1,27 +1,51 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="ru.eremin.tm.model.dto.TaskDTO" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:include page="/WEB-INF/pages/head.jsp"/>
 
-<%
-    final Object tasksObject = request.getAttribute("tasks");
-    final List<TaskDTO> tasks = (ArrayList<TaskDTO>) tasksObject;
-%>
+<c:set var="tasks" value="${requestScope.tasks}"/>
+<c:set var="projects" value="${requestScope.projects}"/>
 
-<c:forEach var="task" items="${tasks}">
-    <h5>${task.getId()}</h5>
-    <h5>${task.getName()}</h5>
-    <h5>${task.getDescription()}</h5>
-    <h5>${task.getStartDate()}</h5>
-    <h5>${task.getEndDate()}</h5>
-    <h5>${task.getStatus()}</h5>
-    <h5>${task.getProjectId()}</h5>
-    <a href="${pageContext.request.contextPath}/enter/task-remove?id=${task.getId()}">Remove</a>
-    <a href="${pageContext.request.contextPath}/enter/task-edit?id=${task.getId()}">Edit</a>
-</c:forEach>
+<table class="entityTable">
+    <caption>Tasks</caption>
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        <th>Project</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="task" items="${tasks}" varStatus="loop">
+        <tr>
+            <td>${loop.count}</td>
+            <td width="10%">${task.getId()}</td>
+            <td>${task.getName()}</td>
+            <td>${task.getDescription()}</td>
+            <td>${task.getStartDate()}</td>
+            <td>${task.getEndDate()}</td>
+            <td>${task.getStatus()}</td>
+            <td>${projects.get(task.getProjectId()).getName()}</td>
+            <td>
+                <a href="${pageContext.request.contextPath}/enter/task-remove?id=${task.getId()}">&#x292B;</a>
+            </td>
+            <td>
+                <a href="${pageContext.request.contextPath}/enter/task-edit?id=${task.getId()}">&#x2710;</a>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 
-<a href="/enter/task-create">Create</a>
+<form class="createEntityForm" action="${pageContext.request.contextPath}/enter/task-create" method="get">
+    <button type="submit">Create new Task</button>
+</form>
+
 <jsp:include page="/WEB-INF/pages/foot.jsp"/>

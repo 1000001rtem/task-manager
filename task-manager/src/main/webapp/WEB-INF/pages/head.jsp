@@ -3,22 +3,29 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/packages/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 <body>
 <header>
     <div class="linkBox">
-        <a href="/index">MAIN</a>
+        <a href="${pageContext.request.contextPath}/index">MAIN</a>
         |
-        <a href="/enter/project-list">PROJECTS</a>
+        <a href="${pageContext.request.contextPath}/enter/project-list">PROJECTS</a>
         |
-        <a href="/enter/task-list">TASKS</a>
+        <a href="${pageContext.request.contextPath}/enter/task-list">TASKS</a>
     </div>
     <div class="actionBox">
         <c:if test="${sessionScope.userRole.toString().equals('ADMIN')}">
-            <a href="#">USERS</a>
+            <a href="${pageContext.request.contextPath}/enter/admin/user-list">USERS</a>
             |
         </c:if>
-        <a href="#">LOGOUT</a>
+        <c:if test="${sessionScope.userId != null}">
+            <a href="${pageContext.request.contextPath}/logout">LOGOUT</a>
+        </c:if>
+        <c:if test="${sessionScope.userId == null}">
+            <a href="${pageContext.request.contextPath}/registration">REGISTRATION</a>
+        </c:if>
+
     </div>
 </header>
+<div class="content">
