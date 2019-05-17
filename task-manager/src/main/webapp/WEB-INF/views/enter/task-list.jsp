@@ -6,8 +6,9 @@
 <c:set var="tasks" value="${requestScope.tasks}"/>
 <c:set var="projects" value="${requestScope.projects}"/>
 
-<table class="entityTable">
-    <caption>Tasks</caption>
+<div class="pageTitle">Tasks</div>
+
+<table class="table table-striped">
     <thead>
     <tr>
         <th>№</th>
@@ -45,7 +46,7 @@
 </table>
 
 <form class="createEntityForm" action="${pageContext.request.contextPath}/enter/task-create" method="get">
-    <button type="submit">Create new Task</button>
+    <button class="btn btn-primary" type="submit">Create new Task</button>
 </form>
 
 <jsp:include page="/WEB-INF/views/foot.jsp"/>

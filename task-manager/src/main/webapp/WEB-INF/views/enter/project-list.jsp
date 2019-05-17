@@ -4,8 +4,9 @@
 <jsp:include page="/WEB-INF/views/head.jsp"/>
 <c:set var="projects" value="${requestScope.projects}"/>
 
-<table class="entityTable">
-    <caption>Projects</caption>
+<div class="pageTitle">Projects</div>
+
+<table class="table table-striped">
     <thead>
     <tr>
         <th>№</th>
@@ -42,7 +43,7 @@
 
 
 <form class="createEntityForm" action="${pageContext.request.contextPath}/enter/project-create" method="get">
-    <button type="submit">Create new Project</button>
+    <button class="btn btn-primary" type="submit">Create new Project</button>
 </form>
 
 <jsp:include page="/WEB-INF/views/foot.jsp"/>

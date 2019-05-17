@@ -1,28 +1,24 @@
 <jsp:include page="/WEB-INF/views/head.jsp"/>
-<h1>Project create</h1>
-<form class="saveEntityForm" action="${pageContext.request.contextPath}/enter/project-create" method="POST">
-    <table>
-        <tr>
-            <td>Project Name:</td>
-            <td><input name="name" type="text" value="project"/></td>
-        </tr>
-        <tr>
-            <td>Project Description:</td>
-            <td><input name="description" type="text" value="description"/></td>
-        </tr>
-        <tr>
-            <td>Start Date:</td>
-            <td><input name="startDate" type="date" value="start"/></td>
-        </tr>
-        <tr>
-            <td>End Date:</td>
-            <td><input name="endDate" type="date" value="end"/></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit">Save</button>
-            </td>
-        </tr>
-    </table>
+
+<div class="pageTitle">Create new Project</div>
+
+<form action="${pageContext.request.contextPath}/enter/project-create" method="POST">
+    <div class="form-group">
+        <label for="nameInput">Project Name</label>
+        <input name="name" type="text" id="nameInput" class="form-control" placeholder="Project Name">
+    </div>
+    <div class="form-group">
+        <label for="descriptionInput">Description</label>
+        <input name="description" type="text" id="descriptionInput" class="form-control" placeholder="Description">
+    </div>
+    <div class="form-group">
+        <label for="startDateInput">Start Date</label>
+        <input name="startDate" type="date" id="startDateInput" class="form-control" placeholder="Start Date">
+    </div>
+    <div class="form-group">
+        <label for="endDateInput">End Date</label>
+        <input name="endDate" type="date" id="endDateInput" class="form-control" placeholder="End Date">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
 <jsp:include page="/WEB-INF/views/foot.jsp"/>

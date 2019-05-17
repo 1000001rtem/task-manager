@@ -4,8 +4,9 @@
 
 <c:set var="users" value="${requestScope.users}"/>
 
-<table class="entityTable">
-    <caption>Users</caption>
+<div class="pageTitle">Users</div>
+
+<table class="table table-striped">
     <thead>
     <tr>
         <th>№</th>

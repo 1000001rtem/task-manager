@@ -1,124 +1,76 @@
 body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
 }
+
 header {
-  font-size: 20px;
-  flex-shrink: 0;
-  background-color: #303437;
-  color: #cecece;
-  min-height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    font-size: 20px;
+    flex-shrink: 0;
+    background-color: #303437;
+    color: #cecece;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-header .linkBox {
-  float: left;
+
+header .menuBox {
+    display: flex;
+    justify-content: space-between;
 }
-header .actionBox {
-  float: left;
+
+header .menuBox .linkBox {
+    float: left;
 }
+
+header .menuBox .actionBox {
+    float: left;
+}
+
 header a {
-  margin: 0 15px;
-  text-decoration: none;
-  color: #cecece;
+    margin: 0 15px;
+    text-decoration: none;
+    color: #cecece;
 }
+
 header a:hover {
-  font-size: 25px;
+    font-size: 25px;
 }
+
 .content {
-  flex-grow: 1;
-  position: relative;
-  overflow: hidden;
-  padding: 15px;
+    flex-grow: 1;
+    font-size: 20px;
 }
+
+.content .pageTitle {
+    margin: 22px 0;
+    font-size: 34px;
+    color: #000000;
+}
+
 .content .loginBox {
-  position: absolute;
-  margin: 0;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    margin-top: 13%;
 }
-.content .loginBox .loginForm {
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 500px;
-  min-height: 200px;
-  border: 1px solid black;
-}
-.content .loginBox .loginForm .groupBox .formGroup {
-  margin: 10px 0 0 0;
-  font-size: 23px;
-  color: #000000;
-}
-.content .loginBox .loginForm .groupBox .formGroup .buttonBox {
-  display: flex;
-  justify-content: flex-end;
-}
-.content .loginBox .loginForm .groupBox .formGroup .buttonBox button {
-  padding: 5px 10px;
-  font-size: 16px;
-  background-color: #1f1e1e;
-  color: #cecece;
-}
+
 .content .helloBox {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.content .entityTable {
-  margin: 40px 0px 0 0px;
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 20px;
-}
-.content .entityTable caption {
-  border: 2px solid #000000;
-  border-bottom: none;
-  font-size: 30px;
-  font-weight: bold;
-}
-.content .entityTable a {
-  text-decoration: none;
-  color: #000000;
-}
-.content .entityTable td {
-  border: 2px solid black;
-  vertical-align: middle;
-  text-align: center;
-}
-.content .entityTable th {
-  border: 2px solid black;
-  vertical-align: middle;
-  text-align: center;
-}
+
 .content .createEntityForm {
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px 10px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 10px;
 }
-.content .createEntityForm button {
-  padding: 10px;
-  font-size: 20px;
-  background-color: #1f1e1e;
-  color: #cecece;
-}
-.content .saveEntityForm button {
-  padding: 5px 10px;
-  font-size: 16px;
-  background-color: #1f1e1e;
-  color: #cecece;
-}
+
 footer {
-  background-color: #303437;
-  min-height: 100px;
-  flex-shrink: 0;
+    background-color: #303437;
+    min-height: 100px;
+    flex-shrink: 0;
 }
