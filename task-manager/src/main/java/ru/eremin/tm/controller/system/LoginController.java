@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.eremin.tm.api.IAuthService;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.util.PasswordHashUtil;
 
@@ -32,7 +33,7 @@ public class LoginController {
     @PostMapping(value = "login")
     public String auth(@RequestParam("login") @Nullable final String login,
                        @RequestParam("password") @Nullable final String password,
-                       @NotNull final HttpSession session) {
+                       @NotNull final HttpSession session) throws IncorrectDataException {
         @Nullable final UserDTO userDTO = authService.check(login, PasswordHashUtil.md5(password));
         if (userDTO == null) return "redirect:/login";
         session.setAttribute("auth", true);

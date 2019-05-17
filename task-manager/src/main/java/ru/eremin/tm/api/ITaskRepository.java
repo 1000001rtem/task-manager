@@ -1,5 +1,7 @@
 package ru.eremin.tm.api;
 
+import org.jetbrains.annotations.NotNull;
+import ru.eremin.tm.model.entity.Project;
 import ru.eremin.tm.model.entity.Task;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
 
 public interface ITaskRepository extends IBasedRepository<Task> {
 
-    List<Task> findByProjectId(String projectId);
+    List<Task> findByProjectId(@NotNull Project project);
+
+    void removeAllTasksInProject(@NotNull Project project);
 
 }

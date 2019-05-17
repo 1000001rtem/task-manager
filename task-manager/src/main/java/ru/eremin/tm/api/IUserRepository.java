@@ -1,5 +1,7 @@
 package ru.eremin.tm.api;
 
+import org.jetbrains.annotations.NotNull;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.entity.User;
 
 /**
@@ -8,6 +10,6 @@ import ru.eremin.tm.model.entity.User;
 
 public interface IUserRepository extends IRepository<User> {
 
-    User findByLogin(String login);
+    User findByLogin(@NotNull String login) throws IncorrectDataException;
 
 }

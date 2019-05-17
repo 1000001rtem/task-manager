@@ -4,17 +4,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Repository;
 import ru.eremin.tm.api.IProjectRepository;
-import ru.eremin.tm.exeption.IncorrectDataException;
-import ru.eremin.tm.model.entity.AbstractEntity;
-import ru.eremin.tm.model.entity.BaseEntity;
 import ru.eremin.tm.model.entity.Project;
+import ru.eremin.tm.model.entity.User;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
@@ -26,118 +21,124 @@ public class ProjectRepository implements IProjectRepository {
     public static final String NAME = "projectRepository";
 
     @NotNull
-    private final Map<String, Project> projects;
-
-    ProjectRepository() {
-        this.projects = new HashMap<>();
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     @NotNull
     @Override
     public List<Project> findAll() {
-        return new ArrayList<>(projects.values());
+        @NotNull final List<Project> projects = em.createQuery("SELECT e FROM Project e", Project.class).getResultList();
+        return projects;
     }
 
     @Nullable
     @Override
     public Project findOne(@NotNull final String id) {
-        return projects.get(id);
+        return em.find(Project.class, id);
     }
 
     @NotNull
     @Override
-    public List<Project> findByUserId(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUser = getProjectsByUser(userId);
-        return projectsByUser;
+    public List<Project> findByUserId(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        return projects;
     }
 
     @NotNull
     @Override
-    public List<Project> findAllSortedByCreateDate(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUser = getProjectsByUser(userId);
-        projectsByUser.sort(Comparator.comparing(AbstractEntity::getCreateDate));
-        return projectsByUser;
+    public List<Project> findAllSortedByCreateDate(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user ORDER BY e.createDate";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        return projects;
     }
 
     @NotNull
     @Override
-    public List<Project> findAllSortedByStartDate(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUser = getProjectsByUser(userId);
-        projectsByUser.sort(Comparator.comparing(BaseEntity::getStartDate));
-        return projectsByUser;
+    public List<Project> findAllSortedByStartDate(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user ORDER BY e.startDate";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        return projects;
     }
 
     @NotNull
     @Override
-    public List<Project> findAllSortedByEndDate(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUser = getProjectsByUser(userId);
-        projectsByUser.sort(Comparator.comparing(BaseEntity::getEndDate));
-        return projectsByUser;
+    public List<Project> findAllSortedByEndDate(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user ORDER BY e.endDate";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        return projects;
     }
 
     @NotNull
     @Override
-    public List<Project> findAllSortedByStatus(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUser = getProjectsByUser(userId);
-        projectsByUser.sort(Comparator.comparing(BaseEntity::getStatus));
-        return projectsByUser;
+    public List<Project> findAllSortedByStatus(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user ORDER BY e.status";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        return projects;
     }
 
     @NotNull
     @Override
-    public List<Project> findByName(@NotNull final String userId, @NotNull final String name) {
-        @NotNull final List<Project> projectsByUser = getProjectsByUser(userId);
-        projectsByUser.sort(Comparator.comparing(BaseEntity::getStartDate));
-        return projectsByUser.stream().filter(e -> e.getName().contains(name)).collect(Collectors.toList());
+    public List<Project> findByName(@NotNull final User user, @NotNull final String name) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user and e.name LIKE :name";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+        return projects;
     }
 
     @NotNull
     @Override
-    public List<Project> findByDescription(@NotNull final String userId, @NotNull final String description) {
-        @NotNull final List<Project> projectsByUser = getProjectsByUser(userId);
-        projectsByUser.sort(Comparator.comparing(BaseEntity::getStartDate));
-        return projectsByUser.stream().filter(e -> e.getDescription().contains(description)).collect(Collectors.toList());
+    public List<Project> findByDescription(@NotNull final User user, @NotNull final String description) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user and e.description LIKE :description";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .setParameter("description", "%" + description + "%")
+                .getResultList();
+        return projects;
     }
 
     @Override
     public void persist(@NotNull final Project project) {
-        projects.put(project.getId(), project);
+        em.persist(project);
     }
 
     @Override
     public void merge(@NotNull final Project project) {
-        projects.put(project.getId(), project);
+        em.merge(project);
     }
 
     @Override
-    public void update(@NotNull final Project project) throws IncorrectDataException {
-        if (projects.get(project.getId()) == null) throw new IncorrectDataException("Wrong id");
-        projects.put(project.getId(), project);
+    public void update(@NotNull final Project project) {
+        @Nullable final Project project1 = em.find(Project.class, project.getId());
+        if (project1 != null) em.merge(project);
     }
 
     @Override
     public void remove(@NotNull final String id) {
-        projects.remove(id);
+        @Nullable final Project project = em.find(Project.class, id);
+        if (project == null) return;
+        em.remove(project);
     }
 
     @Override
-    public void remove(@NotNull final List<Project> projects) {
-        projects.forEach(e -> remove(e.getId()));
-    }
-
-    @Override
-    public void removeAll(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUserId = getProjectsByUser(userId);
-        remove(projectsByUserId);
-    }
-
-    @NotNull
-    private List<Project> getProjectsByUser(@NotNull final String userId) {
-        @NotNull final List<Project> projectsByUser = new ArrayList<>();
-        for (final Project project : projects.values()) {
-            if (project.getUserId().equals(userId)) projectsByUser.add(project);
-        }
-        return projectsByUser;
+    public void removeAll(@NotNull final User user) {
+        @NotNull final String query = "SELECT e FROM Project e WHERE e.user = :user";
+        @NotNull final List<Project> projects = em.createQuery(query, Project.class)
+                .setParameter("user", user)
+                .getResultList();
+        projects.forEach(em::remove);
     }
 
 }

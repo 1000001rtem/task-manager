@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-10">
-                <button type="submit" class="btn btn-default">Sign in</button>
+                <button type="submit" class="btn btn-default">Registration</button>
             </div>
         </div>
     </form>

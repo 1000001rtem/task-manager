@@ -4,15 +4,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Repository;
 import ru.eremin.tm.api.IUserRepository;
-import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.entity.User;
-import ru.eremin.tm.model.entity.enumerated.Role;
-import ru.eremin.tm.util.PasswordHashUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @autor av.eremin on 12.04.2019.
@@ -23,72 +19,57 @@ public class UserRepository implements IUserRepository {
 
     public static final String NAME = "userRepository";
 
-    private final Map<String, User> users;
-
-    UserRepository() {
-        this.users = new HashMap<>();
-
-        @NotNull final User user = new User();
-        user.setId("6bf0f091-e795-42d1-bb9a-77799cdf37da");
-        user.setLogin("user");
-        user.setHashPassword(PasswordHashUtil.md5("pass"));
-        user.setRole(Role.USER);
-
-        @NotNull final User admin = new User();
-        admin.setId("6706e691-2f78-45ad-b021-3730c48959f0");
-        admin.setLogin("admin");
-        admin.setHashPassword(PasswordHashUtil.md5("pass"));
-        admin.setRole(Role.ADMIN);
-
-        users.put(user.getId(), user);
-        users.put(admin.getId(), admin);
-    }
+    @NotNull
+    @PersistenceContext
+    private EntityManager em;
 
     @Nullable
     @Override
     public User findByLogin(@NotNull final String login) {
-        for (final User user : users.values()) {
-            if (user.getLogin().equals(login)) return user;
-        }
-        return null;
+        @NotNull final String query = "SELECT e FROM User e WHERE e.login = :login";
+        @Nullable final User user = em.createQuery(query, User.class)
+                .setParameter("login", login)
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
+        return user;
     }
 
     @NotNull
     @Override
     public List<User> findAll() {
-        return new ArrayList<>(users.values());
+        @NotNull final String query = "SELECT e FROM User e";
+        return em.createQuery(query, User.class).getResultList();
     }
 
     @Nullable
     @Override
     public User findOne(@NotNull final String id) {
-        return users.get(id);
+        return em.find(User.class, id);
     }
 
     @Override
     public void persist(@NotNull final User user) {
-        users.put(user.getId(), user);
+        em.persist(user);
     }
 
     @Override
     public void merge(@NotNull final User user) {
-        users.put(user.getId(), user);
+        em.merge(user);
     }
 
     @Override
-    public void update(@NotNull final User user) throws IncorrectDataException {
-        if (users.get(user.getId()) == null) throw new IncorrectDataException("Wrong id");
-        users.put(user.getId(), user);
+    public void update(@NotNull final User user) {
+        @Nullable final User user1 = em.find(User.class, user.getId());
+        if (user1 != null) em.merge(user);
     }
 
     @Override
     public void remove(@NotNull final String id) {
-        users.remove(id);
-    }
-
-    @Override
-    public void remove(final List<User> users) {
-        users.forEach(e -> remove(e.getId()));
+        @Nullable final User user = em.find(User.class, id);
+        if (user == null) return;
+        em.remove(user);
     }
 
 }

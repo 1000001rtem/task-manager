@@ -43,7 +43,7 @@ public class ProjectEditController {
     @PostMapping(value = "/project-edit")
     public String editProject(@NotNull final HttpServletRequest request) throws IncorrectDataException {
         @NotNull final ProjectDTO project = getProject(request);
-        projectService.persist(project);
+        projectService.update(project);
         return "redirect:/enter/project-list";
     }
 

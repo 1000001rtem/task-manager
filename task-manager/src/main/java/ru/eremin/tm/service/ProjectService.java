@@ -5,13 +5,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.eremin.tm.api.IProjectRepository;
 import ru.eremin.tm.api.IProjectService;
-import ru.eremin.tm.api.ITaskService;
+import ru.eremin.tm.api.IUserRepository;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.entity.Project;
+import ru.eremin.tm.model.entity.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,17 +33,19 @@ public class ProjectService implements IProjectService {
     @Autowired
     private IProjectRepository projectRepository;
 
-    @Nullable
+    @NotNull
     @Autowired
-    private ITaskService taskService;
+    private IUserRepository userRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public @NotNull List<ProjectDTO> findAll() {
         return projectRepository.findAll().stream().map(ProjectDTO::new).collect(Collectors.toList());
     }
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public ProjectDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
         @Nullable final Project project = projectRepository.findOne(id);
@@ -51,15 +55,19 @@ public class ProjectService implements IProjectService {
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectDTO> findByUserId(@Nullable final String userId) {
         if (userId == null || userId.isEmpty()) return Collections.emptyList();
-        return projectRepository.findByUserId(userId)
+        @Nullable final User user = userRepository.findOne(userId);
+        if (user == null) return Collections.emptyList();
+        return projectRepository.findByUserId(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public void persist(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         if (projectDTO == null) throw new IncorrectDataException("Project is null");
         @NotNull final Project project = getEntity(projectDTO);
@@ -67,6 +75,7 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
+    @Transactional
     public void merge(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         if (projectDTO == null) throw new IncorrectDataException("Project is null");
         @NotNull final Project project = getEntity(projectDTO);
@@ -75,6 +84,7 @@ public class ProjectService implements IProjectService {
 
 
     @Override
+    @Transactional
     public void update(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         if (projectDTO == null) throw new IncorrectDataException("Project is null");
         @NotNull final Project project = getEntity(projectDTO);
@@ -82,75 +92,96 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
+    @Transactional
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
         projectRepository.remove(id);
-        taskService.removeAllTasksInProject(id);
     }
 
     @Override
+    @Transactional
     public void removeAll(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        projectRepository.removeAll(userId);
-        taskService.removeAll(userId);
+        @Nullable final User user = userRepository.findOne(userId);
+        if (user == null) return;
+        projectRepository.removeAll(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
         return projectRepository.findOne(id) != null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectDTO> findAllSortedByCreateDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findAllSortedByCreateDate(userId)
+        @Nullable final User user = userRepository.findOne(userId);
+        if (user == null) throw new AccessForbiddenException();
+        return projectRepository.findAllSortedByCreateDate(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectDTO> findAllSortedByStartDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findAllSortedByStartDate(userId)
+        @Nullable final User user = userRepository.findOne(userId);
+        if (user == null) throw new AccessForbiddenException();
+        return projectRepository.findAllSortedByStartDate(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectDTO> findAllSortedByEndDate(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findAllSortedByEndDate(userId)
+        @Nullable final User user = userRepository.findOne(userId);
+        if (user == null) throw new AccessForbiddenException();
+        return projectRepository.findAllSortedByEndDate(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectDTO> findAllSortedByStatus(@Nullable final String userId) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findAllSortedByStatus(userId)
+        @Nullable final User user = userRepository.findOne(userId);
+        if (user == null) throw new AccessForbiddenException();
+        return projectRepository.findAllSortedByStatus(user)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectDTO> findByName(@Nullable final String userId, @Nullable final String name) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty() || name == null || name.isEmpty()) throw new AccessForbiddenException();
-        return projectRepository.findByName(userId, name)
+        @Nullable final User user = userRepository.findOne(userId);
+        if (user == null) throw new AccessForbiddenException();
+        return projectRepository.findByName(user, name)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectDTO> findByDescription(@Nullable final String userId, @Nullable final String description) throws AccessForbiddenException {
         if (userId == null || userId.isEmpty() || description == null || description.isEmpty())
             throw new AccessForbiddenException();
-        return projectRepository.findByDescription(userId, description)
+        @Nullable final User user = userRepository.findOne(userId);
+        if (user == null) throw new AccessForbiddenException();
+        return projectRepository.findByDescription(user, description)
                 .stream()
                 .map(ProjectDTO::new)
                 .collect(Collectors.toList());
@@ -168,7 +199,7 @@ public class ProjectService implements IProjectService {
         if (projectDTO.getStartDate() != null) project.setStartDate(projectDTO.getStartDate());
         if (projectDTO.getEndDate() != null) project.setEndDate(projectDTO.getEndDate());
         if (projectDTO.getUserId() != null && !projectDTO.getUserId().isEmpty()) {
-            project.setUserId(projectDTO.getUserId());
+            project.setUser(userRepository.findOne(projectDTO.getUserId()));
         }
         project.setStatus(projectDTO.getStatus());
         project.setCreateDate(projectDTO.getCreateDate());

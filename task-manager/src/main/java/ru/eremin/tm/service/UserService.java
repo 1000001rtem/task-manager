@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.eremin.tm.api.IUserRepository;
 import ru.eremin.tm.api.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
@@ -30,6 +31,7 @@ public class UserService implements IUserService {
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public UserDTO findByLogin(@Nullable final String login) throws IncorrectDataException {
         if (login == null || login.isEmpty()) throw new IncorrectDataException("Wrong login");
         @NotNull final User user = userRepository.findByLogin(login);
@@ -39,6 +41,7 @@ public class UserService implements IUserService {
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public List<UserDTO> findAll() {
         return userRepository.findAll()
                 .stream()
@@ -48,6 +51,7 @@ public class UserService implements IUserService {
 
     @NotNull
     @Override
+    @Transactional(readOnly = true)
     public UserDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
         @Nullable final User user = userRepository.findOne(id);
@@ -56,6 +60,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void persist(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
@@ -63,6 +68,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void merge(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
@@ -70,6 +76,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void update(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
@@ -77,12 +84,14 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void remove(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
         userRepository.remove(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
         return userRepository.findOne(id) != null;

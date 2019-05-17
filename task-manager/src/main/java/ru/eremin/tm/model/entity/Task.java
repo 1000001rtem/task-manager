@@ -3,23 +3,29 @@ package ru.eremin.tm.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.Nullable;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * @autor Eremin Artem on 08.04.2019.
  */
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "task_table")
 public class Task extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -575064935487180132L;
 
-    @Nullable
-    private String projectId;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @Override
     public String toString() {
@@ -29,7 +35,7 @@ public class Task extends BaseEntity implements Serializable {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", projectId='" + projectId + '\'' +
+                ", projectId='" + project.getId() + '\'' +
                 '}';
     }
 

@@ -1,6 +1,7 @@
 package ru.eremin.tm.api;
 
 import org.jetbrains.annotations.Nullable;
+import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 
 /**
@@ -9,6 +10,6 @@ import ru.eremin.tm.model.dto.UserDTO;
 
 public interface IAuthService {
 
-    UserDTO check(@Nullable String login, @Nullable String password);
+    UserDTO check(@Nullable String login, @Nullable String password) throws IncorrectDataException;
 
 }

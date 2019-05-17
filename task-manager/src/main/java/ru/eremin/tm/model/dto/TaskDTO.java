@@ -42,8 +42,8 @@ public class TaskDTO extends BaseDTO implements Serializable {
         if (task.getDescription() != null && !task.getDescription().isEmpty()) this.description = task.getDescription();
         if (task.getStartDate() != null) this.startDate = task.getStartDate();
         if (task.getEndDate() != null) this.endDate = task.getEndDate();
-        if (task.getProjectId() != null && !task.getProjectId().isEmpty()) this.projectId = task.getProjectId();
-        if (task.getUserId() != null && !task.getUserId().isEmpty()) this.userId = task.getUserId();
+        if (task.getProject() != null) this.projectId = task.getProject().getId();
+        if (task.getUser() != null) this.userId = task.getUser().getId();
         if (task.getStatus() != null) this.status = task.getStatus();
         this.createDate = task.getCreateDate();
     }
