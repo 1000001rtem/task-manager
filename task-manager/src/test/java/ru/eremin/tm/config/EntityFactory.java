@@ -9,7 +9,6 @@ import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.util.PasswordHashUtil;
-import ru.eremin.tm.util.SignatureUtil;
 
 import java.util.Date;
 import java.util.UUID;
