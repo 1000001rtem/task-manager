@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="/WEB-INF/views/head.jsp"/>
 
@@ -29,11 +30,10 @@
     <div class="form-group">
         <label for="statusSelect">Status</label>
         <select name="status" id="statusSelect" class="form-control">
-                    <c:forEach var="status" items="${statuses}">
-                        <option value="${status.getDisplayName()}">${status.getDisplayName()}</option>
-                    </c:forEach>
-                </select>
-
+            <c:forEach var="status" items="${statuses}">
+                <option value="${status.getDisplayName()}">${status.getDisplayName()}</option>
+            </c:forEach>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

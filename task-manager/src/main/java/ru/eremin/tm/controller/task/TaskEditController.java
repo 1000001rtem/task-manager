@@ -49,9 +49,9 @@ public class TaskEditController {
         @NotNull final Map<String, ProjectDTO> projects = projectService.findByUserId(userId).stream()
                 .collect(Collectors.toMap(ProjectDTO::getId, projectDTO -> projectDTO));
         model.addAttribute("projects", projects);
-
         @NotNull final TaskDTO task = taskService.findOne(id);
         model.addAttribute("task", task);
+        model.addAttribute("statuses", Status.values());
         return "enter/task-edit";
     }
 
