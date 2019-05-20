@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.eremin.tm.api.IProjectService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
+import ru.eremin.tm.model.entity.enumerated.Status;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,9 +32,7 @@ public class ProjectCreateController {
     private IProjectService projectService;
 
     @GetMapping(value = "project-create")
-    public String createView(@NotNull final HttpSession session,
-                             @NotNull final Model model) {
-        @Nullable final String userId = (String) session.getAttribute("userId");
+    public String createView() {
         return "enter/project-create";
     }
 

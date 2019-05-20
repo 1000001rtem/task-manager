@@ -3,6 +3,7 @@
 
 
 <c:set var="project" value="${requestScope.project}"/>
+<c:set var="statuses" value="${requestScope.statuses}"/>
 
 <div class="pageTitle">Edit Project</div>
 
@@ -26,8 +27,13 @@
         <input name="endDate" type="date" id="endDateInput" class="form-control" value="${project.getEndDate()}">
     </div>
     <div class="form-group">
-        <label for="statusInput">Status</label>
-        <input name="status" type="text" id="statusInput" class="form-control" value="${project.getStatus()}">
+        <label for="statusSelect">Status</label>
+        <select name="status" id="statusSelect" class="form-control">
+                    <c:forEach var="status" items="${statuses}">
+                        <option value="${status.getDisplayName()}">${status.getDisplayName()}</option>
+                    </c:forEach>
+                </select>
+
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

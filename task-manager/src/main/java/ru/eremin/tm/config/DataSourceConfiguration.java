@@ -56,12 +56,6 @@ public class DataSourceConfiguration {
     }
 
     @Bean
-    @Qualifier(value = "entityManager")
-    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
-        return entityManagerFactory.createEntityManager();
-    }
-
-    @Bean
     public PlatformTransactionManager transactionManager(final LocalContainerEntityManagerFactoryBean entityManagerFactory) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
