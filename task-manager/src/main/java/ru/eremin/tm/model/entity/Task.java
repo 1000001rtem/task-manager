@@ -3,11 +3,10 @@ package ru.eremin.tm.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -17,8 +16,10 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
+@Cacheable
 @NoArgsConstructor
 @Table(name = "task_table")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Task extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -575064935487180132L;

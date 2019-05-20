@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -18,6 +19,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@Cacheable
 @MappedSuperclass
 @NoArgsConstructor
 public abstract class AbstractEntity implements Serializable {

@@ -16,6 +16,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@Cacheable
 @MappedSuperclass
 @NoArgsConstructor
 public class BaseEntity extends AbstractEntity implements Serializable {

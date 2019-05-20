@@ -2,11 +2,13 @@ package ru.eremin.tm.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 import ru.eremin.tm.model.entity.Project;
 import ru.eremin.tm.model.entity.Task;
 import ru.eremin.tm.model.entity.User;
 
+import javax.persistence.QueryHint;
 import java.util.List;
 
 /**
@@ -19,9 +21,11 @@ public interface TaskRepository extends JpaRepository<Task, String> {
     String NAME = "taskRepository";
 
     @Query("SELECT e FROM Task e WHERE e.project = ?1")
+    @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
     List<Task> findByProject(Project project);
 
     @Query("SELECT e FROM Task e WHERE e.user = ?1")
+    @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
     List<Task> findByUser(User user);
 
     @Query("SELECT e FROM Task e WHERE e.user = ?1 ORDER BY e.createDate")
