@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.eremin.tm.api.IProjectService;
+import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 
 import javax.servlet.http.HttpSession;
@@ -27,7 +28,7 @@ public class ProjectListController {
 
     @GetMapping(value = "/project-list")
     public String projectList(@NotNull final HttpSession session,
-                              @NotNull final Model model) {
+                              @NotNull final Model model) throws AccessForbiddenException {
         @Nullable final String userId = (String) session.getAttribute("userId");
         @NotNull final List<ProjectDTO> projects = projectService.findByUserId(userId);
         model.addAttribute("projects", projects);

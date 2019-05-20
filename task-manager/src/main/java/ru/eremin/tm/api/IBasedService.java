@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface IBasedService<T extends AbstractEntity, E extends AbstractDTO> extends IService<T, E> {
 
-    List<E> findByUserId(@Nullable String userId);
+    List<E> findByUserId(@Nullable String userId) throws AccessForbiddenException;
 
     void removeAll(@Nullable String userId) throws AccessForbiddenException;
 

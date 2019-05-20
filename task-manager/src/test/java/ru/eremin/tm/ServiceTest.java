@@ -83,7 +83,7 @@ public class ServiceTest {
 
     @Test
     @Category(DataTest.class)
-    public void userCascadeTest() throws IncorrectDataException {
+    public void userCascadeTest() throws IncorrectDataException, AccessForbiddenException {
         final UserDTO user = EntityFactory.getUser();
         final ProjectDTO project = EntityFactory.getProject(user);
         final TaskDTO task = EntityFactory.getTask(project, user);
@@ -109,7 +109,7 @@ public class ServiceTest {
 
     @Test
     @Category(DataTest.class)
-    public void projectCascadeTest() throws IncorrectDataException {
+    public void projectCascadeTest() throws IncorrectDataException, AccessForbiddenException {
         final UserDTO user = EntityFactory.getUser();
         final ProjectDTO project = EntityFactory.getProject(user);
         final TaskDTO task = EntityFactory.getTask(project, user);

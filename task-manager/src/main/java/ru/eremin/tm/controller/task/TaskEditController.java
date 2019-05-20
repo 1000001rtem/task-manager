@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.eremin.tm.api.IProjectService;
 import ru.eremin.tm.api.ITaskService;
+import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
@@ -44,7 +45,7 @@ public class TaskEditController {
     @GetMapping(value = "/task-edit")
     public String editView(@RequestParam("id") @NotNull final String id,
                            @NotNull final Model model,
-                           @NotNull final HttpSession session) throws IncorrectDataException {
+                           @NotNull final HttpSession session) throws IncorrectDataException, AccessForbiddenException {
         @Nullable final String userId = (String) session.getAttribute("userId");
         @NotNull final Map<String, ProjectDTO> projects = projectService.findByUserId(userId).stream()
                 .collect(Collectors.toMap(ProjectDTO::getId, projectDTO -> projectDTO));

@@ -6,11 +6,11 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.eremin.tm.api.IUserRepository;
 import ru.eremin.tm.api.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.User;
+import ru.eremin.tm.repository.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,14 +27,14 @@ public class UserService implements IUserService {
 
     @NotNull
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @NotNull
     @Override
     @Transactional(readOnly = true)
     public UserDTO findByLogin(@Nullable final String login) throws IncorrectDataException {
         if (login == null || login.isEmpty()) throw new IncorrectDataException("Wrong login");
-        @NotNull final User user = userRepository.findByLogin(login);
+        @Nullable final User user = userRepository.findByLogin(login);
         if (user == null) throw new IncorrectDataException("Wrong login");
         return new UserDTO(user);
     }
@@ -54,8 +54,7 @@ public class UserService implements IUserService {
     @Transactional(readOnly = true)
     public UserDTO findOne(@Nullable final String id) throws IncorrectDataException {
         if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
-        @Nullable final User user = userRepository.findOne(id);
-        if (user == null) throw new IncorrectDataException("Wrong id");
+        @Nullable final User user = userRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
         return new UserDTO(user);
     }
 
@@ -64,7 +63,16 @@ public class UserService implements IUserService {
     public void persist(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
-        userRepository.persist(user);
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void update(@Nullable final UserDTO userDTO) throws IncorrectDataException {
+        if (userDTO == null) throw new IncorrectDataException("User is null");
+        if (!isExist(userDTO.getId())) throw new IncorrectDataException("User is not exist");
+        @NotNull final User user = getEntity(userDTO);
+        userRepository.save(user);
     }
 
     @Override
@@ -72,29 +80,23 @@ public class UserService implements IUserService {
     public void merge(@Nullable final UserDTO userDTO) throws IncorrectDataException {
         if (userDTO == null) throw new IncorrectDataException("User is null");
         @NotNull final User user = getEntity(userDTO);
-        userRepository.persist(user);
-    }
-
-    @Override
-    @Transactional
-    public void update(@Nullable final UserDTO userDTO) throws IncorrectDataException {
-        if (userDTO == null) throw new IncorrectDataException("User is null");
-        @NotNull final User user = getEntity(userDTO);
-        userRepository.update(user);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void remove(@Nullable final String id) throws IncorrectDataException {
-        if (id == null || id.isEmpty() || !isExist(id)) throw new IncorrectDataException("Wrong id");
-        userRepository.remove(id);
+        if (id == null || id.isEmpty()) throw new IncorrectDataException("Wrong id");
+        @Nullable final User user = userRepository.findById(id).orElseThrow(() -> new IncorrectDataException("Wrong id"));
+        userRepository.delete(user);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
-        return userRepository.findOne(id) != null;
+        @Nullable final User user = userRepository.findById(id).orElse(null);
+        return user != null;
     }
 
     @NotNull

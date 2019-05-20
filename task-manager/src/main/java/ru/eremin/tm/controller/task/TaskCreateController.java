@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.eremin.tm.api.IProjectService;
 import ru.eremin.tm.api.ITaskService;
+import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
@@ -39,7 +40,7 @@ public class TaskCreateController {
 
     @GetMapping(value = "/task-create")
     public String createView(@NotNull final Model model,
-                             @NotNull final HttpSession session) throws IncorrectDataException {
+                             @NotNull final HttpSession session) throws AccessForbiddenException {
         @Nullable final String userId = (String) session.getAttribute("userId");
         @NotNull final List<ProjectDTO> projects = projectService.findByUserId(userId);
         model.addAttribute("projects", projects);

@@ -1,5 +1,6 @@
 package ru.eremin.tm.api;
 
+import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.entity.Task;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public interface ITaskService extends IBasedService<Task, TaskDTO> {
 
-    List<TaskDTO> findByProjectId(String projectId) throws IncorrectDataException;
+    List<TaskDTO> findByProjectId(@Nullable String projectId) throws IncorrectDataException;
 
-    void removeAllTasksInProject(String projectId) throws IncorrectDataException;
+    void removeAllTasksInProject(@Nullable String projectId) throws IncorrectDataException;
 
 }

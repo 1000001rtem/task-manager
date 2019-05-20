@@ -17,14 +17,14 @@ public interface IService<T extends AbstractEntity, E extends AbstractDTO> {
     @NotNull
     List<E> findAll();
 
-    @NotNull
+    @Nullable
     E findOne(@Nullable String id) throws IncorrectDataException;
 
     void persist(@Nullable E e) throws IncorrectDataException;
 
-    void merge(@Nullable E e) throws IncorrectDataException;
-
     void update(@Nullable E e) throws IncorrectDataException;
+
+    void merge(@Nullable E e) throws IncorrectDataException;
 
     void remove(@Nullable String id) throws IncorrectDataException;
 
