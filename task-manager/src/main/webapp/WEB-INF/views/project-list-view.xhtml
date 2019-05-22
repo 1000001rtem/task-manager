@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+        <p:remoteCommand name="onCellEditTableComplete" update=":content"/>
+        <p:dataTable id="projects" var="project" value="#{projects.all}" editable="true" style="margin-bottom:20px">
+            <f:facet name="header">
+                Projects
+            </f:facet>
+
+            <p:ajax event="rowEdit" listener="#{projects.onRowEdit}" update=":content:form:msgs"
+                    oncomplete="onCellEditTableComplete()"/>
+            <p:ajax event="rowEditCancel" listener="#{projects.onRowCancel}" update=":content:form:msgs"/>
+
+            <p:column headerText="Id">
+                <p:cellEditor disabled="true">
+                    <f:facet name="output"><h:outputText value="#{project.id}"/></f:facet>
+                    <f:facet name="input"><p:inputText id="modelInput" value="#{project.id}"
+                                                       style="width:100%"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Name">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{project.name}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{project.name}" style="width:100%"
+                                                       label="Name"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Description">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{project.description}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{project.description}" style="width:100%"
+                                                       label="Description"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Start Date">
+                <p:cellEditor>
+                    <f:facet name="output"><p:outputLabel value="#{project.startDate}"/></f:facet>
+                    <f:facet name="input"><p:calendar value="#{project.startDate}" pattern="dd/MM/yyyy HH:mm:ss"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="End Date">
+                <p:cellEditor>
+                    <f:facet name="output"><p:outputLabel value="#{project.endDate}"/></f:facet>
+                    <f:facet name="input"><p:calendar value="#{project.endDate}" pattern="dd/MM/yyyy HH:mm:ss" /></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Status">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{project.status}"/></f:facet>
+                    <f:facet name="input">
+                        <h:selectOneMenu value="#{project.status}" style="width:100%">
+                            <f:selectItems value="#{projects.statuses}" var="status" itemLabel="#{status}"
+                                           itemValue="#{status}"/>
+                        </h:selectOneMenu>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column style="width:32px;text-align: center">
+                <p:commandLink update="content" actionListener="#{projects.deleteProject(project.id)}">
+                    <i class="fa fa-trash"/>
+                </p:commandLink>
+            </p:column>
+            <p:column style="width:35px">
+                <p:rowEditor/>
+            </p:column>
+        </p:dataTable>
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <p:commandButton value="Save" styleClass="ui-priority-primary" process="@this" update="content"
+                                 action="#{projects.createProject}"/>
+            </div>
+        </div>
+    </h:form>
+</f:view>
+</html>

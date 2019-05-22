@@ -6,24 +6,4 @@
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
     </application>
 
-    <managed-bean>
-        <managed-bean-name>index</managed-bean-name>
-        <managed-bean-class>ru.eremin.tm.controller.TestController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>second</managed-bean-name>
-        <managed-bean-class>ru.eremin.tm.controller.SecondController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-
-    <navigation-rule>
-        <navigation-case>
-            <from-outcome>second-view</from-outcome>
-            <to-view-id>/WEB-INF/views/second-home.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-
-
-
 </faces-config>

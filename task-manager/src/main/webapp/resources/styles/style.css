@@ -1,76 +1,20 @@
 body {
-    font-family: 'Times New Roman', Times, serif;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
+  height: 100%;
 }
-
-header {
-    font-size: 20px;
-    flex-shrink: 0;
-    background-color: #303437;
-    color: #cecece;
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
-
-header .menuBox {
-    display: flex;
-    justify-content: space-between;
+.header {
+  flex: 0 0 auto;
+  min-height: 100px;
 }
-
-header .menuBox .linkBox {
-    float: left;
-}
-
-header .menuBox .actionBox {
-    float: left;
-}
-
-header a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #cecece;
-}
-
-header a:hover {
-    font-size: 25px;
-}
-
 .content {
-    flex-grow: 1;
-    font-size: 20px;
+  min-height: 100px;
+  flex: 1 0 auto;
 }
-
-.content .pageTitle {
-    margin: 22px 0;
-    font-size: 34px;
-    color: #000000;
-}
-
-.content .loginBox {
-    margin-top: 13%;
-}
-
-.content .helloBox {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.content .createEntityForm {
-    display: flex;
-    justify-content: flex-end;
-    margin: 20px 10px;
-}
-
-footer {
-    background-color: #303437;
-    min-height: 100px;
-    flex-shrink: 0;
+#layout-footer {
+  min-height: 200px;
+  bottom: 0;
 }

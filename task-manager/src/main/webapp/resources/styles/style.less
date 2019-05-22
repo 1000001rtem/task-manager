@@ -5,79 +5,27 @@
 @buttonBgColor: #1f1e1e;
 
 body {
-  font-family: 'Times New Roman', Times, serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: @contentBgColor;
+    height: 100%;
 }
 
-header {
-  font-size: 20px;
-  flex-shrink: 0;
-  background-color: @headerBgColor;
-  color: @lightFontColor;
-  min-height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  .menuBox {
+.wrapper {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+}
 
-    .linkBox {
-      float: left;
-    }
-
-    .actionBox {
-      float: left;
-    }
-  }
-
-  a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: @lightFontColor;
-
-    &:hover {
-      font-size: 25px;
-    }
-  }
+.header {
+    flex: 0 0 auto;
+    min-height: 100px;
 }
 
 .content {
-  flex-grow: 1;
-  font-size: 20px;
-
-  .pageTitle {
-    margin: 22px 0;
-    font-size: 34px;
-    color: #000000;
-  }
-
-  .loginBox {
-    margin-top: 13%;
-  }
-
-  .helloBox {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .createEntityForm {
-    display: flex;
-    justify-content: flex-end;
-    margin: 20px 10px;
-  }
-
+    min-height: 100px;
+    flex: 1 0 auto;
 }
 
-footer {
-  background-color: @headerBgColor;
-  min-height: 100px;
-  flex-shrink: 0;
+#layout-footer {
+    min-height: 200px;
+    bottom: 0;
 }
+
