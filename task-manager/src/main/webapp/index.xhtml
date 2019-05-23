@@ -3,30 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
-
-<h:head><h:outputStylesheet library="styles" name="style.css"/></h:head>
-<div class="wrapper">
-    <div class="header ui-g-12">
-        <div class="headerMenu">
-            <h:form>
-                <p:megaMenu>
-                    <p:menuitem value="Home" actionListener="#{index.setPage('main-view')}"
-                                update="content"/>
-                    <p:menuitem value="Projects" actionListener="#{index.setPage('project-list-view')}"
-                                update="content"/>
-                    <p:menuitem value="Tasks" actionListener="#{index.setPage('task-list-view')}"
-                                update="content"/>
-                </p:megaMenu>
-            </h:form>
-        </div>
-    </div>
-    <div class="content ui-g-12 ui-g-nopad">
-        <h:form id="content">
-            <div><ui:include src="/WEB-INF/views/#{index.page}.xhtml"/></div>
-        </h:form>
-    </div>
-    <div class="footer ui-g-12">
-    </div>
-</div>
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:outputLabel value="Hello, world"/>
+</f:view>
 </html>

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import ru.eremin.tm.api.IProjectService;
 import ru.eremin.tm.api.ITaskService;
@@ -19,7 +18,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,11 +29,11 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ViewScoped
-@ManagedBean(name = "tasks")
+@ManagedBean(name = "taskController")
 @URLMapping(
         id = "tasks",
-        pattern = "/tasks",
-        viewId = "/WEB-INF/views/task-list-view.xhtml"
+        pattern = "/enter/tasks",
+        viewId = "/WEB-INF/views/enter/task-list-view.xhtml"
 )
 public class TaskListController {
 
@@ -73,7 +71,7 @@ public class TaskListController {
         refresh();
     }
 
-    public void createTasks(@Nullable final String projectId) throws IncorrectDataException {
+    public void createTask(@Nullable final String projectId) throws IncorrectDataException {
         System.out.println(projectId);
         @NotNull final TaskDTO taskDTO = new TaskDTO();
         taskDTO.setUserId("6706e691-2f78-45ad-b021-3730c48959f0");
@@ -87,7 +85,7 @@ public class TaskListController {
         return projects.get(id).getName();
     }
 
-    public List<Status> getStatuses(){
+    public List<Status> getStatuses() {
         return Arrays.asList(Status.values());
     }
 
@@ -96,5 +94,6 @@ public class TaskListController {
         tasks = taskService.findAll();
         projects = projectService.findAll().stream().collect(Collectors.toMap(ProjectDTO::getId, e -> e));
     }
+
 
 }

@@ -1,43 +1,57 @@
 @headerBgColor: #575757;
-@bodyBgColor:#ABABAB;
-@contentBgColor:#ABABAB;
-@contentBgColor: #ffffff;
+@bodyBgColor: #ABABAB;
+@contentBgColor: #ABABAB;
 @lightFontColor: #cecece;
 @darkFontColor: #000000;
 @buttonBgColor: #1f1e1e;
 
 body {
-    height: 100%;
-    margin: 0;
-    background-color: @bodyBgColor;
+  height: 100%;
+  margin: 0;
+  background-color: @bodyBgColor;
 }
 
 .wrapper {
+  margin: 0 auto;
+  width: 1170px;
+  min-height: inherit;
+}
+
+.header {
+  background-color: @headerBgColor;
+  min-height: 100px;
+
+  .headerMenu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-height: inherit;
+
+    form {
+      width: 100%;
+      font-size: 25px;
+    }
+  }
+}
+
+.content {
+  min-height: calc(~"100vh - 200px");
+  background-color: @contentBgColor;
+
+  .loginContainer {
+    width: 400px;
     margin: 0 auto;
-    width: 1170px;
+    display: flex;
+    align-items: center;
+    min-height: inherit;
+  }
 
-    .header {
-        background-color: @headerBgColor;
-        flex: 0 0 auto;
-        min-height: 100px;
-        display: flex;
-        align-items: center;
-        .headerMenu{
-            width: 100%;
-        }
-    }
+  .crudTable {
+    margin: 20px 0 20px 0;
+  }
+}
 
-    .content {
-        min-height: calc(~"100vh - 200px");
-        background-color: @contentBgColor;
-
-        .crudTable {
-            margin: 20px 0 20px 0;
-        }
-    }
-
-    .footer {
-        min-height: 100px;
-        background-color: @headerBgColor;
-    }
+.footer {
+  min-height: 100px;
+  background-color: @headerBgColor;
 }

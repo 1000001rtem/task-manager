@@ -16,13 +16,13 @@ import javax.inject.Named;
 @Getter
 @Setter
 @Scope("session")
-@Component("index")
+@Component("menuController")
 @URLMapping(
-        id = "index",
-        pattern = "/",
-        viewId = "/index.xhtml"
+        id = "menu",
+        pattern = "/enter/menu",
+        viewId = "/WEB-INF/views/enter/general-view.xhtml"
 )
-public class IndexController {
+public class MenuController {
 
     private String page = "main-view";
 

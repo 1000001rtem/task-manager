@@ -5,23 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.RowEditEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import ru.eremin.tm.api.IProjectService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
-import ru.eremin.tm.model.entity.Project;
 import ru.eremin.tm.model.entity.enumerated.Status;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,11 +25,11 @@ import java.util.List;
 @Getter
 @Setter
 @ViewScoped
-@ManagedBean(name = "projects")
+@ManagedBean(name = "projectController")
 @URLMapping(
         id = "projects",
-        pattern = "/projects",
-        viewId = "/WEB-INF/views/project-list-view.xhtml"
+        pattern = "/enter/projects",
+        viewId = "/WEB-INF/views/enter/project-list-view.xhtml"
 )
 public class ProjectListController {
 
@@ -52,17 +45,13 @@ public class ProjectListController {
         refresh();
     }
 
-    public List<ProjectDTO> getAll(){
-        return projects;
-    }
-
-    public List<Status> getStatuses(){
+    public List<Status> getStatuses() {
         return Arrays.asList(Status.values());
     }
 
     public void onRowEdit(@Nullable final RowEditEvent event) throws IncorrectDataException {
-        if(event == null) return;
-        @Nullable final ProjectDTO projectDTO = (ProjectDTO)event.getObject();
+        if (event == null) return;
+        @Nullable final ProjectDTO projectDTO = (ProjectDTO) event.getObject();
         projectService.update(projectDTO);
         refresh();
     }
@@ -83,7 +72,7 @@ public class ProjectListController {
         projects = projectService.findAll();
     }
 
-    public void onRowCancel(){
+    public void onRowCancel() {
 
     }
 

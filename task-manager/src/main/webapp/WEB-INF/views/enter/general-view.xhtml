@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head><h:outputStylesheet library="styles" name="style.css"/></h:head>
+<div class="header ui-g-12">
+    <div class="wrapper">
+        <div class="headerMenu">
+            <h:form>
+                <p:megaMenu>
+                    <p:menuitem value="Home" actionListener="#{menuController.setPage('main-view')}"
+                                update="content"/>
+                    <p:menuitem value="Projects" actionListener="#{menuController.setPage('project-list-view')}"
+                                update="content"/>
+                    <p:menuitem value="Tasks" actionListener="#{menuController.setPage('task-list-view')}"
+                                update="content"/>
+                </p:megaMenu>
+            </h:form>
+        </div>
+    </div>
+</div>
+<div class="content ui-g-12 ui-g-nopad">
+    <div class="wrapper">
+        <h:form id="content">
+            <div><ui:include src="/WEB-INF/views/enter/#{menuController.page}.xhtml"/></div>
+        </h:form>
+    </div>
+</div>
+<div class="footer ui-g-12">
+    <div class="wrapper"></div>
+</div>
+</html>
