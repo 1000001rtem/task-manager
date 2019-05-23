@@ -6,27 +6,27 @@
       xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head><h:outputStylesheet library="styles" name="style.css"/></h:head>
-
-<div class="wrapper ui-g-12">
+<div class="wrapper">
     <div class="header ui-g-12">
-        <h:form>
-            <p:megaMenu>
+        <div class="headerMenu">
+            <h:form>
+                <p:megaMenu>
                     <p:menuitem value="Home" actionListener="#{index.setPage('main-view')}"
                                 update="content"/>
                     <p:menuitem value="Projects" actionListener="#{index.setPage('project-list-view')}"
                                 update="content"/>
                     <p:menuitem value="Tasks" actionListener="#{index.setPage('task-list-view')}"
                                 update="content"/>
-            </p:megaMenu>
-        </h:form>
+                </p:megaMenu>
+            </h:form>
+        </div>
     </div>
     <div class="content ui-g-12 ui-g-nopad">
         <h:form id="content">
             <div><ui:include src="/WEB-INF/views/#{index.page}.xhtml"/></div>
         </h:form>
     </div>
-    <div id="layout-footer" class="footer ui-g-12">
-        Footer
+    <div class="footer ui-g-12">
     </div>
 </div>
 </html>

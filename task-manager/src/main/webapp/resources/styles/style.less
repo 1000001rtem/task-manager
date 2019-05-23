@@ -1,4 +1,6 @@
-@headerBgColor: #303437;
+@headerBgColor: #575757;
+@bodyBgColor:#ABABAB;
+@contentBgColor:#ABABAB;
 @contentBgColor: #ffffff;
 @lightFontColor: #cecece;
 @darkFontColor: #000000;
@@ -6,26 +8,36 @@
 
 body {
     height: 100%;
+    margin: 0;
+    background-color: @bodyBgColor;
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
+    margin: 0 auto;
+    width: 1170px;
 
-.header {
-    flex: 0 0 auto;
-    min-height: 100px;
-}
+    .header {
+        background-color: @headerBgColor;
+        flex: 0 0 auto;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        .headerMenu{
+            width: 100%;
+        }
+    }
 
-.content {
-    min-height: 100px;
-    flex: 1 0 auto;
-}
+    .content {
+        min-height: calc(~"100vh - 200px");
+        background-color: @contentBgColor;
 
-#layout-footer {
-    min-height: 200px;
-    bottom: 0;
-}
+        .crudTable {
+            margin: 20px 0 20px 0;
+        }
+    }
 
+    .footer {
+        min-height: 100px;
+        background-color: @headerBgColor;
+    }
+}

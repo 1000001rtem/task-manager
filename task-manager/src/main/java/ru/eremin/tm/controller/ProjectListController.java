@@ -45,9 +45,11 @@ public class ProjectListController {
 
     private List<ProjectDTO> projects;
 
+    private ProjectDTO selectedProject;
+
     @PostConstruct
     public void init() {
-        projects = projectService.findAll();
+        refresh();
     }
 
     public List<ProjectDTO> getAll(){
@@ -58,7 +60,8 @@ public class ProjectListController {
         return Arrays.asList(Status.values());
     }
 
-    public void onRowEdit(final RowEditEvent event) throws IncorrectDataException {
+    public void onRowEdit(@Nullable final RowEditEvent event) throws IncorrectDataException {
+        if(event == null) return;
         @Nullable final ProjectDTO projectDTO = (ProjectDTO)event.getObject();
         projectService.update(projectDTO);
         refresh();
@@ -71,7 +74,7 @@ public class ProjectListController {
         refresh();
     }
 
-    public void deleteProject(final String id) throws IncorrectDataException {
+    public void deleteProject(@Nullable final String id) throws IncorrectDataException {
         projectService.remove(id);
         refresh();
     }

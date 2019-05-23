@@ -8,7 +8,7 @@
     <h:form id="form">
         <p:growl id="msgs" showDetail="true"/>
         <p:remoteCommand name="onCellEditTableComplete" update=":content"/>
-        <p:dataTable id="projects" var="project" value="#{projects.all}" editable="true" style="margin-bottom:20px">
+        <p:dataTable styleClass="crudTable" id="projects" var="project" value="#{projects.all}" editable="true">
             <f:facet name="header">
                 Projects
             </f:facet>
@@ -16,14 +16,6 @@
             <p:ajax event="rowEdit" listener="#{projects.onRowEdit}" update=":content:form:msgs"
                     oncomplete="onCellEditTableComplete()"/>
             <p:ajax event="rowEditCancel" listener="#{projects.onRowCancel}" update=":content:form:msgs"/>
-
-            <p:column headerText="Id">
-                <p:cellEditor disabled="true">
-                    <f:facet name="output"><h:outputText value="#{project.id}"/></f:facet>
-                    <f:facet name="input"><p:inputText id="modelInput" value="#{project.id}"
-                                                       style="width:100%"/></f:facet>
-                </p:cellEditor>
-            </p:column>
 
             <p:column headerText="Name">
                 <p:cellEditor>
@@ -43,15 +35,23 @@
 
             <p:column headerText="Start Date">
                 <p:cellEditor>
-                    <f:facet name="output"><p:outputLabel value="#{project.startDate}"/></f:facet>
-                    <f:facet name="input"><p:calendar value="#{project.startDate}" pattern="dd/MM/yyyy HH:mm:ss"/></f:facet>
+                    <f:facet name="output">
+                        <p:outputLabel value="#{project.startDate}"><f:convertDateTime
+                                pattern="dd-MM-yyyy"/></p:outputLabel>
+                    </f:facet>
+                    <f:facet name="input"><p:calendar value="#{project.startDate}"
+                                                      pattern="dd/MM/yyyy HH:mm:ss"/></f:facet>
                 </p:cellEditor>
             </p:column>
 
             <p:column headerText="End Date">
                 <p:cellEditor>
-                    <f:facet name="output"><p:outputLabel value="#{project.endDate}"/></f:facet>
-                    <f:facet name="input"><p:calendar value="#{project.endDate}" pattern="dd/MM/yyyy HH:mm:ss" /></f:facet>
+                    <f:facet name="output">
+                        <p:outputLabel value="#{project.endDate}"><f:convertDateTime
+                                pattern="dd-MM-yyyy"/></p:outputLabel>
+                    </f:facet>
+                    <f:facet name="input"><p:calendar value="#{project.endDate}"
+                                                      pattern="dd/MM/yyyy HH:mm:ss"/></f:facet>
                 </p:cellEditor>
             </p:column>
 
@@ -66,21 +66,63 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
+
+            <p:column style="width:32px;text-align: center">
+                <p:commandLink update=":content:form:projectDetail" oncomplete="PF('projectDialog').show()"
+                               title="View">
+                    <i class="fa fa-search"/>
+                    <f:setPropertyActionListener value="#{project}" target="#{projects.selectedProject}"/>
+                </p:commandLink>
+            </p:column>
+
             <p:column style="width:32px;text-align: center">
                 <p:commandLink update="content" actionListener="#{projects.deleteProject(project.id)}">
                     <i class="fa fa-trash"/>
                 </p:commandLink>
             </p:column>
+
             <p:column style="width:35px">
                 <p:rowEditor/>
             </p:column>
+
         </p:dataTable>
         <div class="ui-g">
             <div class="ui-g-12">
-                <p:commandButton value="Save" styleClass="ui-priority-primary" process="@this" update="content"
+                <p:commandButton value="New Project" styleClass="ui-priority-primary" process="@this" update="content"
                                  action="#{projects.createProject}"/>
             </div>
         </div>
+
+        <p:dialog header="Project Info" widgetVar="projectDialog" modal="true" showEffect="fade" hideEffect="fade"
+                  resizable="false">
+            <p:outputPanel id="projectDetail" style="text-align:center;">
+                <p:panelGrid columns="2" rendered="#{not empty projects.selectedProject}" columnClasses="label,value">
+                    <f:facet name="header">
+                        <h:outputText value="Project: #{projects.selectedProject.name}"/>
+                    </f:facet>
+
+                    <h:outputText value="Id"/>
+                    <p:outputLabel value="#{projects.selectedProject.id}"/>
+
+                    <h:outputText value="Description"/>
+                    <p:inputTextarea readonly="true" rows="3" cols="30"
+                                     value="#{projects.selectedProject.description}"/>
+
+                    <h:outputText value="Start Date"/>
+                    <p:outputLabel value="#{projects.selectedProject.startDate}">
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </p:outputLabel>
+
+                    <h:outputText value="End Date"/>
+                    <p:outputLabel value="#{projects.selectedProject.endDate}">
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </p:outputLabel>
+
+                    <h:outputText value="Status"/>
+                    <h:outputText value="#{projects.selectedProject.status}"/>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
     </h:form>
 </f:view>
 </html>

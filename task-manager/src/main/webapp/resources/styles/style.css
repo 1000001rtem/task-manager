@@ -1,20 +1,30 @@
 body {
   height: 100%;
+  margin: 0;
+  background-color: #ABABAB;
 }
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  margin: 0 auto;
+  width: 1170px;
 }
-.header {
+.wrapper .header {
+  background-color: #575757;
   flex: 0 0 auto;
   min-height: 100px;
+  display: flex;
+  align-items: center;
 }
-.content {
+.wrapper .header .headerMenu {
+  width: 100%;
+}
+.wrapper .content {
+  min-height: calc(100vh - 200px);
+  background-color: #ffffff;
+}
+.wrapper .content .crudTable {
+  margin: 20px 0 20px 0;
+}
+.wrapper .footer {
   min-height: 100px;
-  flex: 1 0 auto;
-}
-#layout-footer {
-  min-height: 200px;
-  bottom: 0;
+  background-color: #575757;
 }
