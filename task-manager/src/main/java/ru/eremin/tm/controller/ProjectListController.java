@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.primefaces.event.RowEditEvent;
 import ru.eremin.tm.api.IProjectService;
+import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.entity.enumerated.Status;
@@ -15,8 +16,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @autor Eremin Artem on 22.05.2019.
@@ -56,9 +59,9 @@ public class ProjectListController {
         refresh();
     }
 
-    public void createProject() throws IncorrectDataException {
+    public void createProject() throws IncorrectDataException, AccessForbiddenException {
         @NotNull ProjectDTO projectDTO = new ProjectDTO();
-        projectDTO.setUserId("6706e691-2f78-45ad-b021-3730c48959f0");
+        projectDTO.setUserId(getUserId());
         projectService.persist(projectDTO);
         refresh();
     }
@@ -69,7 +72,19 @@ public class ProjectListController {
     }
 
     private void refresh() {
-        projects = projectService.findAll();
+        try {
+            projects = projectService.findByUserId(getUserId());
+        } catch (AccessForbiddenException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getUserId() throws AccessForbiddenException {
+        @NotNull final FacesContext facesContext = FacesContext.getCurrentInstance();
+        @NotNull final Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
+        @Nullable final String userId = (String) map.get("userId");
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException("user not found");
+        return userId;
     }
 
     public void onRowCancel() {

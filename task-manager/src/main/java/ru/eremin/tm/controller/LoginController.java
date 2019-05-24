@@ -41,8 +41,7 @@ public class LoginController {
 
     public String auth() throws IncorrectDataException {
         @NotNull final UserDTO userDTO = authService.check(login, PasswordHashUtil.md5(password));
-        System.out.println(userDTO);
-        if (userDTO == null) return "login-view";
+        if (userDTO == null) return "pretty:login";
         @NotNull final FacesContext facesContext = FacesContext.getCurrentInstance();
         @NotNull final Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
         map.put("auth", true);

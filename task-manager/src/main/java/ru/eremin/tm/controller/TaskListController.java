@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.primefaces.event.RowEditEvent;
 import ru.eremin.tm.api.IProjectService;
 import ru.eremin.tm.api.ITaskService;
+import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
@@ -17,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -71,10 +73,10 @@ public class TaskListController {
         refresh();
     }
 
-    public void createTask(@Nullable final String projectId) throws IncorrectDataException {
+    public void createTask(@Nullable final String projectId) throws IncorrectDataException, AccessForbiddenException {
         System.out.println(projectId);
         @NotNull final TaskDTO taskDTO = new TaskDTO();
-        taskDTO.setUserId("6706e691-2f78-45ad-b021-3730c48959f0");
+        taskDTO.setUserId(getUserId());
         taskDTO.setProjectId(projectId);
         taskService.persist(taskDTO);
         refresh();
@@ -89,10 +91,21 @@ public class TaskListController {
         return Arrays.asList(Status.values());
     }
 
-
     private void refresh() {
-        tasks = taskService.findAll();
-        projects = projectService.findAll().stream().collect(Collectors.toMap(ProjectDTO::getId, e -> e));
+        try {
+            tasks = taskService.findByUserId(getUserId());
+            projects = projectService.findByUserId(getUserId()).stream().collect(Collectors.toMap(ProjectDTO::getId, e -> e));
+        } catch (AccessForbiddenException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getUserId() throws AccessForbiddenException {
+        @NotNull final FacesContext facesContext = FacesContext.getCurrentInstance();
+        @NotNull final Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
+        @Nullable final String userId = (String) map.get("userId");
+        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException("user not found");
+        return userId;
     }
 
 

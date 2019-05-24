@@ -8,7 +8,11 @@
     <h:form id="taskForm">
         <p:growl id="taskMsgs" showDetail="true"/>
         <p:remoteCommand name="onCellEditTableComplete" update=":content"/>
-        <p:dataTable styleClass="crudTable" id="tasks" var="task" value="#{taskController.tasks}" editable="true">
+        <p:dataTable styleClass="crudTable" id="tasks" var="task" value="#{taskController.tasks}" editable="true"
+                     rows="10"
+                     paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15,50">
             <f:facet name="header">
                 Tasks
             </f:facet>

@@ -46,7 +46,7 @@ public class RegistrationController {
         userDTO.setHashPassword(PasswordHashUtil.md5(password));
         userDTO.setRole(Role.USER);
         userService.persist(userDTO);
-        return "pretty:login";
+        return "pretty:index";
     }
 
 }

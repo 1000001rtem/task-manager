@@ -7,28 +7,34 @@ body {
 .wrapper {
     margin: 0 auto;
     width: 1170px;
-    min-height: inherit;
+    height: inherit;
 }
 
 .header {
     background-color: #575757;
-    min-height: 100px;
+    height: 120px;
 }
 
-.header .headerMenu {
+.header .headerMenuContainer {
     width: 100%;
     display: flex;
     align-items: center;
-    min-height: inherit;
+    height: inherit;
 }
 
-.header .headerMenu form {
+.header .headerMenuContainer form {
     width: 100%;
     font-size: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header .headerMenuContainer form .headerMenu {
+    border: none;
 }
 
 .content {
-    min-height: calc(100vh - 200px);
+    min-height: calc(100vh - 240px);
     background-color: #ABABAB;
 }
 
@@ -75,6 +81,6 @@ body {
 }
 
 .footer {
-    min-height: 100px;
+    height: 120px;
     background-color: #575757;
 }

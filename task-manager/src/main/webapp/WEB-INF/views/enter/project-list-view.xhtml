@@ -9,7 +9,11 @@
         <p:growl id="projectMsgs" showDetail="true"/>
         <p:remoteCommand name="onCellEditTableComplete" update=":content"/>
         <p:dataTable styleClass="crudTable" id="projects" var="project" value="#{projectController.projects}"
-                     editable="true">
+                     editable="true"
+                     rows="10"
+                     paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15,50">
             <f:facet name="header">
                 Projects
             </f:facet>
