@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ru.eremin.tm.endpoint.ProjectEndpointImpl;
 import ru.eremin.tm.endpoint.TaskEndpointImpl;
 import ru.eremin.tm.endpoint.UserEndpointImpl;
@@ -18,6 +19,7 @@ import javax.xml.ws.Endpoint;
  */
 
 @Configuration
+@EnableWebMvc
 @Import(DataSourceConfiguration.class)
 @EnableJpaRepositories("ru.eremin.tm.repository")
 public class AppConfiguration {
