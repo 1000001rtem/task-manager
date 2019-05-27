@@ -197,7 +197,7 @@ public class ProjectService implements IProjectService {
     @Override
     @Transactional(readOnly = true)
     public Project getEntity(@NotNull final ProjectDTO projectDTO) {
-        @NotNull final Project project = new Project();
+        @NotNull final Project project = projectRepository.findById(projectDTO.getId()).orElse(new Project());
         @Nullable final User user = getUser(projectDTO.getUserId());
         project.setId(projectDTO.getId());
         if (projectDTO.getName() != null && !projectDTO.getName().isEmpty()) project.setName(projectDTO.getName());

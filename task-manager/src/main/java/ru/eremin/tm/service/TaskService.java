@@ -235,7 +235,7 @@ public class TaskService implements ITaskService {
     public Task getEntity(@NotNull final TaskDTO taskDTO) {
         @Nullable final Project project = getProject(taskDTO.getProjectId());
         @Nullable final User user = getUser(taskDTO.getUserId());
-        @NotNull final Task task = new Task();
+        @NotNull final Task task = taskRepository.findById(taskDTO.getId()).orElse(new Task());
         task.setId(taskDTO.getId());
         if (taskDTO.getName() != null && !taskDTO.getName().isEmpty()) task.setName(taskDTO.getName());
         if (taskDTO.getDescription() != null && !taskDTO.getDescription().isEmpty()) {

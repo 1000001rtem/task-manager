@@ -18,14 +18,14 @@ public interface TaskEndpoint {
 
     List<TaskDTO> findAllTasks(@Nullable final String userId) throws AccessForbiddenException;
 
-    TaskDTO findOneTask(@Nullable final String userId, @Nullable final String taskId) throws IncorrectDataException;
+    TaskDTO findOneTask(@Nullable final String taskId) throws IncorrectDataException;
 
     ResultDTO createTask(@Nullable final String userId, @Nullable final TaskDTO taskDTO) throws IncorrectDataException;
 
-    ResultDTO updateTask(@Nullable final String userId, @Nullable final TaskDTO taskDTO) throws IncorrectDataException;
+    ResultDTO updateTask(@Nullable final TaskDTO taskDTO) throws IncorrectDataException;
 
-    ResultDTO removeProject(@Nullable final String userId, @Nullable final String taskId) throws IncorrectDataException;
+    ResultDTO removeProject(@Nullable final String taskId) throws IncorrectDataException;
 
-    List<TaskDTO> findTasksByProjectId(@Nullable final String userId, @Nullable final String projectId) throws IncorrectDataException;
+    List<TaskDTO> findTasksByProjectId(@Nullable final String projectId) throws IncorrectDataException;
 
 }

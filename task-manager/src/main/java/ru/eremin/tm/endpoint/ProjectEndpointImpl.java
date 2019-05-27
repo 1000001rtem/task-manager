@@ -28,7 +28,7 @@ public class ProjectEndpointImpl implements ProjectEndpoint {
     }
 
     @Override
-    public ProjectDTO findOneProject(final @Nullable String userId, final @Nullable String projectId) throws IncorrectDataException {
+    public ProjectDTO findOneProject(final @Nullable String projectId) throws IncorrectDataException {
         return projectService.findOne(projectId);
     }
 
@@ -41,13 +41,13 @@ public class ProjectEndpointImpl implements ProjectEndpoint {
     }
 
     @Override
-    public ResultDTO updateProject(final @Nullable String userId, final @Nullable ProjectDTO projectDTO) throws IncorrectDataException {
+    public ResultDTO updateProject(final @Nullable ProjectDTO projectDTO) throws IncorrectDataException {
         projectService.update(projectDTO);
         return new ResultDTO(true);
     }
 
     @Override
-    public ResultDTO removeProject(final @Nullable String userId, final @Nullable String projectId) throws IncorrectDataException {
+    public ResultDTO removeProject(final @Nullable String projectId) throws IncorrectDataException {
         projectService.remove(projectId);
         return new ResultDTO(true);
     }

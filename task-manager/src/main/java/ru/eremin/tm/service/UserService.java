@@ -102,7 +102,7 @@ public class UserService implements IUserService {
     @NotNull
     @Override
     public User getEntity(@NotNull final UserDTO userDTO) {
-        @NotNull final User user = new User();
+        @NotNull final User user = userRepository.findById(userDTO.getId()).orElse(new User());
         user.setId(userDTO.getId());
         if (userDTO.getLogin() != null && !userDTO.getLogin().isEmpty()) user.setLogin(userDTO.getLogin());
         if (userDTO.getHashPassword() != null && !userDTO.getHashPassword().isEmpty()) {

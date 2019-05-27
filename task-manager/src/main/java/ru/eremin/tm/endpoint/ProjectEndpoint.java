@@ -18,12 +18,12 @@ public interface ProjectEndpoint {
 
     List<ProjectDTO> findAllProjects(@Nullable final String userId) throws AccessForbiddenException;
 
-    ProjectDTO findOneProject(@Nullable final String userId, @Nullable final String projectId) throws IncorrectDataException;
+    ProjectDTO findOneProject(@Nullable final String projectId) throws IncorrectDataException;
 
     ResultDTO createProject(@Nullable final String userId, @Nullable final ProjectDTO projectDTO) throws IncorrectDataException;
 
-    ResultDTO updateProject(@Nullable final String userId, @Nullable final ProjectDTO projectDTO) throws IncorrectDataException;
+    ResultDTO updateProject(@Nullable final ProjectDTO projectDTO) throws IncorrectDataException;
 
-    ResultDTO removeProject(@Nullable final String userId, @Nullable final String projectId) throws IncorrectDataException;
+    ResultDTO removeProject(@Nullable final String projectId) throws IncorrectDataException;
 
 }

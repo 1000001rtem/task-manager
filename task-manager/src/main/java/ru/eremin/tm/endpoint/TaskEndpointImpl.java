@@ -28,7 +28,7 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
     @Override
-    public TaskDTO findOneTask(final @Nullable String userId, final @Nullable String taskId) throws IncorrectDataException {
+    public TaskDTO findOneTask(final @Nullable String taskId) throws IncorrectDataException {
         return taskService.findOne(taskId);
     }
 
@@ -41,19 +41,19 @@ public class TaskEndpointImpl implements TaskEndpoint {
     }
 
     @Override
-    public ResultDTO updateTask(final @Nullable String userId, final @Nullable TaskDTO taskDTO) throws IncorrectDataException {
+    public ResultDTO updateTask(final @Nullable TaskDTO taskDTO) throws IncorrectDataException {
         taskService.update(taskDTO);
         return new ResultDTO(true);
     }
 
     @Override
-    public ResultDTO removeProject(final @Nullable String userId, final @Nullable String taskId) throws IncorrectDataException {
+    public ResultDTO removeProject(final @Nullable String taskId) throws IncorrectDataException {
         taskService.remove(taskId);
         return new ResultDTO(true);
     }
 
     @Override
-    public List<TaskDTO> findTasksByProjectId(final @Nullable String userId, final @Nullable String projectId) throws IncorrectDataException {
+    public List<TaskDTO> findTasksByProjectId(final @Nullable String projectId) throws IncorrectDataException {
         return taskService.findByProjectId(projectId);
     }
 
