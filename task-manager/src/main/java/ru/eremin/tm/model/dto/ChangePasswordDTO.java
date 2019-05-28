@@ -8,26 +8,29 @@ import lombok.Setter;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 /**
- * @autor av.eremin on 27.05.2019.
+ * @autor av.eremin on 28.05.2019.
  */
 
 @Getter
 @Setter
 @NoArgsConstructor
-@XmlRootElement(name = "result")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResultDTO implements Serializable {
+@XmlRootElement(name = "userChangePassword")
+public class ChangePasswordDTO {
 
-    private static final long serialVersionUID = 258678606242723926L;
+    private String userId;
 
-    private boolean success;
+    private String oldPassword;
 
-    public ResultDTO(final boolean success) {
-        this.success = success;
+    private String newPassword;
+
+    public ChangePasswordDTO(final String userId, final String oldPassword, final String newPassword) {
+        this.userId = userId;
+        this.oldPassword = oldPassword;
+        this.newPassword = newPassword;
     }
 
 }

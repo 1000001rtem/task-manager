@@ -42,7 +42,7 @@ public class ProjectRestController {
         return new ResultDTO(true);
     }
 
-    @PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultDTO updateProject(@RequestBody @Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         projectService.update(projectDTO);
         return new ResultDTO(true);

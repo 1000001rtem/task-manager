@@ -48,14 +48,14 @@ public class TaskRestController {
         return new ResultDTO(true);
     }
 
-    @PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultDTO updateTask(@RequestBody @Nullable final TaskDTO taskDTO) throws IncorrectDataException {
         taskService.update(taskDTO);
         return new ResultDTO(true);
     }
 
     @GetMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO deleteTask (@RequestParam @Nullable final String taskId) throws IncorrectDataException {
+    public ResultDTO deleteTask(@RequestParam @Nullable final String taskId) throws IncorrectDataException {
         taskService.remove(taskId);
         return new ResultDTO(true);
     }
