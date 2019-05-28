@@ -1,4 +1,4 @@
-package ru.eremin.tm.api;
+package ru.eremin.tm.api.service;
 
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;

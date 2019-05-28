@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import ru.eremin.tm.api.IAuthService;
+import ru.eremin.tm.api.service.IAuthService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.util.PasswordHashUtil;

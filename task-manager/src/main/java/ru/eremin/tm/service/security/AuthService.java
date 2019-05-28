@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.eremin.tm.api.IAuthService;
+import ru.eremin.tm.api.service.IAuthService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.User;

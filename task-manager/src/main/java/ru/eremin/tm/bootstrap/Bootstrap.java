@@ -3,7 +3,7 @@ package ru.eremin.tm.bootstrap;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.eremin.tm.api.IUserService;
+import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;

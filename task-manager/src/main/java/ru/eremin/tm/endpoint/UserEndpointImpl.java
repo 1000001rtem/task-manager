@@ -3,7 +3,8 @@ package ru.eremin.tm.endpoint;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.eremin.tm.api.IUserService;
+import ru.eremin.tm.api.service.IUserService;
+import ru.eremin.tm.api.endpoint.UserEndpoint;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ResultDTO;
 import ru.eremin.tm.model.dto.UserDTO;
@@ -17,7 +18,7 @@ import java.util.List;
  * @autor av.eremin on 27.05.2019.
  */
 
-@WebService(endpointInterface = "ru.eremin.tm.endpoint.UserEndpoint")
+@WebService(endpointInterface = "ru.eremin.tm.api.endpoint.UserEndpoint")
 public class UserEndpointImpl implements UserEndpoint {
 
     @Autowired

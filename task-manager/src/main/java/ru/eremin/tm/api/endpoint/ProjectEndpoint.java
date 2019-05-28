@@ -1,4 +1,4 @@
-package ru.eremin.tm.endpoint;
+package ru.eremin.tm.api.endpoint;
 
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.exeption.AccessForbiddenException;

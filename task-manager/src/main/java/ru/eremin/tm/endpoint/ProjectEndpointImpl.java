@@ -3,7 +3,8 @@ package ru.eremin.tm.endpoint;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.eremin.tm.api.IProjectService;
+import ru.eremin.tm.api.service.IProjectService;
+import ru.eremin.tm.api.endpoint.ProjectEndpoint;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
@@ -16,7 +17,7 @@ import java.util.List;
  * @autor av.eremin on 27.05.2019.
  */
 
-@WebService(endpointInterface = "ru.eremin.tm.endpoint.ProjectEndpoint")
+@WebService(endpointInterface = "ru.eremin.tm.api.endpoint.ProjectEndpoint")
 public class ProjectEndpointImpl implements ProjectEndpoint {
 
     @Autowired

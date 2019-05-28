@@ -1,4 +1,4 @@
-package ru.eremin.tm.api;
+package ru.eremin.tm.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
