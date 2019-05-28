@@ -26,17 +26,17 @@ public class TaskRestController {
     private ITaskService taskService;
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<TaskDTO> findAllTasks(@RequestParam(value = "userId") @Nullable final String userId) throws AccessForbiddenException {
+    public List<TaskDTO> findAllTasks(@RequestParam(name = "userId") @Nullable final String userId) throws AccessForbiddenException {
         return taskService.findByUserId(userId);
     }
 
     @GetMapping(value = "/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public TaskDTO findOneTask(@RequestParam(value = "taskId") @Nullable final String taskId) throws IncorrectDataException {
+    public TaskDTO findOneTask(@RequestParam(name = "taskId") @Nullable final String taskId) throws IncorrectDataException {
         return taskService.findOne(taskId);
     }
 
     @GetMapping(value = "/findByProject", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<TaskDTO> findTaskByProjectId(@RequestParam(value = "projectId") @Nullable final String projectId) throws IncorrectDataException {
+    public List<TaskDTO> findTaskByProjectId(@RequestParam(name = "projectId") @Nullable final String projectId) throws IncorrectDataException {
         return taskService.findByProjectId(projectId);
     }
 
@@ -54,8 +54,8 @@ public class TaskRestController {
         return new ResultDTO(true);
     }
 
-    @GetMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO deleteTask(@RequestParam @Nullable final String taskId) throws IncorrectDataException {
+    @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO deleteTask(@RequestParam (name = "taskId") @Nullable final String taskId) throws IncorrectDataException {
         taskService.remove(taskId);
         return new ResultDTO(true);
     }
