@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
@@ -12,6 +13,7 @@ import ru.eremin.tm.client.model.dto.ProjectDTO;
 import ru.eremin.tm.client.model.dto.ResultDTO;
 import ru.eremin.tm.client.model.dto.TaskDTO;
 import ru.eremin.tm.client.model.dto.enumerated.Status;
+import ru.eremin.tm.client.task.ProjectClient;
 import ru.eremin.tm.client.task.TaskClient;
 
 import java.util.List;
@@ -77,31 +79,14 @@ public class TaskRestTest {
         projectDTO.setName("testProject");
         projectDTO.setDescription("testDesc");
         projectDTO.setUserId(USER_ID);
-        @NotNull final RestTemplate restTemplate = new RestTemplate();
-        @NotNull final HttpEntity<ProjectDTO> request = new HttpEntity<>(projectDTO);
-        restTemplate.postForObject("http://localhost:8080/api/project/create", request, ResultDTO.class);
-
-        @NotNull final UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString("http://localhost:8080/api/project/findAll")
-                .queryParam("userId", USER_ID);
-        //if List.class int returned List<LinkedHashMap>
-        @Nullable final ProjectDTO[] projectDTOS = restTemplate.getForObject(builder.toUriString(), ProjectDTO[].class);
-        System.out.println("create " + projectDTOS[0].getId());
-        return projectDTOS[0].getId();
+        @NotNull final ProjectClient projectClient = ProjectClient.client("http://localhost:8080/api/project");
+        projectClient.createProject(projectDTO);
+        return projectClient.findAllProjects(USER_ID).get(0).getId();
     }
 
     private void deleteProject() {
-        @NotNull final UriComponentsBuilder findBuilder = UriComponentsBuilder
-                .fromUriString("http://localhost:8080/api/project/findAll")
-                .queryParam("userId", USER_ID);
-        //if List.class int returned List<LinkedHashMap>
-        @Nullable final RestTemplate restTemplate = new RestTemplate();
-        @Nullable final ProjectDTO[] projectDTOS = restTemplate.getForObject(findBuilder.toUriString(), ProjectDTO[].class);
-
-        @NotNull final UriComponentsBuilder deleteBuilder = UriComponentsBuilder
-                .fromUriString("http://localhost:8080/api/project/delete")
-                .queryParam("projectId", projectDTOS[0].getId());
-        restTemplate.delete(deleteBuilder.toUriString());
+        @NotNull final ProjectClient projectClient = ProjectClient.client("http://localhost:8080/api/project");
+        projectClient.deleteProject(projectClient.findAllProjects(USER_ID).get(0).getId());
     }
 
 }

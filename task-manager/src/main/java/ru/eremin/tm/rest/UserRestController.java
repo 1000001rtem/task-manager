@@ -71,7 +71,7 @@ public class UserRestController {
     }
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO resultDTO(@RequestParam(name = "userId") @Nullable final String userId) throws IncorrectDataException {
+    public ResultDTO deleteUser(@RequestParam(name = "userId") @Nullable final String userId) throws IncorrectDataException {
         userService.remove(userId);
         return new ResultDTO(true);
     }

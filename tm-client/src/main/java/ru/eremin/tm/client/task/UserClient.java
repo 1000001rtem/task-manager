@@ -1,6 +1,7 @@
 package ru.eremin.tm.client.task;
 
 import feign.Feign;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
@@ -11,18 +12,19 @@ import org.springframework.cloud.netflix.feign.support.SpringMvcContract;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
-import ru.eremin.tm.client.model.dto.*;
+import ru.eremin.tm.client.model.dto.ChangePasswordDTO;
+import ru.eremin.tm.client.model.dto.ResultDTO;
+import ru.eremin.tm.client.model.dto.UserDTO;
 
 import java.util.List;
 
 /**
- * @autor av.eremin on 28.05.2019.
+ * @autor av.eremin on 29.05.2019.
  */
+@FeignClient("userClient")
+public interface UserClient {
 
-@FeignClient("taskClient")
-public interface TaskClient {
-
-    static TaskClient client(final String baseUrl) {
+    static UserClient client(final String baseUrl) {
         final FormHttpMessageConverter converter = new FormHttpMessageConverter();
         final HttpMessageConverters converters = new HttpMessageConverters(converter);
         final ObjectFactory<HttpMessageConverters> objectFactory = () -> converters;
@@ -30,25 +32,28 @@ public interface TaskClient {
                 .contract(new SpringMvcContract())
                 .encoder(new SpringEncoder(objectFactory))
                 .decoder(new SpringDecoder(objectFactory))
-                .target(TaskClient.class, baseUrl);
+                .target(UserClient.class, baseUrl);
     }
 
-    @GetMapping(value = "/findAll")
-    List<TaskDTO> findAllTasks(@RequestParam(name = "userId") @Nullable final String userId);
+    @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    List<UserDTO> findAllUsers();
 
     @GetMapping(value = "/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    TaskDTO findOneTask(@RequestParam(name = "taskId") @Nullable final String taskId);
+    UserDTO findOneUser(@RequestParam(name = "userId") @Nullable final String userId);
 
-    @GetMapping(value = "/findByProject", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    List<TaskDTO> findTaskByProjectId(@RequestParam(name = "projectId") @Nullable final String projectId);
+    @GetMapping(value = "/findByLogin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    UserDTO findUserByLogin(@RequestParam(name = "userLogin") @Nullable final String userLogin);
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO createTask(@RequestBody @Nullable final TaskDTO taskDTO);
+    ResultDTO createUser(@RequestBody @Nullable final UserDTO userDTO);
+
+    @PutMapping(value = "/changePassword", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    ResultDTO changePassword(@RequestBody @Nullable ChangePasswordDTO changePasswordDTO);
 
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO updateTask(@RequestBody @Nullable final TaskDTO taskDTO);
+    ResultDTO updateUser(@RequestBody @Nullable final UserDTO userDTO);
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO deleteTask(@RequestParam(name = "taskId") @Nullable final String taskId);
+    ResultDTO deleteUser(@RequestParam(name = "userId") @Nullable final String userId);
 
 }
