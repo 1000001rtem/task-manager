@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * @autor av.eremin on 27.05.2019.
  */
-
 @RestController
 @RequestMapping(value = "/api/project")
 public class ProjectRestController {
@@ -25,12 +24,12 @@ public class ProjectRestController {
     private IProjectService projectService;
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<ProjectDTO> findAllProjects(@RequestParam(value = "userId") @Nullable final String userId) throws AccessForbiddenException {
+    public List<ProjectDTO> findAllProjects(@RequestParam(name = "userId") @Nullable final String userId) throws AccessForbiddenException {
         return projectService.findByUserId(userId);
     }
 
     @GetMapping(value = "/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ProjectDTO findOneProject(@RequestParam(value = "projectId") @Nullable final String projectId) throws IncorrectDataException {
+    public ProjectDTO findOneProject(@RequestParam(name = "projectId") @Nullable final String projectId) throws IncorrectDataException {
         return projectService.findOne(projectId);
     }
 
@@ -49,7 +48,7 @@ public class ProjectRestController {
     }
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO deleteProject(@RequestParam(value = "projectId") @Nullable final String projectId) throws IncorrectDataException {
+    public ResultDTO deleteProject(@RequestParam(name = "projectId") @Nullable final String projectId) throws IncorrectDataException {
         projectService.remove(projectId);
         return new ResultDTO(true);
     }

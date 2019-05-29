@@ -32,12 +32,12 @@ public class UserRestController {
     }
 
     @GetMapping(value = "/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserDTO findOneUser(@RequestParam(value = "userId") @Nullable final String userId) throws IncorrectDataException {
+    public UserDTO findOneUser(@RequestParam(name = "userId") @Nullable final String userId) throws IncorrectDataException {
         return userService.findOne(userId);
     }
 
     @GetMapping(value = "/findByLogin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserDTO findUserByLogin(@RequestParam(value = "userLogin") @Nullable final String userLogin) throws IncorrectDataException {
+    public UserDTO findUserByLogin(@RequestParam(name = "userLogin") @Nullable final String userLogin) throws IncorrectDataException {
         return userService.findByLogin(userLogin);
     }
 
@@ -71,7 +71,7 @@ public class UserRestController {
     }
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO resultDTO(@RequestParam(value = "userId") @Nullable final String userId) throws IncorrectDataException {
+    public ResultDTO resultDTO(@RequestParam(name = "userId") @Nullable final String userId) throws IncorrectDataException {
         userService.remove(userId);
         return new ResultDTO(true);
     }
