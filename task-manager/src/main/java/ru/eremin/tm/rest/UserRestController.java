@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
@@ -26,6 +27,9 @@ public class UserRestController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<UserDTO> findAllUsers() {
         return userService.findAll();
@@ -45,7 +49,7 @@ public class UserRestController {
     public ResultDTO createUser(@RequestBody @Nullable final UserDTO userDTO) throws IncorrectDataException {
         @NotNull final UserDTO userDTO1 = new UserDTO();
         userDTO1.setLogin(userDTO.getLogin());
-        userDTO1.setHashPassword(PasswordHashUtil.md5(userDTO.getHashPassword()));
+        userDTO1.setHashPassword(passwordEncoder.encode(userDTO.getHashPassword()));
         userDTO1.setRole(Role.USER);
         userService.persist(userDTO1);
         return new ResultDTO(true);
@@ -55,8 +59,8 @@ public class UserRestController {
     public ResultDTO changePassword(@RequestBody @Nullable ChangePasswordDTO changePasswordDTO) throws IncorrectDataException {
         if (changePasswordDTO == null) return new ResultDTO(false);
         @Nullable final String userId = changePasswordDTO.getUserId();
-        @Nullable final String oldPassword = PasswordHashUtil.md5(changePasswordDTO.getOldPassword());
-        @Nullable final String newPassword = PasswordHashUtil.md5(changePasswordDTO.getNewPassword());
+        @Nullable final String oldPassword = passwordEncoder.encode(changePasswordDTO.getOldPassword());
+        @Nullable final String newPassword = passwordEncoder.encode(changePasswordDTO.getNewPassword());
         @NotNull final UserDTO userDTO = userService.findOne(userId);
         if (!userDTO.getHashPassword().equals(oldPassword)) return new ResultDTO(false);
         userDTO.setHashPassword(newPassword);

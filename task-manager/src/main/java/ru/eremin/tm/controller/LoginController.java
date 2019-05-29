@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.eremin.tm.api.service.IAuthService;
 import ru.eremin.tm.exeption.IncorrectDataException;
@@ -35,12 +36,15 @@ public class LoginController {
     @Autowired
     private IAuthService authService;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     private String login;
 
     private String password;
 
     public String auth() throws IncorrectDataException {
-        @NotNull final UserDTO userDTO = authService.check(login, PasswordHashUtil.md5(password));
+        @NotNull final UserDTO userDTO = authService.check(login, passwordEncoder.encode(password));
         if (userDTO == null) return "pretty:login";
         @NotNull final FacesContext facesContext = FacesContext.getCurrentInstance();
         @NotNull final Map<String, Object> map = facesContext.getExternalContext().getSessionMap();

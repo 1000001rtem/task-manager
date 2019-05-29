@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
@@ -31,8 +32,13 @@ import javax.inject.Named;
 )
 public class RegistrationController {
 
+    @NotNull
     @Autowired
     private IUserService userService;
+
+    @NotNull
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     private String login;
 
@@ -43,7 +49,7 @@ public class RegistrationController {
         if (password == null || password.isEmpty()) return "pretty:registration";
         @NotNull final UserDTO userDTO = new UserDTO();
         userDTO.setLogin(login);
-        userDTO.setHashPassword(PasswordHashUtil.md5(password));
+        userDTO.setHashPassword(passwordEncoder.encode(password));
         userDTO.setRole(Role.USER);
         userService.persist(userDTO);
         return "pretty:index";

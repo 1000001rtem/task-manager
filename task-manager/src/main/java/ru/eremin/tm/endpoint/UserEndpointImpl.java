@@ -3,6 +3,7 @@ package ru.eremin.tm.endpoint;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.eremin.tm.api.endpoint.UserEndpoint;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
@@ -23,6 +24,9 @@ public class UserEndpointImpl implements UserEndpoint {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -45,7 +49,7 @@ public class UserEndpointImpl implements UserEndpoint {
         if (password == null || password.isEmpty()) return new ResultDTO(false);
         @NotNull final UserDTO userDTO = new UserDTO();
         userDTO.setLogin(login);
-        userDTO.setHashPassword(PasswordHashUtil.md5(password));
+        userDTO.setHashPassword(passwordEncoder.encode(password));
         userDTO.setRole(Role.USER);
         userService.persist(userDTO);
         return new ResultDTO(true);
@@ -54,8 +58,8 @@ public class UserEndpointImpl implements UserEndpoint {
     @Override
     public ResultDTO changeUserPassword(final @Nullable String userId, final @Nullable String oldPassword, final @Nullable String newPassword) throws IncorrectDataException {
         @NotNull final UserDTO userDTO = userService.findOne(userId);
-        if (!userDTO.getHashPassword().equals(PasswordHashUtil.md5(oldPassword))) return new ResultDTO(false);
-        userDTO.setHashPassword(PasswordHashUtil.md5(newPassword));
+        if (!userDTO.getHashPassword().equals(passwordEncoder.encode(oldPassword))) return new ResultDTO(false);
+        userDTO.setHashPassword(passwordEncoder.encode(newPassword));
         userService.update(userDTO);
         return new ResultDTO(true);
     }

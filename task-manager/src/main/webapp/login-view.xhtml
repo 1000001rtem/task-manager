@@ -22,7 +22,7 @@
                         <p:spacer/>
                         <p:message for="password"/>
                         <p:spacer/>
-                        <p:commandButton action="#{loginController.auth()}" process="@form" value="Enter"
+                        <p:commandButton action="/login" method="post" class="login" process="@form" value="Enter"
                                          update=":growl"
                                          ajax="true">
                         </p:commandButton>
