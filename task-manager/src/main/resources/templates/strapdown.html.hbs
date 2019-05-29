@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<title>API Document</title>
+
+<xmp theme="united" style="display:none;">
+#{{#info}}{{title}}
+
+
+## {{join schemes " | "}}://{{host}}{{basePath}}
+
+
+{{description}}
+
+{{#contact}}
+[**Contact the developer**](mailto:{{email}})
+{{/contact}}
+
+**Version** {{version}}
+
+[**Terms of Service**]({{termsOfService}})
+
+{{#license}}[**{{name}}**]({{url}}){{/license}}
+
+{{/info}}
+
+{{#if consumes}}**Consumes:** {{join consumes ", "}}{{/if}}
+
+{{#if produces}}**Produces:** {{join produces ", "}}{{/if}}
+
+{{#if securityDefinitions}}
+# Security Definitions
+{{/if}}
+{{#each securityDefinitions}}
+### {{@key}}
+{{#this}}
+{{#ifeq type "oauth2"}}
+<table>
+    <tr>
+        <th>type</th>
+        <th colspan="2">{{type}}</th>
+    </tr>
+{{#if description}}
+        <tr>
+            <th>description</th>
+            <th colspan="2">{{description}}</th>
+        </tr>
+{{/if}}
+{{#if authorizationUrl}}
+        <tr>
+            <th>authorizationUrl</th>
+            <th colspan="2">{{authorizationUrl}}</th>
+        </tr>
+{{/if}}
+{{#if flow}}
+        <tr>
+            <th>flow</th>
+            <th colspan="2">{{flow}}</th>
+        </tr>
+{{/if}}
+{{#if tokenUrl}}
+        <tr>
+            <th>tokenUrl</th>
+            <th colspan="2">{{tokenUrl}}</th>
+        </tr>
+{{/if}}
+{{#if scopes}}
+    <tr>
+        <td rowspan="3">scopes</td>
+{{#each scopes}}
+            <td>{{@key}}</td>
+            <td>{{this}}</td>
+        </tr>
+        <tr>
+{{/each}}
+    </tr>
+{{/if}}
+</table>
+{{/ifeq}}
+{{#ifeq type "apiKey"}}
+<table>
+    <tr>
+        <th>type</th>
+        <th colspan="2">{{type}}</th>
+    </tr>
+{{#if description}}
+        <tr>
+            <th>description</th>
+            <th colspan="2">{{description}}</th>
+        </tr>
+{{/if}}
+{{#if name}}
+        <tr>
+            <th>name</th>
+            <th colspan="2">{{name}}</th>
+        </tr>
+{{/if}}
+{{#if in}}
+        <tr>
+            <th>in</th>
+            <th colspan="2">{{in}}</th>
+        </tr>
+{{/if}}
+</table>
+{{/ifeq}}
+{{#ifeq type "basic"}}
+<table>
+    <tr>
+        <th>type</th>
+        <th colspan="2">{{type}}</th>
+    </tr>
+{{#if description}}
+        <tr>
+            <th>description</th>
+            <th colspan="2">{{description}}</th>
+        </tr>
+{{/if}}
+</table>
+{{/ifeq}}
+{{/this}}
+{{/each}}
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+
+
+# APIs
+
+{{#each paths}}
+## {{@key}}
+{{#this}}
+{{#get}}
+### GET
+{{#deprecated}}-deprecated-{{/deprecated}}
+<a id="{{operationId}}">{{summary}}</a>
+
+{{description}}
+
+{{#if externalDocs.url}}{{externalDocs.description}}. [See external documents for more details]({{externalDocs.url}})
+{{/if}}
+
+{{#if security}}
+#### Security
+{{/if}}
+
+{{#security}}
+{{#each this}}
+* {{@key}}
+{{#this}}   * {{this}}
+{{/this}}
+{{/each}}
+{{/security}}
+
+#### Request
+
+{{#if consumes}}
+**Content-Type: ** {{join consumes ", "}}{{/if}}
+
+##### Parameters
+{{#if parameters}}
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Located in</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Default</th>
+        <th>Schema</th>
+    </tr>
+{{/if}}
+
+{{#parameters}}
+<tr>
+    <th>{{name}}</th>
+    <td>{{in}}</td>
+    <td>{{#if required}}yes{{else}}no{{/if}}</td>
+    <td>
+        {{description}}{{#if pattern}} (**Pattern**: `{{pattern}}`){{/if}}
+        {{#if enum}}
+            <p>
+                <b>Allowable values</b>: {{#join enum ", "}} {{this}}{{/join}}
+            </p>
+        {{/if}}
+    </td>
+    <td>{{#if defaultValue}}{{defaultValue}}{{else}} - {{/if}}</td>
+{{#ifeq in "body"}}
+    <td>
+    {{#ifeq schema.type "array"}}Array[<a href="{{schema.items.$ref}}">{{basename schema.items.$ref}}</a>]{{/ifeq}}
+    {{#schema.$ref}}<a href="{{schema.$ref}}">{{basename schema.$ref}}</a> {{/schema.$ref}}
+    </td>
+{{else}}
+    {{#ifeq type "array"}}
+            <td>Array[{{items.type}}] ({{collectionFormat}})</td>
+    {{else}}
+            <td>{{type}} {{#format}}({{format}}){{/format}}</td>
+    {{/ifeq}}
+{{/ifeq}}
+</tr>
+{{/parameters}}
+{{#if parameters}}
+</table>
+{{/if}}
+
+
+#### Response
+
+{{#if produces}}**Content-Type: ** {{join produces ", "}}{{/if}}
+
+
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+{{#each responses}}| {{@key}}    | {{description}} | {{#schema.$ref}}<a href="{{schema.$ref}}">{{basename schema.$ref}}</a>{{/schema.$ref}}{{#ifeq schema.type "array"}}Array[<a href="{{schema.items.$ref}}">{{basename schema.items.$ref}}</a>]{{/ifeq}}{{^schema}} - {{/schema}}|
+{{/each}}
+{{/get}}
+
+{{#put}}
+### PUT
+{{#deprecated}}-deprecated-{{/deprecated}}
+<a id="{{operationId}}">{{summary}}</a>
+
+{{description}}
+
+{{#if externalDocs.url}}{{externalDocs.description}}. [See external documents for more details]({{externalDocs.url}})
+{{/if}}
+
+{{#if security}}
+#### Security
+{{/if}}
+
+{{#security}}
+{{#each this}}
+* {{@key}}
+{{#this}}   * {{this}}
+{{/this}}
+{{/each}}
+{{/security}}
+
+#### Request
+
+{{#if consumes}}
+**Content-Type: ** {{join consumes ", "}}{{/if}}
+
+##### Parameters
+{{#if parameters}}
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Located in</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Default</th>
+        <th>Schema</th>
+    </tr>
+{{/if}}
+
+{{#parameters}}
+<tr>
+    <th>{{name}}</th>
+    <td>{{in}}</td>
+    <td>{{#if required}}yes{{else}}no{{/if}}</td>
+    <td>
+        {{description}}{{#if pattern}} (**Pattern**: `{{pattern}}`){{/if}}
+        {{#if enum}}
+            <p>
+                <b>Allowable values</b>: {{#join enum ", "}} {{this}}{{/join}}
+            </p>
+        {{/if}}
+    </td>
+    <td>{{#if defaultValue}}{{defaultValue}}{{else}} - {{/if}}</td>
+{{#ifeq in "body"}}
+    <td>
+    {{#ifeq schema.type "array"}}Array[<a href="{{schema.items.$ref}}">{{basename schema.items.$ref}}</a>]{{/ifeq}}
+    {{#schema.$ref}}<a href="{{schema.$ref}}">{{basename schema.$ref}}</a> {{/schema.$ref}}
+    </td>
+{{else}}
+    {{#ifeq type "array"}}
+            <td>Array[{{items.type}}] ({{collectionFormat}})</td>
+    {{else}}
+            <td>{{type}} {{#format}}({{format}}){{/format}}</td>
+    {{/ifeq}}
+{{/ifeq}}
+</tr>
+{{/parameters}}
+{{#if parameters}}
+</table>
+{{/if}}
+
+
+#### Response
+
+{{#if produces}}**Content-Type: ** {{join produces ", "}}{{/if}}
+
+
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+{{#each responses}}| {{@key}}    | {{description}} | {{#schema.$ref}}<a href="{{schema.$ref}}">{{basename schema.$ref}}</a>{{/schema.$ref}}{{#ifeq schema.type "array"}}Array[<a href="{{schema.items.$ref}}">{{basename schema.items.$ref}}</a>]{{/ifeq}}{{^schema}} - {{/schema}}|
+{{/each}}
+{{/put}}
+
+{{#post}}
+### POST
+
+{{#deprecated}}-deprecated-{{/deprecated}}
+<a id="{{operationId}}">{{summary}}</a>
+
+{{description}}
+
+{{#if externalDocs.url}}{{externalDocs.description}}. [See external documents for more details]({{externalDocs.url}})
+{{/if}}
+
+{{#if security}}
+#### Security
+{{/if}}
+
+{{#security}}
+{{#each this}}
+* {{@key}}
+{{#this}}   * {{this}}
+{{/this}}
+{{/each}}
+{{/security}}
+
+#### Request
+
+{{#if consumes}}
+**Content-Type: ** {{join consumes ", "}}{{/if}}
+
+##### Parameters
+{{#if parameters}}
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Located in</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Default</th>
+        <th>Schema</th>
+    </tr>
+{{/if}}
+
+{{#parameters}}
+<tr>
+    <th>{{name}}</th>
+    <td>{{in}}</td>
+    <td>{{#if required}}yes{{else}}no{{/if}}</td>
+    <td>
+        {{description}}{{#if pattern}} (**Pattern**: `{{pattern}}`){{/if}}
+        {{#if enum}}
+            <p>
+                <b>Allowable values</b>: {{#join enum ", "}} {{this}}{{/join}}
+            </p>
+        {{/if}}
+    </td>
+    <td>{{#if defaultValue}}{{defaultValue}}{{else}} - {{/if}}</td>
+{{#ifeq in "body"}}
+    <td>
+    {{#ifeq schema.type "array"}}Array[<a href="{{schema.items.$ref}}">{{basename schema.items.$ref}}</a>]{{/ifeq}}
+    {{#schema.$ref}}<a href="{{schema.$ref}}">{{basename schema.$ref}}</a> {{/schema.$ref}}
+    </td>
+{{else}}
+    {{#ifeq type "array"}}
+            <td>Array[{{items.type}}] ({{collectionFormat}})</td>
+    {{else}}
+            <td>{{type}} {{#format}}({{format}}){{/format}}</td>
+    {{/ifeq}}
+{{/ifeq}}
+</tr>
+{{/parameters}}
+{{#if parameters}}
+</table>
+{{/if}}
+
+
+#### Response
+
+{{#if produces}}**Content-Type: ** {{join produces ", "}}{{/if}}
+
+
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+{{#each responses}}| {{@key}}    | {{description}} | {{#schema.$ref}}<a href="{{schema.$ref}}">{{basename schema.$ref}}</a>{{/schema.$ref}}{{#ifeq schema.type "array"}}Array[<a href="{{schema.items.$ref}}">{{basename schema.items.$ref}}</a>]{{/ifeq}}{{^schema}} - {{/schema}}|
+{{/each}}
+
+{{/post}}
+
+{{#delete}}
+### DELETE
+{{#deprecated}}-deprecated-{{/deprecated}}
+<a id="{{operationId}}">{{summary}}</a>
+
+{{description}}
+
+{{#if externalDocs.url}}{{externalDocs.description}}. [See external documents for more details]({{externalDocs.url}})
+{{/if}}
+
+{{#if security}}
+#### Security
+{{/if}}
+
+{{#security}}
+{{#each this}}
+* {{@key}}
+{{#this}}   * {{this}}
+{{/this}}
+{{/each}}
+{{/security}}
+
+#### Request
+
+{{#if consumes}}
+**Content-Type: ** {{join consumes ", "}}{{/if}}
+
+##### Parameters
+{{#if parameters}}
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Located in</th>
+        <th>Required</th>
+        <th>Description</th>
+        <th>Default</th>
+        <th>Schema</th>
+    </tr>
+{{/if}}
+
+{{#parameters}}
+<tr>
+    <th>{{name}}</th>
+    <td>{{in}}</td>
+    <td>{{#if required}}yes{{else}}no{{/if}}</td>
+    <td>
+        {{description}}{{#if pattern}} (**Pattern**: `{{pattern}}`){{/if}}
+        {{#if enum}}
+            <p>
+                <b>Allowable values</b>: {{#join enum ", "}} {{this}}{{/join}}
+            </p>
+        {{/if}}
+    </td>
+    <td>{{#if defaultValue}}{{defaultValue}}{{else}} - {{/if}}</td>
+{{#ifeq in "body"}}
+    <td>
+    {{#ifeq schema.type "array"}}Array[<a href="{{schema.items.$ref}}">{{basename schema.items.$ref}}</a>]{{/ifeq}}
+    {{#schema.$ref}}<a href="{{schema.$ref}}">{{basename schema.$ref}}</a> {{/schema.$ref}}
+    </td>
+{{else}}
+    {{#ifeq type "array"}}
+            <td>Array[{{items.type}}] ({{collectionFormat}})</td>
+    {{else}}
+            <td>{{type}} {{#format}}({{format}}){{/format}}</td>
+    {{/ifeq}}
+{{/ifeq}}
+</tr>
+{{/parameters}}
+{{#if parameters}}
+</table>
+{{/if}}
+
+
+#### Response
+
+{{#if produces}}**Content-Type: ** {{join produces ", "}}{{/if}}
+
+
+| Status Code | Reason      | Response Model |
+|-------------|-------------|----------------|
+{{#each responses}}| {{@key}}    | {{description}} | {{#schema.$ref}}<a href="{{schema.$ref}}">{{basename schema.$ref}}</a>{{/schema.$ref}}{{#ifeq schema.type "array"}}Array[<a href="{{schema.items.$ref}}">{{basename schema.items.$ref}}</a>]{{/ifeq}}{{^schema}} - {{/schema}}|
+{{/each}}
+{{/delete}}
+
+{{#option}}
+### OPTION
+{{> operation}}
+{{/option}}
+
+{{#patch}}
+### PATCH
+{{> operation}}
+{{/patch}}
+
+{{#head}}
+### HEAD
+{{> operation}}
+{{/head}}
+
+{{/this}}
+{{/each}}
+
+# Definitions
+{{#each definitions}}
+## <a name="/definitions/{{@key}}">{{@key}}</a>
+
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>type</th>
+        <th>required</th>
+        <th>description</th>
+        <th>example</th>
+    </tr>
+    {{#each this.properties}}
+        <tr>
+            <td>{{@key}}</td>
+            <td>
+                {{#ifeq type "array"}}
+                {{#items.$ref}}
+                    {{type}}[<a href="{{items.$ref}}">{{basename items.$ref}}</a>]
+                {{/items.$ref}}
+                {{^items.$ref}}{{type}}[{{items.type}}]{{/items.$ref}}
+                {{else}}
+                    {{#$ref}}<a href="{{$ref}}">{{basename $ref}}</a>{{/$ref}}
+                    {{^$ref}}{{type}}{{#format}} ({{format}}){{/format}}{{/$ref}}
+                {{/ifeq}}
+            </td>
+            <td>{{#required}}required{{/required}}{{^required}}optional{{/required}}</td>
+            <td>{{#description}}{{{description}}}{{/description}}{{^description}}-{{/description}}</td>
+            <td>{{example}}</td>
+        </tr>
+    {{/each}}
+</table>
+{{/each}}
+</xmp>
+
+<script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+</html>

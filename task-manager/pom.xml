@@ -178,6 +178,16 @@
             <artifactId>cxf-rt-transports-http</artifactId>
             <version>3.1.6</version>
         </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>2.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -191,6 +201,58 @@
     <build>
         <finalName>task-manager</finalName>
         <plugins>
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>3.1.7</version>
+                <configuration>
+                    <skipSwaggerGeneration>false</skipSwaggerGeneration>
+                    <apiSources>
+                        <apiSource>
+                            <locations>
+                                ru.eremin.tm.rest
+                            </locations>
+                            <springmvc>true</springmvc>
+                            <schemes>http,https</schemes>
+                            <host>http://localhost:8080/api</host>
+                            <outputFormats>json,yaml</outputFormats>
+                            <info>
+                                <title>Swagger Maven Plugin Sample</title>
+                                <version>v1</version>
+                                <description>This is a sample for swagger-maven-plugin</description>
+                                <termsOfService>http://localhost:8080/enter/menu</termsOfService>
+                                <contact>
+                                    <email>1000001rtem@gmail.com</email>
+                                    <name>Eremin Artem</name>
+                                    <url>http://www.1000001rtem.com</url>
+                                </contact>
+                                <license>
+                                    <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+                                    <name>Apache 2.0</name>
+                                </license>
+                            </info>
+                            <templatePath>${basedir}\src\main\resources\templates\strapdown.html.hbs</templatePath>
+                            <outputPath>${project.build.directory}/docs/rest/index.html</outputPath>
+                            <swaggerDirectory>${project.build.directory}/docs/rest/swagger-ui</swaggerDirectory>
+                            <attachSwaggerArtifact>true</attachSwaggerArtifact>
+                            <securityDefinitions>
+                                <securityDefinition>
+                                    <name>basicAuth</name>
+                                    <type>basic</type>
+                                </securityDefinition>
+                            </securityDefinitions>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
