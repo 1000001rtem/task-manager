@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.model.entity.User;
 import ru.eremin.tm.model.entity.enumerated.Role;
-import ru.eremin.tm.repository.UserRepository;
 
 /**
  * @autor av.eremin on 29.05.2019.
@@ -28,9 +26,7 @@ public class UserDetailsServiceBean implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        System.out.println(login);
         @Nullable final UserDTO user = findByLogin(login);
-        System.out.println(user);
         if (user == null) throw new UsernameNotFoundException("User not found");
         org.springframework.security.core.userdetails.User.UserBuilder builder = null;
         builder = org.springframework.security.core.userdetails.User.withUsername(login);
@@ -38,7 +34,6 @@ public class UserDetailsServiceBean implements UserDetailsService {
         @NotNull final Role userRole = user.getRole();
         builder.roles(userRole.name());
         @NotNull final UserDetails userDetails = builder.build();
-        System.out.println(user.getHashPassword());
         return userDetails;
     }
 

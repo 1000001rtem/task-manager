@@ -55,7 +55,7 @@ public class TaskRestController {
     }
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultDTO deleteTask(@RequestParam (name = "taskId") @Nullable final String taskId) throws IncorrectDataException {
+    public ResultDTO deleteTask(@RequestParam(name = "taskId") @Nullable final String taskId) throws IncorrectDataException {
         taskService.remove(taskId);
         return new ResultDTO(true);
     }

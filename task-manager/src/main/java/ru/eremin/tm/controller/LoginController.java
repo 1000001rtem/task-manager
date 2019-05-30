@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import ru.eremin.tm.api.service.IAuthService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.util.PasswordHashUtil;
 
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -39,12 +38,12 @@ public class LoginController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    private String login;
+    private String userLogin;
 
     private String password;
 
     public String auth() throws IncorrectDataException {
-        @NotNull final UserDTO userDTO = authService.check(login, passwordEncoder.encode(password));
+        @NotNull final UserDTO userDTO = authService.check(userLogin, passwordEncoder.encode(password));
         if (userDTO == null) return "pretty:login";
         @NotNull final FacesContext facesContext = FacesContext.getCurrentInstance();
         @NotNull final Map<String, Object> map = facesContext.getExternalContext().getSessionMap();

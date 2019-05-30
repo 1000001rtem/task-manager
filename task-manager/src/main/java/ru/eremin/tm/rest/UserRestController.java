@@ -8,11 +8,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
+import ru.eremin.tm.model.dto.ChangePasswordDTO;
 import ru.eremin.tm.model.dto.ResultDTO;
 import ru.eremin.tm.model.dto.UserDTO;
-import ru.eremin.tm.model.dto.ChangePasswordDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
-import ru.eremin.tm.util.PasswordHashUtil;
 
 import java.util.List;
 

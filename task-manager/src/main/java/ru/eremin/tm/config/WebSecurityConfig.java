@@ -17,7 +17,7 @@ import ru.eremin.tm.model.entity.enumerated.Role;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService service;
@@ -34,14 +34,14 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-      http.authorizeRequests().antMatchers("/").permitAll()
+        http.authorizeRequests().antMatchers("/").permitAll()
                 .antMatchers("/enter/**")
                 .hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/enter/")
+                .defaultSuccessUrl("/enter/menu")
                 .and()
                 .logout().permitAll()
                 .and()

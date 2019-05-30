@@ -10,7 +10,6 @@ import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ResultDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
-import ru.eremin.tm.util.PasswordHashUtil;
 
 import javax.jws.WebService;
 import java.util.List;
