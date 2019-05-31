@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
@@ -30,6 +31,7 @@ import java.util.Map;
  */
 
 @RestController
+@RequestMapping(value = "/api")
 public class AuthController {
 
     @NotNull

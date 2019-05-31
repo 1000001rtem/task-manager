@@ -6,8 +6,11 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.primefaces.event.RowEditEvent;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import ru.eremin.tm.api.service.IProjectService;
 import ru.eremin.tm.api.service.ITaskService;
+import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
@@ -18,7 +21,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -42,14 +44,17 @@ public class TaskListController {
     @ManagedProperty(value = "#{taskService}")
     private ITaskService taskService;
 
+    @ManagedProperty(value = "#{userService}")
+    private IUserService userService;
+
+    @ManagedProperty(value = "#{projectService}")
+    private IProjectService projectService;
+
     private List<TaskDTO> tasks;
 
     private TaskDTO selectedTask;
 
     private String projectId;
-
-    @ManagedProperty(value = "#{projectService}")
-    private IProjectService projectService;
 
     private Map<String, ProjectDTO> projects;
 
@@ -101,12 +106,22 @@ public class TaskListController {
     }
 
     private String getUserId() throws AccessForbiddenException {
-        @NotNull final FacesContext facesContext = FacesContext.getCurrentInstance();
-        @NotNull final Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
-        @Nullable final String userId = (String) map.get("userId");
-        if (userId == null || userId.isEmpty()) throw new AccessForbiddenException("user not found");
+        @Nullable final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        @Nullable final String login = authentication.getName();
+        if (login == null || login.isEmpty()) throw new AccessForbiddenException("user not found");
+        @Nullable final String userId = getUserIdByLogin(login);
         return userId;
     }
 
+    @Nullable
+    private String getUserIdByLogin(final @Nullable String login) {
+        @Nullable String userId = null;
+        try {
+            userId = userService.findByLogin(login).getId();
+        } catch (IncorrectDataException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
 
 }

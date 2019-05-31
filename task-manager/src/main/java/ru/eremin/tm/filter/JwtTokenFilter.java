@@ -3,12 +3,10 @@ package ru.eremin.tm.filter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.web.filter.GenericFilterBean;
 import ru.eremin.tm.exeption.InvalidJwtAuthenticationException;
 import ru.eremin.tm.security.JwtTokenProvider;
 
@@ -24,7 +22,7 @@ import java.io.IOException;
  * @autor av.eremin on 30.05.2019.
  */
 
-public class JwtTokenFilter extends AbstractAuthenticationProcessingFilter {
+public class JwtTokenFilter extends GenericFilterBean {
 
     @NotNull
     private final UserDetailsService userDetailsService;
@@ -33,7 +31,6 @@ public class JwtTokenFilter extends AbstractAuthenticationProcessingFilter {
     private final JwtTokenProvider tokenProvider;
 
     public JwtTokenFilter(@NotNull final JwtTokenProvider tokenProvider, @NotNull final UserDetailsService userDetailsService) {
-        super("/api/**");
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
     }
@@ -58,16 +55,6 @@ public class JwtTokenFilter extends AbstractAuthenticationProcessingFilter {
                 = new UsernamePasswordAuthenticationToken(login, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         filterChain.doFilter(servletRequest, servletResponse);
-    }
-
-    @Override
-    protected boolean requiresAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
-        return super.requiresAuthentication(request, response);
-    }
-
-    @Override
-    public Authentication attemptAuthentication(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
-        return null;
     }
 
 }

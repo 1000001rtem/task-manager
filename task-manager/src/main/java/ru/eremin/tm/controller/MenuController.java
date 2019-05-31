@@ -3,6 +3,7 @@ package ru.eremin.tm.controller;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +37,7 @@ public class MenuController {
     }
 
     public boolean checkRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        @Nullable final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities().stream()
                 .anyMatch(e -> e.getAuthority().equals(Role.ADMIN));
     }
