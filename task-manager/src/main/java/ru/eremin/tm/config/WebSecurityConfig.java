@@ -3,6 +3,7 @@ package ru.eremin.tm.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,46 +19,62 @@ import ru.eremin.tm.security.JwtTokenProvider;
  * @autor av.eremin on 29.05.2019.
  */
 
-@Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
-    @Autowired
-    private UserDetailsService service;
+    @Configuration
+    @Order(1)
+    public static class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+        @Autowired
+        private UserDetailsService service;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        @Autowired
+        private JwtTokenProvider jwtTokenProvider;
+
+        @Override
+        protected void configure(final HttpSecurity http) throws Exception {
+            http.addFilterBefore(new JwtTokenFilter(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class).antMatcher("/api/**");
+        }
+
     }
 
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(service).passwordEncoder(passwordEncoder());
-    }
+    @Configuration
+    public static class FormLoginSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/enter/**")
-                .hasAnyRole(Role.USER.name(), Role.ADMIN.name())
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .defaultSuccessUrl("/enter/menu")
-                .and()
-                .logout().permitAll()
-                .and()
-                .csrf().disable().
-                addFilterBefore(new JwtTokenFilter(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class)
-                .antMatcher("/api/**");
+        @Autowired
+        private UserDetailsService service;
+
+        @Bean
+        public BCryptPasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+
+        @Override
+        protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(service).passwordEncoder(passwordEncoder());
+        }
+
+        @Override
+        protected void configure(final HttpSecurity http) throws Exception {
+            http
+                    .authorizeRequests()
+                    .antMatchers("/").permitAll()
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/enter/**")
+                    .hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                    .and()
+                    .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                    .defaultSuccessUrl("/enter/menu")
+                    .and()
+                    .logout().permitAll()
+                    .and()
+                    .csrf().disable();
+        }
+
     }
 
 }
