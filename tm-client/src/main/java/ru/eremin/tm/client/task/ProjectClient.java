@@ -36,18 +36,23 @@ public interface ProjectClient {
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    List<ProjectDTO> findAllProjects(@RequestParam(name = "userId") @Nullable final String userId);
+    List<ProjectDTO> findAllProjects(@RequestHeader("Authorization") String token,
+                                     @RequestParam(name = "userId") @Nullable final String userId);
 
     @GetMapping(value = "/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ProjectDTO findOneProject(@RequestParam(name = "projectId") @Nullable final String projectId);
+    ProjectDTO findOneProject(@RequestHeader("Authorization") String token,
+                              @RequestParam(name = "projectId") @Nullable final String projectId);
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO createProject(@RequestBody @Nullable final ProjectDTO projectDTO);
+    ResultDTO createProject(@RequestHeader("Authorization") String token,
+                            @RequestBody @Nullable final ProjectDTO projectDTO);
 
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO updateProject(@RequestBody @Nullable final ProjectDTO projectDTO);
+    ResultDTO updateProject(@RequestHeader("Authorization") String token,
+                            @RequestBody @Nullable final ProjectDTO projectDTO);
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO deleteProject(@RequestParam(name = "projectId") @Nullable final String projectId);
+    ResultDTO deleteProject(@RequestHeader("Authorization") String token,
+                            @RequestParam(name = "projectId") @Nullable final String projectId);
 
 }

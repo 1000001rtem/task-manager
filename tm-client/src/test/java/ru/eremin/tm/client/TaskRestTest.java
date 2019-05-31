@@ -7,16 +7,17 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.eremin.tm.client.model.dto.ProjectDTO;
-import ru.eremin.tm.client.model.dto.ResultDTO;
-import ru.eremin.tm.client.model.dto.TaskDTO;
+import ru.eremin.tm.client.model.dto.*;
 import ru.eremin.tm.client.model.dto.enumerated.Status;
+import ru.eremin.tm.client.task.AuthClient;
 import ru.eremin.tm.client.task.ProjectClient;
 import ru.eremin.tm.client.task.TaskClient;
 
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.TestCase.*;
 
@@ -27,22 +28,24 @@ import static junit.framework.TestCase.*;
 public class TaskRestTest {
 
     private static final String URL = "http://localhost:8080/api/task";
-    private static final String USER_ID = "22e0196c-3b09-4b5b-909f-a541eb584706"; // test user id
+    private static final String USER_ID = "6706e691-2f78-45ad-b021-3730c48959f0"; // test user id
 
     @Before
     public void before() {
+        @Nullable final String token = auth();
         @NotNull final TaskDTO taskDTO = new TaskDTO();
         taskDTO.setName("testTask");
         taskDTO.setProjectId(getProject());
         taskDTO.setUserId(USER_ID);
         @NotNull final TaskClient taskClient = TaskClient.client(URL);
-        taskClient.createTask(taskDTO);
+        taskClient.createTask(token, taskDTO);
     }
 
     @After
     public void after() {
+        @Nullable final String token = auth();
         @NotNull final TaskClient taskClient = TaskClient.client(URL);
-        taskClient.deleteTask(findAll().get(0).getId());
+        taskClient.deleteTask(token, findAll().get(0).getId());
         deleteProject();
     }
 
@@ -53,40 +56,52 @@ public class TaskRestTest {
 
     @Test
     public void findOneTest() {
+        @Nullable final String token = auth();
         @NotNull final TaskClient taskClient = TaskClient.client(URL);
-        @Nullable final TaskDTO taskDTO = taskClient.findOneTask(findAll().get(0).getId());
+        @Nullable final TaskDTO taskDTO = taskClient.findOneTask(token, findAll().get(0).getId());
+        System.out.println(taskDTO);
         assertNotNull(taskDTO);
     }
 
     @Test
     public void updateTest() {
+        @Nullable final String token = auth();
         @NotNull final TaskClient taskClient = TaskClient.client(URL);
-        @Nullable final TaskDTO taskDTO = taskClient.findOneTask(findAll().get(0).getId());
+        @Nullable final TaskDTO taskDTO = taskClient.findOneTask(token, findAll().get(0).getId());
         assertFalse(taskDTO.getStatus().equals(Status.DONE));
         taskDTO.setStatus(Status.DONE);
-        taskClient.updateTask(taskDTO);
-        @Nullable final TaskDTO updatedTaskDTO = taskClient.findOneTask(findAll().get(0).getId());
+        taskClient.updateTask(token, taskDTO);
+        @Nullable final TaskDTO updatedTaskDTO = taskClient.findOneTask(token, findAll().get(0).getId());
         assertEquals(updatedTaskDTO.getStatus(), Status.DONE);
     }
 
     private List<TaskDTO> findAll() {
+        @Nullable final String token = auth();
         @NotNull final TaskClient taskClient = TaskClient.client(URL);
-        return taskClient.findAllTasks(USER_ID);
+        return taskClient.findAllTasks(token, USER_ID);
     }
 
     private String getProject() {
+        @Nullable final String token = auth();
         @NotNull final ProjectDTO projectDTO = new ProjectDTO();
         projectDTO.setName("testProject");
         projectDTO.setDescription("testDesc");
         projectDTO.setUserId(USER_ID);
         @NotNull final ProjectClient projectClient = ProjectClient.client("http://localhost:8080/api/project");
-        projectClient.createProject(projectDTO);
-        return projectClient.findAllProjects(USER_ID).get(0).getId();
+        projectClient.createProject(token, projectDTO);
+        return projectClient.findAllProjects(token, USER_ID).get(0).getId();
     }
 
     private void deleteProject() {
+        @Nullable final String token = auth();
         @NotNull final ProjectClient projectClient = ProjectClient.client("http://localhost:8080/api/project");
-        projectClient.deleteProject(projectClient.findAllProjects(USER_ID).get(0).getId());
+        projectClient.deleteProject(token, projectClient.findAllProjects(token, USER_ID).get(0).getId());
+    }
+
+    private String auth(){
+        @NotNull final AuthClient authClient = AuthClient.client("http://localhost:8080/api");
+        @Nullable final ResponseSoapEntity responseEntity = authClient.auth(new LoginRequest("admin", "pass"));
+        return "Bearer " + responseEntity.getToken();
     }
 
 }

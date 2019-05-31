@@ -1,4 +1,4 @@
-package ru.eremin.tm;
+package ru.eremin.tm.service;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

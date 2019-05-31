@@ -34,21 +34,27 @@ public interface TaskClient {
     }
 
     @GetMapping(value = "/findAll")
-    List<TaskDTO> findAllTasks(@RequestParam(name = "userId") @Nullable final String userId);
+    List<TaskDTO> findAllTasks(@RequestHeader("Authorization") String token,
+                               @RequestParam(name = "userId") @Nullable final String userId);
 
     @GetMapping(value = "/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    TaskDTO findOneTask(@RequestParam(name = "taskId") @Nullable final String taskId);
+    TaskDTO findOneTask(@RequestHeader("Authorization") String token,
+                        @RequestParam(name = "taskId") @Nullable final String taskId);
 
     @GetMapping(value = "/findByProject", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    List<TaskDTO> findTaskByProjectId(@RequestParam(name = "projectId") @Nullable final String projectId);
+    List<TaskDTO> findTaskByProjectId(@RequestHeader("Authorization") String token,
+                                      @RequestParam(name = "projectId") @Nullable final String projectId);
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO createTask(@RequestBody @Nullable final TaskDTO taskDTO);
+    ResultDTO createTask(@RequestHeader("Authorization") String token,
+                         @RequestBody @Nullable final TaskDTO taskDTO);
 
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO updateTask(@RequestBody @Nullable final TaskDTO taskDTO);
+    ResultDTO updateTask(@RequestHeader("Authorization") String token,
+                         @RequestBody @Nullable final TaskDTO taskDTO);
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO deleteTask(@RequestParam(name = "taskId") @Nullable final String taskId);
+    ResultDTO deleteTask(@RequestHeader("Authorization") String token,
+                         @RequestParam(name = "taskId") @Nullable final String taskId);
 
 }

@@ -18,6 +18,7 @@ import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.LoginRequest;
+import ru.eremin.tm.model.dto.ResponseSoapEntity;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.security.JwtTokenProvider;
 
@@ -51,7 +52,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity auth(@RequestBody @Nullable final LoginRequest loginRequest) throws AccessForbiddenException, IncorrectDataException {
+    public ResponseSoapEntity auth(@RequestBody @Nullable final LoginRequest loginRequest) throws AccessForbiddenException, IncorrectDataException {
         if (loginRequest == null) throw new AccessForbiddenException();
 
         @Nullable final String login = loginRequest.getLogin();
@@ -67,7 +68,7 @@ public class AuthController {
         @Nullable final Map<Object, Object> map = new HashMap<>();
         map.put("login", login);
         map.put("token", token);
-        return ResponseEntity.ok(map);
+        return new ResponseSoapEntity(login, token);
     }
 
 }

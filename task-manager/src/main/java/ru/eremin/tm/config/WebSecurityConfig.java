@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.eremin.tm.filter.JwtTokenFilter;
+import ru.eremin.tm.filter.JwtTokenFilter2;
 import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.security.JwtTokenProvider;
 
@@ -46,13 +47,12 @@ public class WebSecurityConfig {
         protected void configure(final HttpSecurity http) throws Exception {
             http
                     .addFilterBefore(new JwtTokenFilter(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class)
-                    .antMatcher("/api/**")
-                    .antMatcher("/services/endpoint/**").csrf().disable();
+                    .antMatcher("/services/endpoint/**")
+                    .csrf().disable();
         }
 
         @Override
         public void configure(final WebSecurity web) throws Exception {
-            web.ignoring().antMatchers("/api/auth/**");
             web.ignoring().antMatchers(HttpMethod.GET, "/services/**");
             web.ignoring().antMatchers("/services/endpoint/authEndpoint/**");
         }
@@ -60,8 +60,42 @@ public class WebSecurityConfig {
     }
 
     @Configuration
+    @Order(2)
+    public static class SoapSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Autowired
+        private UserDetailsService service;
+
+        @Autowired
+        private JwtTokenProvider jwtTokenProvider;
+
+        @Bean
+        @Override
+        public AuthenticationManager authenticationManagerBean() throws Exception {
+            return super.authenticationManagerBean();
+        }
+
+        @Override
+        protected void configure(final HttpSecurity http) throws Exception {
+            http
+                    .addFilterBefore(new JwtTokenFilter2(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class)
+                    .antMatcher("/api/**")
+                    .csrf().disable();
+        }
+
+        @Override
+        public void configure(final WebSecurity web) throws Exception {
+            web.ignoring().antMatchers("/api/auth/**");
+        }
+
+    }
+
+    @Configuration
+    @Order(3)
     public static class FormLoginSecurityConfig extends WebSecurityConfigurerAdapter {
 
+        @Autowired
+        private JwtTokenProvider jwtTokenProvider;
         @Autowired
         private UserDetailsService service;
 
