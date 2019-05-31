@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import ru.eremin.tm.endpoint.AuthEndpointImpl;
 import ru.eremin.tm.endpoint.ProjectEndpointImpl;
 import ru.eremin.tm.endpoint.TaskEndpointImpl;
 import ru.eremin.tm.endpoint.UserEndpointImpl;
@@ -37,7 +38,7 @@ public class AppConfiguration {
     @Bean
     public Endpoint projectEndpoint() {
         EndpointImpl endpoint = new EndpointImpl(springBus(), projectEndpointImpl());
-        endpoint.publish("/services/projectEndpoint");
+        endpoint.publish("/endpoint/projectEndpoint");
         return endpoint;
     }
 
@@ -49,7 +50,7 @@ public class AppConfiguration {
     @Bean
     public Endpoint taskEndpoint() {
         EndpointImpl endpoint = new EndpointImpl(springBus(), taskEndpointImpl());
-        endpoint.publish("/services/taskEndpoint");
+        endpoint.publish("/endpoint/taskEndpoint");
         return endpoint;
     }
 
@@ -61,8 +62,21 @@ public class AppConfiguration {
     @Bean
     public Endpoint userEndpoint() {
         EndpointImpl endpoint = new EndpointImpl(springBus(), userEndpointImpl());
-        endpoint.publish("/services/userEndpoint");
+        endpoint.publish("/endpoint/userEndpoint");
         return endpoint;
+    }
+
+    @Bean
+    public AuthEndpointImpl authEndpointImpl() {
+        return new AuthEndpointImpl();
+    }
+
+    @Bean
+    public Endpoint authEndpoint() {
+        EndpointImpl endpoint = new EndpointImpl(springBus(), authEndpointImpl());
+        endpoint.publish("/endpoint/authEndpoint");
+        return endpoint;
+
     }
 
 }

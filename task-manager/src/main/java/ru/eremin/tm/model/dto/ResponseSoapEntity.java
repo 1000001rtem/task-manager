@@ -10,7 +10,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 
 /**
  * @autor av.eremin on 31.05.2019.
@@ -22,21 +21,19 @@ import java.io.Serializable;
 @XmlRootElement(name = "loginRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginRequest implements Serializable {
-
-    private static final long serialVersionUID = 7988702036271665504L;
+public class ResponseSoapEntity {
 
     @NotNull
     @XmlElement(name = "login")
     private String login;
 
     @NotNull
-    @XmlElement(name = "password")
-    private String password;
+    @XmlElement(name = "token")
+    private String token;
 
-    public LoginRequest(@NotNull final String login, @NotNull final String password) {
+    public ResponseSoapEntity(@NotNull final String login, @NotNull final String token) {
         this.login = login;
-        this.password = password;
+        this.token = token;
     }
 
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import ru.eremin.tm.filter.JwtTokenFilter;
 import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.security.JwtTokenProvider;
+
 
 /**
  * @autor av.eremin on 29.05.2019.
@@ -43,12 +45,16 @@ public class WebSecurityConfig {
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
             http
-                    .addFilterBefore(new JwtTokenFilter(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class).antMatcher("/api/**");
+                    .addFilterBefore(new JwtTokenFilter(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class)
+                    .antMatcher("/api/**")
+                    .antMatcher("/services/endpoint/**").csrf().disable();
         }
 
         @Override
         public void configure(final WebSecurity web) throws Exception {
             web.ignoring().antMatchers("/api/auth/**");
+            web.ignoring().antMatchers(HttpMethod.GET, "/services/**");
+            web.ignoring().antMatchers("/services/endpoint/authEndpoint/**");
         }
 
     }

@@ -76,13 +76,4 @@ public class ProjectDTO extends BaseDTO implements Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
