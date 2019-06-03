@@ -36,24 +36,30 @@ public interface UserClient {
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    List<UserDTO> findAllUsers();
+    List<UserDTO> findAllUsers(@RequestHeader("Authorization") String token);
 
     @GetMapping(value = "/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    UserDTO findOneUser(@RequestParam(name = "userId") @Nullable final String userId);
+    UserDTO findOneUser(@RequestHeader("Authorization") String token,
+                        @RequestParam(name = "userId") @Nullable final String userId);
 
     @GetMapping(value = "/findByLogin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    UserDTO findUserByLogin(@RequestParam(name = "userLogin") @Nullable final String userLogin);
+    UserDTO findUserByLogin(@RequestHeader("Authorization") String token,
+                            @RequestParam(name = "userLogin") @Nullable final String userLogin);
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO createUser(@RequestBody @Nullable final UserDTO userDTO);
+    ResultDTO createUser(@RequestHeader("Authorization") String token,
+                         @RequestBody @Nullable final UserDTO userDTO);
 
     @PutMapping(value = "/changePassword", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO changePassword(@RequestBody @Nullable ChangePasswordDTO changePasswordDTO);
+    ResultDTO changePassword(@RequestHeader("Authorization") String token,
+                             @RequestBody @Nullable ChangePasswordDTO changePasswordDTO);
 
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO updateUser(@RequestBody @Nullable final UserDTO userDTO);
+    ResultDTO updateUser(@RequestHeader("Authorization") String token,
+                         @RequestBody @Nullable final UserDTO userDTO);
 
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO deleteUser(@RequestParam(name = "userId") @Nullable final String userId);
+    ResultDTO deleteUser(@RequestHeader("Authorization") String token,
+                         @RequestParam(name = "userId") @Nullable final String userId);
 
 }

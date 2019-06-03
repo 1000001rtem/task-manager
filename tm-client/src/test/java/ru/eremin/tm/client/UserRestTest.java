@@ -6,8 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.eremin.tm.client.model.dto.ChangePasswordDTO;
+import ru.eremin.tm.client.model.dto.LoginRequest;
+import ru.eremin.tm.client.model.dto.ResponseSoapEntity;
 import ru.eremin.tm.client.model.dto.UserDTO;
 import ru.eremin.tm.client.model.dto.enumerated.Role;
+import ru.eremin.tm.client.task.AuthClient;
 import ru.eremin.tm.client.task.UserClient;
 
 import static junit.framework.TestCase.*;
@@ -19,55 +22,67 @@ import static junit.framework.TestCase.*;
 public class UserRestTest {
 
     private static final String URL = "http://localhost:8080/api/user";
-    private static final String USER_ID = "22e0196c-3b09-4b5b-909f-a541eb584706";
 
     @Before
     public void before(){
+        @Nullable String token = auth();
         @NotNull final UserDTO userDTO = new UserDTO();
         userDTO.setLogin("testUser");
         userDTO.setHashPassword("pass");
         @NotNull final UserClient userClient = UserClient.client(URL);
-        userClient.createUser(userDTO);
-        assertNotNull(userClient.findUserByLogin(userDTO.getLogin()));
+        userClient.createUser(token, userDTO);
+        assertNotNull(userClient.findUserByLogin(token, userDTO.getLogin()));
+    }
+
+    @After
+    public void after(){
+        @Nullable String token = auth();
+        @NotNull final UserClient userClient = UserClient.client(URL);
+        userClient.deleteUser(token, userClient.findUserByLogin(token, "testUser").getId());
     }
 
     @Test
     public void findAllTest(){
+        @Nullable String token = auth();
         @NotNull final UserClient userClient = UserClient.client(URL);
-        assertTrue(!userClient.findAllUsers().isEmpty());
+        assertTrue(!userClient.findAllUsers(token).isEmpty());
     }
 
     @Test
     public void findOneTest(){
+        @Nullable String token = auth();
         @NotNull final UserClient userClient = UserClient.client(URL);
-        @Nullable final UserDTO userDTO = userClient.findOneUser(userClient.findUserByLogin("testUser").getId());
+        @Nullable final UserDTO userDTO = userClient.findOneUser(token, userClient.findUserByLogin(token, "testUser").getId());
         assertNotNull(userDTO);
     }
 
     @Test
     public void changePasswordTest(){
+        @Nullable String token = auth();
         @NotNull final UserClient userClient = UserClient.client(URL);
-        @Nullable final UserDTO userDTO = userClient.findOneUser(userClient.findUserByLogin("testUser").getId());
+        @Nullable final UserDTO userDTO = userClient.findOneUser(token, userClient.findUserByLogin(token, "testUser").getId());
         @Nullable final ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO(userDTO.getId(), "pass", "pass1");
-        userClient.changePassword(changePasswordDTO);
-        @Nullable final UserDTO userTMP = userClient.findOneUser(userClient.findUserByLogin("testUser").getId());
+        userClient.changePassword(token, changePasswordDTO);
+        @Nullable final UserDTO userTMP = userClient.findOneUser(token, userClient.findUserByLogin(token, "testUser").getId());
         assertTrue(!userDTO.getHashPassword().equals(userTMP));
     }
 
     @Test
     public void updateUser(){
+        @Nullable String token = auth();
         @NotNull final UserClient userClient = UserClient.client(URL);
-        @Nullable final UserDTO userDTO = userClient.findOneUser(userClient.findUserByLogin("testUser").getId());
+        @Nullable final UserDTO userDTO = userClient.findOneUser(token, userClient.findUserByLogin(token, "testUser").getId());
         assertFalse(userDTO.getRole().equals(Role.ADMIN));
         userDTO.setRole(Role.ADMIN);
-        userClient.updateUser(userDTO);
-        @Nullable final UserDTO userTMP = userClient.findOneUser(userClient.findUserByLogin("testUser").getId());
+        userClient.updateUser(token, userDTO);
+        @Nullable final UserDTO userTMP = userClient.findOneUser(token, userClient.findUserByLogin(token,"testUser").getId());
         assertEquals(userTMP.getRole(), Role.ADMIN);
     }
 
-    @After
-    public void after(){
-        @NotNull final UserClient userClient = UserClient.client(URL);
-        userClient.deleteUser(userClient.findUserByLogin("testUser").getId());
+    private String auth(){
+        @NotNull final AuthClient authClient = AuthClient.client("http://localhost:8080/api");
+        @Nullable final ResponseSoapEntity responseEntity = authClient.auth(new LoginRequest("admin", "pass"));
+        return "Bearer " + responseEntity.getToken();
     }
+
 }

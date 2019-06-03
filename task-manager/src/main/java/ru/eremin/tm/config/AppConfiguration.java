@@ -76,7 +76,6 @@ public class AppConfiguration {
         EndpointImpl endpoint = new EndpointImpl(springBus(), authEndpointImpl());
         endpoint.publish("/endpoint/authEndpoint");
         return endpoint;
-
     }
 
 }

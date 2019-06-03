@@ -1,5 +1,6 @@
 package ru.eremin.tm.config;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.eremin.tm.filter.JwtTokenFilter;
-import ru.eremin.tm.filter.JwtTokenFilter2;
 import ru.eremin.tm.model.entity.enumerated.Role;
 import ru.eremin.tm.security.JwtTokenProvider;
 
@@ -31,9 +31,11 @@ public class WebSecurityConfig {
     @Order(1)
     public static class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
+        @NotNull
         @Autowired
         private UserDetailsService service;
 
+        @NotNull
         @Autowired
         private JwtTokenProvider jwtTokenProvider;
 
@@ -63,9 +65,11 @@ public class WebSecurityConfig {
     @Order(2)
     public static class SoapSecurityConfig extends WebSecurityConfigurerAdapter {
 
+        @NotNull
         @Autowired
         private UserDetailsService service;
 
+        @NotNull
         @Autowired
         private JwtTokenProvider jwtTokenProvider;
 
@@ -78,7 +82,7 @@ public class WebSecurityConfig {
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
             http
-                    .addFilterBefore(new JwtTokenFilter2(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(new JwtTokenFilter(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class)
                     .antMatcher("/api/**")
                     .csrf().disable();
         }
@@ -94,8 +98,11 @@ public class WebSecurityConfig {
     @Order(3)
     public static class FormLoginSecurityConfig extends WebSecurityConfigurerAdapter {
 
+        @NotNull
         @Autowired
         private JwtTokenProvider jwtTokenProvider;
+
+        @NotNull
         @Autowired
         private UserDetailsService service;
 

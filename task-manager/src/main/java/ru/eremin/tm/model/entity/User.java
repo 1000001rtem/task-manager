@@ -29,7 +29,7 @@ public class User extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 7036583160470114038L;
 
     @Nullable
-    @Column(name = "login", nullable = false, unique = true)
+    @Column(name = "user_login", nullable = false, unique = true)
     private String login;
 
     @Nullable
