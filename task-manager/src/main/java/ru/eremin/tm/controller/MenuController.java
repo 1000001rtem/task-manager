@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import ru.eremin.tm.model.entity.enumerated.Role;
 
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
