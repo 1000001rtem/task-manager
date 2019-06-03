@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:sec="http://www.springframework.org/security/tags">
 
 <h:head><h:outputStylesheet library="styles" name="style.css"/></h:head>
 <div class="header ui-g-12 ui-g-nopad">
@@ -21,10 +22,10 @@
                                 update="content"/>
                 </p:megaMenu>
                 <p:megaMenu styleClass="headerMenu">
-                    <c:if test="#{menuController.checkRole()}">
+                    <sec:authorize ifAllGranted="ROLE_ADMIN">
                         <p:menuitem value="Users" actionListener="#{menuController.setPage('user-list-view')}"
                                     update="content"/>
-                    </c:if>
+                    </sec:authorize>
                     <p:menuitem value="Logout" action="#{menuController.logout()}"
                                 process="@form" ajax="true" update=":growl"/>
                 </p:megaMenu>

@@ -39,7 +39,7 @@ public class MenuController {
     public boolean checkRole() {
         @Nullable final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities().stream()
-                .anyMatch(e -> e.getAuthority().equals(Role.ADMIN));
+                .anyMatch(e -> e.getAuthority().equals("ROLE_ADMIN"));
     }
 
 }
