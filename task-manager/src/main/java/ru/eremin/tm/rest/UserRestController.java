@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
 public class UserRestController {
 
     @Autowired

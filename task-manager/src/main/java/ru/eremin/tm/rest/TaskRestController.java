@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping(value = "/task")
+@RequestMapping(value = "/api/task")
 public class TaskRestController {
 
     @Autowired

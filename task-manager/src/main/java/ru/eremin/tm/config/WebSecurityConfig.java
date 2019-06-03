@@ -73,11 +73,8 @@ public class WebSecurityConfig {
         @Autowired
         private JwtTokenProvider jwtTokenProvider;
 
-        @Bean
-        @Override
-        public AuthenticationManager authenticationManagerBean() throws Exception {
-            return super.authenticationManagerBean();
-        }
+        @Autowired
+        private AuthenticationManager authenticationManagerBean;
 
         @Override
         protected void configure(final HttpSecurity http) throws Exception {

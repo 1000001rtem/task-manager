@@ -20,7 +20,7 @@ import javax.xml.ws.Endpoint;
  */
 
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 @Import(DataSourceConfiguration.class)
 @EnableJpaRepositories("ru.eremin.tm.repository")
 public class AppConfiguration {
