@@ -31,7 +31,7 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping(value = "/api/auth")
+@RequestMapping(value = "/api")
 public class AuthController {
 
     @NotNull

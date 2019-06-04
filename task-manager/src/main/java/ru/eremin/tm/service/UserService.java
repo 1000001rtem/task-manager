@@ -93,6 +93,13 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
+    public void removeAll() {
+        @NotNull final List<User> users = userRepository.findAll();
+        users.forEach(userRepository::delete);
+    }
+
+    @Override
+    @Transactional
     public boolean isExist(@Nullable final String id) {
         if (id == null || id.isEmpty()) return false;
         @Nullable final User user = userRepository.findById(id).orElse(null);

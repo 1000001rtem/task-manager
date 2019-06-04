@@ -40,6 +40,12 @@ public class Bootstrap {
         admin.setHashPassword(passwordEncoder.encode("pass"));
         admin.setRole(Role.ADMIN);
 
+        @NotNull final UserDTO test = new UserDTO();
+        test.setId("8208421e-86df-11e9-bc42-526af7764f64");
+        test.setLogin("test");
+        test.setHashPassword(passwordEncoder.encode("pass"));
+        test.setRole(Role.ADMIN);
+
         try {
             userService.findOne(user.getId());
         } catch (IncorrectDataException e) {
@@ -49,6 +55,11 @@ public class Bootstrap {
             userService.findOne(admin.getId());
         } catch (IncorrectDataException e) {
             userService.persist(admin);
+        }
+        try {
+            userService.findOne(test.getId());
+        } catch (IncorrectDataException e) {
+            userService.persist(test);
         }
     }
 

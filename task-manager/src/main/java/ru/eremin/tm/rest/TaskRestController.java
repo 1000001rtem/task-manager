@@ -60,4 +60,10 @@ public class TaskRestController {
         return new ResultDTO(true);
     }
 
+    @DeleteMapping(value = "/deleteAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultDTO deleteAllTasks(@RequestParam(name = "userId") @Nullable final String userId) throws AccessForbiddenException {
+        taskService.removeAll(userId);
+        return new ResultDTO(true);
+    }
+
 }

@@ -40,6 +40,11 @@ public class WebSecurityConfig {
         private JwtTokenProvider jwtTokenProvider;
 
         @Bean
+        public BCryptPasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+
+        @Bean
         @Override
         public AuthenticationManager authenticationManagerBean() throws Exception {
             return super.authenticationManagerBean();
@@ -87,50 +92,6 @@ public class WebSecurityConfig {
         @Override
         public void configure(final WebSecurity web) throws Exception {
             web.ignoring().antMatchers("/api/auth/**");
-        }
-
-    }
-
-    @Configuration
-    @Order(3)
-    public static class FormLoginSecurityConfig extends WebSecurityConfigurerAdapter {
-
-        @NotNull
-        @Autowired
-        private JwtTokenProvider jwtTokenProvider;
-
-        @NotNull
-        @Autowired
-        private UserDetailsService service;
-
-        @Bean
-        public BCryptPasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
-
-        @Override
-        protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(service).passwordEncoder(passwordEncoder());
-        }
-
-        @Override
-        protected void configure(final HttpSecurity http) throws Exception {
-            http
-                    .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .and()
-                    .authorizeRequests()
-                    .antMatchers("/enter/**")
-                    .hasAnyRole(Role.USER.name(), Role.ADMIN.name())
-                    .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .defaultSuccessUrl("/enter/menu")
-                    .and()
-                    .logout().permitAll()
-                    .and()
-                    .csrf().disable();
         }
 
     }

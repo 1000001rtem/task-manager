@@ -16,4 +16,6 @@ public interface IUserService extends IService<User, UserDTO> {
 
     UserDTO findByLogin(String login) throws IncorrectDataException;
 
+    void removeAll();
+
 }
