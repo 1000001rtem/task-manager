@@ -99,7 +99,7 @@ public class TaskRestTest {
     }
 
     private String auth(){
-        @NotNull final AuthClient authClient = AuthClient.client("http://localhost:8080/api");
+        @NotNull final AuthClient authClient = AuthClient.client("http://localhost:8080/api/auth");
         @Nullable final ResponseSoapEntity responseEntity = authClient.auth(new LoginRequest("admin", "pass"));
         return "Bearer " + responseEntity.getToken();
     }

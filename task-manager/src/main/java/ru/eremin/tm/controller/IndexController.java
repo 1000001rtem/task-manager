@@ -1,8 +1,9 @@
 package ru.eremin.tm.controller;
 
-import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import lombok.Getter;
 import lombok.Setter;
+import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -17,15 +18,12 @@ import javax.inject.Named;
 @Setter
 @Scope("session")
 @Component("indexController")
-@URLMapping(
-        id = "index",
-        pattern = "/",
-        viewId = "/index.xhtml"
-)
+@ELBeanName(value = "indexController")
+@Join(path = "/", to = "/index.xhtml")
 public class IndexController {
 
     public String enter() {
-        return "pretty:menu";
+        return "/WEB-INF/views/enter/general-view.xhtml?faces-redirect=true";
     }
 
     public String registration() {

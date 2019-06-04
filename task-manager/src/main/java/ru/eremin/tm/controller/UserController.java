@@ -1,19 +1,20 @@
 package ru.eremin.tm.controller;
 
-import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
+import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.el.ELBeanName;
 import org.primefaces.event.RowEditEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,16 +24,13 @@ import java.util.List;
 
 @Getter
 @Setter
-@ViewScoped
-@ManagedBean(name = "userController")
-@URLMapping(
-        id = "users",
-        pattern = "/enter/admin/users",
-        viewId = "/WEB-INF/views/enter/user-list-view.xhtml"
-)
+@Scope("session")
+@Component("userController")
+@ELBeanName(value = "userController")
+@Join(path = "/enter/admin/users", to = "/WEB-INF/views/enter/user-list-view.xhtml")
 public class UserController {
 
-    @ManagedProperty(value = "#{userService}")
+    @Autowired
     private IUserService userService;
 
     private List<UserDTO> users;

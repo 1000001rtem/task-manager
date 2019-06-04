@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:form id="userForm">
+        <p:growl id="userMsgs" showDetail="true"/>
+        <p:remoteCommand name="onCellEditTableComplete" update=":content"/>
+        <p:dataTable styleClass="crudTable" id="users" var="user" value="#{userController.users}"
+                     editable="true"
+                     rows="10"
+                     paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15,50">
+            <f:facet name="header">
+                Users
+            </f:facet>
+
+            <p:ajax event="rowEdit" listener="#{userController.onRowEdit}" update=":content:userForm:userMsgs"
+                    oncomplete="onCellEditTableComplete()"/>
+            <p:ajax event="rowEditCancel" listener="#{userController.onRowCancel}"
+                    update=":content:userForm:userMsgs"/>
+
+            <p:column headerText="Login">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{user.login}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{user.login}" style="width:100%"
+                                                       label="Login"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Role">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{user.role}"/></f:facet>
+                    <f:facet name="input">
+                        <h:selectOneMenu value="#{user.role}" style="width:100%">
+                            <f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role}"
+                                           itemValue="#{role}"/>
+                        </h:selectOneMenu>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column style="width:32px;text-align: center">
+                <p:commandLink update="content" actionListener="#{userController.deleteUser(user.id)}" process="@form">
+                    <i class="fa fa-trash"/>
+                </p:commandLink>
+            </p:column>
+
+            <p:column style="width:35px">
+                <p:rowEditor/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</f:view>
+</html>

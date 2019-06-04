@@ -1,9 +1,10 @@
 package ru.eremin.tm.controller;
 
-import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.el.ELBeanName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,11 +26,8 @@ import java.util.Map;
 @Setter
 @Scope("session")
 @Component("loginController")
-@URLMapping(
-        id = "login",
-        pattern = "/login",
-        viewId = "/login-view.xhtml"
-)
+@ELBeanName(value = "indexController")
+@Join(path = "/login", to = "/login-view.xhtml")
 public class LoginController {
 
     @Autowired
@@ -44,13 +42,13 @@ public class LoginController {
 
     public String auth() throws IncorrectDataException {
         @NotNull final UserDTO userDTO = authService.check(userLogin, passwordEncoder.encode(password));
-        if (userDTO == null) return "pretty:login";
+        if (userDTO == null) return "/login-view.xhtml?faces-redirect=true";
         @NotNull final FacesContext facesContext = FacesContext.getCurrentInstance();
         @NotNull final Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
         map.put("auth", true);
         map.put("userId", userDTO.getId());
         map.put("userRole", userDTO.getRole());
-        return "pretty:menu";
+        return "/WEB-INF/views/enter/general-view.xhtml?faces-redirect=true";
     }
 
 }

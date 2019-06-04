@@ -1,0 +1,94 @@
+@headerBgColor: #575757;
+@bodyBgColor: #ABABAB;
+@contentBgColor: #ABABAB;
+@lightFontColor: #cecece;
+@darkFontColor: #000000;
+@buttonBgColor: #1f1e1e;
+
+body {
+  height: 100%;
+  margin: 0;
+  background-color: @bodyBgColor;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 1170px;
+  height: inherit;
+
+}
+
+.header {
+  background-color: @headerBgColor;
+  height: 120px;
+
+  .headerMenuContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: inherit;
+
+    form {
+      width: 100%;
+      font-size: 25px;
+      display: flex;
+      justify-content: space-between;
+
+      .headerMenu {
+        border: none;
+      }
+    }
+  }
+}
+
+.content {
+  min-height: calc(~"100vh - 240px");
+  background-color: @contentBgColor;
+
+  .mainContainer {
+    min-height: inherit;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .greetingsBox {
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .imageBox {
+      margin: 0 0 30px 0;
+
+      img {
+        width: 400px;
+        height: 400px;
+      }
+    }
+
+    .buttonBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .loginContainer {
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    min-height: inherit;
+  }
+
+  .crudTable {
+    margin: 20px 0 20px 0;
+  }
+}
+
+.footer {
+  height: 120px;
+  background-color: @headerBgColor;
+}

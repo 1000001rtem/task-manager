@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head><h:outputStylesheet library="styles" name="style.css"/></h:head>
+<div class="header"/>
+<div class="content ui-g-12 ui-g-nopad">
+    <div class="wrapper">
+        <p:growl id="growl" life="2000"/>
+        <div class="loginContainer">
+            <h:form name="f" id="loginForm" prependId="false">
+                <p:panel header="Login" style="width: 390px;background-color: #313b3f;text-align:center ">
+                    <h:panelGrid id="loginPanel" columns="2">
+                        <h:outputText value="Login:" style="color: white"/>
+                        <p:inputText id="username" name="username"/>
+                        <p:spacer/>
+                        <p:message for="username"/>
+                        <h:outputText value="Password:" style="color: white"/>
+                        <p:password id="password" name = "password " feedback="false"/>
+                        <p:spacer/>
+                        <p:message for="password"/>
+                        <p:spacer/>
+                        <p:commandButton onclick="$('#form').attr('action',$('#form').attr('action').replace('/views/login-view.xhtml','/login'))" process="@form" value="Enter"
+                                         update=":growl"
+                                         ajax="true">
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </div>
+</div>
+<div class="footer ui-g-12 ui-g-nopad"/>
+</html>

@@ -1,13 +1,17 @@
 package ru.eremin.tm.controller;
 
-import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.el.ELBeanName;
 import org.primefaces.event.RowEditEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.api.service.IProjectService;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
@@ -16,9 +20,6 @@ import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.entity.enumerated.Status;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,19 +29,16 @@ import java.util.List;
 
 @Getter
 @Setter
-@ViewScoped
-@ManagedBean(name = "projectController")
-@URLMapping(
-        id = "projects",
-        pattern = "/enter/projects",
-        viewId = "/WEB-INF/views/enter/project-list-view.xhtml"
-)
+@Scope(value = "session")
+@Component(value = "projectController")
+@ELBeanName(value = "projectController")
+@Join(path = "/enter/projects", to = "/WEB-INF/views/enter/project-list-view.xhtml")
 public class ProjectListController {
 
-    @ManagedProperty(value = "#{projectService}")
+    @Autowired
     private IProjectService projectService;
 
-    @ManagedProperty(value = "#{userService}")
+    @Autowired
     private IUserService userService;
 
     private List<ProjectDTO> projects;

@@ -1,13 +1,17 @@
 package ru.eremin.tm.controller;
 
-import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.el.ELBeanName;
 import org.primefaces.event.RowEditEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import ru.eremin.tm.api.service.IProjectService;
 import ru.eremin.tm.api.service.ITaskService;
 import ru.eremin.tm.api.service.IUserService;
@@ -18,9 +22,6 @@ import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.entity.enumerated.Status;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -32,22 +33,19 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@ViewScoped
-@ManagedBean(name = "taskController")
-@URLMapping(
-        id = "tasks",
-        pattern = "/enter/tasks",
-        viewId = "/WEB-INF/views/enter/task-list-view.xhtml"
-)
+@Scope("session")
+@Component("taskController")
+@ELBeanName(value = "taskController")
+@Join(path = "/enter/tasks", to = "/WEB-INF/views/enter/task-list-view.xhtml")
 public class TaskListController {
 
-    @ManagedProperty(value = "#{taskService}")
+    @Autowired
     private ITaskService taskService;
 
-    @ManagedProperty(value = "#{userService}")
+    @Autowired
     private IUserService userService;
 
-    @ManagedProperty(value = "#{projectService}")
+    @Autowired
     private IProjectService projectService;
 
     private List<TaskDTO> tasks;
@@ -79,7 +77,6 @@ public class TaskListController {
     }
 
     public void createTask(@Nullable final String projectId) throws IncorrectDataException, AccessForbiddenException {
-        System.out.println(projectId);
         @NotNull final TaskDTO taskDTO = new TaskDTO();
         taskDTO.setUserId(getUserId());
         taskDTO.setProjectId(projectId);
