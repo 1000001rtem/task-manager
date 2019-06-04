@@ -4,14 +4,18 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import ru.eremin.tm.Application;
 import ru.eremin.tm.api.DataTest;
 import ru.eremin.tm.api.service.IProjectService;
 import ru.eremin.tm.api.service.ITaskService;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.config.EntityFactory;
-import ru.eremin.tm.config.TestConfiguration;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
@@ -25,8 +29,9 @@ import static junit.framework.TestCase.assertNotNull;
  * @autor Eremin Artem on 17.05.2019.
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfiguration.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@ActiveProfiles("test")
 public class ServiceTest {
 
     @Autowired

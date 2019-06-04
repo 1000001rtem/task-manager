@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns="http://www.w3.org/1999/xhtml">
 <f:view>
     <h:form id="taskForm">
         <p:growl id="taskMsgs" showDetail="true"/>
@@ -23,45 +23,63 @@
 
             <p:column headerText="Name">
                 <p:cellEditor>
-                    <f:facet name="output"><h:outputText value="#{task.name}"/></f:facet>
-                    <f:facet name="input"><p:inputText value="#{task.name}" style="width:100%"
-                                                       label="Name"/></f:facet>
+                    <f:facet name="output">
+                        <h:outputText value="#{task.name}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{task.name}" style="width:100%"
+                                     label="Name"/>
+                    </f:facet>
                 </p:cellEditor>
             </p:column>
 
             <p:column headerText="Description">
                 <p:cellEditor>
-                    <f:facet name="output"><h:outputText value="#{task.description}"/></f:facet>
-                    <f:facet name="input"><p:inputText value="#{task.description}" style="width:100%"
-                                                       label="Description"/></f:facet>
+                    <f:facet name="output">
+                        <h:outputText value="#{task.description}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{task.description}" style="width:100%"
+                                     label="Description"/>
+                    </f:facet>
                 </p:cellEditor>
             </p:column>
 
             <p:column headerText="Start Date">
                 <p:cellEditor>
                     <f:facet name="output">
-                        <p:outputLabel value="#{task.startDate}"><f:convertDateTime
-                                pattern="dd-MM-yyyy"/></p:outputLabel>
+                        <p:outputLabel value="#{task.startDate}">
+                            <f:convertDateTime
+                                    pattern="dd-MM-yyyy"/>
+                        </p:outputLabel>
                     </f:facet>
-                    <f:facet name="input"><p:calendar value="#{task.startDate}"
-                                                      pattern="dd/MM/yyyy HH:mm:ss"/></f:facet>
+                    <f:facet name="input">
+                        <p:calendar value="#{task.startDate}"
+                                    pattern="dd/MM/yyyy HH:mm:ss"/>
+                    </f:facet>
                 </p:cellEditor>
             </p:column>
 
             <p:column headerText="End Date">
                 <p:cellEditor>
                     <f:facet name="output">
-                        <p:outputLabel value="#{task.endDate}"><f:convertDateTime
-                                pattern="dd-MM-yyyy"/></p:outputLabel>
+                        <p:outputLabel value="#{task.endDate}">
+                            <f:convertDateTime
+                                    pattern="dd-MM-yyyy"/>
+                        </p:outputLabel>
                     </f:facet>
-                    <f:facet name="input"><p:calendar value="#{task.endDate}"
-                                                      pattern="dd/MM/yyyy HH:mm:ss"/></f:facet>
+                    <f:facet name="input">
+                        <p:calendar value="#{task.endDate}"
+                                    pattern="dd/MM/yyyy HH:mm:ss"/>
+                    </f:facet>
                 </p:cellEditor>
             </p:column>
 
             <p:column headerText="Status">
                 <p:cellEditor>
-                    <f:facet name="output"><h:outputText value="#{task.status}"/></f:facet>
+                    <f:facet name="output">
+                        <h:outputText value="#{task.status}"/>
+                    </f:facet>
                     <f:facet name="input">
                         <h:selectOneMenu value="#{task.status}" style="width:100%">
                             <f:selectItems value="#{taskController.statuses}" var="status" itemLabel="#{status}"
@@ -73,8 +91,10 @@
 
             <p:column headerText="Project">
                 <p:cellEditor>
-                    <f:facet name="output"><h:outputText
-                            value="#{taskController.getProjectName(task.projectId)}"/></f:facet>
+                    <f:facet name="output">
+                        <h:outputText
+                                value="#{taskController.getProjectName(task.projectId)}"/>
+                    </f:facet>
                     <f:facet name="input">
                         <h:selectOneMenu value="#{task.projectId}" style="width:100%">
                             <f:selectItems value="#{taskController.projects.values()}" var="project"

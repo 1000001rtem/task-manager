@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-<h:head><h:outputStylesheet library="styles" name="style.css"/></h:head>
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns="http://www.w3.org/1999/xhtml">
+<h:head>
+    <h:outputStylesheet library="styles" name="style.css"/>
+</h:head>
 <div class="header"/>
 <div class="content ui-g-12 ui-g-nopad">
     <div class="wrapper">
@@ -18,13 +20,15 @@
                         <p:spacer/>
                         <p:message for="username"/>
                         <h:outputText value="Password:" style="color: white"/>
-                        <p:password id="password" name = "password " feedback="false"/>
+                        <p:password id="password" name="password " feedback="false"/>
                         <p:spacer/>
                         <p:message for="password"/>
                         <p:spacer/>
-                        <p:commandButton onclick="$('#form').attr('action',$('#form').attr('action').replace('/views/login-view.xhtml','/login'))" process="@form" value="Enter"
-                                         update=":growl"
-                                         ajax="true">
+                        <p:commandButton
+                                onclick="$('#form').attr('action',$('#form').attr('action').replace('/views/login-view.xhtml','/login'))"
+                                process="@form" value="Enter"
+                                update=":growl"
+                                ajax="true">
                         </p:commandButton>
                     </h:panelGrid>
                 </p:panel>

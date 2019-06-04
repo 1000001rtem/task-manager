@@ -5,8 +5,6 @@ import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.eremin.tm.endpoint.AuthEndpointImpl;
 import ru.eremin.tm.endpoint.ProjectEndpointImpl;
 import ru.eremin.tm.endpoint.TaskEndpointImpl;
@@ -19,9 +17,6 @@ import javax.xml.ws.Endpoint;
  */
 
 @Configuration
-//@EnableWebMvc
-@Import(DataSourceConfiguration.class)
-@EnableJpaRepositories("ru.eremin.tm.repository")
 public class AppConfiguration {
 
     @Bean(name = Bus.DEFAULT_BUS_ID)
