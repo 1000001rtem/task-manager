@@ -180,7 +180,6 @@
     </dependencyManagement>
 
     <build>
-        <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
         <finalName>task-manager</finalName>
         <plugins>
             <plugin>

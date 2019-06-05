@@ -2,7 +2,7 @@ package ru.eremin.tm.api.endpoint;
 
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.exeption.IncorrectDataException;
-import ru.eremin.tm.model.dto.ResultDTO;
+import ru.eremin.tm.model.dto.web.ResultDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 
 import javax.jws.WebService;

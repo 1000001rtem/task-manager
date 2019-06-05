@@ -11,8 +11,7 @@ import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
-import ru.eremin.tm.model.dto.ChangePasswordDTO;
-import ru.eremin.tm.model.dto.ResultDTO;
+import ru.eremin.tm.model.dto.web.ResultDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 
 import java.util.List;
@@ -49,10 +48,6 @@ public interface UserClient {
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResultDTO createUser(@RequestHeader("Authorization") String token,
                          @RequestBody @Nullable final UserDTO userDTO);
-
-    @PutMapping(value = "/changePassword", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResultDTO changePassword(@RequestHeader("Authorization") String token,
-                             @RequestBody @Nullable ChangePasswordDTO changePasswordDTO);
 
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResultDTO updateUser(@RequestHeader("Authorization") String token,

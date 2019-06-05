@@ -1,4 +1,4 @@
-package ru.eremin.tm.model.dto;
+package ru.eremin.tm.model.dto.web;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

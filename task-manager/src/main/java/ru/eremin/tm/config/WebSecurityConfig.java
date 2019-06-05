@@ -86,6 +86,9 @@ public class WebSecurityConfig {
             http
                     .addFilterBefore(new JwtTokenFilter(jwtTokenProvider, service), UsernamePasswordAuthenticationFilter.class)
                     .antMatcher("/api/**")
+                    .authorizeRequests()
+                    .antMatchers("/api/user/*").hasRole(Role.ADMIN.name())
+                    .and()
                     .csrf().disable();
         }
 

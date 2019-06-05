@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
-import ru.eremin.tm.model.dto.LoginRequest;
-import ru.eremin.tm.model.dto.ResponseSoapEntity;
+import ru.eremin.tm.model.dto.web.LoginRequest;
+import ru.eremin.tm.model.dto.web.ResponseAuthEntity;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.security.JwtTokenProvider;
 
@@ -51,7 +51,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseSoapEntity auth(@RequestBody @Nullable final LoginRequest loginRequest) throws AccessForbiddenException, IncorrectDataException {
+    public ResponseAuthEntity auth(@RequestBody @Nullable final LoginRequest loginRequest) throws AccessForbiddenException, IncorrectDataException {
         if (loginRequest == null) throw new AccessForbiddenException();
 
         @Nullable final String login = loginRequest.getLogin();
@@ -64,10 +64,7 @@ public class AuthController {
         @NotNull final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         @Nullable final String token = jwtTokenProvider.createToken(login, roles);
-        @Nullable final Map<Object, Object> map = new HashMap<>();
-        map.put("login", login);
-        map.put("token", token);
-        return new ResponseSoapEntity(login, token);
+        return new ResponseAuthEntity(userDTO.getId(), login, token);
     }
 
 }

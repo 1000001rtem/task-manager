@@ -12,8 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.eremin.tm.model.dto.LoginRequest;
-import ru.eremin.tm.model.dto.ResponseSoapEntity;
+import ru.eremin.tm.model.dto.web.LoginRequest;
+import ru.eremin.tm.model.dto.web.ResponseAuthEntity;
 
 /**
  * @autor av.eremin on 31.05.2019.
@@ -35,5 +35,5 @@ public interface AuthClient {
     }
 
     @PostMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    ResponseSoapEntity auth(@RequestBody @Nullable final LoginRequest loginRequest);
+    ResponseAuthEntity auth(@RequestBody @Nullable final LoginRequest loginRequest);
 }

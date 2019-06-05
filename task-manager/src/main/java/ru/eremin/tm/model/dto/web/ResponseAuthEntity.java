@@ -1,4 +1,4 @@
-package ru.eremin.tm.model.dto;
+package ru.eremin.tm.model.dto.web;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -18,10 +18,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Getter
 @Setter
 @NoArgsConstructor
-@XmlRootElement(name = "loginRequest")
+@XmlRootElement(name = "authResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseSoapEntity {
+public class ResponseAuthEntity {
+
+    @NotNull
+    @XmlElement(name = "userId")
+    private String userId;
 
     @NotNull
     @XmlElement(name = "login")
@@ -31,7 +35,10 @@ public class ResponseSoapEntity {
     @XmlElement(name = "token")
     private String token;
 
-    public ResponseSoapEntity(@NotNull final String login, @NotNull final String token) {
+    public ResponseAuthEntity(@NotNull final String userId,
+                              @NotNull final String login,
+                              @NotNull final String token) {
+        this.userId = userId;
         this.login = login;
         this.token = token;
     }

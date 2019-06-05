@@ -9,7 +9,7 @@ import ru.eremin.tm.api.service.IProjectService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
-import ru.eremin.tm.model.dto.ResultDTO;
+import ru.eremin.tm.model.dto.web.ResultDTO;
 
 import java.util.List;
 

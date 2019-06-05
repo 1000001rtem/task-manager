@@ -11,8 +11,8 @@ import ru.eremin.tm.api.endpoint.AuthEndpoint;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
-import ru.eremin.tm.model.dto.LoginRequest;
-import ru.eremin.tm.model.dto.ResponseSoapEntity;
+import ru.eremin.tm.model.dto.web.LoginRequest;
+import ru.eremin.tm.model.dto.web.ResponseAuthEntity;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.security.JwtTokenProvider;
 
@@ -40,7 +40,7 @@ public class AuthEndpointImpl implements AuthEndpoint {
     private AuthenticationManager authenticationManager;
 
     @Override
-    public ResponseSoapEntity auth(@Nullable final LoginRequest loginRequest) throws AccessForbiddenException, IncorrectDataException {
+    public ResponseAuthEntity auth(@Nullable final LoginRequest loginRequest) throws AccessForbiddenException, IncorrectDataException {
         if (loginRequest == null) throw new AccessForbiddenException();
 
         @Nullable final String login = loginRequest.getLogin();
@@ -53,7 +53,7 @@ public class AuthEndpointImpl implements AuthEndpoint {
         @NotNull final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         @Nullable final String token = jwtTokenProvider.createToken(login, roles);
-        return new ResponseSoapEntity(login, token);
+        return new ResponseAuthEntity(login, token);
     }
 
 }

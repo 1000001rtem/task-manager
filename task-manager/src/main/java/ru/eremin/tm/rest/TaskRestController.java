@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.eremin.tm.api.service.ITaskService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
-import ru.eremin.tm.model.dto.ResultDTO;
+import ru.eremin.tm.model.dto.web.ResultDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 
 import java.util.List;

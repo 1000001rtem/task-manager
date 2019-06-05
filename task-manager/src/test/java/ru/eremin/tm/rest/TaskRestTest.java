@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.eremin.tm.model.dto.LoginRequest;
+import ru.eremin.tm.model.dto.web.LoginRequest;
 import ru.eremin.tm.model.dto.ProjectDTO;
-import ru.eremin.tm.model.dto.ResponseSoapEntity;
+import ru.eremin.tm.model.dto.web.ResponseAuthEntity;
 import ru.eremin.tm.model.dto.TaskDTO;
 import ru.eremin.tm.model.entity.enumerated.Status;
 import ru.eremin.tm.rest.feign.AuthClient;
@@ -122,7 +122,7 @@ public class TaskRestTest {
 
     private String auth() {
         @NotNull final AuthClient authClient = AuthClient.client(port);
-        @Nullable final ResponseSoapEntity responseEntity = authClient.auth(new LoginRequest("admin", "pass"));
+        @Nullable final ResponseAuthEntity responseEntity = authClient.auth(new LoginRequest("admin", "pass"));
         return "Bearer " + responseEntity.getToken();
     }
 

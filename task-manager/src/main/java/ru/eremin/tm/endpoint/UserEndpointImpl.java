@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.eremin.tm.api.endpoint.UserEndpoint;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.IncorrectDataException;
-import ru.eremin.tm.model.dto.ResultDTO;
+import ru.eremin.tm.model.dto.web.ResultDTO;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.entity.enumerated.Role;
 

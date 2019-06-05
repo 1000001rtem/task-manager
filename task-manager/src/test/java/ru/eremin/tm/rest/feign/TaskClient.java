@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
-import ru.eremin.tm.model.dto.ResultDTO;
+import ru.eremin.tm.model.dto.web.ResultDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
 
 import java.util.List;
