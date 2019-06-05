@@ -40,11 +40,17 @@ public class Bootstrap {
         admin.setHashPassword(passwordEncoder.encode("pass"));
         admin.setRole(Role.ADMIN);
 
-        @NotNull final UserDTO test = new UserDTO();
-        test.setId("8208421e-86df-11e9-bc42-526af7764f64");
-        test.setLogin("test");
-        test.setHashPassword(passwordEncoder.encode("pass"));
-        test.setRole(Role.ADMIN);
+        @NotNull final UserDTO testUser = new UserDTO();
+        testUser.setId("8208421e-86df-11e9-bc42-526af7764f64");
+        testUser.setLogin("testUser");
+        testUser.setHashPassword(passwordEncoder.encode("pass"));
+        testUser.setRole(Role.USER);
+
+        @NotNull final UserDTO testAdmin = new UserDTO();
+        testAdmin.setId("f299a6aa-8769-11e9-bc42-526af7764f64");
+        testAdmin.setLogin("testAdmin");
+        testAdmin.setHashPassword(passwordEncoder.encode("pass"));
+        testAdmin.setRole(Role.ADMIN);
 
         try {
             userService.findOne(user.getId());
@@ -57,9 +63,14 @@ public class Bootstrap {
             userService.persist(admin);
         }
         try {
-            userService.findOne(test.getId());
+            userService.findOne(testUser.getId());
         } catch (IncorrectDataException e) {
-            userService.persist(test);
+            userService.persist(testUser);
+        }
+        try {
+            userService.findOne(testAdmin.getId());
+        } catch (IncorrectDataException e) {
+            userService.persist(testAdmin);
         }
     }
 

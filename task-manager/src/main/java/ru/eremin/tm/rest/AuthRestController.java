@@ -16,15 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
+import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.dto.web.LoginRequest;
 import ru.eremin.tm.model.dto.web.ResponseAuthEntity;
-import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.security.JwtTokenProvider;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @autor av.eremin on 31.05.2019.
@@ -32,7 +30,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api")
-public class AuthController {
+public class AuthRestController {
 
     @NotNull
     @Autowired

@@ -11,9 +11,9 @@ import ru.eremin.tm.api.endpoint.AuthEndpoint;
 import ru.eremin.tm.api.service.IUserService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
+import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.dto.web.LoginRequest;
 import ru.eremin.tm.model.dto.web.ResponseAuthEntity;
-import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.security.JwtTokenProvider;
 
 import javax.jws.WebService;
@@ -53,7 +53,7 @@ public class AuthEndpointImpl implements AuthEndpoint {
         @NotNull final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         @Nullable final String token = jwtTokenProvider.createToken(login, roles);
-        return new ResponseAuthEntity(login, token);
+        return new ResponseAuthEntity(userDTO.getId(), login, token);
     }
 
 }

@@ -6,12 +6,14 @@ import org.jetbrains.annotations.Nullable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.eremin.tm.model.dto.web.LoginRequest;
+import ru.eremin.tm.api.IntegrationTest;
 import ru.eremin.tm.model.dto.ProjectDTO;
+import ru.eremin.tm.model.dto.web.LoginRequest;
 import ru.eremin.tm.model.dto.web.ResponseAuthEntity;
 import ru.eremin.tm.model.entity.enumerated.Status;
 import ru.eremin.tm.rest.feign.AuthClient;
@@ -25,11 +27,12 @@ import static junit.framework.TestCase.*;
  * @autor av.eremin on 04.06.2019.
  */
 
+@Category(IntegrationTest.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProjectRestTest {
 
-    private static final String USER_ID = "6706e691-2f78-45ad-b021-3730c48959f0";
+    private static final String USER_ID = "8208421e-86df-11e9-bc42-526af7764f64";
 
     @LocalServerPort
     private int port;
@@ -96,7 +99,7 @@ public class ProjectRestTest {
 
     private String auth() {
         @NotNull final AuthClient authClient = AuthClient.client(port);
-        @Nullable final ResponseAuthEntity responseEntity = authClient.auth(new LoginRequest("admin", "pass"));
+        @Nullable final ResponseAuthEntity responseEntity = authClient.auth(new LoginRequest("testUser", "pass"));
         return "Bearer " + responseEntity.getToken();
     }
 

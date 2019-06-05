@@ -24,7 +24,7 @@ import java.util.List;
 public interface ProjectClient {
 
     static ProjectClient client(final int port) {
-        @Nullable final String baseUrl= "http://localhost:"+ port + "/api/project";
+        @Nullable final String baseUrl = "http://localhost:" + port + "/api/project";
         final FormHttpMessageConverter converter = new FormHttpMessageConverter();
         final HttpMessageConverters converters = new HttpMessageConverters(converter);
         final ObjectFactory<HttpMessageConverters> objectFactory = () -> converters;

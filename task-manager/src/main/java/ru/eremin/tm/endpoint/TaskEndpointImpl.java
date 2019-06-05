@@ -7,8 +7,8 @@ import ru.eremin.tm.api.endpoint.TaskEndpoint;
 import ru.eremin.tm.api.service.ITaskService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
-import ru.eremin.tm.model.dto.web.ResultDTO;
 import ru.eremin.tm.model.dto.TaskDTO;
+import ru.eremin.tm.model.dto.web.ResultDTO;
 
 import javax.jws.WebService;
 import java.util.List;

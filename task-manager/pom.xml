@@ -41,6 +41,12 @@
                 <test.groups>ru.eremin.tm.api.DataTest</test.groups>
             </properties>
         </profile>
+        <profile>
+            <id>integration</id>
+            <properties>
+                <test.groups>ru.eremin.tm.api.IntegrationTest</test.groups>
+            </properties>
+        </profile>
     </profiles>
 
     <dependencies>
