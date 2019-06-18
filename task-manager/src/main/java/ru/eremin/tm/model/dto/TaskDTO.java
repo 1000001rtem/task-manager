@@ -8,7 +8,11 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.Task;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
 /**
@@ -34,6 +38,7 @@ public class TaskDTO extends BaseDTO implements Serializable {
     public TaskDTO(@Nullable final Task task) {
         if (task == null) return;
         if (task.getId() != null && !task.getId().isEmpty()) this.id = task.getId();
+        if (task.getCreateDate() != null) this.createDate = task.getCreateDate();
         if (task.getName() != null && !task.getName().isEmpty()) this.name = task.getName();
         if (task.getDescription() != null && !task.getDescription().isEmpty()) this.description = task.getDescription();
         if (task.getStartDate() != null) this.startDate = task.getStartDate();
@@ -46,6 +51,7 @@ public class TaskDTO extends BaseDTO implements Serializable {
 
     public TaskDTO(@Nullable final TaskDTO taskDTO) {
         if (taskDTO == null) return;
+        if (taskDTO.getCreateDate() != null) this.createDate = taskDTO.getCreateDate();
         if (taskDTO.getProjectId() == null) return;
         this.projectId = taskDTO.getProjectId();
         if (taskDTO.getName() != null && !taskDTO.getName().isEmpty()) this.name = taskDTO.getName();

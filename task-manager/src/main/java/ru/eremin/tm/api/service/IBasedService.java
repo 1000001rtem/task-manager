@@ -1,6 +1,8 @@
 package ru.eremin.tm.api.service;
 
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.model.dto.AbstractDTO;
 import ru.eremin.tm.model.entity.AbstractEntity;
@@ -14,6 +16,8 @@ import java.util.List;
 public interface IBasedService<T extends AbstractEntity, E extends AbstractDTO> extends IService<T, E> {
 
     List<E> findByUserId(@Nullable String userId) throws AccessForbiddenException;
+
+    Page<E> findByUserId(@Nullable String userId, @Nullable Pageable pageable);
 
     void removeAll(@Nullable String userId) throws AccessForbiddenException;
 

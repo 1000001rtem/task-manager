@@ -4,7 +4,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import ru.eremin.tm.api.service.ITaskService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
@@ -48,7 +55,9 @@ public class TaskRestController {
         return new ResultDTO(true);
     }
 
-    @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/update",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultDTO updateTask(@RequestBody @Nullable final TaskDTO taskDTO) throws IncorrectDataException {
         taskService.update(taskDTO);
         return new ResultDTO(true);

@@ -1,5 +1,6 @@
 package ru.eremin.tm.model.entity.enumerated;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,10 +17,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "status")
 public enum Status {
 
+    @JsonProperty("PLANNED")
     PLANNED("Planned"),
 
+    @JsonProperty("DURING")
     DURING("During"),
 
+    @JsonProperty("DONE")
     DONE("Done");
 
     @NotNull

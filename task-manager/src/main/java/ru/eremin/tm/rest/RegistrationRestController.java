@@ -14,6 +14,7 @@ import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.UserDTO;
 import ru.eremin.tm.model.dto.web.RegistrationRequest;
 import ru.eremin.tm.model.dto.web.ResultDTO;
+import ru.eremin.tm.model.entity.enumerated.Role;
 
 /**
  * @autor av.eremin on 05.06.2019.
@@ -42,6 +43,7 @@ public class RegistrationRestController {
         @Nullable final UserDTO userDTO = new UserDTO();
         userDTO.setLogin(registrationRequest.getLogin());
         userDTO.setHashPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        userDTO.setRole(Role.USER);
 
         userService.persist(userDTO);
         return new ResultDTO(true);

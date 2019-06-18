@@ -4,6 +4,8 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.eremin.tm.api.service.ITaskService;
@@ -96,6 +98,14 @@ public class TaskService implements ITaskService {
                 .stream()
                 .map(TaskDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    @NotNull
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TaskDTO> findByUserId(@Nullable final String userId, @Nullable final Pageable pageable) {
+        return taskRepository.findByUser(getUser(userId), pageable)
+                .map(TaskDTO::new);
     }
 
     @Override

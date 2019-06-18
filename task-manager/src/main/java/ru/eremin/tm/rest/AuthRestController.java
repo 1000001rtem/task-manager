@@ -62,7 +62,7 @@ public class AuthRestController {
         @NotNull final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         @Nullable final String token = jwtTokenProvider.createToken(login, roles);
-        return new ResponseAuthEntity(userDTO.getId(), login, token);
+        return new ResponseAuthEntity(userDTO.getId(), login, token, userDTO.getRole());
     }
 
 }

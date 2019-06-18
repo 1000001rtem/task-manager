@@ -4,7 +4,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import ru.eremin.tm.api.service.IProjectService;
 import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
@@ -33,7 +40,9 @@ public class ProjectRestController {
         return projectService.findOne(projectId);
     }
 
-    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/create",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultDTO createProject(@RequestBody @Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
         @NotNull final ProjectDTO projectDTO1 = new ProjectDTO(projectDTO);
         projectDTO1.setUserId(projectDTO.getUserId());
@@ -41,8 +50,11 @@ public class ProjectRestController {
         return new ResultDTO(true);
     }
 
-    @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = "/update",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultDTO updateProject(@RequestBody @Nullable final ProjectDTO projectDTO) throws IncorrectDataException {
+        System.out.println(projectDTO);
         projectService.update(projectDTO);
         return new ResultDTO(true);
     }

@@ -32,6 +32,7 @@ public class UserDTO extends AbstractDTO implements Serializable {
     public UserDTO(@Nullable final User user) {
         if (user == null) return;
         this.id = user.getId();
+        if (user.getCreateDate() != null) this.createDate = user.getCreateDate();
         if (user.getLogin() != null && !user.getLogin().isEmpty()) this.login = user.getLogin();
         if (user.getHashPassword() != null && !user.getHashPassword().isEmpty()) {
             this.hashPassword = user.getHashPassword();
@@ -41,6 +42,7 @@ public class UserDTO extends AbstractDTO implements Serializable {
 
     public UserDTO(@Nullable final UserDTO userDTO) {
         if (userDTO == null) return;
+        if (userDTO.getCreateDate() != null) this.createDate = userDTO.getCreateDate();
         if (userDTO.getLogin() == null || userDTO.getLogin().isEmpty()) return;
         if (userDTO.getHashPassword() == null || userDTO.getHashPassword().isEmpty()) return;
         if (userDTO.getRole() == null) return;
@@ -53,6 +55,7 @@ public class UserDTO extends AbstractDTO implements Serializable {
     public String toString() {
         return "UserDTO{" +
                 "login='" + login + '\'' +
+                "createDate='" + createDate + '\'' +
                 ", role=" + role +
                 ", id='" + id + '\'' +
                 '}';
