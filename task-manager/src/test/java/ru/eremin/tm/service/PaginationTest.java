@@ -87,7 +87,7 @@ public class PaginationTest {
     }
 
     @Test
-    public void taskService(){
+    public void taskService() throws AccessForbiddenException {
         final int page = 5;
         final int size = 3;
         final String nameFirstElement = "Task " + page*size;

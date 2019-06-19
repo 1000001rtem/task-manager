@@ -17,7 +17,11 @@ public interface IBasedService<T extends AbstractEntity, E extends AbstractDTO> 
 
     List<E> findByUserId(@Nullable String userId) throws AccessForbiddenException;
 
-    Page<E> findByUserId(@Nullable String userId, @Nullable Pageable pageable);
+    Page<E> findByUserId(@Nullable String userId, @Nullable Pageable pageable) throws AccessForbiddenException;
+
+    List<E> findByUserLogin(@Nullable String login) throws AccessForbiddenException;
+
+    Page<E> findByUserLogin(@Nullable String login, @Nullable Pageable pageable) throws AccessForbiddenException;
 
     void removeAll(@Nullable String userId) throws AccessForbiddenException;
 

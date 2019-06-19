@@ -3,12 +3,15 @@ package ru.eremin.tm.rest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +20,7 @@ import ru.eremin.tm.exeption.AccessForbiddenException;
 import ru.eremin.tm.exeption.IncorrectDataException;
 import ru.eremin.tm.model.dto.ProjectDTO;
 import ru.eremin.tm.model.dto.web.ResultDTO;
+import ru.eremin.tm.security.JwtTokenProvider;
 
 import java.util.List;
 
@@ -30,9 +34,21 @@ public class ProjectRestController {
     @Autowired
     private IProjectService projectService;
 
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<ProjectDTO> findAllProjects(@RequestParam(name = "userId") @Nullable final String userId) throws AccessForbiddenException {
-        return projectService.findByUserId(userId);
+    public List<ProjectDTO> findAllProjects(@RequestHeader("Authorization") @NotNull final String token) throws AccessForbiddenException {
+        @Nullable final String login = tokenProvider.getUserLogin(token.substring(7));
+        return projectService.findByUserLogin(login);
+    }
+
+    @GetMapping(value = "/findPage", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Page<ProjectDTO> findPage(@RequestHeader("Authorization") @NotNull final String token,
+                                     @RequestParam(name = "page") @Nullable final int page,
+                                     @RequestParam(name = "size") @Nullable final int size) throws AccessForbiddenException {
+        @Nullable final String login = tokenProvider.getUserLogin(token.substring(7));
+        return projectService.findByUserLogin(login, PageRequest.of(page - 1, size));
     }
 
     @GetMapping(value = "/findOne", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
