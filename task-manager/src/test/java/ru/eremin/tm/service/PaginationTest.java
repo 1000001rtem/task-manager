@@ -53,7 +53,7 @@ public class PaginationTest {
         userService.persist(userDTO);
         userId = userDTO.getId();
         final List<ProjectDTO> projectDTOS = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             ProjectDTO projectDTO = EntityFactory.getProject(userDTO);
             projectDTO.setName("Project " + i);
             projectDTOS.add(projectDTO);
@@ -66,7 +66,7 @@ public class PaginationTest {
             }
         });
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             TaskDTO taskDTO = EntityFactory.getTask(projectDTOS.get(0), userDTO);
             taskDTO.setName("Task " + i);
             taskService.persist(taskDTO);

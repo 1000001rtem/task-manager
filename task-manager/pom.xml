@@ -47,6 +47,143 @@
                 <test.groups>ru.eremin.tm.api.IntegrationTest</test.groups>
             </properties>
         </profile>
+        <profile>
+            <id>npm</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>1.6</version>
+                        <configuration>
+                            <workingDirectory>front</workingDirectory>
+                            <installDirectory>target</installDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <configuration>
+                                    <nodeVersion>v10.15.3</nodeVersion>
+                                    <npmVersion>6.9.0</npmVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm run build</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>run build</arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>res</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}/target/classes/public/</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.basedir}/front/build/</directory>
+                                        </resource>
+                                        <resource>
+                                            <directory>${project.build.directory}/docs/rest</directory>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>swagger</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.kongchen</groupId>
+                        <artifactId>swagger-maven-plugin</artifactId>
+                        <version>3.1.7</version>
+                        <configuration>
+                            <skipSwaggerGeneration>false</skipSwaggerGeneration>
+                            <apiSources>
+                                <apiSource>
+                                    <locations>
+                                        ru.eremin.tm.rest
+                                    </locations>
+                                    <springmvc>true</springmvc>
+                                    <schemes>http,https</schemes>
+                                    <host>http://localhost:8080/api</host>
+                                    <outputFormats>json,yaml</outputFormats>
+                                    <info>
+                                        <title>Swagger Maven Plugin Sample</title>
+                                        <version>v1</version>
+                                        <description>This is a sample for swagger-maven-plugin</description>
+                                        <termsOfService>http://localhost:8080/enter/menu</termsOfService>
+                                        <contact>
+                                            <email>1000001rtem@gmail.com</email>
+                                            <name>Eremin Artem</name>
+                                            <url>http://www.1000001rtem.com</url>
+                                        </contact>
+                                        <license>
+                                            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+                                            <name>Apache 2.0</name>
+                                        </license>
+                                    </info>
+                                    <templatePath>${basedir}\src\main\resources\templates\strapdown.html.hbs
+                                    </templatePath>
+                                    <outputPath>${project.build.directory}/docs/rest/docs.html</outputPath>
+                                    <swaggerDirectory>${project.build.directory}/docs/rest/swagger-ui</swaggerDirectory>
+                                    <attachSwaggerArtifact>true</attachSwaggerArtifact>
+                                    <securityDefinitions>
+                                        <securityDefinition>
+                                            <name>basicAuth</name>
+                                            <type>basic</type>
+                                        </securityDefinition>
+                                    </securityDefinitions>
+                                </apiSource>
+                            </apiSources>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <dependencies>
@@ -71,7 +208,7 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-       <!--Security-->
+        <!--Security-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -189,79 +326,6 @@
         <finalName>task-manager</finalName>
         <plugins>
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/classes/static</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}/docs/rest</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.github.kongchen</groupId>
-                <artifactId>swagger-maven-plugin</artifactId>
-                <version>3.1.7</version>
-                <configuration>
-                    <skipSwaggerGeneration>false</skipSwaggerGeneration>
-                    <apiSources>
-                        <apiSource>
-                            <locations>
-                                ru.eremin.tm.rest
-                            </locations>
-                            <springmvc>true</springmvc>
-                            <schemes>http,https</schemes>
-                            <host>http://localhost:8080/api</host>
-                            <outputFormats>json,yaml</outputFormats>
-                            <info>
-                                <title>Swagger Maven Plugin Sample</title>
-                                <version>v1</version>
-                                <description>This is a sample for swagger-maven-plugin</description>
-                                <termsOfService>http://localhost:8080/enter/menu</termsOfService>
-                                <contact>
-                                    <email>1000001rtem@gmail.com</email>
-                                    <name>Eremin Artem</name>
-                                    <url>http://www.1000001rtem.com</url>
-                                </contact>
-                                <license>
-                                    <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-                                    <name>Apache 2.0</name>
-                                </license>
-                            </info>
-                            <templatePath>${basedir}\src\main\resources\templates\strapdown.html.hbs</templatePath>
-                            <outputPath>${project.build.directory}/docs/rest/index.html</outputPath>
-                            <swaggerDirectory>${project.build.directory}/docs/rest/swagger-ui</swaggerDirectory>
-                            <attachSwaggerArtifact>true</attachSwaggerArtifact>
-                            <securityDefinitions>
-                                <securityDefinition>
-                                    <name>basicAuth</name>
-                                    <type>basic</type>
-                                </securityDefinition>
-                            </securityDefinitions>
-                        </apiSource>
-                    </apiSources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M2</version>
@@ -269,14 +333,11 @@
                     <groups>${test.groups}</groups>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.0.RELEASE</version>
+            </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 </project>
