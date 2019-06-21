@@ -1,4 +1,4 @@
-package ru.eremin.tm.backend.config;
+package ru.eremin.tm.frontend;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
