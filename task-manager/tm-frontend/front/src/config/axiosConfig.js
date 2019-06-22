@@ -3,7 +3,7 @@ import * as axios from "axios";
 let handlerEnabled = true;
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/api/'
+    baseURL: 'http://localhost:7777/api/'
 });
 
 axiosInstance.interceptors.request.use(

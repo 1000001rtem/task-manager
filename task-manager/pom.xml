@@ -13,6 +13,8 @@
         <module>tm-eureka-server</module>
         <module>tm-server-config</module>
         <module>tm-backend</module>
+        <module>tm-frontend</module>
+        <module>tm-proxy-server</module>
     </modules>
 
     <parent>
