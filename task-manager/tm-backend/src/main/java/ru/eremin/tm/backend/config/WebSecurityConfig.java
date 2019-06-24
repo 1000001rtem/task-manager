@@ -95,6 +95,7 @@ public class WebSecurityConfig {
         public void configure(final WebSecurity web) throws Exception {
             web.ignoring().antMatchers("/api/auth/**");
             web.ignoring().antMatchers("/api/registration/**");
+            web.ignoring().antMatchers("/api/ping/**");
         }
 
     }
