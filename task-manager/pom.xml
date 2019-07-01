@@ -158,7 +158,7 @@
                                             <name>Apache 2.0</name>
                                         </license>
                                     </info>
-                                    <templatePath>${basedir}\src\main\resources\templates\strapdown.html.hbs
+                                    <templatePath>${basedir}/src/main/resources/templates/strapdown.html.hbs
                                     </templatePath>
                                     <outputPath>${project.build.directory}/docs/rest/docs.html</outputPath>
                                     <swaggerDirectory>${project.build.directory}/docs/rest/swagger-ui</swaggerDirectory>
