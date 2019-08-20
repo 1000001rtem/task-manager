@@ -1,0 +1,176 @@
+@headerBackgroundColor: #D9361D;
+@footerBackgroundColor: #8D1B09;
+@bodyBackgroundColor: #e0e0e0;
+
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: @bodyBackgroundColor;
+}
+
+#root {
+  height: 100%;
+}
+
+.wrap {
+  height: 100%;
+}
+
+.view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  min-height: 90px;
+
+  .container {
+    background-color: @headerBackgroundColor;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+
+    .menuPanel {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      font-size: 18px;
+
+      a {
+        &:hover {
+          color: #8D1B09;
+        }
+
+        color: white;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.content {
+  flex: 1 0 auto;
+  min-height: 100px;
+
+  .container {
+    background-color: white;
+    height: 100%;
+    padding-bottom: 20px;
+
+    .inputGroup {
+      padding-top: 30px;
+
+      .dropBoxContainer {
+        display: flex;
+
+        .dropdown {
+          margin: 0 5px 0 5px;
+        }
+      }
+
+      .input-group-text {
+        width: 120px;
+      }
+
+      .react-datepicker-input {
+        height: 38px;
+      }
+    }
+
+    .loginBox {
+      height: 100%;
+      display: flex;
+      align-items: center;
+
+      .form-signin {
+        max-width: 380px;
+        padding: 15px 35px 45px;
+        margin: 0 auto;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .form-signin-heading {
+        margin-bottom: 30px;
+      }
+
+      .form-control {
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+      @include box-sizing(border-box);
+
+        &:focus {
+          z-index: 2;
+        }
+      }
+
+      input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      input[type="password"] {
+        margin-bottom: 20px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      .btn {
+        background-color: @headerBackgroundColor;
+      }
+    }
+
+    .greetingsContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      width: 100%;
+
+      .buttonBox {
+        margin: 30px;
+
+        a {
+          margin: 10px;
+          background-color: @headerBackgroundColor;
+          border-color: @headerBackgroundColor;
+        }
+      }
+
+      .imageBox {
+        display: flex;
+        justify-content: center;
+
+        img {
+          width: 150px;
+          height: 150px;
+        }
+      }
+    }
+  }
+}
+
+.footer {
+  flex: 0 0 auto;
+  height: 30px;
+  margin-bottom: 10px;
+
+  .container {
+    background-color: @headerBackgroundColor;
+    height: 100%;
+  }
+}

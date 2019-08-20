@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import ru.eremin.tm.model.entity.enumerated.Role;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,12 +36,18 @@ public class ResponseAuthEntity {
     @XmlElement(name = "token")
     private String token;
 
+    @NotNull
+    @XmlElement(name = "role")
+    private Role role;
+
     public ResponseAuthEntity(@NotNull final String userId,
                               @NotNull final String login,
-                              @NotNull final String token) {
+                              @NotNull final String token,
+                              @NotNull final Role role) {
         this.userId = userId;
         this.login = login;
         this.token = token;
+        this.role = role;
     }
 
 }

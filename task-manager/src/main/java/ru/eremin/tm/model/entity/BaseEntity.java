@@ -6,7 +6,13 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import ru.eremin.tm.model.entity.enumerated.Status;
 
-import javax.persistence.*;
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
 

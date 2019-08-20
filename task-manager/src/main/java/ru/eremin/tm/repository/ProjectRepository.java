@@ -1,5 +1,7 @@
 package ru.eremin.tm.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
@@ -22,6 +24,10 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
     @Query("SELECT e FROM Project e WHERE e.user = ?1")
     @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
     List<Project> findByUser(User user);
+
+    @Query("SELECT e FROM Project e WHERE e.user = ?1")
+    @QueryHints({@QueryHint(name = "org.hibernate.cacheable", value = "true")})
+    Page<Project> findByUser(User user, Pageable pageable);
 
     @Query("SELECT e FROM Project e WHERE e.user = ?1 ORDER BY e.createDate")
     List<Project> findAllSortedByCreateDate(User user);
